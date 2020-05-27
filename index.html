@@ -1,0 +1,97 @@
+<html>
+    <link id="stylemanager" rel="stylesheet" type="text/css" href="styles/standard.css">
+    <title> Apple </title>
+    <div id="topbar" class="centered">
+        <div id="currency">
+            <span class="currencyextra">You have</span>
+            <span id="currencyamount" class="currencydisplay"> 10 </span>
+            <span name="maincurrencylabel" class="currencyextra">substance</span>
+            <span class="currencyextra">.</span>
+        </div>
+        <div>
+            <span id="currencypersecamount" class="currencyextra">You are making 0 substance per second.</span>
+        </div>
+    </div>
+    <div id="menubuttons" class="centered">
+        <span><button id="producersmenubutton" class="menubutton">Producers</button></span>
+        <span><button id="optionsmenubutton" class="menubutton">Options</button></span>
+        <span><button id="statsmenubutton" class="menubutton">Statistics</button></span>
+    </div>
+    <div id="screens" class="centered">
+        <div id="optionsscreen" class="centered" style="display: none"> 
+            <table align="center">
+                <tbody>
+                    <tr>
+                        <td>
+                            <button id="valuespertickoption" class="optionbutton standardbutton" onclick="toggleValuesPerTickOption()">Toggle Value Per Tick</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="optionbutton standardbutton">
+                            <label for="notations" class="standardtext">Choose a notation:</label>
+                            <select id="notations" class="standarddropdown" onchange="changeNotation(this.value)">
+                                <option value="standard">Standard</option>
+                                <option value="scientific">Scientific</option>
+                                <option value="engineering">Engineering</option>
+                                <option value="mixedscientific">Mixed Scientific</option>
+                                <option value="mixedengineering">Mixed Engineering</option>
+                                <option value="letters">Letters</option>
+                                <option value="cancer">Cancer</option>
+                                <option value="logarithm">Logarithm</option>
+                                <option value="brackets">Brackets</option>
+                                <option value="infinity">Infinity</option>
+                                <option value="roman">Roman</option>
+                                <option value="dots">Dots</option>
+                                <option value="zalgo">Zalgo</option>
+                                <option value="hex">Hex</option>
+                                <option value="imperial">Imperial</option>
+                                <option value="clock">Clock</option>
+                                <option value="prime">Prime</option>
+                                <option value="bar">Bar</option>
+                                <option value="shi">Shi</option>
+                                <option value="blind">Blind</option>
+                            </select>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="optionbutton standardbutton">
+                            <label for="themes" class="standardtext">Choose a theme:</label>
+                            <select id="themes" class="standarddropdown" onchange="changeTheme(this.value)">
+                                <option value="standard">Standard</option>
+                                <option value="dark">Dark</option>
+                            </select>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="optionbutton standardbutton">
+                                <span id="notationdecimalamountdisplay" class="smallstandardtext"></span>
+                                <input type="range" min="0" max="10" class="slider" id="notationdecimalsrange" oninput="changeNotationDecimals(this.value)" onchange="changeNotationDecimals(this.value)">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="optionbutton standardbutton">
+                                <span id="uiupdateratedisplay" class="smallstandardtext"></span>
+                                <input type="range" min="33" max="1000" class="slider" id="uiupdaterange" oninput="changeUIUpdateDelay(this.value)" onchange="changeUIUpdateDelay(this.value)">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="producersscreen" class="centered"> 
+            <table align="center">
+                <tbody>
+                    <tr>
+                        apple
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/break_infinity.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@antimatter-dimensions/notations"></script>
+    <script src="js/settings.js"> </script>
+    <script src="js/UI.js"> </script>
+    <script src="js/game.js"> </script>
+</html>
