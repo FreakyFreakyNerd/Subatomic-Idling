@@ -1,0 +1,27 @@
+.centered {
+    text-align: center;
+    align-self: center;
+}
+
+table.columntable {
+	display: table;
+}
+table.columntable tr {
+	display: table-cell;
+}
+table.columntable tr td {
+	display: block;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+:focus{
+    outline: 0;
+    box-shadow: none!important;
+}
+
+.smallstandardtext{
+    font-size: 12px;
+}

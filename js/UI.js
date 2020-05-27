@@ -2,6 +2,7 @@
 elements = {
     currencydisplay : document.getElementById("currencyamount"),
     currencypersecdisplay : document.getElementById("currencypersecamount"),
+    currencyonemultiplierdisplay : document.getElementById("currencyonemultiplier"),
 
     options: {
         uiupdateratedisplay : document.getElementById("uiupdateratedisplay"),
@@ -53,9 +54,21 @@ function formatDecimal(num){
     return notations[player.options.notation].format(num, player.options.notationdecimals, player.options.notationdecimals);
 }
 
-console.log("Elements Found")
+function formatDecimalOverride(num,dec){
+    return notations[player.options.notation].format(num, dec, dec);
+}
+
 function updateCurrency() {
     elements.currencydisplay.innerHTML = formatDecimal(player.currencyone);
+}
+function updateCurrencyOneMultiplier(){
+    str = "Multiplying " + settings.maincurrencyname + " by "
+    if (player.options.valuesinticks){
+        str += formatDecimalOverride(player.temp.currencymultiplierpertick,4) + " per tick."
+    }else{
+        str += formatDecimalOverride(player.temp.currencymultiplierpersec,4) + " per sec."
+    }
+    elements.currencyonemultiplierdisplay.innerHTML = str
 }
 function updateCurrencyPerSec(){
     str = "You are making " + formatDecimal(player.temp.currencyraise) + " " + settings.maincurrencyname + " per ";
@@ -119,6 +132,7 @@ uiintervalid = 0;
 function updateUITick(){
     updateCurrency();
     updateCurrencyPerSec();
+    updateCurrencyOneMultiplier();
 }
 function startInterval(){
     uiintervalid = setInterval(function(){

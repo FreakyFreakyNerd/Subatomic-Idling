@@ -1,6 +1,7 @@
 settings = {
     maincurrencyname : "substance",
-    tickspersecond : 100,
+    tickspersecond : 20,
+    basecurrencyonemultpertick : 1.001,
     defaultoptions : {
         uidelay : 50,
         notation : "standard",

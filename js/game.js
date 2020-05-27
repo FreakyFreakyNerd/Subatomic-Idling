@@ -1,7 +1,8 @@
 player = {
     temp : {
         currencyraise : new Decimal(0),
-        currencyincreasepertick : 1.001
+        currencymultiplierpertick : 1.001,
+        currencymultiplierpersec : 1.001
     }
 }
 
@@ -11,11 +12,13 @@ loadeddata = {}
 gameLogicIntervalID = 0;
 ticks = 0;
 function gameLogicTick(){
-    player.currencyone = player.currencyone.times(player.temp.currencyincreasepertick)
-    ticks += 1;
-    if(player.options.valuesinticks){player.temp.currencyraise = player.currencyone.times(player.temp.currencyincreasepertick-1);
+    player.currencyone = player.currencyone.times(player.temp.currencymultiplierpertick)
+    ticks += 1
+    updateMultipliersForCurrencyOne()
+    if(player.options.valuesinticks){
+        player.temp.currencyraise = player.currencyone.times(player.temp.currencymultiplierpertick-1)
     }else{
-        player.temp.currencyraise = player.currencyone.times(Math.pow(player.temp.currencyincreasepertick, settings.tickspersecond)-1);
+        player.temp.currencyraise = player.currencyone.times(Math.pow(player.temp.currencymultiplierpertick, settings.tickspersecond)-1)
     }
     if (player.currencyone.greaterThan(1e308)){
         console.log("Ticks: " + ticks);
@@ -25,6 +28,13 @@ function gameLogicTick(){
         
         clearInterval(gameLogicIntervalID);
     }
+}
+
+function updateMultipliersForCurrencyOne(){
+    multpertick = settings.basecurrencyonemultpertick
+
+    player.temp.currencymultiplierpertick = multpertick
+    player.temp.currencymultiplierpersec = Math.pow(multpertick, settings.tickspersecond)
 
 }
 
