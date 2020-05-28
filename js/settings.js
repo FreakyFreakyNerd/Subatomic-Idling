@@ -1,6 +1,6 @@
 settings = {
-    maincurrencyname : "substance",
-    tickspersecond : 100,
+    maincurrencyname : "quark",
+    tickspersecond : 20,
     basecurrencyonemultpertick : new Decimal(.001),
     currencyonemultiplierdecaystartingthreshold : new Decimal("1e308"),
     defaultoptions : {

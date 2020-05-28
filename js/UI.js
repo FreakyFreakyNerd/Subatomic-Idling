@@ -59,7 +59,7 @@ function formatDecimalOverride(num,dec){
 }
 
 function updateCurrency() {
-    elements.currencydisplay.innerHTML = formatDecimal(player.currencyone);
+    elements.currencydisplay.innerHTML = formatDecimal(player.quarkstage.quarks.amount);
 }
 function updateCurrencyOneMultiplier(){
     str = "Multiplying " + settings.maincurrencyname + " by "
@@ -132,7 +132,7 @@ uiintervalid = 0;
 function updateUITick(){
     updateCurrency();
     updateCurrencyPerSec();
-    updateCurrencyOneMultiplier();
+    //updateCurrencyOneMultiplier();
 }
 function startInterval(){
     uiintervalid = setInterval(function(){

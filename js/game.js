@@ -1,10 +1,21 @@
 player = {
+    quarkstage : {
+    },
     temp : {
         currencyraise : new Decimal(0),
         currencymultiplierpertick : 1.001,
         currencymultiplierpersec : 1.001
     }
 }
+
+function setupQuarkStage(){
+    player.quarkstage.quarks = new Currency("quarks", "Quarks", 10),
+    player.quarkstage.producers = [
+        new Producer("quarkgenone", "Generator 1", player.quarkstage.quarks, player.quarkstage.quarks, 10, 1.01, .1)
+    ]
+}
+
+setupQuarkStage();
 
 savedata = {}
 loadeddata = {}
@@ -15,7 +26,7 @@ gameLogicIntervalID = 0;
 ticks = 0;
 function gameLogicTick(){
     starttime = new Date().getTime()
-    player.currencyone = player.currencyone.times(player.temp.currencymultiplierpertick)
+    //player.currencyone = player.currencyone.times(player.temp.currencymultiplierpertick)
     ticks += 1
     updateMultipliersForCurrencyOne()
     if(player.options.valuesinticks){
@@ -23,6 +34,7 @@ function gameLogicTick(){
     }else{
         player.temp.currencyraise = player.currencyone.times(Math.pow(player.temp.currencymultiplierpertick, settings.tickspersecond)-1)
     }
+    produce();
     /*if (player.currencyone.greaterThan(1e308)){
         console.log("Ticks: " + ticks);
         console.log("Seconds: " + ticks/20);
@@ -33,6 +45,12 @@ function gameLogicTick(){
     }*/
     safeCheckValues();
     tickspersecactual = Math.min(1000/(((new Date()).getTime()-starttime)+1),20)
+}
+
+function produce(){
+    player.quarkstage.producers.forEach(element => {
+        element.produce();
+    });
 }
 
 function safeCheckValues(){
