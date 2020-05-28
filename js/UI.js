@@ -14,7 +14,7 @@ document.getElementById("producersmenubutton").onclick = function(){openscreen("
 function openscreen(screen){
     document.getElementById(currentscreen + "screen").style.display = "none";
     document.getElementById(screen + "screen").style.display = "block";
-    currentscreen = screen
+    currentscreen = screen;
 }
 
 document.getElementsByName("maincurrencylabel").forEach(element => {
@@ -66,6 +66,11 @@ function updateProducerDisplay(producer){
     buydisplay.innerHTML = "Buy x1 Cost:" + formatDecimal(producer.cost);
 }
 
+function updateProducerAmountPerSecDisplay(producer){
+    hoverdisplay = document.getElementById("producer_" + producer.id + "_tooltip");
+    hoverdisplay.innerHTML = "Adds " + formatDecimal(producer.oneProduction) + " " + producer.productionobject.displayname + " per second"
+}
+
 function setupProducerBuyOnClick(producer){
     namedisplay = document.getElementById("producer_" + producer.id + "_name")
     namedisplay.innerHTML = producer.displayname;
@@ -75,7 +80,7 @@ function setupProducerBuyOnClick(producer){
 }
 
 function updateCurrencyPerSec(currency){
-    str = "You are making " + formatDecimal(currency.temp.persec) + " " + currency.pluraldisplayname + " per second.";
+    str = "You are making " + formatDecimal(currency.temp.persec) + " " + currency.displayname + " per second.";
     document.getElementById("currency_" + currency.id + "_amountpersec").innerHTML = str;
 }
 function changeNotation(notation){
@@ -110,6 +115,7 @@ function updateAfterPlayer(){
     document.getElementById("notationdecimalsrange").value = player.options.notationdecimals;
     producerregistry.forEach(element => {
         setupProducerBuyOnClick(element);
+        updateProducerAmountPerSecDisplay(element);
     });
 }
 

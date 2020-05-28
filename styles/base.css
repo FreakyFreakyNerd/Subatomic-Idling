@@ -38,3 +38,29 @@ td.righttablecolumn {
 .buybutton {
     font-size: 12px;
 }
+
+.buybutton {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.buybutton .tooltiptext {
+    visibility: hidden;
+    width: 100%;
+    text-align: center;
+    background-color: grey;
+    padding: 5px 0;
+    border-radius: 6px;
+   
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -50%;
+    z-index: 1;
+  }
+
+.buybutton:hover .tooltiptext {
+    visibility: visible;
+  }
