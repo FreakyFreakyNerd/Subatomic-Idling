@@ -4,6 +4,7 @@
 }
 
 table.columntable {
+    width : 90%;
 	display: table;
 }
 table.columntable tr {
@@ -24,4 +25,8 @@ table.columntable tr td {
 
 .smallstandardtext{
     font-size: 12px;
+}
+
+td.righttablecolumn {
+    text-align : right;
 }

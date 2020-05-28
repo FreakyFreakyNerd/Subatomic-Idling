@@ -9,9 +9,12 @@ player = {
 savedata = {}
 loadeddata = {}
 
+tickspersecactual = 0
+
 gameLogicIntervalID = 0;
 ticks = 0;
 function gameLogicTick(){
+    starttime = new Date().getTime()
     player.currencyone = player.currencyone.times(player.temp.currencymultiplierpertick)
     ticks += 1
     updateMultipliersForCurrencyOne()
@@ -20,18 +23,33 @@ function gameLogicTick(){
     }else{
         player.temp.currencyraise = player.currencyone.times(Math.pow(player.temp.currencymultiplierpertick, settings.tickspersecond)-1)
     }
-    if (player.currencyone.greaterThan(1e308)){
+    /*if (player.currencyone.greaterThan(1e308)){
         console.log("Ticks: " + ticks);
         console.log("Seconds: " + ticks/20);
         console.log("Hours: " + ticks/20/3600);
 
         
-        clearInterval(gameLogicIntervalID);
-    }
+        //clearInterval(gameLogicIntervalID);
+    }*/
+    safeCheckValues();
+    tickspersecactual = Math.min(1000/(((new Date()).getTime()-starttime)+1),20)
+}
+
+function safeCheckValues(){
+    if(player.currencyone.lessThan(1))
+        player.currencyone = new Decimal(1)
 }
 
 function updateMultipliersForCurrencyOne(){
     multpertick = settings.basecurrencyonemultpertick
+    if(player.currencyone.lessThan(settings.currencyonemultiplierdecaystartingthreshold)){
+        multpertick = multpertick
+    }
+    else{
+        multpertick = multpertick.divideBy(Decimal.max(Decimal.log(player.currencyone.divide(settings.currencyonemultiplierdecaystartingthreshold), 10),1))
+    }
+
+    multpertick = multpertick.add(1)
 
     player.temp.currencymultiplierpertick = multpertick
     player.temp.currencymultiplierpersec = Math.pow(multpertick, settings.tickspersecond)
@@ -40,19 +58,21 @@ function updateMultipliersForCurrencyOne(){
 
 function saveplayer(){
     savedata["currencyone"] = player.currencyone.toString()
+    savedata["currencyoneshards"] = player.currencyoneshards.toString()
 }
 
 function loadplayer(){
-    console.log(loadeddata)
-    console.log(loadeddata["currencyone"])
     curone = loadeddata["currencyone"]
-    console.log(curone)
+    curoneshards = loadeddata["currencyoneshards"]
     if(curone != undefined){
         player["currencyone"] = (new Decimal(0)).fromString(curone)
     }else{
-        console.log(settings.defaultcurrencyone)
         player["currencyone"] = new Decimal(settings.defaultcurrencyone)
-        console.log(player["currencyone"])
+    }
+    if(curoneshards != undefined){
+        player["currencyoneshards"] = (new Decimal(0)).fromString(curoneshards)
+    }else{
+        player["currencyoneshards"] = new Decimal(0)
     }
 }
 
@@ -94,6 +114,5 @@ gameLogicIntervalID = setInterval(() => {
     gameLogicTick();
     save();
 }, 1000/settings.tickspersecond);
-
 
 updateAfterPlayer()

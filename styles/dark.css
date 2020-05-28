@@ -1,41 +1,30 @@
 body {
-    background-color : black
-}
-
-.centered {
-    text-align: center;
-    align-self: center;
-}
-
-.hidden {
-    visibility: hidden;
+    background-color: black;
 }
 
 .currencyextra {
     font-size: 12px;
-    color: gray;
+    color: darkgrey;
 }
 
 .currencydisplay {
     font-size: 24px;
+    color : white;
 }
 
 .menubutton{
     font-family: monospace;
     font-size: 24px;
     display: inline-block;
-    background-color: darkgrey;
-    border: 2px solid orange;
+    background-color: gray;
+    border: 1px solid orangered;
     border-radius: 4px;
     margin: 4px 4px;
     cursor: pointer;
 }
+
 .menubutton:hover{
     background-color: cadetblue;
-}
-:focus{
-    outline: 0;
-    box-shadow: none!important;
 }
 
 .optionbutton{
@@ -50,12 +39,13 @@ body {
 
 .standardbutton{
     font-family: monospace;
-    background-color: aliceblue;
-    border: 1px solid rgb(42, 177, 64);
+    background-color: gray;
+    border: 1px solid rgb(0, 0, 0);
     border-radius: 10px;
     margin: 4px 4px;
     transition-duration: .25s;
 }
+
 .standardbutton:hover{
     background-color: rgb(106, 207, 122);
     border: 1px solid rgb(42, 177, 64);
@@ -63,7 +53,7 @@ body {
 
 label{
     font-family: monospace;
-    color: gray;
+    color: black;
     margin: 4px 4px;
     cursor: pointer;
 }
