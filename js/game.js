@@ -123,8 +123,6 @@ function load(){
     
 }
 
-console.log(loadeddata)
-
 load()
 
 recalculateCurrencyPerSec();
