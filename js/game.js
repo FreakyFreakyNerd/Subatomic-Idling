@@ -133,3 +133,9 @@ gameLogicIntervalID = setInterval(() => {
 }, 1000/settings.tickspersecond);
 
 updateAfterPlayer()
+
+function reset(){
+    currencyregistry = [];
+    producerregistry = [];
+    setupQuarkStage();
+}
