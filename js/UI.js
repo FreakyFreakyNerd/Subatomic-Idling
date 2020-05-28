@@ -2,8 +2,7 @@
 elements = {
     options: {
         uiupdateratedisplay : document.getElementById("uiupdateratedisplay"),
-        notationdecimalsdisplay : document.getElementById("notationdecimalamountdisplay"),
-        uitoggleshowvaluesinticks : document.getElementById("valuespertickoption")
+        notationdecimalsdisplay : document.getElementById("notationdecimalamountdisplay")
     }
 }
 
@@ -93,18 +92,6 @@ function updateUIUpdateRateDisplay(){
     elements.options.uiupdateratedisplay.innerHTML = "UI Update Delay:" + player.options.uidelay + "ms"
 }
 
-function updateValuesPerTickOption(){
-    if(player.options.valuesinticks){
-        elements.options.uitoggleshowvaluesinticks.innerHTML = "Show values per second.";
-    }else{
-        elements.options.uitoggleshowvaluesinticks.innerHTML = "Show values per tick.";
-    }
-}
-function toggleValuesPerTickOption(){
-    player.options.valuesinticks = !player.options.valuesinticks;
-    updateValuesPerTickOption();
-}
-
 function changeNotationDecimals(val){
     player.options.notationdecimals = val;
     updateNotationDecimals();
@@ -121,7 +108,6 @@ function updateAfterPlayer(){
     document.getElementById("uiupdaterange").value = player.options.uidelay;
     updateNotationDecimals();
     document.getElementById("notationdecimalsrange").value = player.options.notationdecimals;
-    //updateValuesPerTickOption();
     producerregistry.forEach(element => {
         setupProducerBuyOnClick(element);
     });
