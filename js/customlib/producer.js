@@ -5,10 +5,11 @@ class Producer {
         this.startingcost = new Decimal(startingcost);
         this.costincrease = new Decimal(costincrease);
         this.baseproduction = new Decimal(baseproduction);
-        this.bought = new Decimal(1);
+        this.bought = new Decimal(0);
         this.produced = new Decimal(0);
         this.buyingcurrency = buyingcurrency;
         this.productionobject = productionobject;
+        producerregistry.push(this);
     }
     
     get saveData(){
@@ -20,6 +21,8 @@ class Producer {
     }
 
     parse(data){
+        if(data == undefined)
+            return;
         if(data.bought != undefined)
             this.bought = Decimal.fromString(data.bought);
         if(data.produced != undefined)
@@ -31,15 +34,14 @@ class Producer {
     }
 
     buy() {
-        cost = this.calccost;
-        if (this.buyingcurrency.has(cost)){
+        if (this.buyingcurrency.has(this.cost)){
+            this.buyingcurrency.removeamount(this.cost);
             this.bought = this.bought.add(1);
-            this.buyingcurrency.removeamount(cost);
         }
     }
 
     produce(){
-        this.productionobject.add(this.calcproduction());
+        this.productionobject.add(this.production);
     }
 
     calccost(){
@@ -56,5 +58,17 @@ class Producer {
 
     get amount(){
         return this.produced.add(this.bought);
+    }
+
+    get cost(){
+        return this.calccost();
+    }
+
+    get production(){
+        return this.calcproduction();
+    }
+
+    get productionPerSec(){
+        return this.calcproductionper().times(this.amount);
     }
 }

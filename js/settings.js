@@ -1,5 +1,5 @@
 settings = {
-    maincurrencyname : "quark",
+    maincurrencyname : "quarks",
     tickspersecond : 20,
     basecurrencyonemultpertick : new Decimal(.001),
     currencyonemultiplierdecaystartingthreshold : new Decimal("1e308"),
@@ -7,8 +7,7 @@ settings = {
         uidelay : 50,
         notation : "standard",
         notationdecimals : 3,
-        theme : "standard",
-        valuesinticks: true
+        theme : "standard"
     },
     defaultcurrencyone : 1
 }

@@ -71,3 +71,17 @@ select{
     background-color: azure;
     margin: 4px 4px;
 }
+
+.buybutton {
+    font-family: monospace;
+    background-color: aliceblue;
+    border: 1px solid rgb(42, 177, 64);
+    border-radius: 10px;
+    margin: 4px 4px;
+    transition-duration: .25s;
+}
+
+.buybutton:hover{
+    background-color: rgb(106, 207, 122);
+    border: 1px solid rgb(42, 177, 64);
+}

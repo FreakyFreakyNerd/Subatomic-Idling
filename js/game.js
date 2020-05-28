@@ -1,21 +1,47 @@
+currencyregistry = []
+producerregistry = []
+
 player = {
     quarkstage : {
     },
     temp : {
-        currencyraise : new Decimal(0),
-        currencymultiplierpertick : 1.001,
-        currencymultiplierpersec : 1.001
+        currencyraise : new Decimal(0)
     }
 }
 
 function setupQuarkStage(){
-    player.quarkstage.quarks = new Currency("quarks", "Quarks", 10),
+    player.quarkstage.quarks = new Currency("quarks", "Quark", "Quarks", 10),
     player.quarkstage.producers = [
-        new Producer("quarkgenone", "Generator 1", player.quarkstage.quarks, player.quarkstage.quarks, 10, 1.01, .1)
+        new Producer("quarkgenone",     "Generator 1",  player.quarkstage.quarks, player.quarkstage.quarks, 10,             1.25, .1),
+        new Producer("quarkgentwo",     "Generator 2",  player.quarkstage.quarks, player.quarkstage.quarks, 100,            1.25, .5),
+        new Producer("quarkgenthree",   "Generator 3",  player.quarkstage.quarks, player.quarkstage.quarks, 1000,           1.25, 1),
+        new Producer("quarkgenfour",    "Generator 4",  player.quarkstage.quarks, player.quarkstage.quarks, 10000,          1.25, 5),
+        new Producer("quarkgenfive",    "Generator 5",  player.quarkstage.quarks, player.quarkstage.quarks, 100000,         1.25, 20),
+        new Producer("quarkgensix",     "Generator 6",  player.quarkstage.quarks, player.quarkstage.quarks, 1000000,        1.25, 50),
+        new Producer("quarkgenseven",   "Generator 7",  player.quarkstage.quarks, player.quarkstage.quarks, 10000000,       1.25, 100),
+        new Producer("quarkgeneight",   "Generator 8",  player.quarkstage.quarks, player.quarkstage.quarks, 100000000,      1.25, 500),
+        new Producer("quarkgennine",    "Generator 9",  player.quarkstage.quarks, player.quarkstage.quarks, 1000000000,     1.25, 10000),
+        new Producer("quarkgenten",     "Generator 10", player.quarkstage.quarks, player.quarkstage.quarks, 10000000000,    1.25, 1000000)
     ]
 }
 
 setupQuarkStage();
+
+function calculatePerSecond(currency){
+    amount = new Decimal(0);
+    producerregistry.forEach(element =>{
+        if (element.productionobject.id == currency.id){
+            amount = amount.add(element.productionPerSec);
+        }
+    });
+    currency.temp.persec = amount;
+}
+
+function recalculateCurrencyPerSec(){
+    currencyregistry.forEach(element =>{
+        calculatePerSecond(element);
+    });
+}
 
 savedata = {}
 loadeddata = {}
@@ -25,73 +51,48 @@ tickspersecactual = 0
 gameLogicIntervalID = 0;
 ticks = 0;
 function gameLogicTick(){
-    starttime = new Date().getTime()
-    //player.currencyone = player.currencyone.times(player.temp.currencymultiplierpertick)
-    ticks += 1
-    updateMultipliersForCurrencyOne()
-    if(player.options.valuesinticks){
-        player.temp.currencyraise = player.currencyone.times(player.temp.currencymultiplierpertick-1)
-    }else{
-        player.temp.currencyraise = player.currencyone.times(Math.pow(player.temp.currencymultiplierpertick, settings.tickspersecond)-1)
-    }
+    starttime = new Date().getTime();
+    ticks += 1;
     produce();
-    /*if (player.currencyone.greaterThan(1e308)){
-        console.log("Ticks: " + ticks);
-        console.log("Seconds: " + ticks/20);
-        console.log("Hours: " + ticks/20/3600);
-
-        
-        //clearInterval(gameLogicIntervalID);
-    }*/
-    safeCheckValues();
-    tickspersecactual = Math.min(1000/(((new Date()).getTime()-starttime)+1),20)
+    tickspersecactual = Math.min(1000/(((new Date()).getTime()-starttime)+1),20);
 }
 
 function produce(){
-    player.quarkstage.producers.forEach(element => {
+    producerregistry.forEach(element => {
         element.produce();
     });
 }
 
-function safeCheckValues(){
-    if(player.currencyone.lessThan(1))
-        player.currencyone = new Decimal(1)
-}
-
-function updateMultipliersForCurrencyOne(){
-    multpertick = settings.basecurrencyonemultpertick
-    if(player.currencyone.lessThan(settings.currencyonemultiplierdecaystartingthreshold)){
-        multpertick = multpertick
-    }
-    else{
-        multpertick = multpertick.divideBy(Decimal.max(Decimal.log(player.currencyone.divide(settings.currencyonemultiplierdecaystartingthreshold), 10),1))
-    }
-
-    multpertick = multpertick.add(1)
-
-    player.temp.currencymultiplierpertick = multpertick
-    player.temp.currencymultiplierpersec = Math.pow(multpertick, settings.tickspersecond)
-
-}
-
 function saveplayer(){
-    savedata["currencyone"] = player.currencyone.toString()
-    savedata["currencyoneshards"] = player.currencyoneshards.toString()
+    saveQuarkStage();
+    saveoptions();
+}
+
+function saveQuarkStage(){
+    data = {};
+    data.quarks = player.quarkstage.quarks.saveData;
+    data.producers = {};
+    player.quarkstage.producers.forEach(element => {
+        data.producers[element.id.toString()] = element.saveData;
+    });
+    savedata["quarkstage"] = data;
+}
+
+function loadQuarkStage(){
+    data = loadeddata["quarkstage"]
+    if(data == undefined)
+        return;
+    console.log(data)
+    player.quarkstage.quarks.parse(data.quarks);
+    player.quarkstage.producers.forEach(element => {
+        console.log(data.producers[element.id])
+        element.parse(data.producers[element.id]);
+    });
 }
 
 function loadplayer(){
-    curone = loadeddata["currencyone"]
-    curoneshards = loadeddata["currencyoneshards"]
-    if(curone != undefined){
-        player["currencyone"] = (new Decimal(0)).fromString(curone)
-    }else{
-        player["currencyone"] = new Decimal(settings.defaultcurrencyone)
-    }
-    if(curoneshards != undefined){
-        player["currencyoneshards"] = (new Decimal(0)).fromString(curoneshards)
-    }else{
-        player["currencyoneshards"] = new Decimal(0)
-    }
+    loadQuarkStage();
+    loadoptions();
 }
 
 function saveoptions(){
@@ -109,7 +110,6 @@ function loadoptions(){
 function save(){
     savedata = {}
     saveplayer()
-    saveoptions()
     localStorage.setItem('SubstanceGameSave',JSON.stringify(savedata))
 }
 
@@ -120,13 +120,14 @@ function load(){
         console.log(loadeddata)
     }
     loadplayer()
-    loadoptions()
     
 }
 
 console.log(loadeddata)
 
 load()
+
+recalculateCurrencyPerSec();
 
 gameLogicIntervalID = setInterval(() => {
     gameLogicTick();

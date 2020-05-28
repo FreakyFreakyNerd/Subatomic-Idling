@@ -1,8 +1,11 @@
 class Currency{
-    constructor(id, displayname, startingamount){
+    constructor(id, displayname, pluraldisplayname, startingamount){
         this.id = id;
         this.displayname = displayname;
+        this.pluraldisplayname = pluraldisplayname;
         this.amount = new Decimal(startingamount);
+        currencyregistry.push(this);
+        this.temp = {};
     }
 
     get saveData(){
@@ -19,7 +22,7 @@ class Currency{
     }
 
     removeamount(amount){
-        this.amount = this.amount.substract(amount)
+        this.amount = this.amount.sub(amount)
     }
 
     add(val){
@@ -28,5 +31,9 @@ class Currency{
 
     addamount(val){
         this.amount = this.amount.add(val)
+    }
+
+    has(amount){
+        return this.amount.greaterThan(amount) || this.amount.equals(amount);
     }
 }

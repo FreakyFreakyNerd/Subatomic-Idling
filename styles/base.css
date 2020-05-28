@@ -30,3 +30,11 @@ table.columntable tr td {
 td.righttablecolumn {
     text-align : right;
 }
+
+.baseproducername {
+    font-size: 24px
+}
+
+.buybutton {
+    font-size: 12px;
+}
