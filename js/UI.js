@@ -59,25 +59,9 @@ function updateCurrencyDisplay(currency) {
     amountdisplay.innerHTML = formatDecimal(player.quarkstage.quarks.amount);
 }
 
-function updateProducerDisplay(producer){
-    amountdisplay = document.getElementById("producer_" + producer.id + "_amount");
-    amountdisplay.innerHTML = "x" + formatDecimal(producer.amount);
-
-    buydisplay = document.getElementById("producer_" + producer.id + "_buybutton")
-    buydisplay.innerHTML = "Buy x1 Cost:" + formatDecimal(producer.cost);
-}
-
 function updateProducerAmountPerSecDisplay(producer){
     hoverdisplay = document.getElementById("producer_" + producer.id + "_tooltip");
     hoverdisplay.innerHTML = "Adds " + formatDecimal(producer.oneProduction) + " " + producer.productionobject.displayname + " per second"
-}
-
-function setupProducerBuyOnClick(producer){
-    namedisplay = document.getElementById("producer_" + producer.id + "_name")
-    namedisplay.innerHTML = producer.displayname;
-
-    buydisplay = document.getElementById("producer_" + producer.id + "_buybutton")
-    buydisplay.onclick = function() { producer.buy(); recalculateCurrencyPerSec();};
 }
 
 function updateCurrencyPerSec(currency){
@@ -114,10 +98,6 @@ function updateAfterPlayer(){
     document.getElementById("uiupdaterange").value = player.options.uidelay;
     updateNotationDecimals();
     document.getElementById("notationdecimalsrange").value = player.options.notationdecimals;
-    producerregistry.forEach(element => {
-        setupProducerBuyOnClick(element);
-        updateProducerAmountPerSecDisplay(element);
-    });
 }
 
 
@@ -127,13 +107,6 @@ function updateAfterPlayer(){
 uiintervalid = 0;
 function updateUITick(){
     //updateCurrency();
-    currencyregistry.forEach(element => {
-        updateCurrencyDisplay(element);
-        updateCurrencyPerSec(element);
-    });
-    producerregistry.forEach(element => {
-        updateProducerDisplay(element)
-    });
     //updateCurrencyPerSec();
     //updateCurrencyOneMultiplier();
 }

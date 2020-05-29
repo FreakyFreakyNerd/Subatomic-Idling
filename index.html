@@ -3,14 +3,14 @@
     <link id="stylemanager" rel="stylesheet" type="text/css" href="styles/standard.css">
     <title> Subatomic Idling </title>
     <div id="topbar" class="centered">
-        <div id="currency">
+        <div id="quarkcurrency">
             <span class="currencyextra">You have</span>
-            <span id="currency_quarks_amount" class="currencydisplay"> 10 </span>
+            <span id="currency_quarks_amount" class="currencydisplay"> {{format(currency.amount)}} </span>
             <span name="maincurrencylabel" class="currencyextra">substance</span>
             <span class="currencyextra">.</span>
-        </div>
-        <div>
-            <span id="currency_quarks_amountpersec" class="currencyextra">You are making 0 substance per second.</span>
+            <div>
+                <span id="currency_quarks_amountpersec" class="currencyextra">You are making {{format(currency.temp.persec)}} substance per second.</span>
+            </div>
         </div>
     </div>
     <div id="menubuttons" class="centered">
@@ -80,66 +80,9 @@
             <div id="producers_quarkstage">
                 <table align="center" class="columntable">
                     <tbody>
-                        <tr class="producertableleft">
-                            <td>
-                                <div id="producer_quarkgenone">
-                                    <span class="baseproducername" id="producer_quarkgenone_name">Generator One</span>
-                                    <span class="currencyextra" id="producer_quarkgenone_amount">x?????</span>
-                                    <button class="buybutton"><span id="producer_quarkgenone_buybutton">Buy x1 Cost:1000000</span> <span class="tooltiptext" id="producer_quarkgenone_tooltip">Produces Blah Blah Blah</span></button>
-                                    
-                                </div>
-                                <div id="producer_quarkgentwo">
-                                    <span class="baseproducername" id="producer_quarkgentwo_name">Generator Two</span>
-                                    <span class="currencyextra" id="producer_quarkgentwo_amount">x?????</span>
-                                    <button class="buybutton"><span id="producer_quarkgentwo_buybutton">Buy x1 Cost:1000000</span> <span class="tooltiptext" id="producer_quarkgentwo_tooltip">Produces Blah Blah Blah</span> </button>
-                                </div>
-                                <div id="producer_quarkgenthree">
-                                    <span class="baseproducername" id="producer_quarkgenthree_name">Generator Two</span>
-                                    <span class="currencyextra" id="producer_quarkgenthree_amount">x?????</span>
-                                    <button class="buybutton"><span id="producer_quarkgenthree_buybutton">Buy x1 Cost:1000000</span><span class="tooltiptext" id="producer_quarkgenthree_tooltip">Produces Blah Blah Blah</span> </button>
-                                </div>
-                                <div id="producer_quarkgenfour">
-                                    <span class="baseproducername" id="producer_quarkgenfour_name">Generator Two</span>
-                                    <span class="currencyextra" id="producer_quarkgenfour_amount">x?????</span>
-                                    <button class="buybutton"><span id="producer_quarkgenfour_buybutton">Buy x1 Cost:1000000</span> <span class="tooltiptext" id="producer_quarkgenfour_tooltip">Produces Blah Blah Blah</span> </button>
-                                </div>
-                                <div id="producer_quarkgenfive">
-                                    <span class="baseproducername" id="producer_quarkgenfive_name">Generator Two</span>
-                                    <span class="currencyextra" id="producer_quarkgenfive_amount">x?????</span>
-                                    <button class="buybutton"><span id="producer_quarkgenfive_buybutton">Buy x1 Cost:1000000</span> <span class="tooltiptext" id="producer_quarkgenfive_tooltip">Produces Blah Blah Blah</span> </button>
-                                </div>
-                                <div id="producer_quarkgensix">
-                                    <span class="baseproducername" id="producer_quarkgensix_name">Generator Two</span>
-                                    <span class="currencyextra" id="producer_quarkgensix_amount">x?????</span>
-                                    <button class="buybutton"><span id="producer_quarkgensix_buybutton">Buy x1 Cost:1000000</span> <span class="tooltiptext" id="producer_quarkgensix_tooltip">Produces Blah Blah Blah</span> </button>
-                                </div>
-                                <div id="producer_quarkgenseven">
-                                    <span class="baseproducername" id="producer_quarkgenseven_name">Generator Two</span>
-                                    <span class="currencyextra" id="producer_quarkgenseven_amount">x?????</span>
-                                    <button class="buybutton"><span id="producer_quarkgenseven_buybutton">Buy x1 Cost:1000000</span> <span class="tooltiptext" id="producer_quarkgenseven_tooltip">Produces Blah Blah Blah</span> </button>
-                                </div>
-                                <div id="producer_quarkgeneight">
-                                    <span class="baseproducername" id="producer_quarkgeneight_name">Generator Two</span>
-                                    <span class="currencyextra" id="producer_quarkgeneight_amount">x?????</span>
-                                    <button class="buybutton"><span id="producer_quarkgeneight_buybutton">Buy x1 Cost:1000000</span> <span class="tooltiptext" id="producer_quarkgeneight_tooltip">Produces Blah Blah Blah</span> </button>
-                                </div>
-                                <div id="producer_quarkgennine">
-                                    <span class="baseproducername" id="producer_quarkgennine_name">Generator Two</span>
-                                    <span class="currencyextra" id="producer_quarkgennine_amount">x?????</span>
-                                    <button class="buybutton"><span id="producer_quarkgennine_buybutton">Buy x1 Cost:1000000</span> <span class="tooltiptext" id="producer_quarkgennine_tooltip">Produces Blah Blah Blah</span> </button>
-                                </div>
-                                <div id="producer_quarkgenten">
-                                    <span class="baseproducername" id="producer_quarkgenten_name">Generator Two</span>
-                                    <span class="currencyextra" id="producer_quarkgenten_amount">x?????</span>
-                                    <button class="buybutton"><span id="producer_quarkgenten_buybutton">Buy x1 Cost:1000000</span> <span class="tooltiptext" id="producer_quarkgenten_tooltip">Produces Blah Blah Blah</span> </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                        </tr>
-                        <tr class="righttablecolumn">
-                        </tr>
+                        <div v-for="producer in producers" v-bind:producer="producer">
+                            <producer-item v-bind:producer="producer"></producer-item>
+                        </div>
                     </tbody>
                 </table>
             </div>
@@ -191,4 +134,5 @@
     <script src="js/settings.js"> </script>
     <script src="js/UI.js"> </script>
     <script src="js/game.js"> </script>
+    <script src="js/vueimplementation.js"></script>
 </html>
