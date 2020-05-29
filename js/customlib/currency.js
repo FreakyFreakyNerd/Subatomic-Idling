@@ -1,8 +1,8 @@
 class Currency{
-    constructor(id, displayname, pluraldisplayname, startingamount){
+    constructor(id, displayname, singulardisplayname, startingamount){
         this.id = id;
         this.displayname = displayname;
-        this.pluraldisplayname = pluraldisplayname;
+        this.singulardisplayname = singulardisplayname;
         this.amount = new Decimal(startingamount);
         currencyregistry.push(this);
         this.temp = {};

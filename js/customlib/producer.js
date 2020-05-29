@@ -64,6 +64,10 @@ class Producer {
         return this.calccost();
     }
 
+    get oneProduction(){
+        return this.calcproductionper();
+    }
+
     get production(){
         return this.calcproduction();
     }

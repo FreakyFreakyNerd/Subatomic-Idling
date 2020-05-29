@@ -38,3 +38,48 @@ td.righttablecolumn {
 .buybutton {
     font-size: 12px;
 }
+
+<<<<<<< HEAD
+.changelogversion{
+	font-family:monospace;
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.changelogtext{
+	font-family:monospace;
+	font-size: 12px;
+}
+
+.leftalign{
+	text-align: left;
+	display:inline-block;
+	align-self: centered;
+}
+=======
+.buybutton {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.buybutton .tooltiptext {
+    visibility: hidden;
+    width: 100%;
+    text-align: center;
+    background-color: grey;
+    padding: 5px 0;
+    border-radius: 6px;
+   
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -50%;
+    z-index: 1;
+  }
+
+.buybutton:hover .tooltiptext {
+    visibility: visible;
+  }
+>>>>>>> a032974613bad955b314e17b5b6cd7c456637bc2

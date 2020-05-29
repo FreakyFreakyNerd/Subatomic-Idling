@@ -10,7 +10,7 @@ player = {
 }
 
 function setupQuarkStage(){
-    player.quarkstage.quarks = new Currency("quarks", "Quark", "Quarks", 10),
+    player.quarkstage.quarks = new Currency("quarks", "Quarks", "Quark", 10),
     player.quarkstage.producers = [
         new Producer("quarkgenone",     "Generator 1",  player.quarkstage.quarks, player.quarkstage.quarks, 10,             1.1, .5),
         new Producer("quarkgentwo",     "Generator 2",  player.quarkstage.quarks, player.quarkstage.quarks, 100,            1.1, 1),
