@@ -18,10 +18,6 @@ function openscreen(screen){
     currentscreen = screen;
 }
 
-document.getElementsByName("maincurrencylabel").forEach(element => {
-    element.innerHTML = settings.maincurrencyname;
-});
-
 notations = {
     "standard": new ADNotations.StandardNotation(),
     "scientific": new ADNotations.ScientificNotation(),

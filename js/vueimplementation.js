@@ -24,6 +24,7 @@ Vue.component('producer-item', {
     methods: {
         buyProducer: function(producer){
             producer.buy();
+            recalculateCurrencyPerSec();
         }
     }
 })

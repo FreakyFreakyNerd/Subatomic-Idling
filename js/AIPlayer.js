@@ -11,4 +11,5 @@ function highlightOptimalQuarkBuy(){
     });
     lastsmallest = smallestproducer;
     smallestproducer.buy();
+    recalculateCurrencyPerSec();
 }

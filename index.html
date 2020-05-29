@@ -6,10 +6,10 @@
         <div id="quarkcurrency">
             <span class="currencyextra">You have</span>
             <span id="currency_quarks_amount" class="currencydisplay"> {{format(currency.amount)}} </span>
-            <span name="maincurrencylabel" class="currencyextra">substance</span>
+            <span name="maincurrencylabel" class="currencyextra">{{currency.displayname}}</span>
             <span class="currencyextra">.</span>
             <div>
-                <span id="currency_quarks_amountpersec" class="currencyextra">You are making {{format(currency.temp.persec)}} substance per second.</span>
+                <span id="currency_quarks_amountpersec" class="currencyextra">You are making {{format(currency.temp.persec)}} {{currency.displayname}} per second.</span>
             </div>
         </div>
     </div>
