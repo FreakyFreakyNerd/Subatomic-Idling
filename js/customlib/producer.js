@@ -45,11 +45,11 @@ class Producer {
     }
 
     calccost(){
-        return this.startingcost * Decimal.pow(this.costincrease, this.bought)
+        return this.startingcost.times(Decimal.pow(this.costincrease, this.bought));
     }
 
     calcproduction() {
-        return this.amount.times(this.calcproductionper()).divide(settings.tickspersecond);
+        return this.amount.times(this.calcproductionper())//.divide(settings.tickspersecond);
     }
 
     calcproductionper() {

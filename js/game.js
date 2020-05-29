@@ -1,8 +1,11 @@
 currencyregistry = []
 producerregistry = []
+upgraderegistry = []
 
 player = {
     quarkstage : {
+    },
+    electronstage : {
     },
     temp : {
         currencyraise : new Decimal(0)
@@ -10,7 +13,7 @@ player = {
 }
 
 function setupQuarkStage(){
-    player.quarkstage.quarks = new Currency("quarks", "Quarks", "Quark", 10),
+    player.quarkstage.quarks = new Currency("quarks", "Quarks", "Quark", 10)
     player.quarkstage.producers = [
         new Producer("quarkgenone",     "Generator 1",  player.quarkstage.quarks, player.quarkstage.quarks, 10,             1.1, .5),
         new Producer("quarkgentwo",     "Generator 2",  player.quarkstage.quarks, player.quarkstage.quarks, 100,            1.1, 1),
@@ -23,6 +26,10 @@ function setupQuarkStage(){
         new Producer("quarkgennine",    "Generator 9",  player.quarkstage.quarks, player.quarkstage.quarks, 1000000000,     1.25, 1000),
         new Producer("quarkgenten",     "Generator 10", player.quarkstage.quarks, player.quarkstage.quarks, 10000000000,    1.25, 10000)
     ]
+}
+
+function setupElectronStage(){
+    player.electronstage.electrons = new Currency("electrons", "Electrons", "Electron", 0)
 }
 
 setupQuarkStage();
@@ -52,9 +59,27 @@ gameLogicIntervalID = 0;
 ticks = 0;
 function gameLogicTick(){
     starttime = new Date().getTime();
-    ticks += 1;
     produce();
+    lengthCalculator();
     tickspersecactual = Math.min(1000/(((new Date()).getTime()-starttime)+1),20);
+}
+
+function lengthCalculator(){
+    ticks += 1;
+    if(player.quarkstage.quarks.has(new Decimal("1e12"))){
+        clearInterval(gameLogicIntervalID);
+        console.log(ticks + " Ticks");
+        console.log(ticks/20 + " Seconds");
+        console.log(ticks/20/3600 + " Hours");
+        console.log(ticks/20/3600/24 + " Days")
+    }
+}
+
+function logTime(){
+    console.log(ticks + " Ticks");
+    console.log(ticks/20 + " Seconds");
+    console.log(ticks/20/3600 + " Hours");
+    console.log(ticks/20/3600/24 + " Days")
 }
 
 function produce(){
@@ -130,6 +155,7 @@ recalculateCurrencyPerSec();
 gameLogicIntervalID = setInterval(() => {
     gameLogicTick();
     save();
+    highlightOptimalQuarkBuy();
 }, 1000/settings.tickspersecond);
 
 updateAfterPlayer()
@@ -139,3 +165,7 @@ function reset(){
     producerregistry = [];
     setupQuarkStage();
 }
+running = true;
+//while(running){
+//    gameLogicTick();
+//}

@@ -63,4 +63,8 @@ td.righttablecolumn {
 
 .buybutton:hover .tooltiptext {
     visibility: visible;
-  }
+}
+
+.optimal{
+    color: red;
+}
