@@ -39,7 +39,7 @@ td.righttablecolumn {
     font-size: 12px;
 }
 
-<<<<<<< HEAD
+
 .changelogversion{
 	font-family:monospace;
 	font-size: 24px;
@@ -56,7 +56,7 @@ td.righttablecolumn {
 	display:inline-block;
 	align-self: centered;
 }
-=======
+
 .buybutton {
     position: relative;
     display: inline-block;
@@ -81,5 +81,4 @@ td.righttablecolumn {
 
 .buybutton:hover .tooltiptext {
     visibility: visible;
-  }
->>>>>>> a032974613bad955b314e17b5b6cd7c456637bc2
+}
