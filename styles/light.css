@@ -85,3 +85,13 @@ select{
     background-color: rgb(106, 207, 122);
     border: 1px solid rgb(42, 177, 64);
 }
+
+.changelogversion{
+	font-family:monospace;
+	color:black;
+}
+
+.changelogtext{
+	font-family:monospace;
+	color:black;
+}

@@ -19,12 +19,12 @@ function setupQuarkStage(){
         new Producer("quarkgentwo",     "Generator 2",  player.quarkstage.quarks, player.quarkstage.quarks, 100,            1.1, 1),
         new Producer("quarkgenthree",   "Generator 3",  player.quarkstage.quarks, player.quarkstage.quarks, 1000,           1.1, 2),
         new Producer("quarkgenfour",    "Generator 4",  player.quarkstage.quarks, player.quarkstage.quarks, 10000,          1.1, 10),
-        new Producer("quarkgenfive",    "Generator 5",  player.quarkstage.quarks, player.quarkstage.quarks, 100000,         1.25, 20),
-        new Producer("quarkgensix",     "Generator 6",  player.quarkstage.quarks, player.quarkstage.quarks, 1000000,        1.25, 50),
-        new Producer("quarkgenseven",   "Generator 7",  player.quarkstage.quarks, player.quarkstage.quarks, 10000000,       1.25, 100),
-        new Producer("quarkgeneight",   "Generator 8",  player.quarkstage.quarks, player.quarkstage.quarks, 100000000,      1.25, 500),
-        new Producer("quarkgennine",    "Generator 9",  player.quarkstage.quarks, player.quarkstage.quarks, 1000000000,     1.25, 1000),
-        new Producer("quarkgenten",     "Generator 10", player.quarkstage.quarks, player.quarkstage.quarks, 10000000000,    1.25, 10000)
+        new Producer("quarkgenfive",    "Generator 5",  player.quarkstage.quarks, player.quarkstage.quarks, 100000,         1.1, 50),
+        new Producer("quarkgensix",     "Generator 6",  player.quarkstage.quarks, player.quarkstage.quarks, 1000000,        1.1, 100),
+        new Producer("quarkgenseven",   "Generator 7",  player.quarkstage.quarks, player.quarkstage.quarks, 10000000,       1.1, 500),
+        new Producer("quarkgeneight",   "Generator 8",  player.quarkstage.quarks, player.quarkstage.quarks, 100000000,      1.1, 1000),
+        new Producer("quarkgennine",    "Generator 9",  player.quarkstage.quarks, player.quarkstage.quarks, 1000000000,     1.1, 10000),
+        new Producer("quarkgenten",     "Generator 10", player.quarkstage.quarks, player.quarkstage.quarks, 10000000000,    1.1, 50000)
     ]
 }
 

@@ -1,7 +1,7 @@
 <html>
     <link rel="stylesheet" type="text/css" href="styles/base.css">
     <link id="stylemanager" rel="stylesheet" type="text/css" href="styles/standard.css">
-    <title> Apple </title>
+    <title> Subatomic Idling </title>
     <div id="topbar" class="centered">
         <div id="currency">
             <span class="currencyextra">You have</span>
@@ -17,6 +17,7 @@
         <span><button id="producersmenubutton" class="menubutton">Producers</button></span>
         <span><button id="optionsmenubutton" class="menubutton">Options</button></span>
         <span><button id="statsmenubutton" class="menubutton">Statistics</button></span>
+		<span><button id="changelogmenubutton" class="menubutton">changelog</button></span>
     </div>
     <div id="screens">
         <div id="optionsscreen" class="centered" style="display: none"> 
@@ -54,7 +55,7 @@
                             <div class="optionbutton standardbutton">
                             <label for="themes" class="standardtext">Choose a theme:</label>
                             <select id="themes" class="standarddropdown" onchange="changeTheme(this.value)">
-                                <option value="standard">Standard</option>
+                                <option value="light">Light</option>
                                 <option value="dark">Dark</option>
                             </select>
                             </div>
@@ -143,6 +144,43 @@
                 </table>
             </div>
         </div>
+		<div id ="changelogscreen" class="centered" style="display: none">
+			<span class="centered changelogversion">
+				Current Version: 0.01
+				<br>
+				<br>
+				<br>
+			</span>
+			
+			<span class="centered changelogtext">
+				V 0.01 May 28, 2020
+				<br>
+				Had game idea for fun. Decided to do it.
+				<br>
+				Big idea, small time.
+				<br>
+				Bad idea? nah
+				<br>
+				<br>
+			</span>
+			<div class="leftalign">
+				<span class="changelogtext">
+					1. Created main functionality
+					<br>
+					2. Created terrible rates
+					<br>
+					3. Tier 1-10 created for Quarks.
+					<br>
+					<br>
+					<br>
+				</span>
+				<div class="centered">
+					<span class="changelogtext">
+					Will be balanced... soon™
+					</span>
+				</div>
+			</div>
+		</div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/break_infinity.js"></script>

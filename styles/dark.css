@@ -81,3 +81,13 @@ select{
     margin: 4px 4px;
 }
 
+
+.changelogversion{
+	font-family:monospace;
+	color:white;
+}
+
+.changelogtext{
+	font-family:monospace;
+	color:white;
+}

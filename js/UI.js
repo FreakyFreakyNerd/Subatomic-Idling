@@ -10,6 +10,7 @@ currentscreen = "producers"
 
 document.getElementById("optionsmenubutton").onclick = function(){openscreen("options")};
 document.getElementById("producersmenubutton").onclick = function(){openscreen("producers")};
+document.getElementById("changelogmenubutton").onclick = function(){openscreen("changelog")};
 
 function openscreen(screen){
     document.getElementById(currentscreen + "screen").style.display = "none";
