@@ -3,6 +3,10 @@
     align-self: center;
 }
 
+span {
+  white-space: pre-line;
+}
+
 /*.test{
   vertical-align: top;
 }

@@ -4,28 +4,23 @@ class LinearEffect{
   Producer : "base-production-increase"
   Producer : "production-multiplier"
   */
-  constructor(objectsappliesto, effectincrease, effecttype, effectdefualtvalue, appliestotext, args){
+  constructor(objectsappliesto, effectincrease, effecttype, effectdefualtvalue, appliestotext, effectdescription, args){
     this.appliesto = objectsappliesto;
     this.appliestotext = appliestotext;
     this.args = args;
+    this.effectdescription = effectdescription;
     this.effecttype = effecttype;
     this.increase = new Decimal(effectincrease);
     this.defaultval = new Decimal(effectdefualtvalue);
     this.value = new Decimal(effectdefualtvalue);
   }
 
-  geteffectper(){
-    switch(this.effecttype){
-      case EffectTypes.ProducerMultiplierProduction:
-      return "Adds " + " +" + formatDecimal(this.increase) + " to above multiplier per level."
-    }
-    return
-  }
-
   geteffect(){
+    if(this.effectdescription != undefined)
+      return this.effectdescription(this);
     switch(this.effecttype){
       case EffectTypes.ProducerMultiplierProduction:
-      return "Multiplies " + this.appliestotext + " production by x" + formatDecimal(this.value) + "."
+        return "Multiplies " + this.appliestotext + " production by x" + formatDecimal(this.value) + ".\nAdds " + " +" + formatDecimal(this.increase) + " to above multiplier per level."
     }
     return
   }
@@ -58,9 +53,10 @@ class LinearEffect{
 }
 
 class ExponentialEffect{
-  constructor(objectsappliesto, effectincrease, effecttype, effectdefualtvalue, appliestotext, args){
+  constructor(objectsappliesto, effectincrease, effecttype, effectdefualtvalue, appliestotext, effectdescription, args){
     this.appliesto = objectsappliesto;
     this.appliestotext = appliestotext;
+    this.effectdescription = effectdescription;
     this.args = args;
     this.effecttype = effecttype;
     this.increase = new Decimal(effectincrease);
@@ -68,15 +64,9 @@ class ExponentialEffect{
     this.value = new Decimal(effectdefualtvalue);
   }
 
-  geteffectper(){
-    switch(this.effecttype){
-      case EffectTypes.ProducerMultiplierProduction:
-      return "Multiplies the above multiplier by " + formatDecimal(this.increase) + " per level."
-    }
-    return
-  }
-
   geteffect(){
+    if(this.effectdescription != undefined)
+      return this.effectdescription(this);
     switch(this.effecttype){
       case EffectTypes.ProducerMultiplierProduction:
       return "Multiplies " + this.appliestotext + " production by " + formatDecimal(this.value) + "."
