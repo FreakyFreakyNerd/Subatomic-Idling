@@ -21,8 +21,9 @@ class Upgrade{
             this.level = Decimal.fromString(data.level);
         if(data.produced != undefined)
             this.produced = Decimal.fromString(data.produced);
-        if(this.level.greaterThan(0))
+        if(this.level.greaterThan(0)){
           this.onunlock();
+        }
         this.recalculatecosts();
         this.recalculateeffects();
     }

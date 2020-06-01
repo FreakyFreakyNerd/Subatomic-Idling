@@ -154,5 +154,6 @@ class Producer {
       this.productions.forEach((item, i) => {
         item.recalculateeffectvalues();
       });
+      this.recalculateproductions();
     }
 }
