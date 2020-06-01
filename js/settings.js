@@ -5,7 +5,7 @@ settings = {
         uidelay : 50,
         notation : "standard",
         notationdecimals : 3,
-        theme : "standard",
+        theme : "light",
         buyamount : new Decimal(1)
     }
 }
