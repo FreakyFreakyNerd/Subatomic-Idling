@@ -100,9 +100,14 @@ function saveQuarkStage(){
     data = {};
     data.quarks = player.quarkstage.quarks.saveData;
     data.producers = {};
+    data.upgrades = {};
     player.quarkstage.producers.forEach(element => {
         data.producers[element.id.toString()] = element.saveData;
     });
+    player.quarkstage.upgrades.forEach((upgrade, i) => {
+      data.upgrades[upgrade.id.toString()] = upgrade.saveData;
+    });
+
     savedata["quarkstage"] = data;
 }
 
@@ -112,10 +117,16 @@ function loadQuarkStage(){
         return;
     console.log(data)
     player.quarkstage.quarks.parse(data.quarks);
-    player.quarkstage.producers.forEach(element => {
-        console.log(data.producers[element.id])
-        element.parse(data.producers[element.id]);
-    });
+    if(data.producers != undefined){
+      player.quarkstage.producers.forEach(element => {
+          element.parse(data.producers[element.id]);
+      });
+    }
+    if(data.upgrades != undefined){
+      player.quarkstage.upgrades.forEach(element => {
+          element.parse(data.upgrades[element.id]);
+      });
+    }
 }
 
 function loadplayer(){

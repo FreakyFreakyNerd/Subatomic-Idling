@@ -7,6 +7,26 @@ class Upgrade{
         this.effects = effects;
         this.costs = costs;
         this.level = new Decimal(0);
+        this.produced = new Decimal(0);
+    }
+
+    save(){
+        return { produced : this.produced.toString(), level : this.level.toString()};
+    }
+
+    parse(data){
+        if(data == undefined)
+            return;
+        if(data.level != undefined)
+            this.level = Decimal.fromString(data.level);
+        if(data.produced != undefined)
+            this.produced = Decimal.fromString(data.produced);
+        this.recalculatecosts();
+        this.recalculateeffects();
+    }
+
+    get saveData(){
+        return this.save()
     }
 
     checkForUnlock(){
