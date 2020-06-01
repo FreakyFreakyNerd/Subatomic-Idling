@@ -39,7 +39,7 @@ class LinearProduction{
   }
 
   produce(){
-    this.productionobject.add(this.production);
+    this.productionobject.add(this.production.divide(settings.tickspersecond));
   }
 
   get productionper(){

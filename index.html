@@ -93,7 +93,7 @@
             </div>
           </td>
           <td valign="top">
-            <div v-for="upgrade in upgrades" v-bind:producer="upgrade" class="test">
+            <div v-for="upgrade in upgrades" v-bind:producer="upgrade" class="test" v-if="upgrade.unlocked">
               <upgrade-item v-bind:upgrade="upgrade" ></upgrade-item>
             </div>
           </td>
@@ -120,7 +120,7 @@
     </span>
     <div class="leftalign">
       <span class="changelogtext">
-		Version 0.02 
+		Version 0.02
 		<br>
 		Date: June 1, 2020
 		<br>

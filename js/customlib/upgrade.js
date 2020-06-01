@@ -104,4 +104,8 @@ class Upgrade{
         effect.remove();
       });
     }
+
+      hasrequirement(amount){
+          return this.level.greaterThanOrEqualTo(amount);
+      }
 }
