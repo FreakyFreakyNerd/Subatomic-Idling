@@ -28,7 +28,7 @@ function setupQuarkStage(){
 
     player.quarkstage.upgrades = [];
     player.quarkstage.upgrades.push(new Upgrade("quarkupgrade1", "Multiplier 1", -1, [new NumRequirement(player.quarkstage.producers[0],25)], [new LinearEffect(player.quarkstage.producers, 1, EffectTypes.ProducerMultiplierProduction, 1, "Quark Generators 1-10", (effect) => {return "Multiplies Quark Generators 1-10 production by " + formatDecimal(effect.value) + "(+" + formatDecimal(effect.increase) + " per level)."} )], [new ExponentialCost(player.quarkstage.quarks,100,5)]));
-    player.quarkstage.upgrades.push(new Upgrade("quarkupgrade2", "Multiplier 2", -1, [new NumRequirement(player.quarkstage.upgrades[0],10)], [new ExponentialEffect(player.quarkstage.producers, 1.25, EffectTypes.ProducerMultiplierProduction, 1, "Quark Generators 1-10", (effect) => {return "Multiplies Quark Generators 1-10 production by " + formatDecimal(effect.value) + "(x" + formatDecimal(effect.increase) + " per level)."})], [new ExponentialCost(player.quarkstage.quarks,10000,10)]));
+    player.quarkstage.upgrades.push(new Upgrade("quarkupgrade2", "Multiplier 2", -1, [new NumRequirement(player.quarkstage.producers[1],25)], [new ExponentialEffect(player.quarkstage.producers, 1.25, EffectTypes.ProducerMultiplierProduction, 1, "Quark Generators 1-10", (effect) => {return "Multiplies Quark Generators 1-10 production by " + formatDecimal(effect.value) + "(x" + formatDecimal(effect.increase) + " per level)."})], [new ExponentialCost(player.quarkstage.quarks,10000,10)]));
 }
 
 function setupElectronStage(){
