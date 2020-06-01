@@ -4,13 +4,30 @@ class LinearEffect{
   Producer : "base-production-increase"
   Producer : "production-multiplier"
   */
-  constructor(objectsappliesto, effectincrease, effecttype, effectdefualtvalue, args){
+  constructor(objectsappliesto, effectincrease, effecttype, effectdefualtvalue, appliestotext, args){
     this.appliesto = objectsappliesto;
+    this.appliestotext = appliestotext;
     this.args = args;
     this.effecttype = effecttype;
     this.increase = new Decimal(effectincrease);
     this.defaultval = new Decimal(effectdefualtvalue);
     this.value = new Decimal(effectdefualtvalue);
+  }
+
+  geteffectper(){
+    switch(this.effecttype){
+      case EffectTypes.ProducerMultiplierProduction:
+        return "Adds " + " +" + formatDecimal(this.increase) + " to above multiplier per level."
+    }
+    return
+  }
+
+  geteffect(){
+    switch(this.effecttype){
+      case EffectTypes.ProducerMultiplierProduction:
+        return "Multiplies " + this.appliestotext + " production by x" + formatDecimal(this.value) + "."
+    }
+    return
   }
 
   getarg(type){

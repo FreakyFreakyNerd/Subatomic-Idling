@@ -1,10 +1,11 @@
 settings = {
     maincurrencyname : "Quarks",
-    tickspersecond : 1,
+    tickspersecond : 100,
     defaultoptions : {
         uidelay : 50,
         notation : "standard",
         notationdecimals : 3,
-        theme : "standard"
+        theme : "standard",
+        buyamount : new Decimal(1)
     }
 }

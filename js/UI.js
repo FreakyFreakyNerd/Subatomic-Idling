@@ -66,6 +66,7 @@ function updateCurrencyPerSec(currency){
 }
 function changeNotation(notation){
     player.options.notation = notation;
+    quarkstageproducersapp.$forceUpdate();
 }
 function changeTheme(theme){
     player.options.theme = theme;

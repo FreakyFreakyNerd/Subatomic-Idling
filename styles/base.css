@@ -3,15 +3,24 @@
     align-self: center;
 }
 
-table.columntable {
-    width : 90%;
-	display: table;
+/*.test{
+  vertical-align: top;
 }
-table.columntable tr {
-	display: table-cell;
+
+table {
+  border: 1px solid black;
 }
-table.columntable tr td {
-	display: block;
+tr {
+  border: 1px solid black;
+}
+td {
+  border: 1px solid black;
+}*/
+
+table.quarkproducertable{
+  width: 30%;
+  margin-left: 10%;
+  display: inline-block;
 }
 
 .hidden {
@@ -52,7 +61,7 @@ td.righttablecolumn {
     background-color: grey;
     padding: 5px 0;
     border-radius: 6px;
-   
+
     /* Position the tooltip text - see examples below! */
     position: absolute;
     top: 100%;

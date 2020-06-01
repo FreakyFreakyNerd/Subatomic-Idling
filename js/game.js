@@ -7,8 +7,8 @@ player = {
     },
     electronstage : {
     },
-    temp : {
-        currencyraise : new Decimal(0)
+    options : {
+      buyamount : new Decimal(1)
     }
 }
 
@@ -27,14 +27,31 @@ function setupQuarkStage(){
     player.quarkstage.producers.push(new Producer("quarkgenten",     "Generator 10", [new ExponentialCost(player.quarkstage.quarks, 10000000000, 1.1)], [new LinearProduction(player.quarkstage.quarks, 100000)], [new NumRequirement(player.quarkstage.producers[8], new Decimal(10))]));
 
     player.quarkstage.upgrades = [];
-    player.quarkstage.upgrades.push(new Upgrade("quarkupgrade1", "Multiplier 1", -1, null, [new LinearEffect(player.quarkstage.producers, 1, EffectTypes.ProducerMultiplierProduction, 1)], [new ExponentialCost(player.quarkstage.quarks,100,1000)]))
+    player.quarkstage.upgrades.push(new Upgrade("quarkupgrade1", "Multiplier 1", -1, null, [new LinearEffect(player.quarkstage.producers, 1, EffectTypes.ProducerMultiplierProduction, 1, "Quark Generators 1-10")], [new ExponentialCost(player.quarkstage.quarks,1000,10)]))
 }
 
 function setupElectronStage(){
     player.electronstage.electrons = new Currency("electrons", "Electrons", "Electron", 0)
 }
 
+function getbuyamount(object){
+  if(!player.options.buyamount.equals(-1))
+    return player.options.buyamount;
+  if(object == undefined)
+    return "max"
+  return object.getmaxbuyable();
+}
+
 setupQuarkStage();
+
+function setbuyamount(num){
+  player.options.buyamount = new Decimal(num);
+  producerregistry.forEach((prod, i) => {
+    prod.recalculatecosts();
+  });
+
+  console.log(num);
+}
 
 player.quarkstage.upgrades[0].buy();
 
@@ -135,7 +152,7 @@ function loadplayer(){
 }
 
 function saveoptions(){
-    savedata["playeroptions"] = player.options
+  savedata["playeroptions"] = player.options;
 }
 
 function loadoptions(){
@@ -144,6 +161,11 @@ function loadoptions(){
         player.options = options
     else
         player.options = settings.defaultoptions
+    if(player.options.buyamount == undefined){
+      player.options.buyamount = settings.defaultoptions.buyamount;
+    }else{
+      player.options.buyamount = Decimal.fromString(options.buyamount);
+    }
 }
 
 function save(){

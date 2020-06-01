@@ -6,7 +6,10 @@ class ExponentialCost{
         this.cost = new Decimal(startingcost);
     }
 
-    recalculatecost(amount){
+    recalculatecost(amount, buyamount){
+      if(buyamount != undefined)
+        this.cost = this.startingcost.times(Decimal.pow(this.scaling, amount.add(player.options.buyamount)) - Decimal.pow(this.scaling, amount));
+      else
         this.cost = this.startingcost.times(Decimal.pow(this.scaling, amount));
     }
 

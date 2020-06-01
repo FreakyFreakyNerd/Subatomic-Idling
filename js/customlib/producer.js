@@ -66,7 +66,7 @@ class Producer {
             this.costs.forEach((cost, i) => {
               cost.subtractcost();
             });
-            this.bought = this.bought.add(1)
+            this.bought = this.bought.add(player.options.buyamount);
             this.recalculatecosts();
             this.recalculateproductions();
         }
@@ -81,6 +81,10 @@ class Producer {
         }
       });
       return boolcan;
+    }
+
+    getmaxbuyable(){
+      return new Decimal(10000)
     }
 
     produce(){
@@ -103,7 +107,7 @@ class Producer {
 
     recalculatecosts(){
       this.costs.forEach((cost, i) => {
-        cost.recalculatecost(this.bought);
+        cost.recalculatecost(this.bought, player.options.buyamount);
       });
     }
 

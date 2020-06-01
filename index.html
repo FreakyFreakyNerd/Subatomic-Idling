@@ -1,6 +1,6 @@
 <html>
 <link rel="stylesheet" type="text/css" href="styles/base.css">
-<link id="stylemanager" rel="stylesheet" type="text/css" href="styles/standard.css">
+<link id="stylemanager" rel="stylesheet" type="text/css" href="styles/light.css">
 <title> Subatomic Idling </title>
 <div id="topbar" class="centered">
   <div id="quarkcurrency">
@@ -17,7 +17,7 @@
   <span><button id="producersmenubutton" class="menubutton">Producers</button></span>
   <span><button id="optionsmenubutton" class="menubutton">Options</button></span>
   <span><button id="statsmenubutton" class="menubutton">Statistics</button></span>
-  <span><button id="changelogmenubutton" class="menubutton">changelog</button></span>
+  <span><button id="changelogmenubutton" class="menubutton">Changelog</button></span>
 </div>
 <div id="screens">
   <div id="optionsscreen" class="centered" style="display: none">
@@ -76,17 +76,28 @@
       </tbody>
     </table>
   </div>
-  <div id="producersscreen" class="centered">
-    <div id="producers_quarkstage">
-      <table align="center" class="columntable">
-        <tbody>
-          <div v-for="producer in producers" v-bind:producer="producer" v-if="producer.unlocked">
-            <producer-item v-bind:producer="producer" ></producer-item>
-          </div>
-          <div v-for="upgrade in upgrades" v-bind:producer="upgrade">
-            <upgrade-item v-bind:upgrade="upgrade" ></upgrade-item>
-          </div>
-        </tbody>
+  <div id="producersscreen">
+    <div id="producers_quarkstage" align="center">
+      <table>
+        <tr>
+          <td>
+            <div v-for="producer in producers" v-bind:producer="producer" v-if="producer.unlocked">
+              <producer-item v-bind:producer="producer" ></producer-item>
+            </div>
+            <div id="quarkbuyamount">
+              <span class="currencyextra">Buy Amount: {{getbuyamount()}} <br> Set Buy Amount to: </span>
+              <button class="buybutton" v-on:click="setbuyamount(1)">1</button>
+              <button class="buybutton" v-on:click="setbuyamount(10)">10</button>
+              <button class="buybutton" v-on:click="setbuyamount(25)">25</button>
+              <button class="buybutton" v-on:click="setbuyamount(100)">100</button>
+            </div>
+          </td>
+          <td valign="top">
+            <div v-for="upgrade in upgrades" v-bind:producer="upgrade" class="test">
+              <upgrade-item v-bind:upgrade="upgrade" ></upgrade-item>
+            </div>
+          </td>
+        </tr>
       </table>
     </div>
   </div>
