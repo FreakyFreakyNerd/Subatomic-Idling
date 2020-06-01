@@ -1,138 +1,146 @@
 <html>
-    <link rel="stylesheet" type="text/css" href="styles/base.css">
-    <link id="stylemanager" rel="stylesheet" type="text/css" href="styles/standard.css">
-    <title> Subatomic Idling </title>
-    <div id="topbar" class="centered">
-        <div id="quarkcurrency">
-            <span class="currencyextra">You have</span>
-            <span id="currency_quarks_amount" class="currencydisplay"> {{format(currency.amount)}} </span>
-            <span name="maincurrencylabel" class="currencyextra">{{currency.displayname}}</span>
-            <span class="currencyextra">.</span>
-            <div>
-                <span id="currency_quarks_amountpersec" class="currencyextra">You are making {{format(currency.temp.persec)}} {{currency.displayname}} per second.</span>
+<link rel="stylesheet" type="text/css" href="styles/base.css">
+<link id="stylemanager" rel="stylesheet" type="text/css" href="styles/standard.css">
+<title> Subatomic Idling </title>
+<div id="topbar" class="centered">
+  <div id="quarkcurrency">
+    <span class="currencyextra">You have</span>
+    <span id="currency_quarks_amount" class="currencydisplay"> {{format(currency.amount)}} </span>
+    <span name="maincurrencylabel" class="currencyextra">{{currency.displayname}}</span>
+    <span class="currencyextra">.</span>
+    <div>
+      <span id="currency_quarks_amountpersec" class="currencyextra">You are making {{format(currency.temp.persec)}} {{currency.displayname}} per second.</span>
+    </div>
+  </div>
+</div>
+<div id="menubuttons" class="centered">
+  <span><button id="producersmenubutton" class="menubutton">Producers</button></span>
+  <span><button id="optionsmenubutton" class="menubutton">Options</button></span>
+  <span><button id="statsmenubutton" class="menubutton">Statistics</button></span>
+  <span><button id="changelogmenubutton" class="menubutton">changelog</button></span>
+</div>
+<div id="screens">
+  <div id="optionsscreen" class="centered" style="display: none">
+    <table align="center">
+      <tbody>
+        <tr>
+          <td>
+            <div class="optionbutton standardbutton">
+              <label for="notations" class="standardtext">Choose a notation:</label>
+              <select id="notations" class="standarddropdown" onchange="changeNotation(this.value)">
+                <option value="standard">Standard</option>
+                <option value="scientific">Scientific</option>
+                <option value="engineering">Engineering</option>
+                <option value="mixedscientific">Mixed Scientific</option>
+                <option value="mixedengineering">Mixed Engineering</option>
+                <option value="letters">Letters</option>
+                <option value="cancer">Cancer</option>
+                <option value="logarithm">Logarithm</option>
+                <option value="brackets">Brackets</option>
+                <option value="infinity">Infinity</option>
+                <option value="roman">Roman</option>
+                <option value="dots">Dots</option>
+                <option value="zalgo">Zalgo</option>
+                <option value="hex">Hex</option>
+                <option value="imperial">Imperial</option>
+                <option value="clock">Clock</option>
+                <option value="prime">Prime</option>
+                <option value="bar">Bar</option>
+                <option value="shi">Shi</option>
+                <option value="blind">Blind</option>
+              </select>
             </div>
-        </div>
-    </div>
-    <div id="menubuttons" class="centered">
-        <span><button id="producersmenubutton" class="menubutton">Producers</button></span>
-        <span><button id="optionsmenubutton" class="menubutton">Options</button></span>
-        <span><button id="statsmenubutton" class="menubutton">Statistics</button></span>
-		<span><button id="changelogmenubutton" class="menubutton">changelog</button></span>
-    </div>
-    <div id="screens">
-        <div id="optionsscreen" class="centered" style="display: none"> 
-            <table align="center">
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="optionbutton standardbutton">
-                            <label for="notations" class="standardtext">Choose a notation:</label>
-                            <select id="notations" class="standarddropdown" onchange="changeNotation(this.value)">
-                                <option value="standard">Standard</option>
-                                <option value="scientific">Scientific</option>
-                                <option value="engineering">Engineering</option>
-                                <option value="mixedscientific">Mixed Scientific</option>
-                                <option value="mixedengineering">Mixed Engineering</option>
-                                <option value="letters">Letters</option>
-                                <option value="cancer">Cancer</option>
-                                <option value="logarithm">Logarithm</option>
-                                <option value="brackets">Brackets</option>
-                                <option value="infinity">Infinity</option>
-                                <option value="roman">Roman</option>
-                                <option value="dots">Dots</option>
-                                <option value="zalgo">Zalgo</option>
-                                <option value="hex">Hex</option>
-                                <option value="imperial">Imperial</option>
-                                <option value="clock">Clock</option>
-                                <option value="prime">Prime</option>
-                                <option value="bar">Bar</option>
-                                <option value="shi">Shi</option>
-                                <option value="blind">Blind</option>
-                            </select>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="optionbutton standardbutton">
-                            <label for="themes" class="standardtext">Choose a theme:</label>
-                            <select id="themes" class="standarddropdown" onchange="changeTheme(this.value)">
-                                <option value="light">Light</option>
-                                <option value="dark">Dark</option>
-                            </select>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="optionbutton standardbutton">
-                                <span id="notationdecimalamountdisplay" class="smallstandardtext"></span>
-                                <input type="range" min="0" max="10" class="slider" id="notationdecimalsrange" oninput="changeNotationDecimals(this.value)" onchange="changeNotationDecimals(this.value)">
-                            </div>
-                        </td>
-                        <td>
-                            <div class="optionbutton standardbutton">
-                                <span id="uiupdateratedisplay" class="smallstandardtext"></span>
-                                <input type="range" min="33" max="1000" class="slider" id="uiupdaterange" oninput="changeUIUpdateDelay(this.value)" onchange="changeUIUpdateDelay(this.value)">
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div id="producersscreen" class="centered"> 
-            <div id="producers_quarkstage">
-                <table align="center" class="columntable">
-                    <tbody>
-                        <div v-for="producer in producers" v-bind:producer="producer">
-                            <producer-item v-bind:producer="producer"></producer-item>
-                        </div>
-                    </tbody>
-                </table>
+          </td>
+          <td>
+            <div class="optionbutton standardbutton">
+              <label for="themes" class="standardtext">Choose a theme:</label>
+              <select id="themes" class="standarddropdown" onchange="changeTheme(this.value)">
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+              </select>
             </div>
-        </div>
-		<div id ="changelogscreen" class="centered" style="display: none">
-			<span class="centered changelogversion">
-				Current Version: 0.01
-				<br>
-				<br>
-				<br>
-			</span>
-			
-			<span class="centered changelogtext">
-				V 0.01 May 28, 2020
-				<br>
-				Had game idea for fun. Decided to do it.
-				<br>
-				Big idea, small time.
-				<br>
-				Bad idea? nah
-				<br>
-				<br>
-			</span>
-			<div class="leftalign">
-				<span class="changelogtext">
-					1. Created main functionality
-					<br>
-					2. Created terrible rates
-					<br>
-					3. Tier 1-10 created for Quarks.
-					<br>
-					<br>
-					<br>
-				</span>
-				<div class="centered">
-					<span class="changelogtext">
-					Will be balanced... soon™
-					</span>
-				</div>
-			</div>
-		</div>
+          </td>
+          <td>
+            <div class="optionbutton standardbutton">
+              <span id="notationdecimalamountdisplay" class="smallstandardtext"></span>
+              <input type="range" min="0" max="10" class="slider" id="notationdecimalsrange" oninput="changeNotationDecimals(this.value)" onchange="changeNotationDecimals(this.value)">
+            </div>
+          </td>
+          <td>
+            <div class="optionbutton standardbutton">
+              <span id="uiupdateratedisplay" class="smallstandardtext"></span>
+              <input type="range" min="33" max="1000" class="slider" id="uiupdaterange" oninput="changeUIUpdateDelay(this.value)" onchange="changeUIUpdateDelay(this.value)">
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div id="producersscreen" class="centered">
+    <div id="producers_quarkstage">
+      <table align="center" class="columntable">
+        <tbody>
+          <div v-for="producer in producers" v-bind:producer="producer" v-if="producer.unlocked">
+            <producer-item v-bind:producer="producer" ></producer-item>
+          </div>
+          <div v-for="upgrade in upgrades" v-bind:producer="upgrade">
+            <upgrade-item v-bind:upgrade="upgrade" ></upgrade-item>
+          </div>
+        </tbody>
+      </table>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/break_infinity.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@antimatter-dimensions/notations"></script>
-    <script src="js/customlib/producer.js"> </script>
-    <script src="js/customlib/currency.js"> </script>
-    <script src="js/AIPlayer.js"> </script>
-    <script src="js/settings.js"> </script>
-    <script src="js/UI.js"> </script>
-    <script src="js/game.js"> </script>
-    <script src="js/vueimplementation.js"></script>
+  </div>
+  <div id ="changelogscreen" class="centered" style="display: none">
+    <span class="centered changelogversion">
+      Current Version: 0.01
+      <br>
+      <br>
+      <br>
+    </span>
+
+    <span class="centered changelogtext">
+      V 0.01 May 28, 2020
+      <br>
+      Had game idea for fun. Decided to do it.
+      <br>
+      Big idea, small time.
+      <br>
+      Bad idea? nah
+      <br>
+      <br>
+    </span>
+    <div class="leftalign">
+      <span class="changelogtext">
+        1. Created main functionality
+        <br>
+        2. Created terrible rates
+        <br>
+        3. Tier 1-10 created for Quarks.
+        <br>
+        <br>
+        <br>
+      </span>
+      <div class="centered">
+        <span class="changelogtext">
+          Will be balanced... soon™
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/break_infinity.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@antimatter-dimensions/notations"></script>
+<script src="js/customlib/producer.js"> </script>
+<script src="js/customlib/currency.js"> </script>
+<script src="js/customlib/requirement.js"> </script>
+<script src="js/customlib/cost.js"> </script>
+<script src="js/customlib/production.js"> </script>
+<script src="js/customlib/upgrade.js"> </script>
+<script src="js/customlib/effect.js"> </script>
+<script src="js/AIPlayer.js"> </script>
+<script src="js/settings.js"> </script>
+<script src="js/UI.js"> </script>
+<script src="js/game.js"> </script>
+<script src="js/vueimplementation.js"></script>
 </html>

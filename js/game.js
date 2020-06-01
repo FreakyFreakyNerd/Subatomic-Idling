@@ -13,19 +13,21 @@ player = {
 }
 
 function setupQuarkStage(){
-    player.quarkstage.quarks = new Currency("quarks", "Quarks", "Quark", 10)
-    player.quarkstage.producers = [
-        new Producer("quarkgenone",     "Generator 1",  player.quarkstage.quarks, player.quarkstage.quarks, 10,             1.1, .5),
-        new Producer("quarkgentwo",     "Generator 2",  player.quarkstage.quarks, player.quarkstage.quarks, 100,            1.1, 1),
-        new Producer("quarkgenthree",   "Generator 3",  player.quarkstage.quarks, player.quarkstage.quarks, 1000,           1.1, 2),
-        new Producer("quarkgenfour",    "Generator 4",  player.quarkstage.quarks, player.quarkstage.quarks, 10000,          1.1, 10),
-        new Producer("quarkgenfive",    "Generator 5",  player.quarkstage.quarks, player.quarkstage.quarks, 100000,         1.1, 50),
-        new Producer("quarkgensix",     "Generator 6",  player.quarkstage.quarks, player.quarkstage.quarks, 1000000,        1.1, 100),
-        new Producer("quarkgenseven",   "Generator 7",  player.quarkstage.quarks, player.quarkstage.quarks, 10000000,       1.1, 500),
-        new Producer("quarkgeneight",   "Generator 8",  player.quarkstage.quarks, player.quarkstage.quarks, 100000000,      1.1, 1000),
-        new Producer("quarkgennine",    "Generator 9",  player.quarkstage.quarks, player.quarkstage.quarks, 1000000000,     1.1, 10000),
-        new Producer("quarkgenten",     "Generator 10", player.quarkstage.quarks, player.quarkstage.quarks, 10000000000,    1.1, 50000)
-    ]
+    player.quarkstage.quarks = new Currency("quarks", "Quarks", "Quark", 10);
+    player.quarkstage.producers = [];
+    player.quarkstage.producers.push(new Producer("quarkgenone",     "Generator 1",  [new ExponentialCost(player.quarkstage.quarks, 10, 1.1)],          [new LinearProduction(player.quarkstage.quarks, .5)]));
+    player.quarkstage.producers.push(new Producer("quarkgentwo",     "Generator 2",  [new ExponentialCost(player.quarkstage.quarks, 100, 1.1)],         [new LinearProduction(player.quarkstage.quarks, 1)],      [new NumRequirement(player.quarkstage.producers[0], new Decimal(10))]));
+    player.quarkstage.producers.push(new Producer("quarkgenthree",   "Generator 3",  [new ExponentialCost(player.quarkstage.quarks, 1000, 1.1)],        [new LinearProduction(player.quarkstage.quarks, 2)],      [new NumRequirement(player.quarkstage.producers[1], new Decimal(10))]));
+    player.quarkstage.producers.push(new Producer("quarkgenfour",    "Generator 4",  [new ExponentialCost(player.quarkstage.quarks, 10000, 1.1)],       [new LinearProduction(player.quarkstage.quarks, 10)],     [new NumRequirement(player.quarkstage.producers[2], new Decimal(10))]));
+    player.quarkstage.producers.push(new Producer("quarkgenfive",    "Generator 5",  [new ExponentialCost(player.quarkstage.quarks, 100000, 1.1)],      [new LinearProduction(player.quarkstage.quarks, 50)],     [new NumRequirement(player.quarkstage.producers[3], new Decimal(10))]));
+    player.quarkstage.producers.push(new Producer("quarkgensix",     "Generator 6",  [new ExponentialCost(player.quarkstage.quarks, 1000000, 1.1)],     [new LinearProduction(player.quarkstage.quarks, 100)],    [new NumRequirement(player.quarkstage.producers[4], new Decimal(10))]));
+    player.quarkstage.producers.push(new Producer("quarkgenseven",   "Generator 7",  [new ExponentialCost(player.quarkstage.quarks, 10000000, 1.1)],    [new LinearProduction(player.quarkstage.quarks, 500)],    [new NumRequirement(player.quarkstage.producers[5], new Decimal(10))]));
+    player.quarkstage.producers.push(new Producer("quarkgeneight",   "Generator 8",  [new ExponentialCost(player.quarkstage.quarks, 100000000, 1.1)],   [new LinearProduction(player.quarkstage.quarks, 5000)],   [new NumRequirement(player.quarkstage.producers[6], new Decimal(10))]));
+    player.quarkstage.producers.push(new Producer("quarkgennine",    "Generator 9",  [new ExponentialCost(player.quarkstage.quarks, 1000000000, 1.1)],  [new LinearProduction(player.quarkstage.quarks, 25000)],  [new NumRequirement(player.quarkstage.producers[7], new Decimal(10))]));
+    player.quarkstage.producers.push(new Producer("quarkgenten",     "Generator 10", [new ExponentialCost(player.quarkstage.quarks, 10000000000, 1.1)], [new LinearProduction(player.quarkstage.quarks, 100000)], [new NumRequirement(player.quarkstage.producers[8], new Decimal(10))]));
+
+    player.quarkstage.upgrades = [];
+    player.quarkstage.upgrades.push(new Upgrade("quarkupgrade1", "Multiplier 1", -1, null, [new LinearEffect(player.quarkstage.producers, 1, EffectTypes.ProducerMultiplierProduction, 1)], [new ExponentialCost(player.quarkstage.quarks,100,1000)]))
 }
 
 function setupElectronStage(){
@@ -34,12 +36,12 @@ function setupElectronStage(){
 
 setupQuarkStage();
 
+player.quarkstage.upgrades[0].buy();
+
 function calculatePerSecond(currency){
     amount = new Decimal(0);
     producerregistry.forEach(element =>{
-        if (element.productionobject.id == currency.id){
-            amount = amount.add(element.productionPerSec);
-        }
+        amount = amount.add(element.getpersec(currency.id));
     });
     currency.temp.persec = amount;
 }
@@ -60,7 +62,8 @@ ticks = 0;
 function gameLogicTick(){
     starttime = new Date().getTime();
     produce();
-    lengthCalculator();
+    //lengthCalculator();
+    calculatePerSecond(player.quarkstage.quarks);
     tickspersecactual = Math.min(1000/(((new Date()).getTime()-starttime)+1),20);
 }
 
@@ -145,7 +148,7 @@ function load(){
         console.log(loadeddata)
     }
     loadplayer()
-    
+
 }
 
 load()
@@ -165,7 +168,18 @@ function reset(){
     producerregistry = [];
     setupQuarkStage();
 }
-running = true;
-//while(running){
-//    gameLogicTick();
-//}
+
+function simticks(amount){
+    count = 0
+    running = true;
+    time = (new Date()).getTime()
+    while(running){
+        count += 1
+        if (count > amount){
+            running = false;
+            console.log("Time " + ((new Date()).getTime() - time))
+        }
+        gameLogicTick();
+        //highlightOptimalQuarkBuy();
+    }
+}

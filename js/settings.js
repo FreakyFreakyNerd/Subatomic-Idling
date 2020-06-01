@@ -1,6 +1,6 @@
 settings = {
     maincurrencyname : "Quarks",
-    tickspersecond : 100,
+    tickspersecond : 1,
     defaultoptions : {
         uidelay : 50,
         notation : "standard",

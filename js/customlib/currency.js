@@ -21,6 +21,10 @@ class Currency{
             this.amount = Decimal.fromString(data.amount);
     }
 
+    subtract(amount){
+      this.removeamount(amount);
+    }
+
     removeamount(amount){
         this.amount = this.amount.sub(amount)
     }

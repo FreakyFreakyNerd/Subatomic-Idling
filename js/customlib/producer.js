@@ -1,19 +1,42 @@
 class Producer {
-    constructor(id, displayname, buyingcurrency, productionobject, startingcost, costincrease, baseproduction){
+    constructor(id, displayname, costs, productions, unlockrequirements){
         this.id = id;
         this.displayname = displayname
-        this.startingcost = new Decimal(startingcost);
-        this.costincrease = new Decimal(costincrease);
-        this.baseproduction = new Decimal(baseproduction);
+        this.costs = costs;
+        this.productions = productions;
         this.bought = new Decimal(0);
         this.produced = new Decimal(0);
-        this.buyingcurrency = buyingcurrency;
-        this.productionobject = productionobject;
+        this.unlockrequirements = unlockrequirements;
         producerregistry.push(this);
     }
-    
+
+    checkForUnlock(){
+        if (this.unlockrequirements == null || this.unlockrequirements == undefined)
+            return true;
+        var unlock = true;
+        this.unlockrequirements.forEach(element => {
+            if(!element.hasrequirement){
+                unlock = false;
+                return false;
+            }
+        });
+        return unlock;
+    }
+
+    get unlocked(){
+        return this.checkForUnlock();
+    }
+
     get saveData(){
         return this.save()
+    }
+
+    has(amount){
+        return this.bought.greaterThanOrEqualTo(amount);
+    }
+
+    hasrequirement(amount){
+        return this.bought.greaterThanOrEqualTo(amount);
     }
 
     save(){
@@ -27,52 +50,109 @@ class Producer {
             this.bought = Decimal.fromString(data.bought);
         if(data.produced != undefined)
             this.produced = Decimal.fromString(data.produced);
+        this.recalculatecosts();
+        this.recalculateproductions();
     }
 
     add(amount){
         this.produced = this.produced.add(amount);
+        this.recalculateproductions();
     }
 
     buy() {
-        if (this.buyingcurrency.has(this.cost)){
-            this.buyingcurrency.removeamount(this.cost);
-            this.bought = this.bought.add(1);
+        if(!this.unlocked)
+            return;
+        if (this.canbuy){
+            this.costs.forEach((cost, i) => {
+              cost.subtractcost();
+            });
+            this.bought = this.bought.add(1)
+            this.recalculatecosts();
+            this.recalculateproductions();
         }
     }
 
+    get canbuy(){
+      var boolcan = true;
+      this.costs.forEach((cost, i) => {
+        if(!cost.hascost){
+          boolcan = false;
+          return;
+        }
+      });
+      return boolcan;
+    }
+
     produce(){
-        this.productionobject.add(this.production);
+      this.productions.forEach((prod, i) => {
+        prod.produce();
+      });
     }
 
-    calccost(){
-        return this.startingcost.times(Decimal.pow(this.costincrease, this.bought));
+    getproduction(index) {
+        return this.productions[index].production;//.divide(settings.tickspersecond);
     }
 
-    calcproduction() {
-        return this.amount.times(this.calcproductionper())//.divide(settings.tickspersecond);
-    }
-
-    calcproductionper() {
-        return this.baseproduction;
+    getproductionper(index) {
+        return this.productions[index].productionper;
     }
 
     get amount(){
         return this.produced.add(this.bought);
     }
 
-    get cost(){
-        return this.calccost();
+    recalculatecosts(){
+      this.costs.forEach((cost, i) => {
+        cost.recalculatecost(this.bought);
+      });
     }
 
-    get oneProduction(){
-        return this.calcproductionper();
+    recalculateproductions(){
+      this.productions.forEach((prod, i) => {
+        prod.recalculateproduction(this.amount);
+      });
     }
 
-    get production(){
-        return this.calcproduction();
+    getcost(index){
+      return this.costs[index].cost;
+    }
+
+    getpersec(objectid){
+      var outval = new Decimal(0);
+      this.productions.forEach((prod, i) => {
+        if(prod.productionobject.id == objectid){
+          outval = prod.production;
+          return;
+        }
+      });
+      return outval;
     }
 
     get productionPerSec(){
         return this.calcproductionper().times(this.amount);
+    }
+
+    applyeffect(effect){
+      var objid = effect.getarg("productionobjectid");
+      this.productions.forEach((prod, i) => {
+        if(objid == undefined || objid == prod.id){
+          prod.applyeffect(effect)
+        }
+      });
+    }
+
+    removeeffect(effect){
+      objid = effect.getarg("productionobjectid");
+      this.productions.forEach((prod, i) => {
+        if(objid == undefined || prod.id == objid){
+          prod.removeeffect(effect)
+        }
+      });
+    }
+
+    effectchanged(){
+      this.productions.forEach((item, i) => {
+        item.recalculateeffectvalues();
+      });
     }
 }
