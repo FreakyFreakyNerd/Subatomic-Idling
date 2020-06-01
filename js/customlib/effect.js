@@ -40,6 +40,10 @@ class LinearEffect{
   }
 }
 
+class ExponentialEffect{
+
+}
+
 const EffectTypes = {
   ProducerBaseProduction : 1,
   ProducerMultiplierProduction : 2
