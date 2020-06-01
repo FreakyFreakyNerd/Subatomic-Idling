@@ -8,6 +8,13 @@ class Upgrade{
         this.costs = costs;
         this.level = new Decimal(0);
         this.produced = new Decimal(0);
+
+        upgraderegistry.push(this);
+    }
+
+    reset(){
+      this.level = new Decimal(0);
+      this.onrevoke();
     }
 
     save(){
@@ -105,7 +112,7 @@ class Upgrade{
       });
     }
 
-      hasrequirement(amount){
-          return this.level.greaterThanOrEqualTo(amount);
-      }
+    hasrequirement(amount){
+        return this.level.greaterThanOrEqualTo(amount);
+    }
 }

@@ -3,9 +3,14 @@ class Currency{
         this.id = id;
         this.displayname = displayname;
         this.singulardisplayname = singulardisplayname;
+        this.startingamount = new Decimal(startingamount)
         this.amount = new Decimal(startingamount);
         currencyregistry.push(this);
         this.temp = {};
+    }
+
+    reset(){
+      this.amount = new Decimal(this.startingamount)
     }
 
     get saveData(){

@@ -10,6 +10,13 @@ class Producer {
         producerregistry.push(this);
     }
 
+    reset(){
+      this.bought = new Decimal(0);
+      this.produced = new Decimal(0);
+      this.recalculatecosts();
+      this.recalculateproductions();
+    }
+
     checkForUnlock(){
         if (this.unlockrequirements == null || this.unlockrequirements == undefined)
             return true;
@@ -146,7 +153,7 @@ class Producer {
     }
 
     removeeffect(effect){
-      objid = effect.getarg("productionobjectid");
+      var objid = effect.getarg("productionobjectid");
       this.productions.forEach((prod, i) => {
         if(objid == undefined || prod.id == objid){
           prod.removeeffect(effect)

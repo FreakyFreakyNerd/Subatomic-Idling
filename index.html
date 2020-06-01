@@ -14,10 +14,10 @@
   </div>
 </div>
 <div id="menubuttons" class="centered">
-  <span><button id="producersmenubutton" class="menubutton">Producers</button></span>
-  <span><button id="optionsmenubutton" class="menubutton">Options</button></span>
+  <span><button id="producersmenubutton" class="menubutton" onclick='openscreen("producers")'>Producers</button></span>
+  <span><button id="optionsmenubutton" class="menubutton" onclick='openscreen("options")'>Options</button></span>
   <span><button id="statsmenubutton" class="menubutton">Statistics</button></span>
-  <span><button id="changelogmenubutton" class="menubutton">Changelog</button></span>
+  <span><button id="changelogmenubutton" class="menubutton" onclick='openscreen("changelog")'>Changelog</button></span>
 </div>
 <div id="screens">
   <div id="optionsscreen" class="centered" style="display: none">
@@ -61,16 +61,11 @@
             </div>
           </td>
           <td>
-            <div class="optionbutton standardbutton">
-              <span id="notationdecimalamountdisplay" class="smallstandardtext"></span>
-              <input type="range" min="0" max="10" class="slider" id="notationdecimalsrange" oninput="changeNotationDecimals(this.value)" onchange="changeNotationDecimals(this.value)">
+            <div>
+              <button class="optionbutton standardbutton" onclick="reset()"><label>Completely Reset Save</label></button>
             </div>
           </td>
           <td>
-            <div class="optionbutton standardbutton">
-              <span id="uiupdateratedisplay" class="smallstandardtext"></span>
-              <input type="range" min="33" max="1000" class="slider" id="uiupdaterange" oninput="changeUIUpdateDelay(this.value)" onchange="changeUIUpdateDelay(this.value)">
-            </div>
           </td>
         </tr>
       </tbody>
@@ -104,38 +99,61 @@
   <div id ="changelogscreen" class="centered" style="display: none">
     <span class="centered changelogversion">
       Current Version: 0.02
-      
-      
+
+
     </span>
 
     <span class="centered changelogtext">
-      
+
       Had game idea for fun. Decided to do it.
-      
+
       Big idea, small time.
-      
+
       Bad idea? nah
-      
+
       
     </span>
     <div class="leftalign">
       <span class="changelogtext">
 		Version 0.02
+
 		Date: June 1, 2020
 		
 		1. Added an upgrade/multiplier function.
 		2. Did some slight balancing. Takes 40 hours for a stupid optimizer to do stuff.
 		3. Hoping to have humans prestige in like, 6 hours. We'll see.
+
+
+		Date: June 1, 2020
+
+
+		1. Added an upgrade/multiplier function.
+
+		2. Did some slight balancing. Takes 40 hours for a stupid optimizer to do stuff.
+
+		3. Hoping to have humans prestige in like, 6 hours. We'll see.
+		
 		4. First prestige layer created. ELECTRONS!
-		
-		
-		
+
+
+
 		Version 0.01
+
 		Date: May 28, 2020
 		
         1. Created main functionality
         2. Created terrible rates
         3. Tier 1-10 created for Quarks!
+
+
+		Date: May 28, 2020
+
+
+        1. Created main functionality
+
+        2. Created terrible rates
+
+        3. Tier 1-10 created for Quarks.
       </span>
       <div class="centered">
         <span class="changelogtext">
@@ -155,6 +173,7 @@
 <script src="js/customlib/production.js"> </script>
 <script src="js/customlib/upgrade.js"> </script>
 <script src="js/customlib/effect.js"> </script>
+<script src="js/customlib/prestige.js"> </script>
 <script src="js/AIPlayer.js"> </script>
 <script src="js/settings.js"> </script>
 <script src="js/UI.js"> </script>

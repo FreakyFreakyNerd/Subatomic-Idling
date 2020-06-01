@@ -49,6 +49,7 @@
 label{
     font-family: monospace;
     color: black;
+    font-size: 16px;
     margin: 4px 4px;
     cursor: pointer;
 }
