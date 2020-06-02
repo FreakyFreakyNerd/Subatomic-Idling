@@ -190,15 +190,16 @@ function saveoptions(){
 
 function loadoptions(){
   options = loadeddata["playeroptions"]
-  if(options != undefined)
-  player.options = options
-  else
-  player.options = settings.defaultoption;
-  if(player.options.buyamount == undefined){
-    player.options.buyamount = settings.defaultoptions.buyamount;
-  }else{
-    player.options.buyamount = Decimal.fromString(options.buyamount);
+  if(options != undefined){
+    player.options = options
+    if(player.options.buyamount == undefined){
+      player.options.buyamount = settings.defaultoptions.buyamount;
+    }else{
+      player.options.buyamount = Decimal.fromString(options.buyamount);
+    }
   }
+  else
+    player.options = settings.defaultoptions;
 }
 
 function save(){
@@ -249,4 +250,10 @@ function simticks(amount){
     gameLogicTick();
     //highlightOptimalQuarkBuy();
   }
+}
+
+function fixsave(){
+  clearInterval(gameLogicIntervalID);
+  localStorage.removeItem('subatomicidlingsave');
+  window.location.reload(false);
 }
