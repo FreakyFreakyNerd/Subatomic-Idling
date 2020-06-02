@@ -193,7 +193,7 @@ function loadoptions(){
   if(options != undefined)
   player.options = options
   else
-  player.options = settings.defaultoption;
+  player.options = settings.defaultoptions;
   if(player.options.buyamount == undefined){
     player.options.buyamount = settings.defaultoptions.buyamount;
   }else{
