@@ -1,3 +1,31 @@
+* {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.palettelist {
+  height: 50px; /* Full-height: remove this if you want "auto" height */
+  width: 500px; /* Set the width of the sidebar */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  bottom: 0; /* Stay at the top */
+  margin-left: 50%;
+  background-color: #111; /* Black */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  overflow-y: hidden; /* Disable horizontal scroll */
+}
+
+.palette{
+  width: 100px;
+  height: 100px;
+  padding: 0px 0px 0px 0px;
+}
+
 .centered {
     text-align: center;
     align-self: center;
@@ -7,19 +35,65 @@ span {
   white-space: pre-line;
 }
 
-/*.test{
-  vertical-align: top;
+.sidenav {
+  height: 100%;
+  width: 160px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
 }
 
-table {
-  border: 1px solid black;
+.sidenav .menubutton {
+  padding: 1px 1px 1px 1px;
+  text-decoration: none;
+  font-size: 16px;
+  display: block;
 }
-tr {
-  border: 1px solid black;
+
+.submenu{
+  padding: 2px 1px 1px 20px;
+  text-decoration: none;
+  font-size: 16px;
+  display: none;
 }
-td {
-  border: 1px solid black;
-}*/
+
+.sidenav .menubutton:hover {
+  cursor: pointer;
+}
+
+.menubutton:hover .submenu{
+  display: block;
+}
+
+.gamename {
+  padding: 1px 1px 1px 1px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 12px;
+  display: block;
+}
+
+#gamecontent {
+  margin-left: 160px; /* Same as the width of the sidebar */
+  padding: 0px 10px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.entry{
+  flex: 1 0 25%;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 5px;}
+  .sidenav a {font-size: 12px;}
+}
 
 table.quarkproducertable{
   width: 30%;
@@ -52,14 +126,24 @@ td.righttablecolumn {
     font-size: 12px;
 }
 
-.buybutton {
+.tooltipholder {
     position: relative;
     display: inline-block;
     border-bottom: 1px dotted black;
 }
 
-.buybutton .tooltiptext {
-    visibility: hidden;
+.leftpadding{
+  margin-left: 160px; /* Same as the width of the sidebar */
+  padding: 0px 10px;
+}
+
+.moveablescalableobject {
+  display: block;
+  -webkit-backface-visibility: hidden;
+}
+
+.tooltipholder .tooltip {
+    visibility: hidden!important;
     width: 100%;
     text-align: center;
     background-color: grey;
@@ -74,10 +158,72 @@ td.righttablecolumn {
     z-index: 1;
   }
 
-.buybutton:hover .tooltiptext {
-    visibility: visible;
+.tooltipholder:hover .tooltip {
+    visibility: visible!important;
 }
 
 .optimal{
     color: red;
+}
+
+/*Electron Upgrades*/
+.electronupgradecloud{
+  width: 100%;
+  outline: solid black 1px;
+  height: 500px;
+}
+
+.electronquickupgradebutton{
+  width: 64px;
+  height: 64px;
+  position: absolute;
+  border-radius: 12px;
+  border-width: 2px;
+  border-style: solid;
+}
+
+.electronquickupgradebutton:hover{
+  border-radius: 15px;
+  border-width: 3px;
+  transition-duration: .25s;
+}
+
+.electronupgradetooltip{
+  width: 400px!important;
+}
+
+.electrontreeline{
+  stroke: black;
+  stroke-width: 2px;
+}
+
+.electronupgradelabel {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/*Achievements*/
+.achievementdisplay{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.achievement{
+  text-align: center;
+  align-self: center;
+  vertical-align: middle;
+}
+
+.achievement:hover {
+  cursor: default;
+}
+
+/*General*/
+.fittingimage{
+  width: 100%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }

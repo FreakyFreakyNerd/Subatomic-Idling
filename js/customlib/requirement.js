@@ -11,4 +11,8 @@ class NumRequirement{
     get hasrequirement(){
         return this.hasRequirement();
     }
+
+    get requirementtext(){
+      return formatDecimal(this.amount) + "x " + this.requiredobject.displayname;
+    }
 }

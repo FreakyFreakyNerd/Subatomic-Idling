@@ -144,6 +144,22 @@ class Producer {
     }
 
     applyeffect(effect){
+      switch (effect.effecttype) {
+        case EffectTypes.ProducerMultiplierProduction:
+            this.applyproductioneffect(effect);
+          break;
+        case EffectTypes.ProducerBaseProduction:
+            this.applyproductioneffect(effect);
+          break;
+        case EffectTypes.PriceScaling:
+            this.applycosteffect(effect);
+          break;
+        default:
+          return;
+      }
+    }
+
+    applyproductioneffect(effect){
       var objid = effect.getarg("productionobjectid");
       this.productions.forEach((prod, i) => {
         if(objid == undefined || objid == prod.id){
@@ -152,7 +168,32 @@ class Producer {
       });
     }
 
+    applycosteffect(effect){
+      var objid = effect.getarg("costobjectid");
+      this.costs.forEach((cost, i) => {
+        if(objid == undefined || objid == cost.id){
+          cost.applyeffect(effect)
+        }
+      });
+    }
+
     removeeffect(effect){
+      switch (effect.effecttype) {
+        case EffectTypes.ProducerMultiplierProduction:
+            this.removeproductioneffect(effect);
+          break;
+        case EffectTypes.ProducerBaseProduction:
+            this.removeproductioneffect(effect);
+          break;
+        case EffectTypes.PriceScaling:
+            this.removecosteffect(effect);
+          break;
+        default:
+          return;
+      }
+    }
+
+    removeproductioneffect(effect){
       var objid = effect.getarg("productionobjectid");
       this.productions.forEach((prod, i) => {
         if(objid == undefined || prod.id == objid){
@@ -161,10 +202,23 @@ class Producer {
       });
     }
 
+    removecosteffect(effect){
+      var objid = effect.getarg("costobjectid");
+      this.costs.forEach((cost, i) => {
+        if(objid == undefined || cost.id == objid){
+          cost.removeeffect(effect)
+        }
+      });
+    }
+
     effectchanged(){
       this.productions.forEach((item, i) => {
         item.recalculateeffectvalues();
       });
+      this.costs.forEach((item, i) => {
+        item.recalculateeffectvalues();
+      });
       this.recalculateproductions();
+      this.recalculatecosts();
     }
 }

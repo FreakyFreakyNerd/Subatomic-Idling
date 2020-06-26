@@ -14,10 +14,10 @@ Vue.component('producer-item', {
     template: `
     <div>
         <span class="baseproducername"> {{producer.displayname}}</span>
-        <span class="currencyextra"> x{{formatSpecial(producer.amount)}}</span>
-        <button class="buybutton" v-on:click="buyProducer(producer)">
+        <span class="currencyextra"> x{{format(producer.amount)}}</span>
+        <button class="buybutton tooltipholder" v-on:click="buyProducer(producer)">
             <span>Buy x{{getbuyamount(producer)}} Cost:{{format(producer.getcost(0))}}</span>
-            <span class="tooltiptext" id="producer_quarkgenone_tooltip">Produces {{format(producer.getproductionper(0))}} {{producer.productions[0].productionobject.displayname}} per second.</span>
+            <span class="tooltip" id="producer_quarkgenone_tooltip">Produces {{formatSpecial(producer.getproductionper(0), 1)}} {{producer.productions[0].productionobject.displayname}} per second.</span>
         </button>
     </div>
     `,
@@ -35,9 +35,9 @@ Vue.component('upgrade-item', {
     <div>
         <span class="baseproducername"> {{upgrade.displayname}}</span>
         <span class="currencyextra"> x{{formatSpecial(upgrade.level)}}</span>
-        <button class="buybutton" v-on:click="buyUpgrade(upgrade)">
+        <button class="buybutton tooltipholder" v-on:click="buyUpgrade(upgrade)">
             <span>Buy x1 Cost:{{format(upgrade.getcost(0))}}</span>
-            <span class="tooltiptext">{{upgrade.effects[0].geteffect()}}</span>
+            <span class="tooltip">{{upgrade.effectsdescription}}</span>
         </button>
     </div>
     `,
@@ -49,20 +49,59 @@ Vue.component('upgrade-item', {
     }
 })
 
-var quarkstageproducersapp = new Vue({
-    el: '#producers_quarkstage',
-    data: {
-        producers : player.quarkstage.producers,
-        upgrades : player.quarkstage.upgrades,
-        player : player
-    },
+Vue.component('electron-upgrade-item', {
+    props: ['upgrade'],
+    template: `
+      <button class="tooltipholder electronquickupgradebutton" v-bind:style="{left: upgrade.xpos, top: upgrade.ypos, zindex: 1}" v-bind:class="{electronquickupgradebuttonbought: upgrade.ismaxlevel}" v-on:click="buyUpgrade(upgrade)">
+        <span class="electronupgradelabel">{{upgrade.label}}</span>
+        <div class="tooltip electronupgradetooltip">
+          <span class="electronupgradename">{{upgrade.displayname}}\n\n</span>
+          <span class="electronupgradelevel">Level: {{upgrade.leveldescription}}\n</span>
+          <span class="electronupgradeeffect">Effects:\n{{upgrade.effectsdescription}}</span>
+          <span class="electronupgradecost">Costs:\n{{upgrade.costdescription}}</span>
+        </div>
+      </button>
+    `,
     methods: {
+        buyUpgrade: function(upgrade){
+            upgrade.buy();
+            recalculateCurrencyPerSec();
+        }
     }
 })
 
-var quarkcurrencydisplay = new Vue({
-    el: "#quarkcurrency",
+Vue.component('line-tree', {
+  props: ["linetree", "classspecial"],
+  template: `
+    <svg v-bind:class="linetree" v-bind:style="{left: linetree.leftoffset, top: linetree.topoffset, zindex: 0, width: linetree.width, height: linetree.height}" style="position: absolute;">
+      <tree-line v-for="line in linetree.lines" v-bind:line="line" v-bind:classspecial="classspecial"></tree-line>
+    </svg>
+  `
+})
+
+Vue.component('tree-line', {
+  props: ["line", "classspecial"],
+  template: `
+    <line v-bind:class="classspecial + 'treeline'" v-bind:line="line" v-bind:x1="line.xstart" v-bind:x2="line.xend" v-bind:y1="line.ystart" v-bind:y2="line.yend"/>
+  `
+})
+
+Vue.component('achievement-item', {
+    props: ['achievement'],
+    template: `
+    <div class="tooltipholder achievement">
+      {{achievement.displayname}}
+        <span class="tooltip" v-if='achievement.show && !achievement.hastag("hidetooltip")'>{{achievement.description}}</span>
+    </div>
+    `
+})
+
+var subatomicidlingapp = new Vue({
+    el: '#subatomicidling',
     data: {
-        currency : player.quarkstage.quarks
+        player : player,
+        settings : settings
+    },
+    methods: {
     }
 })

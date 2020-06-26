@@ -1,98 +1,62 @@
-.currencyextra {
-    font-size: 12px;
-    color: darkgrey;
+/* Palette for use in light mode
+  Colors:
+  $artichoke: #92977eff;
+  $medium-champagne: #eadda6ff;
+  $cornsilk: #fffae2ff;
+  $blood-red: #6b0504ff;
+  $chinese-red: #a3320bff;
+  $yellow-green-crayola: #d5e68dff;
+  $dark-purple: #331e38ff;
+  $cadet-grey: #8c9daeff;
+  $cadet-grey-2: #9aadbfff;
+  $cerulean-frost: #6d98baff;
+*/
+
+.color1{
+  background-color: #92977eff;
+}
+.color2{
+  background-color: #eadda6ff;
+}
+.color3{
+  background-color: #fffae2ff;
+}
+.color4{
+  background-color: #6b0504ff;
+}
+.color5{
+  background-color: #a3320bff;
+}
+.color6{
+  background-color: #d5e68dff;
+}
+.color7{
+  background-color: #331e38ff;
+}
+.color8{
+  background-color: #8c9daeff;
+}
+.color9{
+  background-color: #9aadbfff;
+}
+.color10{
+  background-color: #6d98baff;
 }
 
-.currencydisplay {
-    font-size: 24px;
+/*Electron Upgrades*/
+.electronquickupgradebutton{
+  background-color: #fffae2ff;
+  border-color: #6d98baff;
 }
 
-.menubutton{
-    font-family: monospace;
-    font-size: 24px;
-    display: inline-block;
-    background-color: aliceblue;
-    border: 2px solid cadetblue;
-    border-radius: 4px;
-    margin: 4px 4px;
-    cursor: pointer;
+.electronquickupgradebuttonbought{
+  background-color: #6d98baff;
 }
 
-.menubutton:hover{
-    background-color: cadetblue;
+.electronupgradeimage {
+  filter: sepia(100%) saturate(100%) brightness(70%) hue-rotate(180deg);
 }
 
-.optionbutton{
-    color: black;
-    width: 200px;
-    height: 60px;
-    font-size: 130%;
-    text-align: center;
-    vertical-align: top;
-    cursor: pointer;
-}
-
-.standardbutton{
-    font-family: monospace;
-    background-color: aliceblue;
-    border: 1px solid rgb(42, 177, 64);
-    border-radius: 10px;
-    margin: 4px 4px;
-    transition-duration: .25s;
-}
-
-.standardbutton:hover{
-    background-color: rgb(106, 207, 122);
-    border: 1px solid rgb(42, 177, 64);
-}
-
-label{
-    font-family: monospace;
-    color: black;
-    font-size: 16px;
-    margin: 4px 4px;
-    cursor: pointer;
-}
-
-.standarddropdown{
-    margin-top: 5px;
-    color: black;
-    width: 90%;
-}
-
-option{
-    font-family: monospace;
-    color: black;
-    margin: 4px 4px;
-}
-
-select{
-    font-family: monospace;
-    color: black;
-    background-color: azure;
-    margin: 4px 4px;
-}
-
-.buybutton {
-    font-family: monospace;
-    background-color: aliceblue;
-    border: 1px solid rgb(42, 177, 64);
-    border-radius: 10px;
-    margin: 4px 4px;
-    transition-duration: .25s;
-}
-
-.buybutton:hover{
-    background-color: rgb(106, 207, 122);
-    border: 1px solid rgb(42, 177, 64);
-}
-
-.changelogversion{
-	font-family:monospace;
-	color:black;
-}
-
-.changelogtext{
-	font-family:monospace;
-	color:black;
+.electrontreeline{
+  stroke: #a3320bff;
 }

@@ -1,26 +1,34 @@
-class LinearEffect{
+class Effect{
   /*
   Valid Effect Types
   Producer : "base-production-increase"
   Producer : "production-multiplier"
   */
-  constructor(objectsappliesto, effectincrease, effecttype, effectdefualtvalue, appliestotext, effectdescription, args){
-    this.appliesto = objectsappliesto;
+
+  constructor(objectsappliesto, effectdefualtvalue, effectincrease, effecttype, appliestotext, effectdescription, args){
+    if(Array.isArray(objectsappliesto))
+      this.appliesto = objectsappliesto;
+    else
+      this.appliesto = [objectsappliesto]
     this.appliestotext = appliestotext;
     this.args = args;
     this.effectdescription = effectdescription;
     this.effecttype = effecttype;
+    console.log(effectdefualtvalue);
     this.increase = new Decimal(effectincrease);
     this.defaultval = new Decimal(effectdefualtvalue);
     this.value = new Decimal(effectdefualtvalue);
+    this.onconstructfinish();
   }
+
+  onconstructfinish(){}
 
   geteffect(){
     if(this.effectdescription != undefined)
       return this.effectdescription(this);
     switch(this.effecttype){
       case EffectTypes.ProducerMultiplierProduction:
-        return "Multiplies " + this.appliestotext + " production by x" + formatDecimal(this.value) + ".\nAdds " + " +" + formatDecimal(this.increase) + " to above multiplier per level."
+        return "Multiplies " + this.appliestotext + " production by x" + formatDecimal(this.value) + "(+" + formatDecimal(this.increase) + " per level)"
     }
     return
   }
@@ -31,12 +39,15 @@ class LinearEffect{
     return this.args[type];
   }
 
-  recalculatevalue(amount){
-    this.value = this.defaultval.add(this.increase.times(amount));
+  recalculatevalue(){
+    this.value = new Decimal();
+    oneffectchanged();
+  }
+
+  oneffectchanged(){
     this.appliesto.forEach((item, i) => {
       item.effectchanged();
     });
-
   }
 
   apply(){
@@ -52,16 +63,47 @@ class LinearEffect{
   }
 }
 
-class ExponentialEffect{
-  constructor(objectsappliesto, effectincrease, effecttype, effectdefualtvalue, appliestotext, effectdescription, args){
-    this.appliesto = objectsappliesto;
-    this.appliestotext = appliestotext;
-    this.effectdescription = effectdescription;
-    this.args = args;
-    this.effecttype = effecttype;
-    this.increase = new Decimal(effectincrease);
-    this.defaultval = new Decimal(effectdefualtvalue);
-    this.value = new Decimal(effectdefualtvalue);
+class LinearEffect extends Effect{
+  recalculatevalue(amount){
+    this.value = this.defaultval.add(this.increase.times(amount));
+    this.oneffectchanged();
+  }
+}
+
+class LinkedLinearEffect extends Effect{
+  constructor(objectsappliesto, linkedfunction, effectdefualtvalue, effectincrease, effecttype, appliestotext, effectdescription, args){
+    super(objectsappliesto, effectdefualtvalue, effectincrease, effecttype, appliestotext, effectdescription, args);
+    this.linkedfunction = linkedfunction;
+  }
+  onconstructfinish(){
+    updaterequiredregistry.push(this);
+  }
+
+  getlinkednum(){
+    return this.linkedfunction();
+  }
+
+  tick(){
+    this.recalculatevalue();
+  }
+
+  recalculatevalue(){
+    this.value = this.defaultval.add(this.increase.times(this.getlinkednum()));
+    this.oneffectchanged();
+  }
+}
+
+class ExponentialEffect extends Effect{
+  recalculatevalue(amount){
+    this.value = this.defaultval.times(Decimal.pow(this.increase, amount));
+    this.oneffectchanged();
+  }
+}
+
+class StaticEffect extends Effect{
+
+  constructor(objectsappliesto, effectvalue, effecttype, appliestotext, effectdescription, args){
+    super(objectsappliesto, effectvalue, new Decimal(), effecttype, appliestotext, effectdescription, args);
   }
 
   geteffect(){
@@ -69,39 +111,31 @@ class ExponentialEffect{
       return this.effectdescription(this);
     switch(this.effecttype){
       case EffectTypes.ProducerMultiplierProduction:
-      return "Multiplies " + this.appliestotext + " production by " + formatDecimal(this.value) + "."
+        return "Multiplies " + this.appliestotext + " production by x" + formatDecimal(this.value);
     }
     return
   }
 
-  getarg(type){
-    if(this.args == undefined)
-    return undefined;
-    return this.args[type];
-  }
-
   recalculatevalue(amount){
-    this.value = this.defaultval.times(Decimal.pow(this.increase, amount));
-    this.appliesto.forEach((item, i) => {
-      item.effectchanged();
-    });
+    return;
+  }
+}
 
+class FlavorEffect extends Effect{
+  constructor(flavortext){
+    super();
+    this.flavortext = flavortext;
   }
 
-  apply(){
-    this.appliesto.forEach((obj, i) => {
-      obj.applyeffect(this);
-    });
-  }
-
-  remove(){
-    this.appliesto.forEach((obj, i) => {
-      obj.removeeffect(this);
-    });
+  apply(){}
+  remove(){}
+  geteffect(){
+    return this.flavortext;
   }
 }
 
 const EffectTypes = {
   ProducerBaseProduction : 1,
-  ProducerMultiplierProduction : 2
+  ProducerMultiplierProduction : 2,
+  PriceScaling : 3
 }

@@ -2,149 +2,195 @@
 <link rel="stylesheet" type="text/css" href="styles/base.css">
 <link id="stylemanager" rel="stylesheet" type="text/css" href="styles/light.css">
 <title> Subatomic Idling </title>
-<div id="topbar" class="centered">
-  <div id="quarkcurrency">
-    <span class="currencyextra">You have</span>
-    <span id="currency_quarks_amount" class="currencydisplay"> {{format(currency.amount)}} </span>
-    <span name="maincurrencylabel" class="currencyextra">{{currency.displayname}}</span>
-    <span class="currencyextra">.</span>
-    <div>
-      <span id="currency_quarks_amountpersec" class="currencyextra">You are making {{format(currency.temp.persec)}} {{currency.displayname}} per second.</span>
-    </div>
+<div id="subatomicidling">
+  <div class="sidenav">
+    <a class="gamename">Subatomic Idling {{settings.version}}</a>
+    <a class="menubutton" onclick='openscreen("quark")'>Quark</a>
+    <a class="menubutton" onclick='openscreen("electron")' v-if='hasachievement("electrifyunlock")'>Electron</a>
+    <a class="menubutton" onclick='openscreen("achievements")'>Achievements</a>
+    <a class="menubutton" onclick='openscreen("stats")'>Statistics</a>
+    <a class="menubutton" onclick='openscreen("options")'>Options</a>
+    <a class="menubutton" onclick='openscreen("changelog")'>Changelog</a>
   </div>
-</div>
-<div id="menubuttons" class="centered">
-  <span><button id="producersmenubutton" class="menubutton" onclick='openscreen("producers")'>Producers</button></span>
-  <span><button id="optionsmenubutton" class="menubutton" onclick='openscreen("options")'>Options</button></span>
-  <span><button id="statsmenubutton" class="menubutton">Statistics</button></span>
-  <span><button id="changelogmenubutton" class="menubutton" onclick='openscreen("changelog")'>Changelog</button></span>
-</div>
-<div id="screens">
-  <div id="optionsscreen" class="centered" style="display: none">
-    <table align="center">
-      <tbody>
-        <tr>
-          <td>
-            <div class="optionbutton standardbutton">
-              <label for="notations" class="standardtext">Choose a notation:</label>
-              <select id="notations" class="standarddropdown" onchange="changeNotation(this.value)">
-                <option value="standard">Standard</option>
-                <option value="scientific">Scientific</option>
-                <option value="engineering">Engineering</option>
-                <option value="mixedscientific">Mixed Scientific</option>
-                <option value="mixedengineering">Mixed Engineering</option>
-                <option value="letters">Letters</option>
-                <option value="cancer">Cancer</option>
-                <option value="logarithm">Logarithm</option>
-                <option value="brackets">Brackets</option>
-                <option value="infinity">Infinity</option>
-                <option value="roman">Roman</option>
-                <option value="dots">Dots</option>
-                <option value="zalgo">Zalgo</option>
-                <option value="hex">Hex</option>
-                <option value="imperial">Imperial</option>
-                <option value="clock">Clock</option>
-                <option value="prime">Prime</option>
-                <option value="bar">Bar</option>
-                <option value="shi">Shi</option>
-                <option value="blind">Blind</option>
-              </select>
-            </div>
-          </td>
-          <td>
-            <div class="optionbutton standardbutton">
-              <label for="themes" class="standardtext">Choose a theme:</label>
-              <select id="themes" class="standarddropdown" onchange="changeTheme(this.value)">
-                <option value="light">Light</option>
-                <option value="dark">Dark</option>
-              </select>
-            </div>
-          </td>
-          <td>
-            <div>
-              <button class="optionbutton standardbutton" onclick="reset()"><label>Completely Reset Save</label></button>
-            </div>
-          </td>
-          <td>
-          </td>
-        </tr>
-      </tbody>
+  <div class="palettelist">
+    <table>
+      <tr>
+        <td class="palette color1"></td>
+        <td class="palette color2"></td>
+        <td class="palette color3"></td>
+        <td class="palette color4"></td>
+        <td class="palette color5"></td>
+        <td class="palette color6"></td>
+        <td class="palette color7"></td>
+        <td class="palette color8"></td>
+        <td class="palette color9"></td>
+        <td class="palette color10"></td>
+      </tr>
     </table>
   </div>
-  <div id="producersscreen">
-    <div id="producers_quarkstage" align="center">
-      <table>
-        <tr>
-          <td>
-            <div v-for="producer in producers" v-bind:producer="producer" v-if="producer.unlocked">
+  <div id="gamecontent">
+    <div id="screens">
+      <div id="optionsscreen" class="centered" style="display: none">
+        <table align="center">
+          <tbody>
+            <tr>
+              <td>
+                <div class="optionbutton standardbutton">
+                  <label for="notations" class="standardtext">Choose a notation:</label>
+                  <select id="notations" class="standarddropdown" onchange="changeNotation(this.value)">
+                    <option value="standard">Standard</option>
+                    <option value="scientific">Scientific</option>
+                    <option value="engineering">Engineering</option>
+                    <option value="mixedscientific">Mixed Scientific</option>
+                    <option value="mixedengineering">Mixed Engineering</option>
+                    <option value="letters">Letters</option>
+                    <option value="cancer">Cancer</option>
+                    <option value="logarithm">Logarithm</option>
+                    <option value="brackets">Brackets</option>
+                    <option value="infinity">Infinity</option>
+                    <option value="roman">Roman</option>
+                    <option value="dots">Dots</option>
+                    <option value="zalgo">Zalgo</option>
+                    <option value="hex">Hex</option>
+                    <option value="imperial">Imperial</option>
+                    <option value="clock">Clock</option>
+                    <option value="prime">Prime</option>
+                    <option value="bar">Bar</option>
+                    <option value="shi">Shi</option>
+                    <option value="blind">Blind</option>
+                  </select>
+                </div>
+              </td>
+              <td>
+                <div class="optionbutton standardbutton">
+                  <label for="themes" class="standardtext">Choose a theme:</label>
+                  <select id="themes" class="standarddropdown" onchange="changeTheme(this.value)">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                  </select>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <button class="optionbutton standardbutton" onclick="reset()"><label>Completely Reset Save</label></button>
+                </div>
+              </td>
+              <td>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="quarkscreen">
+        <div id="quarkamountdisplay">
+            <span class="currencyextra">You have <span id="currency_quarks_amount" class="currencydisplay"> {{formatSpecial(player.quarkstage.quarks.amount, 1)}} </span> Quarks.
+            </span>
+            <span id="currency_quarks_amountpersec" class="currencyextra">You are making {{formatSpecial(player.quarkstage.quarks.temp.persec, 1)}} {{player.quarkstage.quarks.displayname}} per second.</span>
+        </div>
+        <div id="quarkproducers" style="float:left;">
+          <div>
+            <span class="title">
+              Quark Producers
+            </span>
+            <div v-for="producer in player.quarkstage.producers" v-bind:producer="producer" v-if="producer.unlocked">
               <producer-item v-bind:producer="producer" ></producer-item>
             </div>
             <div id="quarkbuyamount">
-              <span class="currencyextra">Buy Amount: {{getbuyamount()}}  Set Buy Amount to: </span>
+              <span class="currencyextra">Buy Amount: {{getbuyamount()}}
+              Set Buy Amount to: </span>
               <button class="buybutton" v-on:click="setbuyamount(1)">1</button>
               <button class="buybutton" v-on:click="setbuyamount(10)">10</button>
               <button class="buybutton" v-on:click="setbuyamount(25)">25</button>
               <button class="buybutton" v-on:click="setbuyamount(100)">100</button>
             </div>
-          </td>
-          <td valign="top">
-            <div v-for="upgrade in upgrades" v-bind:producer="upgrade" class="test" v-if="upgrade.unlocked">
-              <upgrade-item v-bind:upgrade="upgrade" ></upgrade-item>
-            </div>
-          </td>
-        </tr>
-      </table>
-    </div>
-  </div>
-  <div id ="changelogscreen" class="centered" style="display: none">
-    <span class="centered changelogversion">
-      Current Version: 0.02
-    </span>
-
-    <span class="centered changelogtext">
-      Had game idea for fun. Decided to do it.
-      Big idea, small time.
-      Bad idea? nah
-
-    </span>
-    <div class="leftalign">
-      <span class="changelogtext">
-		Version 0.02
-		Date: June 1, 2020
-
-		1. Added an upgrade/multiplier function.
-		2. Did some slight balancing. Takes 40 hours for a stupid optimizer to do stuff.
-		3. Hoping to have humans prestige in like, 6 hours. We'll see.
-
-
-		Date: June 1, 2020
-
-		1. Added an upgrade/multiplier function.
-		2. Did some slight balancing. Takes 40 hours for a stupid optimizer to do stuff.
-		3. Hoping to have humans prestige in like, 6 hours. We'll see.
-		4. First prestige layer created. ELECTRONS!
-
-		Version 0.01
-		Date: May 28, 2020
-
-        1. Created main functionality
-        2. Created terrible rates
-        3. Tier 1-10 created for Quarks!
-
-
-		Date: May 28, 2020
-
-
-        1. Created main functionality
-        2. Created terrible rates
-        3. Tier 1-10 created for Quarks.
-      </span>
-      <div class="centered">
-        <span class="changelogtext">
-          Will be balanced... soon™
-        </span>
+          </div>
+        </div>
+        <div id="quarkrebuyableupgrades" style="float:left; padding-left: 10px;">
+          <span class="title">
+            Quark Rebuyables
+          </span>
+          <div v-for="upgrade in player.quarkstage.upgrades" v-bind:producer="upgrade" class="test" v-if="upgrade.unlocked">
+            <upgrade-item v-bind:upgrade="upgrade" ></upgrade-item>
+          </div>
+        </div>
+        <div id="elctrolizebuttonquark" v-if='hasachievement("electrifyunlock")'>
+          <button class="prestigedisplay quarkscreenelectrolyzebutton" v-on:click="player.quarkstage.electrify.doprestige()">Electrolize for {{format(player.quarkstage.electrify.producedcurrencyamount)}} Electrons</button>
+        </div>
       </div>
-    </div>
+      <div id="electronscreen" style="display: none;">
+        <div id="electronamountdisplay">
+            <span class="currencyextra">You have <span id="currency_electrons_amount" class="currencydisplay"> {{format(player.electronstage.electrons.amount)}} </span> Electrons.
+            </span>
+        </div>
+        <div id="electronupgrades" class="moveablescalableobject electronupgradecloud" style="overflow: hidden;" onwheel='scalediv(event, this.id)' onmouseout='stopmovingobject(this.id)' onmouseup='stopmovingobject(this.id)' onmousedown='startmovingobject(event, this.id)' onmousemove='movingobject(event, this.id)'>
+          <div id="electronupgradescontent" style="display: block;">
+            <div id="electronupgradelines"><line-tree v-bind:linetree="player.electronstage.electronupgradelinetree" v-bind:classspecial="'electron'"></line-tree></div>
+            <div>
+              <electron-upgrade-item v-for="upgrade in player.electronstage.upgradetree" v-bind:upgrade="upgrade" ></electron-upgrade-item>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="achievementsscreen"style="display: none">
+        <div class="achievementdisplay">
+            <achievement-item v-for="achieve in player.achievements" v-bind:achievement="achieve"> <achievement-item>
+        </div>
+      </div>
+      <div id="statsscreen" class="centered" style="display: none">
+        <span class="currencyextra">Current Electrify Time: {{formattime(player.stats.electrifyticks)}}</span>
+        <br>
+        <span class="currencyextra" v-if="player.stats.electrified > 0">Times Electrified: {{player.stats.electrified}}</span>
+      </div>
+      <div id ="changelogscreen" class="centered" style="display: none">
+        <span class="centered changelogversion">
+          Current Version: 0.02
+        </span>
+
+        <span class="centered changelogtext">
+          Had game idea for fun. Decided to do it.
+          Big idea, small time.
+          Bad idea? nah
+
+        </span>
+        <div class="leftalign">
+          <span class="changelogtext">
+            Version 0.02
+            Date: June 1, 2020
+
+            1. Added an upgrade/multiplier function.
+            2. Did some slight balancing. Takes 40 hours for a stupid optimizer to do stuff.
+            3. Hoping to have humans prestige in like, 6 hours. We'll see.
+
+
+            Date: June 1, 2020
+
+            1. Added an upgrade/multiplier function.
+            2. Did some slight balancing. Takes 40 hours for a stupid optimizer to do stuff.
+            3. Hoping to have humans prestige in like, 6 hours. We'll see.
+            4. First prestige layer created. ELECTRONS!
+
+            Version 0.01
+            Date: May 28, 2020
+
+            1. Created main functionality
+            2. Created terrible rates
+            3. Tier 1-10 created for Quarks!
+
+
+            Date: May 28, 2020
+
+
+            1. Created main functionality
+            2. Created terrible rates
+            3. Tier 1-10 created for Quarks.
+          </span>
+          <div class="centered">
+            <span class="changelogtext">
+              Will be balanced... soon™
+            </span>
+          </div>
+        </div>
+      </div>
   </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
@@ -158,6 +204,8 @@
 <script src="js/customlib/upgrade.js"> </script>
 <script src="js/customlib/effect.js"> </script>
 <script src="js/customlib/prestige.js"> </script>
+<script src="js/customlib/achievement.js"> </script>
+<script src="js/customlib/linetree.js"> </script>
 <script src="js/AIPlayer.js"> </script>
 <script src="js/settings.js"> </script>
 <script src="js/UI.js"> </script>

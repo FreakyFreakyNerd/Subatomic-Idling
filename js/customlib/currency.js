@@ -45,4 +45,8 @@ class Currency{
     has(amount){
         return this.amount.greaterThan(amount) || this.amount.equals(amount);
     }
+
+    hasrequirement(amount){
+      return this.has(amount);
+    }
 }

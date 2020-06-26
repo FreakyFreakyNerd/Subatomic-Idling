@@ -23,7 +23,7 @@ notations = {
 }
 
 //UI
-currentscreen = "producers"
+currentscreen = "quark"
 function openscreen(screen){
   console.log(screen);
   document.getElementById(currentscreen + "screen").style.display = "none";
@@ -48,4 +48,20 @@ function updateafterplayer(){
   document.getElementById("notations").value = player.options.notation;
   document.getElementById("themes").value = player.options.theme;
   updateTheme();
+}
+
+const ticksperday = settings.tickspersecond*3600*24
+const ticksperhour = settings.tickspersecond*3600
+const ticksperminute = settings.tickspersecond*60
+
+function formattime(ticks){
+  days = Math.floor(ticks/ticksperday);
+  remainingticks = ticks - days*ticksperday;
+  hours = Math.floor(remainingticks/ticksperhour);
+  remainingticks = remainingticks - hours*ticksperhour;
+  minutes = Math.floor(remainingticks/ticksperminute);
+  remainingticks = remainingticks - minutes*ticksperminute;
+  seconds = Math.floor(remainingticks/settings.tickspersecond);
+  remainingticks = remainingticks - seconds*settings.tickspersecond;
+  return `${days} Days, ${hours} Hours, ${minutes} Minutes, ${seconds} Seconds, ${remainingticks} Ticks`
 }

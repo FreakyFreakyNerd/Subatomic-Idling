@@ -15,7 +15,6 @@ class LinearProduction{
 
   recalculateproductionaddition(){
     this.additionproduction = new Decimal(0);
-    console.log(this.additioneffects.length)
     this.additioneffects.forEach((effect, i) => {
       this.additionproduction = this.additionproduction.add(effect.value);
       console.log(this.additionproduction)
