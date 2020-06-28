@@ -9,7 +9,7 @@ class Cost{
     }
 
     recalculateeffectvalues(){
-      return;
+      this.recalculatescaling();
     }
 
     recalculatescaling(){
@@ -17,15 +17,21 @@ class Cost{
       this.scalingeffects.forEach((item, i) => {
         this.scaling = this.scaling.times(item.value);
       });
+      this.scaling = this.scaling.add(1)
     }
 
     applyeffect(effect){
       if(effect.effecttype == EffectTypes.PriceScaling){
         this.scalingeffects.push(effect);
+        this.recalculatescaling();
       }
     }
 
     removeeffect(effect){
+      if(effect.effecttype == EffectTypes.PriceScaling){
+        this.scalingeffects.splice(this.scalingeffects.indexOf(effect), 1);
+        this.recalculatescaling();
+      }
     }
 
     recalculatecost(){}

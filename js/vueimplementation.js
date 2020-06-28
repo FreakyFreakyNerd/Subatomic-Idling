@@ -35,8 +35,8 @@ Vue.component('upgrade-item', {
     <div>
         <span class="baseproducername"> {{upgrade.displayname}}</span>
         <span class="currencyextra"> x{{formatSpecial(upgrade.level)}}</span>
-        <button class="buybutton tooltipholder" v-on:click="buyUpgrade(upgrade)">
-            <span>Buy x1 Cost:{{format(upgrade.getcost(0))}}</span>
+        <button class="tooltipholder" v-on:click="buyUpgrade(upgrade)">
+            <span>Buy x1 Cost:{{upgrade.getcost(0)}}</span>
             <span class="tooltip">{{upgrade.effectsdescription}}</span>
         </button>
     </div>
