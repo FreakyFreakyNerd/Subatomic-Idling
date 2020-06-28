@@ -112,6 +112,8 @@ class StaticEffect extends Effect{
     switch(this.effecttype){
       case EffectTypes.ProducerMultiplierProduction:
         return "Multiplies " + this.appliestotext + " production by x" + formatDecimal(this.value);
+      case EffectTypes.PriceScaling:
+        return "Multiplies " + this.appliestotext + " cost scaling by x" + formatDecimalOverride(this.value, 2);
     }
     return
   }

@@ -80,9 +80,18 @@ function setupElectronStage(){
   player.electronstage.upgradetree.push(new Upgrade("qg10ep1", "A Ten", -1, [new NumRequirement(player.electronstage.upgradetree[9], 1)], [new LinearEffect(player.quarkstage.producers[9], 1, 1, EffectTypes.ProducerMultiplierProduction, "Quark Generator 10")], [new LinearCost(player.electronstage.electrons, 10, 10)], {xpos: 150, ypos: -816, label: "10+"}));
 
   //Starts out at upgrade slot 11
-  player.electronstage.upgradetree.push(new Upgrade("qg1ed", "Price Decrease 1", 1, [new NumRequirement(player.electronstage.upgradetree[0], 1)], new StaticEffect(player.quarkstage.producers[0], .9, EffectTypes.PriceScaling, "NULL", () => {return "Test"}), new StaticCost(player.electronstage.electrons, 1), {xpos: -150, ypos: -150, label: "1d"}));
+  player.electronstage.upgradetree.push(new Upgrade("qg1ed", "Price Decrease 1", 1, [new NumRequirement(player.electronstage.upgradetree[0], 1)], new StaticEffect(player.quarkstage.producers[0], .9, EffectTypes.PriceScaling, "Quark Generator 1"), new StaticCost(player.electronstage.electrons, 1), {xpos: -150, ypos: -150, label: "1d"}));
+  player.electronstage.upgradetree.push(new Upgrade("qg2ed", "Price Decrease 1", 1, [new NumRequirement(player.electronstage.upgradetree[11], 1)], new StaticEffect(player.quarkstage.producers[1], .9, EffectTypes.PriceScaling, "Quark Generator 2"), new StaticCost(player.electronstage.electrons, 1), {xpos: -150, ypos: -224, label: "2d"}));
+  player.electronstage.upgradetree.push(new Upgrade("qg3ed", "Price Decrease 1", 1, [new NumRequirement(player.electronstage.upgradetree[12], 1)], new StaticEffect(player.quarkstage.producers[2], .9, EffectTypes.PriceScaling, "Quark Generator 3"), new StaticCost(player.electronstage.electrons, 1), {xpos: -150, ypos: -298, label: "3d"}));
+  player.electronstage.upgradetree.push(new Upgrade("qg4ed", "Price Decrease 1", 1, [new NumRequirement(player.electronstage.upgradetree[13], 1)], new StaticEffect(player.quarkstage.producers[3], .9, EffectTypes.PriceScaling, "Quark Generator 4"), new StaticCost(player.electronstage.electrons, 1), {xpos: -150, ypos: -372, label: "4d"}));
+  player.electronstage.upgradetree.push(new Upgrade("qg5ed", "Price Decrease 1", 1, [new NumRequirement(player.electronstage.upgradetree[14], 1)], new StaticEffect(player.quarkstage.producers[4], .9, EffectTypes.PriceScaling, "Quark Generator 5"), new StaticCost(player.electronstage.electrons, 1), {xpos: -150, ypos: -446, label: "5d"}));
+  player.electronstage.upgradetree.push(new Upgrade("qg6ed", "Price Decrease 1", 1, [new NumRequirement(player.electronstage.upgradetree[15], 1)], new StaticEffect(player.quarkstage.producers[5], .9, EffectTypes.PriceScaling, "Quark Generator 6"), new StaticCost(player.electronstage.electrons, 1), {xpos: -150, ypos: -520, label: "6d"}));
+  player.electronstage.upgradetree.push(new Upgrade("qg7ed", "Price Decrease 1", 1, [new NumRequirement(player.electronstage.upgradetree[16], 1)], new StaticEffect(player.quarkstage.producers[6], .9, EffectTypes.PriceScaling, "Quark Generator 7"), new StaticCost(player.electronstage.electrons, 1), {xpos: -150, ypos: -594, label: "7d"}));
+  player.electronstage.upgradetree.push(new Upgrade("qg8ed", "Price Decrease 1", 1, [new NumRequirement(player.electronstage.upgradetree[17], 1)], new StaticEffect(player.quarkstage.producers[7], .9, EffectTypes.PriceScaling, "Quark Generator 8"), new StaticCost(player.electronstage.electrons, 1), {xpos: -150, ypos: -668, label: "8d"}));
+  player.electronstage.upgradetree.push(new Upgrade("qg9ed", "Price Decrease 1", 1, [new NumRequirement(player.electronstage.upgradetree[18], 1)], new StaticEffect(player.quarkstage.producers[8], .9, EffectTypes.PriceScaling, "Quark Generator 9"), new StaticCost(player.electronstage.electrons, 1), {xpos: -150, ypos: -742, label: "9d"}));
+  player.electronstage.upgradetree.push(new Upgrade("qg10ed", "Price Decrease 1", 1, [new NumRequirement(player.electronstage.upgradetree[19], 1)], new StaticEffect(player.quarkstage.producers[9], .9, EffectTypes.PriceScaling, "Quark Generator 10"), new StaticCost(player.electronstage.electrons, 1), {xpos: -150, ypos: -816, label: "10d"}));
 
-  player.electronstage.upgradetree.push(new Upgrade("evenquarkgenelectronupgradeone", "EVENS?", 1, [new NumRequirement(player.electronstage.upgradetree[0], 1)], [new LinkedLinearEffect(player.quarkstage.producers, () => {return player.stats.electrified}, 1, .25, EffectTypes.ProducerMultiplierProduction, "Even Quark Generators", (obj) => {return "Multiplies even quark generators by " + formatDecimalOverride(obj.value, 2) + "(+" + formatDecimalOverride(obj.increase, 2) +" per electrify).";})], [new StaticCost(player.electronstage.electrons, 1)], {xpos: -200, ypos: 0}));
+  player.electronstage.upgradetree.push(new Upgrade("evenquarkgenelectronupgradeone", "EVENS?", 1, [new NumRequirement(player.electronstage.upgradetree[2], 1),new NumRequirement(player.electronstage.upgradetree[12], 1)], [new LinkedLinearEffect(player.quarkstage.producers, () => {return player.stats.electrified}, 1, .25, EffectTypes.ProducerMultiplierProduction, "Even Quark Generators", (obj) => {return "Multiplies even quark generators by " + formatDecimalOverride(obj.value, 2) + "(+" + formatDecimalOverride(obj.increase, 2) +" per electrify).";})], [new StaticCost(player.electronstage.electrons, 1)], {xpos: 0, ypos: -224, label: }));
   player.electronstage.upgradetree.push(new Upgrade("oddquarkgenelectronupgradeone", "ODDS?", 1, [new NumRequirement(player.electronstage.upgradetree[0], 1)], [new LinkedLinearEffect(player.quarkstage.producers, () => {return player.stats.electrified}, 1, .25, EffectTypes.ProducerMultiplierProduction, "Even Quark Generators", () => {return "apple";})], [new StaticCost(player.electronstage.electrons, 1)], {xpos: 100, ypos: 100}));
 
   player.electronstage.electronupgradelinetree = new LineTree(dumplines(player.electronstage.upgradetree, 64), "electronupgrades");
@@ -396,9 +405,10 @@ function getnewtransform(scalelist, translatelist){
 function loadstats(){
   stats = loadeddata["playerstats"]
   player.stats = shallowcopy(settings.defaultstats);
-  for(let [key,value] of Object.entries(stats)){
-    player.stats[key] = value;
-  }
+  if(stats != null && stats != undefined)
+    for(let [key,value] of Object.entries(stats)){
+      player.stats[key] = value;
+    }
 }
 
 function save(){
@@ -414,7 +424,6 @@ function load(){
     console.log(loadeddata)
   }
   loadplayer()
-
 }
 
 load()
