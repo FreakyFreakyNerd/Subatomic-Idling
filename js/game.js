@@ -298,9 +298,10 @@ function loadplayer(){
 
 function loadachievements(){
   achievements = loadeddata["achievements"]
-  achievementregistry.forEach((achieve, i) => {
-    achieve.parse(achievements);
-  });
+  if(achievements != null && achievements != undefined)
+    achievementregistry.forEach((achieve, i) => {
+      achieve.parse(achievements);
+    });
 }
 
 function saveoptions(){
