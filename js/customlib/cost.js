@@ -12,6 +12,10 @@ class Cost{
       this.recalculatescaling();
     }
 
+    getmaxbuyable(amount){
+      return new Decimal(-1);
+    }
+
     recalculatescaling(){
       this.scaling = new Decimal(this.defaultscaling.minus(1));
       this.scalingeffects.forEach((item, i) => {
@@ -55,6 +59,11 @@ class ExponentialCost extends Cost{
         this.cost = (new Decimal(1)).minus(Decimal.pow(this.scaling, buyamount)).divide((new Decimal(1)).minus(this.scaling)).times(Decimal.pow(this.scaling, amount)).times(this.startingcost);
       else
         this.cost = this.startingcost.times(Decimal.pow(this.scaling, amount));
+    }
+
+    getmaxbuyable(amount){
+      var amountavailable = this.costobject.amount;
+      return Decimal.floor(Decimal.log(new Decimal(1).minus((new Decimal(1)).minus(this.scaling).times(amountavailable).divide(this.startingcost).divide(Decimal.pow(this.scaling, amount))), this.scaling));
     }
 }
 

@@ -1,6 +1,7 @@
 class Producer {
-    constructor(id, displayname, costs, productions, unlockrequirements){
+    constructor(id, displayname, costs, productions, unlockrequirements, buykey){
         this.id = id;
+        this.buykey = buykey;
         this.displayname = displayname
         this.costs = costs;
         this.productions = productions;
@@ -11,10 +12,11 @@ class Producer {
     }
 
     reset(){
+      console.log(this.productions)
       this.bought = new Decimal(0);
       this.produced = new Decimal(0);
-      this.recalculatecosts();
-      this.recalculateproductions();
+      this.effectchanged();
+      console.log(this.productions)
     }
 
     checkForUnlock(){
@@ -70,12 +72,12 @@ class Producer {
         if(!this.unlocked)
             return;
         if (this.canbuy){
-            this.costs.forEach((cost, i) => {
-              cost.subtractcost();
-            });
-            this.bought = this.bought.add(player.options.buyamount);
-            this.recalculatecosts();
-            this.recalculateproductions();
+          this.bought = this.bought.add(this.buyamount);
+          this.costs.forEach((cost, i) => {
+            cost.subtractcost();
+          });
+          this.recalculatecosts();
+          this.recalculateproductions();
         }
     }
 
@@ -91,7 +93,15 @@ class Producer {
     }
 
     getmaxbuyable(){
-      return new Decimal(10000)
+      var maxamount = undefined;
+      this.costs.forEach((cost, i) => {
+        var cmax = cost.getmaxbuyable(this.bought);
+        if(maxamount == undefined || maxamount.greaterThan(cmax)){
+          maxamount = cmax;
+        }
+      });
+
+      return maxamount;
     }
 
     produce(){
@@ -112,9 +122,22 @@ class Producer {
         return this.produced.add(this.bought);
     }
 
+    get buyamount(){
+      if(!this.unlocked)
+        return "Locked";
+      if(player.options.buyamounts[this.buykey].equals(-1)){
+        var max = this.getmaxbuyable();
+        if(max.lessThanOrEqualTo(new Decimal(0)))
+          return new Decimal(1);
+        return max;
+      }
+
+      return player.options.buyamounts[this.buykey];
+    }
+
     recalculatecosts(){
       this.costs.forEach((cost, i) => {
-        cost.recalculatecost(this.bought, player.options.buyamount);
+        cost.recalculatecost(this.bought, this.buyamount);
       });
     }
 
@@ -194,6 +217,7 @@ class Producer {
     }
 
     removeproductioneffect(effect){
+      console.log("Haha Yeh");
       var objid = effect.getarg("productionobjectid");
       this.productions.forEach((prod, i) => {
         if(objid == undefined || prod.id == objid){

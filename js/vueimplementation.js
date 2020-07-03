@@ -9,14 +9,14 @@ Vue.mixin({
     }
 })
 
-Vue.component('producer-item', {
+Vue.component('quark-producer-item', {
     props: ['producer'],
     template: `
     <div>
         <span class="baseproducername"> {{producer.displayname}}</span>
         <span class="currencyextra"> x{{format(producer.amount)}}</span>
         <button class="buybutton tooltipholder" v-on:click="buyProducer(producer)">
-            <span>Buy x{{getbuyamount(producer)}} Cost:{{format(producer.getcost(0))}}</span>
+            <span>Buy x{{getbuyamount("quarkgen", producer)}} Cost:{{format(producer.getcost(0))}}</span>
             <span class="tooltip" id="producer_quarkgenone_tooltip">Produces {{formatSpecial(producer.getproductionper(0), 1)}} {{producer.productions[0].productionobject.displayname}} per second.</span>
         </button>
     </div>

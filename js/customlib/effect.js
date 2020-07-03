@@ -26,11 +26,14 @@ class Effect{
   geteffect(){
     if(this.effectdescription != undefined)
       return this.effectdescription(this);
-    switch(this.effecttype){
-      case EffectTypes.ProducerMultiplierProduction:
-        return "Multiplies " + this.appliestotext + " production by x" + formatDecimal(this.value) + "(+" + formatDecimal(this.increase) + " per level)"
+    else {
+      return this.description;
     }
     return
+  }
+
+  get description(){
+    return "no effect description assigned";
   }
 
   getarg(type){
@@ -68,6 +71,15 @@ class LinearEffect extends Effect{
     this.value = this.defaultval.add(this.increase.times(amount));
     this.oneffectchanged();
   }
+
+  get description(){
+    switch(this.effecttype){
+      case EffectTypes.ProducerMultiplierProduction:
+        return "Multiplies " + this.appliestotext + " production by x" + formatDecimal(this.value) + "(+" + formatDecimal(this.increase) + " per level)"
+    }
+    return "no effect description for this type";
+  }
+
 }
 
 class LinkedLinearEffect extends Effect{
@@ -98,6 +110,14 @@ class ExponentialEffect extends Effect{
     this.value = this.defaultval.times(Decimal.pow(this.increase, amount));
     this.oneffectchanged();
   }
+
+  get description(){
+    switch(this.effecttype){
+      case EffectTypes.ProducerMultiplierProduction:
+        return "Multiplies " + this.appliestotext + " production by x" + formatDecimalOverride(this.value, 2) + "(x" + formatDecimalOverride(this.increase,2) + " per level)"
+    }
+    return "no effect description for this type";
+  }
 }
 
 class StaticEffect extends Effect{
@@ -106,16 +126,14 @@ class StaticEffect extends Effect{
     super(objectsappliesto, effectvalue, new Decimal(), effecttype, appliestotext, effectdescription, args);
   }
 
-  geteffect(){
-    if(this.effectdescription != undefined)
-      return this.effectdescription(this);
+  get description(){
     switch(this.effecttype){
       case EffectTypes.ProducerMultiplierProduction:
-        return "Multiplies " + this.appliestotext + " production by x" + formatDecimal(this.value);
+        return "Multiplies " + this.appliestotext + " production by x" + formatDecimalOverride(this.value, 2);
       case EffectTypes.PriceScaling:
         return "Multiplies " + this.appliestotext + " cost scaling by x" + formatDecimalOverride(this.value, 2);
     }
-    return
+    return "no effect description for this type";
   }
 
   recalculatevalue(amount){

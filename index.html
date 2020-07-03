@@ -93,15 +93,14 @@
               Quark Producers
             </span>
             <div v-for="producer in player.quarkstage.producers" v-bind:producer="producer" v-if="producer.unlocked">
-              <producer-item v-bind:producer="producer" ></producer-item>
+              <quark-producer-item v-bind:producer="producer" ></quark-producer-item>
             </div>
             <div id="quarkbuyamount">
-              <span class="currencyextra">Buy Amount: {{getbuyamount()}}
+              <span class="currencyextra">Quark Generator Buy Amount: {{getbuyamount("quarkgen")}}
               Set Buy Amount to: </span>
-              <button class="buybutton" v-on:click="setbuyamount(1)">1</button>
-              <button class="buybutton" v-on:click="setbuyamount(10)">10</button>
-              <button class="buybutton" v-on:click="setbuyamount(25)">25</button>
-              <button class="buybutton" v-on:click="setbuyamount(100)">100</button>
+              <button class="buybutton" v-on:click='setbuyamount("quarkgen", 1)'>1</button>
+              <button class="buybutton" v-on:click='setbuyamount("quarkgen", 25)'>25</button>
+              <button class="buybutton" v-on:click='setbuyamount("quarkgen", -1)'>Max</button>
             </div>
           </div>
         </div>

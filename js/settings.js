@@ -8,10 +8,11 @@ settings = {
         notation : "standard",
         notationdecimals : 3,
         theme : "light",
-        buyamount : new Decimal(1)
+        buyamounts : {quarkgen: new Decimal(1)}
     },
     defaultstats : {
       electrifyticks : 0,
-      electrified : 0
+      electrified : 0,
+      past10electrifies : [[],[],[],[],[],[],[],[],[],[]]
     }
 }

@@ -29,26 +29,28 @@ function formatDecimalOverride(num,dec){
 function setupQuarkStage(){
   player.quarkstage.quarks = new Currency("quarks", "Quarks", "Quark", 10);
   player.quarkstage.producers = [];
-  player.quarkstage.producers.push(new Producer("quarkgenone",     "Generator 1",  [new ExponentialCost(player.quarkstage.quarks, 10, 1.1)],          [new LinearProduction(player.quarkstage.quarks, .5)]));
-  player.quarkstage.producers.push(new Producer("quarkgentwo",     "Generator 2",  [new ExponentialCost(player.quarkstage.quarks, 100, 1.1)],         [new LinearProduction(player.quarkstage.quarks, 1)],      [new NumRequirement(player.quarkstage.producers[0], new Decimal(10))]));
-  player.quarkstage.producers.push(new Producer("quarkgenthree",   "Generator 3",  [new ExponentialCost(player.quarkstage.quarks, 1000, 1.1)],        [new LinearProduction(player.quarkstage.quarks, 2)],      [new NumRequirement(player.quarkstage.producers[1], new Decimal(10))]));
-  player.quarkstage.producers.push(new Producer("quarkgenfour",    "Generator 4",  [new ExponentialCost(player.quarkstage.quarks, 10000, 1.1)],       [new LinearProduction(player.quarkstage.quarks, 10)],     [new NumRequirement(player.quarkstage.producers[2], new Decimal(10))]));
-  player.quarkstage.producers.push(new Producer("quarkgenfive",    "Generator 5",  [new ExponentialCost(player.quarkstage.quarks, 100000, 1.1)],      [new LinearProduction(player.quarkstage.quarks, 50)],     [new NumRequirement(player.quarkstage.producers[3], new Decimal(10))]));
-  player.quarkstage.producers.push(new Producer("quarkgensix",     "Generator 6",  [new ExponentialCost(player.quarkstage.quarks, 1000000, 1.1)],     [new LinearProduction(player.quarkstage.quarks, 100)],    [new NumRequirement(player.quarkstage.producers[4], new Decimal(10))]));
-  player.quarkstage.producers.push(new Producer("quarkgenseven",   "Generator 7",  [new ExponentialCost(player.quarkstage.quarks, 10000000, 1.1)],    [new LinearProduction(player.quarkstage.quarks, 500)],    [new NumRequirement(player.quarkstage.producers[5], new Decimal(10))]));
-  player.quarkstage.producers.push(new Producer("quarkgeneight",   "Generator 8",  [new ExponentialCost(player.quarkstage.quarks, 100000000, 1.1)],   [new LinearProduction(player.quarkstage.quarks, 5000)],   [new NumRequirement(player.quarkstage.producers[6], new Decimal(10))]));
-  player.quarkstage.producers.push(new Producer("quarkgennine",    "Generator 9",  [new ExponentialCost(player.quarkstage.quarks, 1000000000, 1.1)],  [new LinearProduction(player.quarkstage.quarks, 25000)],  [new NumRequirement(player.quarkstage.producers[7], new Decimal(10))]));
-  player.quarkstage.producers.push(new Producer("quarkgenten",     "Generator 10", [new ExponentialCost(player.quarkstage.quarks, 10000000000, 1.1)], [new LinearProduction(player.quarkstage.quarks, 100000)], [new NumRequirement(player.quarkstage.producers[8], new Decimal(10))]));
+  player.quarkstage.producers.push(new Producer("quarkgenone",     "Generator 1",  [new ExponentialCost(player.quarkstage.quarks, 5, 1.1)],          [new LinearProduction(player.quarkstage.quarks, .5)],null , "quarkgen"));
+  player.quarkstage.producers.push(new Producer("quarkgentwo",     "Generator 2",  [new ExponentialCost(player.quarkstage.quarks, 50, 1.1)],         [new LinearProduction(player.quarkstage.quarks, 1)],      [new NumRequirement(player.quarkstage.producers[0], new Decimal(10))], "quarkgen"));
+  player.quarkstage.producers.push(new Producer("quarkgenthree",   "Generator 3",  [new ExponentialCost(player.quarkstage.quarks, 500, 1.1)],        [new LinearProduction(player.quarkstage.quarks, 2)],      [new NumRequirement(player.quarkstage.producers[1], new Decimal(10))], "quarkgen"));
+  player.quarkstage.producers.push(new Producer("quarkgenfour",    "Generator 4",  [new ExponentialCost(player.quarkstage.quarks, 5000, 1.1)],       [new LinearProduction(player.quarkstage.quarks, 10)],     [new NumRequirement(player.quarkstage.producers[2], new Decimal(10))], "quarkgen"));
+  player.quarkstage.producers.push(new Producer("quarkgenfive",    "Generator 5",  [new ExponentialCost(player.quarkstage.quarks, 50000, 1.1)],      [new LinearProduction(player.quarkstage.quarks, 50)],     [new NumRequirement(player.quarkstage.producers[3], new Decimal(10))], "quarkgen"));
+  player.quarkstage.producers.push(new Producer("quarkgensix",     "Generator 6",  [new ExponentialCost(player.quarkstage.quarks, 500000, 1.1)],     [new LinearProduction(player.quarkstage.quarks, 100)],    [new NumRequirement(player.quarkstage.producers[4], new Decimal(10))], "quarkgen"));
+  player.quarkstage.producers.push(new Producer("quarkgenseven",   "Generator 7",  [new ExponentialCost(player.quarkstage.quarks, 5000000, 1.1)],    [new LinearProduction(player.quarkstage.quarks, 500)],    [new NumRequirement(player.quarkstage.producers[5], new Decimal(10))], "quarkgen"));
+  player.quarkstage.producers.push(new Producer("quarkgeneight",   "Generator 8",  [new ExponentialCost(player.quarkstage.quarks, 50000000, 1.1)],   [new LinearProduction(player.quarkstage.quarks, 5000)],   [new NumRequirement(player.quarkstage.producers[6], new Decimal(10))], "quarkgen"));
+  player.quarkstage.producers.push(new Producer("quarkgennine",    "Generator 9",  [new ExponentialCost(player.quarkstage.quarks, 500000000, 1.1)],  [new LinearProduction(player.quarkstage.quarks, 25000)],  [new NumRequirement(player.quarkstage.producers[7], new Decimal(10))], "quarkgen"));
+  player.quarkstage.producers.push(new Producer("quarkgenten",     "Generator 10", [new ExponentialCost(player.quarkstage.quarks, 5000000000, 1.1)], [new LinearProduction(player.quarkstage.quarks, 100000)], [new NumRequirement(player.quarkstage.producers[8], new Decimal(10))], "quarkgen"));
 
   player.quarkstage.upgrades = [];
-  player.quarkstage.upgrades.push(new Upgrade("allquarkgenupgradelinearone", "Multiplier 1", -1, [new NumRequirement(player.quarkstage.producers[0],25)], [new LinearEffect(player.quarkstage.producers, 1, 1, EffectTypes.ProducerMultiplierProduction, "Quark Generators 1-10")], [new ExponentialCost(player.quarkstage.quarks,100,1.5)]));
-  player.quarkstage.upgrades.push(new Upgrade("allquarkgenupgradelineartwo", "Multiplier 2", -1, [new NumRequirement(player.quarkstage.upgrades[0],10)], [new LinearEffect(player.quarkstage.producers, 1, 10, EffectTypes.ProducerMultiplierProduction, "Quark Generators 1-10")], [new ExponentialCost(player.quarkstage.quarks,1e5,1.5)]));
-  player.quarkstage.upgrades.push(new Upgrade("allquarkgenupgradeexponentialone", "Multiplier 3", -1, [new NumRequirement(player.quarkstage.upgrades[1],10)], [new ExponentialEffect(player.quarkstage.producers, 1, 1.25, EffectTypes.ProducerMultiplierProduction, "Quark Generators 1-10")], [new ExponentialCost(player.quarkstage.quarks,1e7,3)]));
-  player.quarkstage.upgrades.push(new Upgrade("quarkgen1,2upgradeexponentialone", "Multiplier 4", -1, [new NumRequirement(player.quarkstage.upgrades[2],10)], [new ExponentialEffect([player.quarkstage.producers[0],player.quarkstage.producers[1]], 1, 5, EffectTypes.ProducerMultiplierProduction, "Quark Generators 1-10")], [new ExponentialCost(player.quarkstage.quarks,1e10,10)]));
-  player.quarkstage.upgrades.push(new Upgrade("quarkgen3,4upgradeexponentialone", "Multiplier 5", -1, [new NumRequirement(player.quarkstage.upgrades[3],10)], [new ExponentialEffect([player.quarkstage.producers[2],player.quarkstage.producers[3]], 1, 25, EffectTypes.ProducerMultiplierProduction, "Quark Generators 1-10")], [new ExponentialCost(player.quarkstage.quarks,1e16,50)]));
+  player.quarkstage.upgrades.push(new Upgrade("allquarkgenupgradelinearone", "Multiplier 1", -1, [new NumRequirement(player.quarkstage.producers[0],25)], [new LinearEffect(player.quarkstage.producers, 1, 1, EffectTypes.ProducerMultiplierProduction, "Quark Generators 1-10")], [new ExponentialCost(player.quarkstage.quarks,100,2)]));
+  player.quarkstage.upgrades.push(new Upgrade("allquarkgenupgradelineartwo", "Multiplier 2", -1, [new NumRequirement(player.quarkstage.upgrades[0],10)], [new LinearEffect(player.quarkstage.producers, 1, 10, EffectTypes.ProducerMultiplierProduction, "Quark Generators 1-10")], [new ExponentialCost(player.quarkstage.quarks,1e5,2)]));
+  player.quarkstage.upgrades.push(new Upgrade("allquarkgenupgradeexponentialone", "Multiplier 3", -1, [new NumRequirement(player.quarkstage.upgrades[1],10)], [new ExponentialEffect(player.quarkstage.producers, 1, 1.25, EffectTypes.ProducerMultiplierProduction, "Quark Generators 1-10")], [new ExponentialCost(player.quarkstage.quarks,1e7,4)]));
+  player.quarkstage.upgrades.push(new Upgrade("quarkgen1-5upgradeexponentialone", "Multiplier 4", -1, [new NumRequirement(player.quarkstage.upgrades[2],10)], [new ExponentialEffect([player.quarkstage.producers[0],player.quarkstage.producers[1],player.quarkstage.producers[2],player.quarkstage.producers[3],player.quarkstage.producers[4]], 1, 2, EffectTypes.ProducerMultiplierProduction, "Quark Generators 1-5")], [new ExponentialCost(player.quarkstage.quarks,1e10,75)]));
+  player.quarkstage.upgrades.push(new Upgrade("quarkgen6-10upgradeexponentialone", "Multiplier 5", -1, [new NumRequirement(player.quarkstage.upgrades[3],10)], [new ExponentialEffect([player.quarkstage.producers[5],player.quarkstage.producers[6],player.quarkstage.producers[7],player.quarkstage.producers[8],player.quarkstage.producers[9]], 1, 2, EffectTypes.ProducerMultiplierProduction, "Quark Generators 6-10")], [new ExponentialCost(player.quarkstage.quarks,1e16,100)]));
+  player.quarkstage.upgrades.push(new Upgrade("allquarkgenupgradeexponentialtwo", "Multiplier 6", -1, [new NumRequirement(player.quarkstage.upgrades[4],10)], [new ExponentialEffect(player.quarkstage.producers, 1, 2.2, EffectTypes.ProducerMultiplierProduction, "Quark Generators 1-10")], [new ExponentialCost(player.quarkstage.quarks,1e30,100)]));
 }
 
 function resetQuarkStage(){
+  console.log(player.quarkstage.producers)
   player.quarkstage.quarks.reset();
   player.quarkstage.producers.forEach((prod, i) => {
     prod.reset();
@@ -60,7 +62,7 @@ function resetQuarkStage(){
 
 function setupElectronStage(){
   player.electronstage.electrons = new Currency("electrons", "Electrons", "Electron", 0);
-  player.quarkstage.electrify = new Prestige(player.electronstage.electrons, player.quarkstage.quarks, (amount) => {if(amount.lessThan(new Decimal("1e12"))) return new Decimal(); if(!hasachievement("breakelectrolize")) return new Decimal(1)}, () => {resetQuarkStage(); player.stats.electrified += 1;})
+  player.quarkstage.electrify = new Prestige(player.electronstage.electrons, player.quarkstage.quarks, (amount) => {if(amount.lessThan(new Decimal("1e24"))) return new Decimal(); if(!hasachievement("breakelectrolize")) return new Decimal(1)}, () => {if(this.producedcurrencyamount.equals(0)) return; resetQuarkStage(); player.stats.electrified += 1; player.stats.past10electrifies.unshift([player.stats.electrifyticks, this.producedcurrencyamount]); player.stats.past10electrifies.pop(); player.stats.currentelectrifytime = 0;})
   player.electronstage.upgradetree = [];
 
   //q -> quarks, g -> generator, e -> electron, p -> production, d -> scaling price decrease
@@ -124,7 +126,7 @@ function setupachievements(){
   player.achievements.push(new Achievement("onequarkgeneight", "Get A Quark Gen 8", [new NumRequirement(player.quarkstage.producers[7], 1)], null, null, ["hidetooltip"]));
   player.achievements.push(new Achievement("onequarkgennine", "Get A Quark Gen 9", [new NumRequirement(player.quarkstage.producers[8], 1)], null, null, ["hidetooltip"]));
   player.achievements.push(new Achievement("onequarkgenten", "Get A Quark Gen 10", [new NumRequirement(player.quarkstage.producers[9], 1)], null, [new FlavorEffect("IDK a fleeting sense of accomplishment! Maybe?")], ["hiderequirements"]));
-  player.achievements.push(new Achievement("electrifyunlock", "Electrify", [new NumRequirement(player.quarkstage.quarks, "1e12")], null, [new FlavorEffect("Unlocks electrify for all your wonderful electron needs!")]));
+  player.achievements.push(new Achievement("electrifyunlock", "Electrify", [new NumRequirement(player.quarkstage.quarks, "1e24")], null, [new FlavorEffect("Unlocks electrify for all your wonderful electron needs!")]));
 }
 
 function resetachievements(){
@@ -134,25 +136,26 @@ function resetachievements(){
 
 }
 
-function getbuyamount(object){
-  if(!player.options.buyamount.equals(-1))
-  return player.options.buyamount;
+function getbuyamount(type,object){
+  if(type == undefined)
+    return "type Undefined"
+  var buyamount = player.options.buyamounts[type];
+  if(!buyamount.equals(-1))
+    return buyamount;
   if(object == undefined)
-  return "max"
-  return object.getmaxbuyable();
+    return "Max"
+  return object.buyamount;
 }
 
 setupQuarkStage();
 setupElectronStage();
 setupachievements();
 
-function setbuyamount(num){
-  player.options.buyamount = new Decimal(num);
+function setbuyamount(type, num){
+  player.options.buyamounts[type] = new Decimal(num);
   producerregistry.forEach((prod, i) => {
     prod.recalculatecosts();
   });
-
-  console.log(num);
 }
 
 player.quarkstage.upgrades[0].buy();
@@ -314,16 +317,29 @@ function savestats(){
 
 function loadoptions(){
   options = loadeddata["playeroptions"]
+  player.options = shallowcopy(settings.defaultoptions);
+  if(options != null && options != undefined)
+    for(let [key,value] of Object.entries(options)){
+      if(key in player.options)
+        player.options[key] = value;
+    }
   if(options != undefined){
-    player.options = options
-    if(player.options.buyamount == undefined){
-      player.options.buyamount = settings.defaultoptions.buyamount;
-    }else{
-      player.options.buyamount = Decimal.fromString(options.buyamount);
+    if(options.buyamounts != undefined){
+      for(let [key,value] of Object.entries(options.buyamounts)){
+        if(key in player.options.buyamounts)
+          player.options.buyamounts[key] = Decimal.fromString(value);
+      }
     }
   }
-  else
-    player.options = settings.defaultoptions;
+}
+
+function loadstats(){
+  stats = loadeddata["playerstats"]
+  player.stats = shallowcopy(settings.defaultstats);
+  if(stats != null && stats != undefined)
+    for(let [key,value] of Object.entries(stats)){
+      player.stats[key] = value;
+    }
 }
 
 scrollingscale = .001;
@@ -401,15 +417,6 @@ function gettranslate(element){
 
 function getnewtransform(scalelist, translatelist){
   return `matrix(${scalelist[0]}, 0, 0, ${scalelist[1]}, ${translatelist[0]}, ${translatelist[1]})`
-}
-
-function loadstats(){
-  stats = loadeddata["playerstats"]
-  player.stats = shallowcopy(settings.defaultstats);
-  if(stats != null && stats != undefined)
-    for(let [key,value] of Object.entries(stats)){
-      player.stats[key] = value;
-    }
 }
 
 function save(){

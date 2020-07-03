@@ -59,12 +59,18 @@ class LinearProduction{
 
   removeeffect(effect){
     if(effect.effecttype == EffectTypes.ProducerBaseProduction){
-      this.additioneffects.splice(this.additioneffects.indexOf(effect), 1);
-      this.recalculateproductionaddition();
+      var ind = this.additioneffects.indexOf(effect);
+      if(ind > -1){
+        this.additioneffects.splice(this.additioneffects.indexOf(effect), 1);
+        this.recalculateproductionaddition();
+      }
     }
     if(effect.effecttype == EffectTypes.ProducerMultiplierProduction){
-      this.multipliereffects.splice(this.multipliereffects.indexOf(effect), 1);
-      this.recalculateproductionmultiplier();
+      var ind = this.multipliereffects.indexOf(effect);
+      if(ind > -1){
+        this.multipliereffects.splice(this.multipliereffects.indexOf(effect), 1);
+        this.recalculateproductionmultiplier();
+      }
     }
   }
 }
