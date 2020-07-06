@@ -8,7 +8,16 @@ class Producer {
         this.bought = new Decimal(0);
         this.produced = new Decimal(0);
         this.unlockrequirements = unlockrequirements;
+        this.onbuymax = false;
         producerregistry.push(this);
+        updaterequiredregistry.push(this);
+    }
+
+    tick(){
+      if(this.onbuymax)
+      {
+        this.recalculatecosts();
+      }
     }
 
     reset(){
@@ -100,7 +109,6 @@ class Producer {
           maxamount = cmax;
         }
       });
-
       return maxamount;
     }
 
@@ -127,9 +135,12 @@ class Producer {
         return "Locked";
       if(player.options.buyamounts[this.buykey].equals(-1)){
         var max = this.getmaxbuyable();
+        this.onbuymax = true;
         if(max.lessThanOrEqualTo(new Decimal(0)))
           return new Decimal(1);
         return max;
+      }else{
+        this.onbuymax = false;
       }
 
       return player.options.buyamounts[this.buykey];

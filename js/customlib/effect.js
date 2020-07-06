@@ -86,6 +86,7 @@ class LinkedLinearEffect extends Effect{
   constructor(objectsappliesto, linkedfunction, effectdefualtvalue, effectincrease, effecttype, appliestotext, effectdescription, args){
     super(objectsappliesto, effectdefualtvalue, effectincrease, effecttype, appliestotext, effectdescription, args);
     this.linkedfunction = linkedfunction;
+    this.oldvalue = undefined;
   }
   onconstructfinish(){
     updaterequiredregistry.push(this);
@@ -108,7 +109,11 @@ class LinkedLinearEffect extends Effect{
 class ExponentialEffect extends Effect{
   recalculatevalue(amount){
     this.value = this.defaultval.times(Decimal.pow(this.increase, amount));
-    this.oneffectchanged();
+    if(this.oldvalue == undefined || this.oldvalue.notEquals(this.value))
+    {
+      this.oldvalue = this.value;
+      this.oneffectchanged();
+    }
   }
 
   get description(){

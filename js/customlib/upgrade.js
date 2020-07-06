@@ -1,8 +1,11 @@
 class Upgrade{
-    constructor(id, displayname, maxlevel, requirements, effects, costs, extra){
+    constructor(id, displayname, maxbuyable, requirements, effects, costs, buykey, extra){
         this.id = id;
+        this.buykey = buykey;
         this.displayname = displayname;
-        this.maxlevel = new Decimal(maxlevel);
+        this.maxbuyable = new Decimal(maxbuyable);
+        this.onbuymax = false;
+        this.lastbuyamount = undefined;
         if(requirements != null && requirements != undefined)
           if(Array.isArray(requirements))
             this.requirements = requirements;
@@ -17,10 +20,8 @@ class Upgrade{
         else
           this.costs = [costs];
 
-        this.level = new Decimal(0);
+        this.bought = new Decimal(0);
         this.produced = new Decimal(0);
-
-        console.log(extra);
 
         if(extra != null && extra != undefined)
           for(let [key,value] of Object.entries(extra)){
@@ -28,39 +29,48 @@ class Upgrade{
           }
 
         upgraderegistry.push(this);
+        updaterequiredregistry.push(this);
+    }
+
+    tick(){
+      if(this.onbuymax)
+      {
+        this.recalculatecosts();
+      }
     }
 
     reset(){
-      this.level = new Decimal(0);
+      this.bought = new Decimal(0);
       this.produced = new Decimal(0);
+      console.log("reseting")
       this.recalculatecosts();
       this.recalculateeffects();
       this.onrevoke();
     }
 
     save(){
-        return { produced : this.produced.toString(), level : this.level.toString()};
+        return { produced : this.produced.toString(), bought : this.bought.toString()};
     }
 
     parse(data){
         if(data == undefined)
             return;
-        if(data.level != undefined)
-            this.level = Decimal.fromString(data.level);
+        if(data.bought != undefined)
+            this.bought = Decimal.fromString(data.bought);
         if(data.produced != undefined)
             this.produced = Decimal.fromString(data.produced);
-        if(this.level.greaterThan(0)){
+        if(this.bought.greaterThan(0)){
           this.onunlock();
         }
         this.recalculatecosts();
         this.recalculateeffects();
     }
 
-    get leveldescription(){
-      if(this.maxlevel.equals(-1))
+    get boughtdescription(){
+      if(this.maxbuyable.equals(-1))
         return formatDecimal(this.amount) + "/infinity-ish";
       var description = "";
-      description += formatDecimal(this.amount) + "/" + formatDecimal(this.maxlevel);
+      description += formatDecimal(this.amount) + "/" + formatDecimal(this.maxbuyable);
       return description;
     }
 
@@ -94,12 +104,13 @@ class Upgrade{
         if(!this.unlocked)
             return;
         if (this.canbuy){
+            if(this.bought.equals(0))
+              this.onunlock();
+            this.bought = this.bought.add(this.buyamount);
             this.costs.forEach((cost, i) => {
               cost.subtractcost();
             });
-            if(this.level.equals(0))
-              this.onunlock();
-            this.level = this.level.add(1)
+            console.log("buying")
             this.recalculatecosts();
             this.recalculateeffects();
         }
@@ -110,7 +121,7 @@ class Upgrade{
     }
 
     get canbuy(){
-      if(this.level.equals(this.maxlevel) && this.maxlevel != -1)
+      if(this.bought.equals(this.maxbuyable) && this.maxbuyable != -1)
         return false;
       var boolcan = true;
       this.costs.forEach((cost, i) => {
@@ -122,13 +133,45 @@ class Upgrade{
       return boolcan;
     }
 
+    getmaxbuyable(){
+      var maxamount = undefined;
+      this.costs.forEach((cost, i) => {
+        var cmax = cost.getmaxbuyable(this.bought);
+        if(maxamount == undefined || maxamount.greaterThan(cmax)){
+          maxamount = cmax;
+        }
+      });
+      return maxamount;
+    }
+
+    get buyamount(){
+      if(!this.unlocked)
+        return "Locked";
+      if(this.buykey == null || this.buykey == undefined)
+        return 1;
+      if(player.options.buyamounts[this.buykey] == undefined)
+        return 1;
+
+      if(player.options.buyamounts[this.buykey].equals(-1)){
+        var max = this.getmaxbuyable();
+        this.onbuymax = true;
+        if(max.lessThanOrEqualTo(0))
+          return new Decimal(1);
+        return max;
+      }else{
+        this.onbuymax = false;
+      }
+
+      return player.options.buyamounts[this.buykey];
+    }
+
     get amount(){
-      return this.produced.add(this.level);
+      return this.produced.add(this.bought);
     }
 
     recalculatecosts(){
       this.costs.forEach((cost, i) => {
-        cost.recalculatecost(this.level);
+        cost.recalculatecost(this.bought, this.buyamount);
       });
     }
 
@@ -139,11 +182,11 @@ class Upgrade{
     }
 
     getcost(index){
-      return formatDecimal(this.costs[index].cost);
+      return this.costs[index].cost;
     }
 
     get costdescription(){
-      if(this.ismaxlevel)
+      if(this.ismaxbuyable)
         return "Max Bought"
       var description = "";
       this.costs.forEach((cost, i) => {
@@ -169,10 +212,10 @@ class Upgrade{
     }
 
     hasrequirement(amount){
-        return this.level.greaterThanOrEqualTo(amount);
+        return this.bought.greaterThanOrEqualTo(amount);
     }
 
-    get ismaxlevel(){
-      return this.level.equals(this.maxlevel);
+    get ismaxbuyable(){
+      return this.bought.equals(this.maxbuyable);
     }
 }

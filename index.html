@@ -67,6 +67,7 @@
                   <select id="themes" class="standarddropdown" onchange="changeTheme(this.value)">
                     <option value="light">Light</option>
                     <option value="dark">Dark</option>
+                    <option value="null">Null</option>
                   </select>
                 </div>
               </td>
@@ -95,13 +96,7 @@
             <div v-for="producer in player.quarkstage.producers" v-bind:producer="producer" v-if="producer.unlocked">
               <quark-producer-item v-bind:producer="producer" ></quark-producer-item>
             </div>
-            <div id="quarkbuyamount">
-              <span class="currencyextra">Quark Generator Buy Amount: {{getbuyamount("quarkgen")}}
-              Set Buy Amount to: </span>
-              <button class="buybutton" v-on:click='setbuyamount("quarkgen", 1)'>1</button>
-              <button class="buybutton" v-on:click='setbuyamount("quarkgen", 25)'>25</button>
-              <button class="buybutton" v-on:click='setbuyamount("quarkgen", -1)'>Max</button>
-            </div>
+            <buy-display buykey='quarkgen' buydisplay="Quark Generators"></buy-display>
           </div>
         </div>
         <div id="quarkrebuyableupgrades" style="float:left; padding-left: 10px;">
@@ -109,8 +104,9 @@
             Quark Rebuyables
           </span>
           <div v-for="upgrade in player.quarkstage.upgrades" v-bind:producer="upgrade" class="test" v-if="upgrade.unlocked">
-            <upgrade-item v-bind:upgrade="upgrade" ></upgrade-item>
+            <quark-upgrade-item v-bind:upgrade="upgrade" ></quark-upgrade-item>
           </div>
+          <buy-display buykey='quarkupg' buydisplay="Quark Rebuyables"></buy-display>
         </div>
         <div id="elctrolizebuttonquark" v-if='hasachievement("electrifyunlock")'>
           <button class="prestigedisplay quarkscreenelectrolyzebutton" v-on:click="player.quarkstage.electrify.doprestige()">Electrolize for {{format(player.quarkstage.electrify.producedcurrencyamount)}} Electrons</button>

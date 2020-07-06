@@ -16,7 +16,7 @@ Vue.component('quark-producer-item', {
         <span class="baseproducername"> {{producer.displayname}}</span>
         <span class="currencyextra"> x{{format(producer.amount)}}</span>
         <button class="buybutton tooltipholder" v-on:click="buyProducer(producer)">
-            <span>Buy x{{getbuyamount("quarkgen", producer)}} Cost:{{format(producer.getcost(0))}}</span>
+            <span>Buy x{{format(getbuyamount("quarkgen", producer))}} Cost:{{format(producer.getcost(0))}}</span>
             <span class="tooltip" id="producer_quarkgenone_tooltip">Produces {{formatSpecial(producer.getproductionper(0), 1)}} {{producer.productions[0].productionobject.displayname}} per second.</span>
         </button>
     </div>
@@ -29,14 +29,14 @@ Vue.component('quark-producer-item', {
     }
 })
 
-Vue.component('upgrade-item', {
+Vue.component('quark-upgrade-item', {
     props: ['upgrade'],
     template: `
     <div>
-        <span class="baseproducername"> {{upgrade.displayname}}</span>
-        <span class="currencyextra"> x{{formatSpecial(upgrade.level)}}</span>
+        <span class="baseupgradename"> {{upgrade.displayname}}</span>
+        <span class="currencyextra"> x{{format(upgrade.amount)}}</span>
         <button class="tooltipholder" v-on:click="buyUpgrade(upgrade)">
-            <span>Buy x1 Cost:{{upgrade.getcost(0)}}</span>
+            <span>Buy x{{format(getbuyamount("quarkupg", upgrade))}} Cost:{{format(upgrade.getcost(0))}}</span>
             <span class="tooltip">{{upgrade.effectsdescription}}</span>
         </button>
     </div>
@@ -49,6 +49,19 @@ Vue.component('upgrade-item', {
     }
 })
 
+Vue.component('buy-display', {
+  props: ['buykey','buydisplay'],
+  template: `
+    <div v-bind:id='buykey+"buyamount"'>
+      <span class="currencyextra">{{buydisplay}} Buy Amount: {{getbuyamount(buykey)}}
+      Set Buy Amount to: </span>
+      <button class="buybutton" v-on:click='setbuyamount(buykey, 1)'>1</button>
+      <button class="buybutton" v-on:click='setbuyamount(buykey, 25)'>25</button>
+      <button class="buybutton" v-on:click='setbuyamount(buykey, -1)'>Max</button>
+    </div>
+  `
+})
+
 Vue.component('electron-upgrade-item', {
     props: ['upgrade'],
     template: `
@@ -56,7 +69,7 @@ Vue.component('electron-upgrade-item', {
         <span class="electronupgradelabel">{{upgrade.label}}</span>
         <div class="tooltip electronupgradetooltip">
           <span class="electronupgradename">{{upgrade.displayname}}\n\n</span>
-          <span class="electronupgradelevel">Level: {{upgrade.leveldescription}}\n</span>
+          <span class="electronupgradebought">Bought: {{upgrade.boughtdescription}}\n</span>
           <span class="electronupgradeeffect">Effects:\n{{upgrade.effectsdescription}}</span>
           <span class="electronupgradecost">Costs:\n{{upgrade.costdescription}}</span>
         </div>

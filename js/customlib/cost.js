@@ -70,7 +70,7 @@ class ExponentialCost extends Cost{
 class LinearCost extends Cost{
     recalculatecost(amount, buyamount){
       if(buyamount != undefined)
-        this.cost = (new Decimal(1)).minus(Decimal.pow(this.scaling, buyamount)).divide((new Decimal(1)).minus(this.scaling)).times(Decimal.pow(this.scaling, amount)).times(this.startingcost);
+        this.cost = this.startingcost.add(this.scaling.times(amount));
       else
         this.cost = this.startingcost.add(this.scaling.times(amount));
     }

@@ -1,7 +1,7 @@
 settings = {
     maincurrencyname : "Quarks",
-    tickspersecond : 20,
-    logictickspersecond : 20,
+    tickspersecond : 1,
+    logictickspersecond : 100,
     version: "Alpha v0.02",
     defaultoptions : {
         uidelay : 50,

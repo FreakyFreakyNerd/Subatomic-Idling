@@ -8,7 +8,7 @@ class Prestige{
 
   doprestige(){
     this.producescurrency.add(this.producedcurrencyamount)
-    this.onprestigefunction();
+    this.onprestigefunction(this.producedcurrencyamount);
   }
 
   get producedcurrencyamount(){
