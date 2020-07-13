@@ -47,6 +47,21 @@ class Prestige{
     }
   }
 
+  removeeffect(effect){
+    switch(effect.effecttype){
+      case EffectTypes.PrestigeCurrencyBaseGain:
+        if(this.addeffects.includes(effect)){
+          this.addeffects.splice(this.addeffects.findIndex(effect));
+        }
+        break;
+      case EffectTypes.PrestigeCurrencyMultiplicativeGain:
+        if(this.multeffects.includes(effect)){
+          this.multeffects.splice(this.multeffects.findIndex(effect));
+        }
+        break;
+    }
+  }
+
   doprestige(){
     this.producescurrency.add(this.producedcurrencyamount)
     this.onprestigefunction(this.producedcurrencyamount);
