@@ -71,7 +71,7 @@ Vue.component('electron-upgrade-item', {
           <span class="electronupgradename">{{upgrade.displayname}}\n\n</span>
           <span class="electronupgradebought">Bought: {{upgrade.boughtdescription}}\n</span>
           <span class="electronupgradeeffect">Effects:\n{{upgrade.effectsdescription}}</span>
-          <span class="electronupgradecost">Costs:\n{{upgrade.costdescription}}</span>
+          <span class="electronupgradecost">Cost for {{upgrade.buyamount}}:\n{{upgrade.costdescription}}</span>
         </div>
       </button>
     `,

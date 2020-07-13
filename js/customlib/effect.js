@@ -75,7 +75,11 @@ class LinearEffect extends Effect{
   get description(){
     switch(this.effecttype){
       case EffectTypes.ProducerMultiplierProduction:
-        return "Multiplies " + this.appliestotext + " production by x" + formatDecimal(this.value) + "(+" + formatDecimal(this.increase) + " per level)"
+        return "Multiplies " + this.appliestotext + " production by x" + formatDecimal(this.value) + "(+" + formatDecimal(this.increase) + " per level)";
+      case EffectTypes.PrestigeCurrencyBaseGain:
+        return "Adds " + formatDecimal(this.value) + "(+" + formatDecimal(this.increase) + "per bought) to " + this.appliestotext + " gain on " + this.appliesto.displayname + ".";
+      case EffectTypes.PrestigeCurrencyMultiplicativeGain:
+        return "Multiplies " + this.appliestotext + " gain on " + this.appliesto.displayname + " by " + formatDecimal(this.value)+ "(+" + formatDecimal(this.increase) + "per bought).";
     }
     return "no effect description for this type";
   }
@@ -120,6 +124,10 @@ class ExponentialEffect extends Effect{
     switch(this.effecttype){
       case EffectTypes.ProducerMultiplierProduction:
         return "Multiplies " + this.appliestotext + " production by x" + formatDecimalOverride(this.value, 2) + "(x" + formatDecimalOverride(this.increase,2) + " per level)"
+      case EffectTypes.PrestigeCurrencyBaseGain:
+        return "Adds " + formatDecimal(this.value) + "(x" + formatDecimal(this.increase) + "per bought) to " + this.appliestotext + " gain on " + this.appliesto.displayname + ".";
+      case EffectTypes.PrestigeCurrencyMultiplicativeGain:
+        return "Multiplies " + this.appliestotext + " gain on " + this.appliesto.displayname + " by " + formatDecimal(this.value)+ "(x" + formatDecimal(this.increase) + "per bought).";
     }
     return "no effect description for this type";
   }
@@ -137,6 +145,10 @@ class StaticEffect extends Effect{
         return "Multiplies " + this.appliestotext + " production by x" + formatDecimalOverride(this.value, 2);
       case EffectTypes.PriceScaling:
         return "Multiplies " + this.appliestotext + " cost scaling by x" + formatDecimalOverride(this.value, 2);
+      case EffectTypes.PrestigeCurrencyBaseGain:
+        return "Adds " + formatDecimal(this.value) + " to " + this.appliestotext + " gain on " + this.appliesto.displayname + ".";
+      case EffectTypes.PrestigeCurrencyMultiplicativeGain:
+        return "Multiplies " + this.appliestotext + " gain on " + this.appliesto.displayname + " by " + formatDecimal(this.value) + ".";
     }
     return "no effect description for this type";
   }
@@ -154,6 +166,7 @@ class FlavorEffect extends Effect{
 
   apply(){}
   remove(){}
+  recalculatevalue(){}
   geteffect(){
     return this.flavortext;
   }
@@ -162,5 +175,7 @@ class FlavorEffect extends Effect{
 const EffectTypes = {
   ProducerBaseProduction : 1,
   ProducerMultiplierProduction : 2,
-  PriceScaling : 3
+  PriceScaling : 3,
+  PrestigeCurrencyBaseGain: 4,
+  PrestigeCurrencyMultiplicativeGain: 5
 }
