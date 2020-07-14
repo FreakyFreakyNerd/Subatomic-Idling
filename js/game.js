@@ -204,7 +204,7 @@ function getbuyamount(type,object){
   if(type == undefined)
     return "type Undefined"
   var buyamount = player.options.buyamounts[type];
-  if(buyamount == undefined || buyamount.equals() == undefined){
+  if(buyamount == undefined || buyamount.equals == undefined){
     player.options.buyamounts[type] = new Decimal(1);
     return new Decimal(1);
   }

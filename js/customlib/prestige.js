@@ -24,7 +24,7 @@ class Prestige{
   }
 
   recalculatemulteffect(){
-    this.effectmult = new Decimal(0);
+    this.effectmult = new Decimal(1);
     this.multeffects.forEach((item, i) => {
       this.effectmult = this.effectmult.times(item.value);
     });
