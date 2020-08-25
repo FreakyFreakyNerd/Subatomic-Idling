@@ -35,6 +35,7 @@ span {
   white-space: pre-line;
 }
 
+/*Side Navigation*/
 .sidenav {
   height: 100%;
   width: 160px;
@@ -47,17 +48,10 @@ span {
 }
 
 .sidenav .menubutton {
-  padding: 1px 1px 1px 1px;
+  padding: 1px 1px 1px 5px;
   text-decoration: none;
   font-size: 16px;
   display: block;
-}
-
-.submenu{
-  padding: 2px 1px 1px 20px;
-  text-decoration: none;
-  font-size: 16px;
-  display: none;
 }
 
 .sidenav .menubutton:hover {
@@ -68,8 +62,9 @@ span {
   display: block;
 }
 
+
 .gamename {
-  padding: 1px 1px 1px 1px;
+  padding: 5px 1px 1px 5px;
   text-decoration: none;
   font-weight: bold;
   font-size: 12px;
@@ -81,7 +76,7 @@ span {
   padding: 0px 10px;
 }
 
-.title {
+.producerlabel {
   font-size: 24px;
   font-weight: bold;
   font-family:"Lucida Console";
@@ -148,7 +143,7 @@ td.righttablecolumn {
     width: 100%;
     text-align: center;
     background-color: grey;
-    padding: 5px 0;
+    padding: 5px 5px 5px 5px;
     border-radius: 6px;
 
     /* Position the tooltip text - see examples below! */

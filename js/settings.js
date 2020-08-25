@@ -1,7 +1,6 @@
 settings = {
-    maincurrencyname : "Quarks",
-    tickspersecond : 1,
-    logictickspersecond : 100,
+    tickspersecond : 20,
+    logictickspersecond : 20,
     version: "Alpha v0.02",
     defaultoptions : {
         uidelay : 50,
@@ -11,7 +10,7 @@ settings = {
         buyamounts : {quarkgen: new Decimal(1)}
     },
     defaultstats : {
-      electrifyticks : 0,
+      currentelectrifytime : 0,
       electrified : 0,
       past10electrifies : [[],[],[],[],[],[],[],[],[],[]]
     }

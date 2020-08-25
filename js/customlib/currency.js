@@ -22,6 +22,7 @@ class Currency{
     }
 
     parse(data){
+      if(data != undefined)
         if(data.amount != undefined)
             this.amount = Decimal.fromString(data.amount);
     }
