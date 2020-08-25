@@ -41,7 +41,7 @@ class Prestige{
       case EffectTypes.PrestigeCurrencyMultiplicativeGain:
         if(!this.multeffects.includes(effect)){
           this.multeffects.push(effect);
-          this.recal
+          this.recalculatemulteffect();
         }
         break;
     }
@@ -52,11 +52,13 @@ class Prestige{
       case EffectTypes.PrestigeCurrencyBaseGain:
         if(this.addeffects.includes(effect)){
           this.addeffects.splice(this.addeffects.findIndex(effect));
+          this.recalculateaddeffect();
         }
         break;
       case EffectTypes.PrestigeCurrencyMultiplicativeGain:
         if(this.multeffects.includes(effect)){
           this.multeffects.splice(this.multeffects.findIndex(effect));
+          this.recalculatemulteffect();
         }
         break;
     }
@@ -68,7 +70,9 @@ class Prestige{
   }
 
   get producedcurrencyamount(){
-    return this.baseamount.add(this.effectaddamount).times(this.effectmult);
+    if(this.baseamount.equals("0"))
+      return new Decimal();
+    return this.baseamount.add(this.effectadd).times(this.effectmult);
   }
 
   get baseamount(){

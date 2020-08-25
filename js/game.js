@@ -59,7 +59,6 @@ function setupQuarkStage(){
 }
 
 function resetQuarkStage(){
-  console.log(player.quarkstage.producers)
   player.quarkstage.quarks.reset();
   player.quarkstage.producers.forEach((prod, i) => {
     prod.reset();
@@ -71,7 +70,7 @@ function resetQuarkStage(){
 
 function setupElectronStage(){
   player.electronstage.electrons = new Currency("electrons", "Electrons", "Electron", 0);
-  player.quarkstage.electrify = new Prestige("Electrify",player.electronstage.electrons, player.quarkstage.quarks, (amount) => {if(amount.lessThan(new Decimal("1e16"))) return new Decimal(); return Decimal.floor(Decimal.max(Decimal.log(amount.divide(new Decimal("1e20")), 10), 1))}, (producedamount) => {if(producedamount.equals(0)) return; resetQuarkStage(); player.stats.electrified += 1; player.stats.past10electrifies.unshift([player.stats.electrifyticks, this.producedcurrencyamount]); player.stats.past10electrifies.pop(); player.stats.currentelectrifytime = 0;})
+  player.quarkstage.electrify = new Prestige("Electrify",player.electronstage.electrons, player.quarkstage.quarks, (amount) => {if(amount.lessThan(new Decimal("1e16"))) return new Decimal(); return Decimal.floor(Decimal.max(Decimal.log(amount.divide(new Decimal("1e20")), 10), 1))}, (producedamount) => {if(producedamount.equals(0)) return; resetQuarkStage(); player.stats.electrified += 1; player.stats.past10electrifies.unshift([player.stats.electrifyticks, producedamount]); player.stats.past10electrifies.pop(); player.stats.currentelectrifytime = 0;})
   player.electronstage.upgradetree = [];
 
   //q -> quarks, g -> generator, e -> electron, p -> production, d -> scaling price decrease
@@ -148,10 +147,11 @@ function setupElectronStage(){
   player.electronstage.upgradetree.push(new Upgrade("qgep32", "x10 POG", 1, [new NumRequirement(player.electronstage.upgradetree[53], 1)], new StaticEffect(player.quarkstage.producers, 10, EffectTypes.ProducerMultiplierProduction, "Quark Generators"), new StaticCost(player.electronstage.electrons, "1e24"), null, {xpos: 0, ypos: 1989, label: "10x"}));
 
   //starts at index 55
-  player.electronstage.upgradetree.push(new Upgrade("qgep33", "Add A Litte Flavor", 1, new NumRequirement(player.electronstage.upgradetree[24], 1), new StaticEffect(player.quarkstage.electrify, 1, EffectTypes.PrestigeCurrencyBaseGain, "Electron"), new StaticCost(player.electronstage.electrons, "2"), null, {xpos: 141, ypos: 211, label: "+1e"}));
-  player.electronstage.upgradetree.push(new Upgrade("qgep34", "Ahh Take Another", 1, [new NumRequirement(player.electronstage.upgradetree[25], 1),new NumRequirement(player.electronstage.upgradetree[55], 1)], new StaticEffect(player.quarkstage.electrify, 1, EffectTypes.PrestigeCurrencyBaseGain, "Electron"), new StaticCost(player.electronstage.electrons, "50"), null, {xpos: 409, ypos: 298, label: "+1e"}));
-  player.electronstage.upgradetree.push(new Upgrade("qgep35", "Heh Its Better", 1, [new NumRequirement(player.electronstage.upgradetree[26], 1),new NumRequirement(player.electronstage.upgradetree[56], 1)], new StaticEffect(player.quarkstage.electrify, 2, EffectTypes.PrestigeCurrencyBaseGain, "Electron"), new StaticCost(player.electronstage.electrons, "200"), null, {xpos: 636, ypos: 464, label: "+2e"}));
-  player.electronstage.upgradetree.push(new Upgrade("qgep36", "Once Again Better", 1, [new NumRequirement(player.electronstage.upgradetree[27], 1),new NumRequirement(player.electronstage.upgradetree[57], 1)], new StaticEffect(player.quarkstage.electrify, 5, EffectTypes.PrestigeCurrencyBaseGain, "Electron"), new StaticCost(player.electronstage.electrons, "500"), null, {xpos: 802, ypos: 691, label: "+5e"}));
+  player.electronstage.upgradetree.push(new Upgrade("qgep33", "Add A Litte Flavor", 1, new NumRequirement(player.electronstage.upgradetree[24], 1), new LinkedLinearEffect(player.quarkstage.electrify, () => { return player.stats.electrified }, 0, .1, EffectTypes.PrestigeCurrencyBaseGain, "", (obj) => {return "Electrons gained on electify +" + formatDecimalOverride(obj.value, 2) + "(+" + formatDecimalOverride(obj.increase, 2) +" per electrify).";}), new StaticCost(player.electronstage.electrons, "2"), null, {xpos: 141, ypos: 211, label: "+1e"}));
+  //player.electronstage.upgradetree.push(new Upgrade("qgep33", "Add A Litte Flavor", 1, new NumRequirement(player.electronstage.upgradetree[24], 1), new StaticEffect(player.quarkstage.electrify, 1, EffectTypes.PrestigeCurrencyBaseGain, "Electron"), new StaticCost(player.electronstage.electrons, "2"), null, {xpos: 141, ypos: 211, label: "+1e"}));
+  player.electronstage.upgradetree.push(new Upgrade("qgep34", "Ahh Take Another", 1, [new NumRequirement(player.electronstage.upgradetree[25], 1),new NumRequirement(player.electronstage.upgradetree[55], 1)], new StaticEffect(player.quarkstage.electrify, 1, EffectTypes.PrestigeCurrencyBaseGain, "Electron"), new StaticCost(player.electronstage.electrons, "10"), null, {xpos: 409, ypos: 298, label: "+1e"}));
+  player.electronstage.upgradetree.push(new Upgrade("qgep35", "Heh Its Better", 1, [new NumRequirement(player.electronstage.upgradetree[26], 1),new NumRequirement(player.electronstage.upgradetree[56], 1)], new StaticEffect(player.quarkstage.electrify, 2, EffectTypes.PrestigeCurrencyBaseGain, "Electron"), new StaticCost(player.electronstage.electrons, "50"), null, {xpos: 636, ypos: 464, label: "+2e"}));
+  player.electronstage.upgradetree.push(new Upgrade("qgep36", "Once Again Better", 1, [new NumRequirement(player.electronstage.upgradetree[27], 1),new NumRequirement(player.electronstage.upgradetree[57], 1)], new StaticEffect(player.quarkstage.electrify, 5, EffectTypes.PrestigeCurrencyBaseGain, "Electron"), new StaticCost(player.electronstage.electrons, "250"), null, {xpos: 802, ypos: 691, label: "+5e"}));
   player.electronstage.upgradetree.push(new Upgrade("qgep37", "Slightly More, But Is It Required", 1, [new NumRequirement(player.electronstage.upgradetree[28], 1),new NumRequirement(player.electronstage.upgradetree[58], 1)], new StaticEffect(player.quarkstage.electrify, 10, EffectTypes.PrestigeCurrencyBaseGain, "Electron"), new StaticCost(player.electronstage.electrons, "1e3"), null, {xpos: 889, ypos: 959, label: "+10e"}));
   player.electronstage.upgradetree.push(new Upgrade("qgep38", "Spoiler Yes Yes It Is", 1, [new NumRequirement(player.electronstage.upgradetree[29], 1),new NumRequirement(player.electronstage.upgradetree[59], 1)], new StaticEffect(player.quarkstage.electrify, 10, EffectTypes.PrestigeCurrencyBaseGain, "Electron"), new StaticCost(player.electronstage.electrons, "2.5e3"), null, {xpos: 889, ypos: 1241, label: "+10e"}));
   player.electronstage.upgradetree.push(new Upgrade("qgep39", "Electron Multipliers Nice", 1, [new NumRequirement(player.electronstage.upgradetree[30], 1),new NumRequirement(player.electronstage.upgradetree[60], 1)], new StaticEffect(player.quarkstage.electrify, 1.1, EffectTypes.PrestigeCurrencyMultiplicativeGain, "Electron"), new StaticCost(player.electronstage.electrons, "1e5"), null, {xpos: 802, ypos: 1509, label: "x1.1e"}));
@@ -254,7 +254,7 @@ gameLogicIntervalID = 0;
 ticks = 0;
 function gameLogicTick(){
   starttime = new Date().getTime();
-  player.stats.electrifyticks += 1;
+  player.stats.currentelectrifytime += 1;
   achievementtick();
   produce();
   //lengthCalculator();

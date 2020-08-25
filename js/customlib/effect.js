@@ -14,7 +14,6 @@ class Effect{
     this.args = args;
     this.effectdescription = effectdescription;
     this.effecttype = effecttype;
-    console.log(effectdefualtvalue);
     this.increase = new Decimal(effectincrease);
     this.defaultval = new Decimal(effectdefualtvalue);
     this.value = new Decimal(effectdefualtvalue);

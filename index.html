@@ -132,13 +132,17 @@
         </div>
       </div>
       <div id="statsscreen" class="centered" style="display: none">
-        <span class="currencyextra">Current Electrify Time: {{formattime(player.stats.electrifyticks)}}</span>
+        <span class="currencyextra">Current Electrify Time: {{formattime(player.stats.currentelectrifytime)}}</span>
         <br>
         <span class="currencyextra" v-if="player.stats.electrified > 0">Times Electrified: {{player.stats.electrified}}</span>
+        <div class="past10">
+          <span class="past10label">Past 10 Electrifies</span>
+          <span class="past10value">The Electrify 1 Electrify ago took {{formattime(player.stats.past10electrifies[0][0])}} and gave {{player.stats.past10electrifies[0][1]}} Electrons</span>
+        </div>
       </div>
       <div id ="changelogscreen" class="centered" style="display: none">
         <span class="centered changelogversion">
-          Current Version: 0.02
+          Current Version: 0.03
         </span>
 
         <span class="centered changelogtext">
@@ -149,8 +153,20 @@
     </span>
     <div class="leftalign">
       <span class="changelogtext">
-    Version: 0.02
-		Date: June 1, 2020
+            Version: 0.03
+        		Date: August 23, 2020
+
+            1. Its been a long time and lots of stuff has been added, but progress was slowed for a while
+            2. Added an electron upgrade cloud.
+            3. Something like 65 upgrades that cost electrons.
+            4. Electron gain scaling added >> floor(max(log10([Quarks]/1e20), 1)) >> Quarks above 1e16
+            5. Electron upgrades to increase base electron gain, as well as multiply above function
+            6. Electron upgrades that can be purchased infinite times for increasing production
+            7. Electron upgrades that decrease price scaling on quark producers
+            8. Upgrade that unlocks the next layer of prestige (Not implemented nor pricing figured out)
+
+            Version: 0.02
+        		Date: June 1, 2020
 
             1. Added an upgrade/multiplier function.
             2. Did some slight balancing. Takes 40 hours for a stupid optimizer to do stuff.
