@@ -5,6 +5,9 @@ Vue.mixin({
         },
         formatSpecial: function(val, over){
             return formatDecimalOverride(val, over);
+        },
+        formatNormal: function(val, over){
+            return formatNormal(val, over);
         }
     }
 })
@@ -14,10 +17,10 @@ Vue.component('quark-producer-item', {
     template: `
     <div>
         <span class="baseproducername"> {{producer.displayname}}</span>
-        <span class="currencyextra"> x{{format(producer.amount)}}</span>
+        <span class="currencyextra"> x{{formatNormal(producer.amount)}}</span>
         <button class="buybutton tooltipholder" v-on:click="buyProducer(producer)">
-            <span>Buy x{{format(getbuyamount("quarkgen", producer))}} Cost:{{format(producer.getcost(0))}}</span>
-            <span class="tooltip" id="producer_quarkgenone_tooltip">Produces {{formatSpecial(producer.getproductionper(0), 1)}} {{producer.productions[0].productionobject.displayname}} per second.</span>
+            <span class="costtext">Buy x{{formatNormal(getbuyamount("quarkgen", producer))}} Cost: <span class="quark">{{formatNormal(producer.getcost(0))}}</span> {{producer.costs[0].costobject.displayname}}</span>
+            <span class="buybuttontooltip tooltip" id="producer_quarkgenone_tooltip">Produces {{formatSpecial(producer.getproductionper(0), 1)}} {{producer.productions[0].productionobject.displayname}} per second.</span>
         </button>
     </div>
     `,
@@ -33,11 +36,11 @@ Vue.component('quark-upgrade-item', {
     props: ['upgrade'],
     template: `
     <div>
-        <span class="baseupgradename"> {{upgrade.displayname}}</span>
-        <span class="currencyextra"> x{{format(upgrade.amount)}}</span>
-        <button class="tooltipholder" v-on:click="buyUpgrade(upgrade)">
-            <span>Buy x{{format(getbuyamount("quarkupg", upgrade))}} Cost:{{format(upgrade.getcost(0))}}</span>
-            <span class="tooltip">{{upgrade.effectsdescription}}</span>
+        <span class="baseproducername"> {{upgrade.displayname}}</span>
+        <span class="currencyextra"> x{{formatSpecial(upgrade.amount)}}</span>
+        <button class="buybutton tooltipholder" v-on:click="buyUpgrade(upgrade)">
+            <span class="costtext">Buy x{{formatSpecial(getbuyamount("quarkupg", upgrade))}} Cost:<span class="quark">{{formatSpecial(upgrade.getcost(0))}}</span> Quarks</span>
+            <span class="buybuttontooltip tooltip">{{upgrade.effectsdescription}}</span>
         </button>
     </div>
     `,

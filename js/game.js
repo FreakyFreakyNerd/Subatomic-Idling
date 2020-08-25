@@ -35,8 +35,14 @@ function formatDecimalOverride(num,dec){
   return notations[player.options.notation].format(num, dec, dec);
 }
 
+function formatNormal(num,dec){
+  if(dec != undefined)
+    return notations[player.options.notation].format(num, dec, 0);
+  return notations[player.options.notation].format(num, 2, 0);
+}
+
 function setupQuarkStage(){
-  player.quarkstage.quarks = new Currency("quarks", "Quarks", "Quark", 10);
+  player.quarkstage.quarks = new Currency("quark", "Quarks", "Quark", 10);
   player.quarkstage.producers = [];
   player.quarkstage.producers.push(new Producer("quarkgenone",     "Generator 1",  [new ExponentialCost(player.quarkstage.quarks, 5, 1.1)],          [new LinearProduction(player.quarkstage.quarks, .5)],null , "quarkgen"));
   player.quarkstage.producers.push(new Producer("quarkgentwo",     "Generator 2",  [new ExponentialCost(player.quarkstage.quarks, 50, 1.1)],         [new LinearProduction(player.quarkstage.quarks, 1)],      [new NumRequirement(player.quarkstage.producers[0], new Decimal(10))], "quarkgen"));
@@ -69,7 +75,7 @@ function resetQuarkStage(){
 }
 
 function setupElectronStage(){
-  player.electronstage.electrons = new Currency("electrons", "Electrons", "Electron", 0);
+  player.electronstage.electrons = new Currency("electron", "Electrons", "Electron", 0);
   player.quarkstage.electrify = new Prestige("Electrify",player.electronstage.electrons, player.quarkstage.quarks, (amount) => {if(amount.lessThan(new Decimal("1e16"))) return new Decimal(); return Decimal.floor(Decimal.max(Decimal.log(amount.divide(new Decimal("1e20")), 10), 1))}, (producedamount) => {if(producedamount.equals(0)) return; resetQuarkStage(); player.stats.electrified += 1; player.stats.past10electrifies.unshift([player.stats.electrifyticks, producedamount]); player.stats.past10electrifies.pop(); player.stats.currentelectrifytime = 0;})
   player.electronstage.upgradetree = [];
 

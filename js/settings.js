@@ -1,6 +1,6 @@
 settings = {
-    tickspersecond : 1,
-    logictickspersecond : 100,
+    tickspersecond : 20,
+    logictickspersecond : 20,
     version: "Alpha v0.02",
     defaultoptions : {
         uidelay : 50,
