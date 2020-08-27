@@ -1,16 +1,3 @@
-/* Palette for use in light mode
-  Colors:
-  $artichoke: #92977eff;
-  $medium-champagne: #eadda6ff;
-  $cornsilk: #fffae2ff;
-  $blood-red: #6b0504ff;
-  $chinese-red: #a3320bff;
-  $yellow-green-crayola: #d5e68dff;
-  $dark-purple: #331e38ff;
-  $cadet-grey: #8c9daeff;
-  $cadet-grey-2: #9aadbfff;
-  $cerulean-frost: #6d98baff;
-*/
 body{
   background-color: #EEE;
 }
