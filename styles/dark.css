@@ -1,48 +1,52 @@
-<<<<<<< HEAD
-
-/*background color*/
 body{
-  background-color:#252525;
-
+  background-color: #222;
 }
 
-/*Menu Buttons*/
-.menubutton{
-  color:#FFFFFF;
 
+.quark{
+  color: #0066ff !important;
 }
 
-.gamename{
-  color:#F0ECE2;
+/*Side Navigation*/
+.sidenav {
+  background-color: #111;
+  color: #888;
 
+  border: 2px solid #333;
 }
 
-/*Sidebar Color*/
-.sidenav{
-  background-color:#363636;
-
+.sidenav .menubutton {
+  color: #777;
 }
 
-/*Quark Screen*/
+/*Currency Display*/
 .currencyextra{
-  color:#FFFFFF;
-
+  color: #888888
 }
 
-.title{
-  color:#FFFFFF;
-
+/*Quark Menu*/
+.producerlabel{
+  color: #666;
 }
 
-.baseupgradename{
-  color:#FFFFFF;
-
+.baseproducername{
+  color: #888;
 }
 
-/*Achievement Screen*/
-.achievementdisplay{
-  color:#FFFFFF;
-
+/*Buy Button*/
+.buybutton{
+  color: #777;
+  background-color: #111;
+  border: 2px solid #333;
+  border-radius: 2px;
 }
-=======
->>>>>>> parent of e143bdd... No idea what the hell this is
+
+.costtext{
+  color: #777;
+}
+
+.buybuttontooltip{
+  color: #777 !important;
+  background-color: #111 !important;
+  border: 2px solid #333 !important;
+}
