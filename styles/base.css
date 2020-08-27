@@ -79,7 +79,6 @@ span {
 .producerlabel {
   font-size: 24px;
   font-weight: bold;
-  font-family:"Lucida Console";
 }
 
 .entry{
@@ -222,22 +221,4 @@ td.righttablecolumn {
   bottom: 0;
   left: 0;
   right: 0;
-}
-
-/*Sidebar navigation*/
-.menubutton{
-    font-family:"Lucida Console";
-    margin-top:10px;
-
-}
-
-/*Quark Screen*/
-.currencyextra{
-  font-family:"Lucida Console";
-
-}
-
-.baseupgradename{
-  font-family:"Lucida Console";
-
 }

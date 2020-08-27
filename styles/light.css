@@ -12,51 +12,47 @@
   $cerulean-frost: #6d98baff;
 */
 
-.color1{
-  background-color: #92977eff;
-}
-.color2{
-  background-color: #eadda6ff;
-}
-.color3{
-  background-color: #fffae2ff;
-}
-.color4{
-  background-color: #6b0504ff;
-}
-.color5{
-  background-color: #a3320bff;
-}
-.color6{
-  background-color: #d5e68dff;
-}
-.color7{
-  background-color: #331e38ff;
-}
-.color8{
-  background-color: #8c9daeff;
-}
-.color9{
-  background-color: #9aadbfff;
-}
-.color10{
-  background-color: #6d98baff;
+/*background color*/
+body{
+  background-color:#EEE;
+
 }
 
-/*Electron Upgrades*/
-.electronquickupgradebutton{
-  background-color: #fffae2ff;
-  border-color: #6d98baff;
+/*Menu Buttons*/
+.menubutton{
+  color:#EEE;
+
 }
 
-.electronquickupgradebuttonbought{
-  background-color: #6d98baff;
+.gamename{
+  color:#F0ECE2;
+
 }
 
-.electronupgradeimage {
-  filter: sepia(100%) saturate(100%) brightness(70%) hue-rotate(180deg);
+/*Sidebar Color*/
+.sidenav{
+  background-color:#BBB;
+
 }
 
-.electrontreeline{
-  stroke: #a3320bff;
+/*Quark Screen*/
+.currencyextra{
+  color:#333;
+
+}
+
+.title{
+  color:#333;
+
+}
+
+.baseupgradename{
+  color:#FFFFFF;
+
+}
+
+/*Achievement Screen*/
+.achievementdisplay{
+  color:#FFFFFF;
+
 }
