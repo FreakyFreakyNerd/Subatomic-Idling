@@ -5,12 +5,14 @@ class Currency{
         this.singulardisplayname = singulardisplayname;
         this.startingamount = new Decimal(startingamount)
         this.amount = new Decimal(startingamount);
+        this.gained = new Decimal();
         currencyregistry.push(this);
         this.temp = {};
     }
 
     reset(){
       this.amount = new Decimal(this.startingamount)
+      this.gained = new Decimal(0);
     }
 
     get saveData(){
@@ -18,13 +20,15 @@ class Currency{
     }
 
     save(){
-        return { amount : this.amount.toString()};
+        return { amount : this.amount.toString(), gained : this.gained.toString()};
     }
 
     parse(data){
       if(data != undefined)
         if(data.amount != undefined)
             this.amount = Decimal.fromString(data.amount);
+          if(data.gained != undefined)
+            this.gained = Decimal.fromString(data.gained);
     }
 
     subtract(amount){
@@ -41,6 +45,7 @@ class Currency{
 
     addamount(val){
         this.amount = this.amount.add(val)
+        this.gained = this.gained.add(val);
     }
 
     has(amount){

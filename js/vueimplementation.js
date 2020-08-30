@@ -68,7 +68,7 @@ Vue.component('buy-display', {
 Vue.component('electron-upgrade-item', {
     props: ['upgrade'],
     template: `
-      <button class="tooltipholder electronquickupgradebutton" v-bind:style="{left: upgrade.xpos, top: upgrade.ypos, zindex: 1}" v-bind:class="{electronquickupgradebuttonbought: upgrade.ismaxlevel}" v-on:click="buyUpgrade(upgrade)">
+      <button class="tooltipholder electronquickupgradebutton" v-bind:style="{left: upgrade.xpos, top: upgrade.ypos, zindex: 1}" v-bind:class="{electronquickupgradebuttonbought: upgrade.ismaxbuyable}" v-on:click="buyUpgrade(upgrade)">
         <span class="electronupgradelabel">{{upgrade.label}}</span>
         <div class="tooltip electronupgradetooltip">
           <span class="electronupgradename">{{upgrade.displayname}}\n\n</span>

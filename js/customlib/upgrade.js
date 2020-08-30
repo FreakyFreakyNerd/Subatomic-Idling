@@ -110,7 +110,6 @@ class Upgrade{
             this.costs.forEach((cost, i) => {
               cost.subtractcost();
             });
-            console.log("buying")
             this.recalculatecosts();
             this.recalculateeffects();
         }

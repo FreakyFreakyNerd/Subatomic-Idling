@@ -76,6 +76,6 @@ class Prestige{
   }
 
   get baseamount(){
-    return this.amountfunction(this.consumescurrency.amount);
+    return this.amountfunction(this.consumescurrency.gained);
   }
 }
