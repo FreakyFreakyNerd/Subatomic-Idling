@@ -51,13 +51,13 @@ class Prestige{
     switch(effect.effecttype){
       case EffectTypes.PrestigeCurrencyBaseGain:
         if(this.addeffects.includes(effect)){
-          this.addeffects.splice(this.addeffects.findIndex(effect));
+          this.addeffects.splice(this.addeffects.indexOf(effect));
           this.recalculateaddeffect();
         }
         break;
       case EffectTypes.PrestigeCurrencyMultiplicativeGain:
         if(this.multeffects.includes(effect)){
-          this.multeffects.splice(this.multeffects.findIndex(effect));
+          this.multeffects.splice(this.multeffects.indexOf(effect));
           this.recalculatemulteffect();
         }
         break;

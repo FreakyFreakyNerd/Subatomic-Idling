@@ -6,8 +6,8 @@ Vue.mixin({
         formatSpecial: function(val, over){
             return formatDecimalOverride(val, over);
         },
-        formatNormal: function(val, over){
-            return formatNormal(val, over);
+        formatDecimalNormal: function(val, over){
+            return formatDecimalNormal(val, over);
         }
     }
 })
@@ -17,9 +17,9 @@ Vue.component('quark-producer-item', {
     template: `
     <div>
         <span class="baseproducername"> {{producer.displayname}}</span>
-        <span class="currencyextra"> x{{formatNormal(producer.amount)}}</span>
+        <span class="currencyextra">{{producer.amountdescription}}</span>
         <button class="buybutton tooltipholder" v-on:click="buyProducer(producer)">
-            <span class="costtext">Buy x{{formatNormal(getbuyamount("quarkgen", producer))}} Cost: <span class="quark">{{formatNormal(producer.getcost(0))}}</span> {{producer.costs[0].costobject.displayname}}</span>
+            <span class="costtext">Buy x{{formatDecimalNormal(getbuyamount("quarkgen", producer))}} Cost: <span class="quark">{{formatDecimalNormal(producer.getcost(0))}}</span> {{producer.costs[0].costobject.displayname}}</span>
             <span class="buybuttontooltip tooltip" id="producer_quarkgenone_tooltip">Produces {{formatSpecial(producer.getproductionper(0), 1)}} {{producer.productions[0].productionobject.displayname}} per second.</span>
         </button>
     </div>
@@ -71,10 +71,10 @@ Vue.component('electron-upgrade-item', {
       <button class="tooltipholder electronquickupgradebutton" v-bind:style="{left: upgrade.xpos, top: upgrade.ypos, zindex: 1}" v-bind:class="{electronquickupgradebuttonbought: upgrade.ismaxbuyable}" v-on:click="buyUpgrade(upgrade)">
         <span class="electronupgradelabel">{{upgrade.label}}</span>
         <div class="tooltip electronupgradetooltip">
-          <span class="electronupgradename">{{upgrade.displayname}}\n\n</span>
-          <span class="electronupgradebought">Bought: {{upgrade.boughtdescription}}\n</span>
-          <span class="electronupgradeeffect">Effects:\n{{upgrade.effectsdescription}}</span>
-          <span class="electronupgradecost">Cost for {{upgrade.buyamount}}:\n{{upgrade.costdescription}}</span>
+          <span class="electronupgradename">{{upgrade.displayname}}\n</span>
+          <span class="electronupgradeeffect">{{upgrade.effectsdescription}}\n</span>
+          <span class="electronupgradebought" >{{upgrade.boughtdescription}}\n</span>
+          <span class="electronupgradecost" v-show="!upgrade.ismaxbuyable">{{upgrade.costdescription}}</span>
         </div>
       </button>
     `,

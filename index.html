@@ -99,7 +99,7 @@
       </div>
       <div id="electronscreen" style="display: none;">
         <div id="electronamountdisplay">
-            <span class="currencyextra">You have <span id="currency_electrons_amount" class="currencydisplay"> {{format(player.electronstage.electrons.amount)}} </span> Electrons.
+            <span class="currencyextra">You have <span id="currency_electrons_amount" class="currencydisplay"> {{formatDecimalNormal(player.electronstage.electrons.amount)}} </span> Electrons.
             </span>
         </div>
         <div id="electronupgrades" class="moveablescalableobject electronupgradecloud" style="overflow: hidden;" onwheel='scalediv(event, this.id)' onmouseout='stopmovingobject(this.id)' onmouseup='stopmovingobject(this.id)' onmousedown='startmovingobject(event, this.id)' onmousemove='movingobject(event, this.id)'>

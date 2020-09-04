@@ -132,6 +132,30 @@ class ExponentialEffect extends Effect{
   }
 }
 
+class LinkedExponentialEffect extends Effect{
+  constructor(objectsappliesto, linkedfunction, effectdefualtvalue, effectincrease, effecttype, appliestotext, effectdescription, args){
+    super(objectsappliesto, effectdefualtvalue, effectincrease, effecttype, appliestotext, effectdescription, args);
+    this.linkedfunction = linkedfunction;
+    this.oldvalue = undefined;
+  }
+  onconstructfinish(){
+    updaterequiredregistry.push(this);
+  }
+
+  getlinkednum(){
+    return this.linkedfunction();
+  }
+
+  tick(){
+    this.recalculatevalue();
+  }
+
+  recalculatevalue(){
+    this.value = this.defaultval.times(Decimal.pow(this.increase, this.getlinkednum()));
+    this.oneffectchanged();
+  }
+}
+
 class StaticEffect extends Effect{
 
   constructor(objectsappliesto, effectvalue, effecttype, appliestotext, effectdescription, args){

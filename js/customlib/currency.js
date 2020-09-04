@@ -24,11 +24,12 @@ class Currency{
     }
 
     parse(data){
-      if(data != undefined)
+      if(data != undefined){
         if(data.amount != undefined)
             this.amount = Decimal.fromString(data.amount);
-          if(data.gained != undefined)
-            this.gained = Decimal.fromString(data.gained);
+        if(data.gained != undefined)
+          this.gained = Decimal.fromString(data.gained);
+      }
     }
 
     subtract(amount){

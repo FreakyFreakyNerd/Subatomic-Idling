@@ -67,19 +67,24 @@ class Upgrade{
     }
 
     get boughtdescription(){
+      if(!this.unlocked)
+        return "Locked";
+      if(this.ismaxbuyable)
+        return "Upgrade Maxed";
       if(this.maxbuyable.equals(-1))
-        return formatDecimal(this.amount) + "/infinity-ish";
-      var description = "";
-      description += formatDecimal(this.amount) + "/" + formatDecimal(this.maxbuyable);
-      return description;
+        return "Bought: " + formatDecimalNormal(this.amount);
+      return "Bought: " + formatDecimalNormal(this.amount) + "/" + formatDecimalNormal(this.maxbuyable);
     }
 
     get effectsdescription(){
       var description = "";
+      if(this.effects.length == 1)
+        description += "Effect:\n";
+      else
+        description += "Effects:\n";
       this.effects.forEach((effect, i) => {
           description += effect.geteffect()+"\n";
       });
-
       return description;
     }
 
@@ -186,8 +191,12 @@ class Upgrade{
 
     get costdescription(){
       if(this.ismaxbuyable)
-        return "Max Bought"
+        return "Max Level"
       var description = "";
+      if(this.costs.length == 1)
+        description += "Cost:\n";
+      else
+        description += "Costs:\n";
       this.costs.forEach((cost, i) => {
         if(i < this.costs.length)
           description += cost.description + "\n";

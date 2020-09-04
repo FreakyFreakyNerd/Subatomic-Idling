@@ -256,4 +256,10 @@ class Producer {
       this.recalculateproductions();
       this.recalculatecosts();
     }
+
+    get amountdescription(){
+      if(this.produced.equals(0))
+        return "x" + formatDecimalNormal(this.bought);
+      return "x" + formatDecimalNormal(this.bought) + "(" + formatDecimalNormal(this.produced) + ")"
+    }
 }
