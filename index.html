@@ -107,6 +107,7 @@
             <div id="quarkspinproducerdisplay" style="left: -2000; position: absolute;" v-if="player.electronstage.quarkspin.unlocked">
               <div>{{player.electronstage.quarkspin.effects[0].description}}</div>
               <quark-spin-producer v-for="producer in player.electronstage.quarkspinproducers" v-bind:producer="producer"></quark-spin-producer>
+              <buy-display buykey='spingen' buydisplay="Spinners"></buy-display>
             </div>
             <div id="electronupgradelines"><line-tree v-bind:linetree="player.electronstage.electronupgradelinetree" v-bind:classspecial="'electron'"></line-tree></div>
             <div>
@@ -114,7 +115,8 @@
             </div>
           </div>
         </div>
-        <button style="align: right;" onclick='recenter("electronupgrades")'>Reset View</buybutton>
+        <button style="align: right;" onclick='recenter("electronupgrades")'>Reset View</button>
+        <buy-display buykey='eupg' buydisplay="Electron Upgrades"></buy-display>
       </div>
       <div id="achievementsscreen" style="display: none">
         <div class="achievementdisplay">

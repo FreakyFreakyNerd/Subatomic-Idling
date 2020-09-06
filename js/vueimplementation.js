@@ -166,12 +166,10 @@ Vue.component('quark-spin-producer', {
         <span class="baseproducername"> {{producer.displayname}}</span>
         <span class="currencyextra">{{producer.amountdescription}}</span>
         <button class="buybutton tooltipholder"v-on:click="buyProducer(producer)">
-            <span class="costtext">Buyx{{formatDecimalNormal(getbuyamount("quarkgen", producer))}} Cost:
-            <span class="quark">{{formatDecimalNormal(producer.getcost(0))}}</span>{{producer.costs[0].costobject.displayname}}</span>
+            <span class="costtext">Buyx{{formatDecimalNormal(getbuyamount("quarkgen", producer))}} Cost:<span class="quark"> {{formatDecimalNormal(producer.getcost(0))}}</span> {{producer.costs[0].costobject.displayname}}</span>
             <span class="buybuttontooltip tooltip"id="producer_quarkgenone_tooltip">Produces {{formatSpecial(producer.getproductionper(0), 1)}} {{producer.productions[0].productionobject.displayname}} per second.</span>
         </button>
     </div>
-
     `,
 
     methods: {

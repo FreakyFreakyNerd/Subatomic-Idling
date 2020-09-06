@@ -74,6 +74,11 @@ class LinearCost extends Cost{
       else
         this.cost = this.startingcost.add(this.scaling.times(amount));
     }
+    
+    getmaxbuyable(amount){
+      var amountavailable = this.costobject.amount;
+      return Decimal.floor(Decimal.log(new Decimal(1).minus((new Decimal(1)).minus(this.scaling).times(amountavailable).divide(this.startingcost).divide(Decimal.pow(this.scaling, amount))), this.scaling));
+    }
 }
 
 class StaticCost extends Cost{
