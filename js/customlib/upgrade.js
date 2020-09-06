@@ -178,6 +178,8 @@ class Upgrade{
 
       if(this.bought.add(amount).greaterThan(this.maxbuyable))
         amount = this.maxbuyable.minus(this.bought);
+      if(amount.lessThan(new Decimal(0)))
+        amount = new Decimal(0);
       return amount;
     }
 
