@@ -47,7 +47,7 @@ function updateTheme(){
 
 function changeNotation(notation){
     player.options.notation = notation;
-    quarkstageproducersapp.$forceUpdate();
+    subatomicidlingapp.$forceUpdate();
 }
 
 function updateafterplayer(){
