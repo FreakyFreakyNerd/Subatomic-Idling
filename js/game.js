@@ -95,7 +95,7 @@ function setupElectronStage(){
     if(amount.lessThan(new Decimal("1e16")))
       return new Decimal();
     num = Decimal.floor(Decimal.max(Decimal.log(amount.divide(new Decimal("1e20")), 10), 1));
-    num = Decimal.pow(num, Decimal.max(Decimal.log(amount.divide(new Decimal("1e40")), new Decimal("1e10")), 1))
+    num = Decimal.pow(num, 2)
     return num;
   }
   player.quarkstage.electrify = new Prestige("Electrify",player.electronstage.electrons, player.quarkstage.quarks, electrongain, (producedamount) => {if(producedamount.equals(0)) return; resetQuarkStage(); player.stats.electrified += 1; player.stats.past10electrifies.unshift([player.stats.currentelectrifytime, producedamount]); player.stats.past10electrifies.pop(); player.stats.currentelectrifytime = 0;})

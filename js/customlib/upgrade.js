@@ -165,17 +165,20 @@ class Upgrade{
       if(player.options.buyamounts[this.buykey] == undefined)
         return 1;
 
+      var amount = new Decimal(0);
       if(player.options.buyamounts[this.buykey].equals(-1)){
-        var max = this.getmaxbuyable();
+        amount = this.getmaxbuyable();
         this.onbuymax = true;
-        if(max.lessThanOrEqualTo(0))
-          return new Decimal(1);
-        return max;
+        if(amount.lessThanOrEqualTo(0))
+          amount = new Decimal(1);
       }else{
-        this.onbuymax = false;
+        this.onbuymax = false
+        amount =  player.options.buyamounts[this.buykey];
       }
 
-      return player.options.buyamounts[this.buykey];
+      if(this.bought.add(amount).greaterThan(this.maxbuyable))
+        amount = this.maxbuyable.minus(this.bought);
+      return amount;
     }
 
     get amount(){
@@ -238,7 +241,7 @@ class Upgrade{
     }
 
     get ismaxbuyable(){
-      return this.bought.equals(this.maxbuyable);
+      return this.bought.greaterThanOrEqualTo(this.maxbuyable);
     }
 
     add(amount){
