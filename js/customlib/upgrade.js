@@ -175,7 +175,8 @@ class Upgrade{
         this.onbuymax = false
         amount =  player.options.buyamounts[this.buykey];
       }
-
+      if(this.maxbuyable == -1)
+        return amount;
       if(this.bought.add(amount).greaterThan(this.maxbuyable))
         amount = this.maxbuyable.minus(this.bought);
       if(amount.lessThan(new Decimal(0)))
