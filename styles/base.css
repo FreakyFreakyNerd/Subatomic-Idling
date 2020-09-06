@@ -222,3 +222,42 @@ td.righttablecolumn {
   left: 0;
   right: 0;
 }
+
+/*Statistics*/
+
+.statsidenav {
+  height: 100%;
+  width: 80px;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 165px;
+  overflow-x: hidden;
+  padding-top: 20px;
+  align: left;
+}
+
+.statsidenav .menubutton {
+  padding: 1px 1px 1px 5px;
+  text-decoration: none;
+  font-size: 16px;
+  display: block;
+}
+
+.statsidenav .menubutton:hover {
+  cursor: pointer;
+}
+
+.statcontent {
+  margin-left: 80px; /* Same as the width of the sidebar */
+  padding: 0px 10px;
+}
+
+.past10value {
+  font-size: 12px;
+}
+
+.past10label {
+  font-weight: bold;
+  font-size: 24px;
+}

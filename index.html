@@ -104,6 +104,10 @@
         </div>
         <div id="electronupgrades" class="moveablescalableobject electronupgradecloud" style="overflow: hidden;" onwheel='scalediv(event, this.id)' onmouseout='stopmovingobject(this.id)' onmouseup='stopmovingobject(this.id)' onmousedown='startmovingobject(event, this.id)' onmousemove='movingobject(event, this.id)'>
           <div id="electronupgradescontent" style="display: block;">
+            <div id="quarkspinproducerdisplay" style="left: -2000; position: absolute;" v-if="player.electronstage.quarkspin.unlocked">
+              <div>{{player.electronstage.quarkspin.effects[0].description}}</div>
+              <quark-spin-producer v-for="producer in player.electronstage.quarkspinproducers" v-bind:producer="producer"></quark-spin-producer>
+            </div>
             <div id="electronupgradelines"><line-tree v-bind:linetree="player.electronstage.electronupgradelinetree" v-bind:classspecial="'electron'"></line-tree></div>
             <div>
               <electron-upgrade-item v-for="upgrade in player.electronstage.upgradetree" v-bind:upgrade="upgrade" ></electron-upgrade-item>
@@ -111,18 +115,32 @@
           </div>
         </div>
       </div>
-      <div id="achievementsscreen"style="display: none">
+      <div id="achievementsscreen" style="display: none">
         <div class="achievementdisplay">
             <achievement-item v-for="achieve in player.achievements" v-bind:achievement="achieve"> <achievement-item>
         </div>
       </div>
       <div id="statsscreen" class="centered" style="display: none">
-        <span class="currencyextra">Current Electrify Time: {{formattime(player.stats.currentelectrifytime)}}</span>
-        <br>
-        <span class="currencyextra" v-if="player.stats.electrified > 0">Times Electrified: {{player.stats.electrified}}</span>
-        <div class="past10">
-          <span class="past10label">Past 10 Electrifies</span>
-          <span class="past10value">The Electrify 1 Electrify ago took {{formattime(player.stats.past10electrifies[0][0])}} and gave {{player.stats.past10electrifies[0][1]}} Electrons</span>
+        <div class="statsidenav">
+          <a class="gamename">Statistics</a>
+          <a class="menubutton" onclick='openstatscreen("general")'>General</a>
+          <a class="menubutton" onclick='openstatscreen("electrify")' v-if='hasachievement("electrifyunlock")'>Electrify</a>
+        </div>
+        <div class="statcontent">
+          <div id="generalstatscreen"></div>
+          <div id="electrifystatscreen" style="display: none">
+            <span class="currencyextra">Current Electrify Time: {{formattime(player.stats.currentelectrifytime,false,false,true,true,false)}}</span>
+            <br>
+            <span class="currencyextra" v-if="player.stats.electrified > 0">Times Electrified: {{player.stats.electrified}}</span>
+            <br>
+            <br>
+            <div class="past10">
+              <span class="past10label">Past 10 Electrifies</span>
+              <br>
+              <br>
+              <span class="past10value" v-for="(val, index) in player.stats.past10electrifies" :key="index">The Electrify {{index+1}} Electrify ago took {{formattime(val[0],false,false,true,true,false)}} and gave {{val[1]}} Electrons <br></span>
+            </div>
+          </div>
         </div>
       </div>
       <div id ="changelogscreen" class="centered" style="display: none">

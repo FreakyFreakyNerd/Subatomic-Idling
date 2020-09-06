@@ -181,6 +181,58 @@ class StaticEffect extends Effect{
   }
 }
 
+class FunctionEffect{
+  constructor(objectsappliesto, effecttype, effectvaluefunction, effectdescriptionfunction){
+    if(Array.isArray(objectsappliesto))
+      this.appliesto = objectsappliesto;
+    else
+      this.appliesto = [objectsappliesto]
+    this.effecttype = effecttype;
+    this.effectvaluefunction = effectvaluefunction;
+    this.effectdescription = effectdescriptionfunction;
+    this.amount = new Decimal();
+    this.value = new Decimal(1);
+  }
+
+  recalculatevalue(amount){
+    this.amount = amount;
+    if(this.effectvaluefunction != undefined)
+      this.value = this.effectvaluefunction(amount);
+    else
+      this.value = new Decimal(1);
+  }
+
+  get description(){
+    if(this.effectdescription != undefined)
+      return this.effectdescription(this);
+    return "No effect function found";
+  }
+
+  oneffectchanged(){
+    this.appliesto.forEach((item, i) => {
+      item.effectchanged();
+    });
+  }
+
+  apply(){
+    this.appliesto.forEach((obj, i) => {
+      obj.applyeffect(this);
+    });
+  }
+
+  remove(){
+    this.appliesto.forEach((obj, i) => {
+      obj.removeeffect(this);
+    });
+  }
+
+  getarg(type){
+    if(this.args == undefined)
+    return undefined;
+    return this.args[type];
+  }
+}
+
 class FlavorEffect extends Effect{
   constructor(flavortext){
     super();

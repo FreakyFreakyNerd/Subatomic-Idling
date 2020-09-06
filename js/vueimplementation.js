@@ -8,6 +8,9 @@ Vue.mixin({
         },
         formatDecimalNormal: function(val, over){
             return formatDecimalNormal(val, over);
+        },
+        hasachievement: function(id){
+          return hasachievement(id);
         }
     }
 })
@@ -110,6 +113,24 @@ Vue.component('achievement-item', {
         <span class="tooltip" v-if='achievement.show && !achievement.hastag("hidetooltip")'>{{achievement.description}}</span>
     </div>
     `
+})
+Vue.component('quark-spin-producer', {
+    props: ['producer'],
+    template: `
+    <div style='align: center;'>
+        <span class="baseproducername"> {{producer.displayname}}</span>
+        <span class="currencyextra">{{producer.amountdescription}}</span>
+        <button class="buybutton tooltipholder" v-on:click="buyProducer(producer)">
+            <span class="costtext">Buy x{{formatDecimalNormal(getbuyamount("quarkgen", producer))}} Cost: <span class="quark">{{formatDecimalNormal(producer.getcost(0))}}</span> {{producer.costs[0].costobject.displayname}}</span>
+            <span class="buybuttontooltip tooltip" id="producer_quarkgenone_tooltip">Produces {{formatSpecial(producer.getproductionper(0), 1)}} {{producer.productions[0].productionobject.displayname}} per second.</span>
+        </button>
+    </div>
+    `,
+    methods: {
+        buyProducer: function(producer){
+            producer.buy();
+        }
+    }
 })
 
 var subatomicidlingapp = new Vue({

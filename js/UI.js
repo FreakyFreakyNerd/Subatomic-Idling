@@ -25,10 +25,16 @@ notations = {
 //UI
 currentscreen = "quark"
 function openscreen(screen){
-  console.log(screen);
   document.getElementById(currentscreen + "screen").style.display = "none";
   document.getElementById(screen + "screen").style.display = "block";
   currentscreen = screen;
+}
+//stat menu
+currentstatscreen = "general"
+function openstatscreen(screen){
+  document.getElementById(currentstatscreen + "statscreen").style.display = "none";
+  document.getElementById(screen + "statscreen").style.display = "block";
+  currentstatscreen = screen;
 }
 
 function changeTheme(theme){
@@ -54,7 +60,7 @@ const ticksperday = settings.tickspersecond*3600*24
 const ticksperhour = settings.tickspersecond*3600
 const ticksperminute = settings.tickspersecond*60
 
-function formattime(ticks){
+function formattime(ticks,showdays,showhours,showminutes,showseconds,showticks){
   days = Math.floor(ticks/ticksperday);
   remainingticks = ticks - days*ticksperday;
   hours = Math.floor(remainingticks/ticksperhour);
@@ -63,5 +69,16 @@ function formattime(ticks){
   remainingticks = remainingticks - minutes*ticksperminute;
   seconds = Math.floor(remainingticks/settings.tickspersecond);
   remainingticks = remainingticks - seconds*settings.tickspersecond;
-  return `${days} Days, ${hours} Hours, ${minutes} Minutes, ${seconds} Seconds, ${remainingticks} Ticks`
+  val = "";
+  if(showdays == undefined || showdays == true)
+    val += `${days} Days, `;
+  if(showhours == undefined || showhours == true)
+    val += `${hours} Hours, `;
+  if(showminutes == undefined || showminutes == true)
+    val += `${minutes} Minutes, `;
+  if(showseconds == undefined || showseconds == true)
+    val += `${seconds} Seconds, `;
+  if(showticks == undefined || showticks == true)
+    val += `${remainingticks} Ticks`;
+  return val;
 }

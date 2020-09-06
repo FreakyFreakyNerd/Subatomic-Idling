@@ -175,9 +175,16 @@ function setupElectronStage(){
 
 
   player.electronstage.upgradetree.push(new Upgrade("eu65", "Add A Litte Flavor", 1, new NumRequirement(player.electronstage.upgradetree[0], 1), new LinkedLinearEffect(player.quarkstage.producers, () => { num = new Decimal(); player.quarkstage.producers.forEach((prod, i) => {num = num.add(prod.bought)}); return num; }, 1, .01, EffectTypes.ProducerMultiplierProduction, "", (obj) => {return "Multiply Quark Generators production by " + formatDecimalOverride(obj.value, 2) + "(+" + formatDecimalOverride(obj.increase, 2) +" per bought quark generator).";}), new StaticCost(player.electronstage.electrons, "10"), null, {xpos: 0, ypos: 224, label: "QG"}));
-    player.electronstage.upgradetree.push(new Upgrade("eu66", "Add A Litte Flavor", 1, new NumRequirement(player.electronstage.upgradetree[65], 1), new LinkedExponentialEffect(player.quarkstage.producers, () => { num = new Decimal(); player.quarkstage.producers.forEach((prod, i) => {num = num.add(prod.bought)}); return num; }, 1, 1.001, EffectTypes.ProducerMultiplierProduction, "", (obj) => {return "Multiply Quark Generators production by " + formatDecimalOverride(obj.value, 3) + "(x" + formatDecimalOverride(obj.increase, 3) +" per bought quark generator).";}), new StaticCost(player.electronstage.electrons, "1000"), null, {xpos: 0, ypos: 324, label: "*QG"}));
+  player.electronstage.upgradetree.push(new Upgrade("eu66", "Add A Litte Flavor", 1, new NumRequirement(player.electronstage.upgradetree[65], 1), new LinkedExponentialEffect(player.quarkstage.producers, () => { num = new Decimal(); player.quarkstage.producers.forEach((prod, i) => {num = num.add(prod.bought)}); return num; }, 1, 1.001, EffectTypes.ProducerMultiplierProduction, "", (obj) => {return "Multiply Quark Generators production by " + formatDecimalOverride(obj.value, 3) + "(x" + formatDecimalOverride(obj.increase, 3) +" per bought quark generator).";}), new StaticCost(player.electronstage.electrons, "1000"), null, {xpos: 0, ypos: 324, label: "*QG"}));
 
+  player.electronstage.upgradetree.push(new Upgrade("eu67", "Yep Something Newwwww", 1, new NumRequirement(player.electronstage.upgradetree[0], 1), new FlavorEffect("Unlocks some new producers (only buy if you have at least 11 electrons)"), new StaticCost(player.electronstage.electrons, "1"), null, {xpos: -1500, ypos: 0, label: "QS"}));
 
+  player.electronstage.quarkspin = new Upgrade("quarkspin", "Quark Spin", 0, [new NumRequirement(player.electronstage.upgradetree[67], 1)], new FunctionEffect(player.quarkstage.producers, EffectTypes.ProducerMultiplierProduction, (amount) => {console.log("Recal " + formatDecimal(Decimal.log(amount,10))); return new Decimal(1).add(Decimal.log(amount,10));}, (obj) => {return "You have " + formatDecimalNormal(obj.amount) + " Quark Spin, providing a x" + formatDecimal(obj.value) + " to Quark Producers."}));
+
+  player.electronstage.quarkspinproducers = [];
+  player.electronstage.quarkspinproducers.push(new Producer("qs1", "Spinner 1", [new ExponentialCost(player.electronstage.electrons, "10", 4)], [new LinearProduction(player.electronstage.quarkspin, "1")], null, "spingen"));
+  player.electronstage.quarkspinproducers.push(new Producer("qs2", "Spinner 2", [new ExponentialCost(player.electronstage.electrons, "1e5", 4)], [new LinearProduction(player.electronstage.quarkspinproducers[0], ".001")], null, "spingen"));
+  
   player.electronstage.electronupgradelinetree = new LineTree(dumplines(player.electronstage.upgradetree, 64), "electronupgrades");
 }
 

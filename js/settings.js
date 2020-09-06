@@ -7,7 +7,7 @@ settings = {
         notation : "standard",
         notationdecimals : 3,
         theme : "light",
-        buyamounts : {quarkgen: new Decimal(1)}
+        buyamounts : {quarkgen: new Decimal(1),spingen: new Decimal(1)}
     },
     defaultstats : {
       currentelectrifytime : 0,

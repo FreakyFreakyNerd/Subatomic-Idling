@@ -19,9 +19,29 @@ body{
   color: #777;
 }
 
+/*Stat Menu*/
+.statsidenav {
+  background-color: #111;
+  color: #888;
+
+  border: 2px solid #333;
+}
+
+.statsidenav .menubutton {
+  color: #777;
+}
+
+.past10label {
+  color: #777777;
+}
+
+.past10value {
+  color: #888888;
+}
+
 /*Currency Display*/
 .currencyextra{
-  color: #888888
+  color: #888888;
 }
 
 /*Quark Menu*/

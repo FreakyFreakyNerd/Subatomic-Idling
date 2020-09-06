@@ -20,6 +20,11 @@ class Upgrade{
         else
           this.costs = [costs];
 
+        if(costs == undefined){
+          this.costs = undefined;
+          this.applied = false;
+        }
+
         this.bought = new Decimal(0);
         this.produced = new Decimal(0);
 
@@ -61,6 +66,10 @@ class Upgrade{
             this.produced = Decimal.fromString(data.produced);
         if(this.bought.greaterThan(0)){
           this.onunlock();
+        }
+        if(this.produced.greaterThan(0)){
+          this.onunlock();
+          this.applied = true;
         }
         this.recalculatecosts();
         this.recalculateeffects();
@@ -174,12 +183,17 @@ class Upgrade{
     }
 
     recalculatecosts(){
+      if(this.costs == undefined || this.costs == null || this.costs.length == 0){
+        return;
+      }
       this.costs.forEach((cost, i) => {
         cost.recalculatecost(this.bought, this.buyamount);
       });
     }
 
     recalculateeffects(){
+      if(this.effects == undefined || this.effects == null)
+        return;
       this.effects.forEach((effect, i) => {
         effect.recalculatevalue(this.amount);
       });
@@ -225,5 +239,14 @@ class Upgrade{
 
     get ismaxbuyable(){
       return this.bought.equals(this.maxbuyable);
+    }
+
+    add(amount){
+      if(!this.applied && amount != undefined && amount.greaterThan(0)){
+        this.applied = true;
+        this.onunlock();
+      }
+      this.produced = this.produced.add(amount);
+      this.recalculateeffects();
     }
 }
