@@ -71,7 +71,7 @@ Vue.component('buy-display', {
 Vue.component('electron-upgrade-item', {
     props: ['upgrade'],
     template: `
-      <button class="tooltipholder electronquickupgradebutton" v-bind:style="{left: upgrade.xpos, top: upgrade.ypos, zindex: 1}" v-bind:class="{electronquickupgradebuttonbought: upgrade.ismaxbuyable}" v-on:click="buyUpgrade(upgrade)">
+      <button class="tooltipholder electronquickupgradebutton" v-bind:style="{left: upgrade.xpos, top: upgrade.ypos, zindex: 1}" v-bind:class="{electronquickupgradebuttonbought: upgrade.ismaxbuyable}" v-on:click="buyUpgrade(upgrade)" v-if="upgrade.unlocked">
         <span class="electronupgradelabel">{{upgrade.label}}</span>
         <div class="tooltip electronupgradetooltip">
           <span class="electronupgradename">{{upgrade.displayname}}\n</span>
@@ -101,7 +101,7 @@ Vue.component('line-tree', {
 Vue.component('tree-line', {
   props: ["line", "classspecial"],
   template: `
-    <line v-bind:class="classspecial + 'treeline'" v-bind:line="line" v-bind:x1="line.xstart" v-bind:x2="line.xend" v-bind:y1="line.ystart" v-bind:y2="line.yend"/>
+    <line v-bind:class="classspecial + 'treeline'" v-bind:line="line" v-bind:x1="line.xstart" v-bind:x2="line.xend" v-bind:y1="line.ystart" v-bind:y2="line.yend" v-if="line.upgrade.unlocked"/>
   `
 })
 

@@ -56,11 +56,12 @@ class LineTree{
 }
 
 class Line{
-  constructor(xstart, xend, ystart, yend){
+  constructor(xstart, xend, ystart, yend, upg){
     this.xstart = xstart;
     this.xend = xend;
     this.ystart = ystart;
     this.yend = yend;
+    this.upgrade = upg;
   }
 }
 
@@ -69,10 +70,9 @@ function dumplines(upgrades, pixelsize = 64){
   upgrades.forEach((upgrade, i) => {
     if(upgrade.xpos != undefined && upgrade.xpos != null){
       if(upgrade.requirements != undefined && upgrade.requirements != null && upgrade.requirements != []){
-        console.log(upgrade.displayname);
         upgrade.requirements.forEach((requirement, i) => {
           if(requirement.requiredobject.xpos != undefined && requirement.requiredobject.xpos != null){
-            lines.push(new Line(requirement.requiredobject.xpos + pixelsize/2, upgrade.xpos + pixelsize/2, requirement.requiredobject.ypos + pixelsize/2, upgrade.ypos + pixelsize/2))
+            lines.push(new Line(requirement.requiredobject.xpos + pixelsize/2, upgrade.xpos + pixelsize/2, requirement.requiredobject.ypos + pixelsize/2, upgrade.ypos + pixelsize/2, upgrade))
           }
         });
       }
