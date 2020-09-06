@@ -249,4 +249,8 @@ class Upgrade{
       this.produced = this.produced.add(amount);
       this.recalculateeffects();
     }
+
+    hastag(key){
+      return this[key] != undefined;
+    }
 }
