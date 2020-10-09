@@ -126,4 +126,9 @@ function resetElectronStage(){
   player.electronstage.upgrades.forEach((upgrade, i) => {
     upgrade.reset();
   });
+  player.electronstage.quarkspin.reset();
+  player.electronstage.quarkspinproducers.forEach((prod, i) => {
+    prod.reset();
+  });
+
 }
