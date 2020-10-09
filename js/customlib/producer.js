@@ -259,7 +259,19 @@ class Producer {
 
     get amountdescription(){
       if(this.produced.equals(0))
-        return "x" + formatDecimalNormal(this.bought);
-      return "x" + formatDecimalNormal(this.bought) + "(" + formatDecimalNormal(this.produced) + ")"
+        return  formatDecimalNormal(this.bought);
+      return formatDecimalNormal(this.bought) + "[+" + formatDecimalNormal(this.produced) + "]";
+    }
+
+    get costdescription(){
+      if(this.costs == undefined)
+        return "No Costs WOW!";
+      return formatDecimalNormal(this.getcost(0)) + " " + this.costs[0].costobject.displayname;
+    }
+
+    get productiondescription(){
+      if(this.productions == undefined)
+        return "No Productions WOW!"
+      return formatDecimalNormal(this.getproduction(0)) + " " + this.productions[0].productionobject.displayname + "/Second";
     }
 }

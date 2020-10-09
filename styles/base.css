@@ -1,4 +1,5 @@
 * {
+  text-decoration:none;
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
      -khtml-user-select: none; /* Konqueror HTML */
@@ -6,24 +7,6 @@
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
-}
-
-.palettelist {
-  height: 50px; /* Full-height: remove this if you want "auto" height */
-  width: 500px; /* Set the width of the sidebar */
-  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-  z-index: 1; /* Stay on top */
-  bottom: 0; /* Stay at the top */
-  margin-left: 50%;
-  background-color: #111; /* Black */
-  overflow-x: hidden; /* Disable horizontal scroll */
-  overflow-y: hidden; /* Disable horizontal scroll */
-}
-
-.palette{
-  width: 100px;
-  height: 100px;
-  padding: 0px 0px 0px 0px;
 }
 
 .centered {
@@ -52,6 +35,8 @@ span {
   text-decoration: none;
   font-size: 16px;
   display: block;
+  border: 2px solid;
+  margin: 2px 2px 2px 2px;
 }
 
 .sidenav .menubutton:hover {
@@ -74,6 +59,10 @@ span {
 #gamecontent {
   margin-left: 160px; /* Same as the width of the sidebar */
   padding: 0px 10px;
+}
+#currenciesdisplay {
+  height:100px;
+  width: 90%;
 }
 
 .producerlabel {
@@ -162,51 +151,74 @@ td.righttablecolumn {
 }
 
 /*Electron Upgrades*/
-.electronupgradecloud{
-  width: 100%;
-  outline: solid black 1px;
-  height: 500px;
+.electronupgrade{
+  width: 32px;
+  height: 32px;
+  margin: 1px 1px 1px 1px;
+  text-decoration: none;
 }
 
-.electronquickupgradebutton{
-  width: 64px;
-  height: 64px;
-  position: absolute;
-  border-radius: 12px;
-  border-width: 3px;
-  border-style: solid;
+#electronupgrades{
+  margin-top: 20px;
 }
 
-.electronquickupgradebutton:hover{
-  border-radius: 15px;
-  border-width: 3px;
-  transition-duration: .25s;
+#electronupgradeinfo{
+  position: fixed;
+  bottom: 30px;
+  text-align: center;
+  align-self: center;
+  width: 90%;
 }
 
-.electronupgradetooltip{
-  width: 400px!important;
+.electronupgradebuyamount{
+  width: 200px;
+  height: 30px;
+  text-align: center;
+  border: solid 3px;
+  margin-right: 20px;
 }
 
-.electrontreeline{
-  stroke: black;
-  stroke-width: 2px;
+.electronupgradeauto{
+  width: 200px;
+  height: 30px;
+  text-align: center;
+  border: solid 3px;
+  margin-left: 20px;
 }
-
-.electronupgradelabel {
-  font-size: 24px;
-  font-weight: bold;
+.electronupgradename{
+  font-size: 18px;
+}
+.electronupgradelevel{
+  font-size: 18px;
+}
+.electronupgradecost{
+  font-size: 18px;
+}
+.electronupgradeeffect{
+  font-size: 18px;
 }
 
 /*Achievements*/
-.achievementdisplay{
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+.achievement{
+  width: 32px;
+  height: 32px;
+  margin: 1px 1px 1px 1px;
+  text-decoration: none;
 }
 
-.achievement{
+#achievements{
+  margin-top: 20px;
+}
+
+#achievementinfo{
+  position: fixed;
+  bottom: 30px;
   text-align: center;
   align-self: center;
-  vertical-align: middle;
+  width: 90%;
+}
+.achievementinfo{
+  font-size: 18px;
 }
 
 .achievement:hover {
@@ -225,7 +237,7 @@ td.righttablecolumn {
 
 /*Statistics*/
 
-.statsidenav {
+.subsidenav {
   height: 100%;
   width: 80px;
   position: absolute;
@@ -237,18 +249,18 @@ td.righttablecolumn {
   align: left;
 }
 
-.statsidenav .menubutton {
+.subsidenav .menubutton {
   padding: 1px 1px 1px 5px;
   text-decoration: none;
   font-size: 16px;
   display: block;
 }
 
-.statsidenav .menubutton:hover {
+.subsidenav .menubutton:hover {
   cursor: pointer;
 }
 
-.statcontent {
+.subcontent {
   margin-left: 80px; /* Same as the width of the sidebar */
   padding: 0px 10px;
 }
@@ -260,4 +272,60 @@ td.righttablecolumn {
 .past10label {
   font-weight: bold;
   font-size: 24px;
+}
+
+/*Currency Displays*/
+.currencydisplay {
+  font-size: 14px;
+  font-weight: bold;
+  vertical-align: center;
+  height: 100%;
+  width: 100%;
+  margin: auto;
+}
+.currenciesrow{
+  height: 34px;
+  vertical-align: center;
+}
+.currenciescell{
+  height: 90%;
+  vertical-align: center;
+  width: 100px;
+}
+.currencyimage{
+  margin: auto;
+  vertical-align: center;
+}
+.currencydisplaydiv{
+  height: 100%;
+  width: 100%;
+  margin: auto;
+}
+
+/*Producer Display*/
+.producerrow{
+  height: 34px;
+}
+.producerimage{
+  width: 36px;
+}
+.producername{
+  width: 220px;
+}
+.producerproduction{
+  width: 220px;
+}
+.producercost{
+  width: 200px;
+}
+.producercostbutton{
+  height: 32px;
+  width: 96%;
+}
+.producerauto{
+  width: 120px;
+}
+.producerautobutton{
+  height: 36px;
+  width: 96%;
 }

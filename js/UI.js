@@ -82,3 +82,122 @@ function formattime(ticks,showdays,showhours,showminutes,showseconds,showticks){
     val += `${remainingticks} Ticks`;
   return val;
 }
+
+function calculatePerSecond(currency){
+  amount = new Decimal(0);
+  producerregistry.forEach(element =>{
+    amount = amount.add(element.getpersec(currency.id));
+  });
+  currency.temp.persec = amount;
+}
+
+function recalculateCurrencyPerSec(){
+  currencyregistry.forEach(element =>{
+    calculatePerSecond(element);
+  });
+}
+
+//Move and moveablescalableobjectscrollingscale = .001;
+function scalediv(event, id){
+  event.preventDefault();
+
+  element = document.getElementById(id + "content");
+  translatelist = gettranslate(element);
+  scalelist = getscale(element);
+  scalelist[0] = Math.min(Math.max(.125, scalelist[0] + -scrollingscale * event.deltaY), 4);
+  scalelist[1] = Math.min(Math.max(.125, scalelist[1] + -scrollingscale * event.deltaY), 4);
+
+  transform = getnewtransform(scalelist, translatelist);
+
+  element.style.transform = transform;
+  element.style.webkitTransform = transform;
+  element.style.msTransform = transform;
+}
+
+movingobjid = "";
+movingobjx = 0;
+movingobjy = 0;
+
+function startmovingobject(event, id){
+  movingobjid = id;
+  movingobjx = event.x;
+  movingobjy = event.y;
+}
+
+function stopmovingobject(id){
+  if(movingobjid == id)
+    movingobjid = "";
+}
+
+function movingobject(event, id){
+  event.preventDefault();
+  if(id == movingobjid){
+    element = document.getElementById(id + "content");
+    translatelist = gettranslate(element);
+    translatelist[0] += event.x - movingobjx;
+    translatelist[1] += event.y - movingobjy;
+    movingobjx = event.x;
+    movingobjy = event.y;
+    scalelist = getscale(element);
+
+    transform = getnewtransform(scalelist, translatelist);
+
+    element.style.transform = transform;
+    element.style.webkitTransform = transform;
+    element.style.msTransform = transform;
+  }
+}
+
+function recenter(id){
+  element = document.getElementById(id + "content");
+  translatelist = [0,0];
+  scalelist = [1,1];
+
+  transform = getnewtransform(scalelist, translatelist);
+
+  element.style.transform = transform;
+  element.style.webkitTransform = transform;
+  element.style.msTransform = transform;
+}
+
+function getscale(element){
+  var matrix = window.getComputedStyle(element).transform;
+  var matrixarray = matrix.replace("matrix(", "").split(",");
+  var scalex = parseFloat(matrixarray[0]);
+  if(Number.isNaN(scalex))
+    scalex = 1;
+  var scaley = parseFloat(matrixarray[3]);
+  if(Number.isNaN(scaley))
+    scaley = 1;
+  return [scalex, scaley];
+}
+
+function gettranslate(element){
+  var matrix = window.getComputedStyle(element).transform;
+  var matrixarray = matrix.replace("matrix(", "").split(",");
+  var translatex = parseFloat(matrixarray[4]);
+  if(Number.isNaN(translatex))
+    translatex = 0;
+  var translatey = parseFloat(matrixarray[5]);
+  if(Number.isNaN(translatey))
+    translatey = 0;
+  return [translatex, translatey];
+}
+
+function getnewtransform(scalelist, translatelist){
+  return `matrix(${scalelist[0]}, 0, 0, ${scalelist[1]}, ${translatelist[0]}, ${translatelist[1]})`
+}
+
+function formatDecimal(num){
+  return notations[player.options.notation].format(num, player.options.notationdecimals, 2);
+}
+
+function formatDecimalOverride(num,dec){
+  return notations[player.options.notation].format(num, dec, dec);
+}
+
+function formatDecimalNormal(num,dec){
+  if(dec != undefined)
+    return notations[player.options.notation].format(num, dec, 0);
+  return notations[player.options.notation].format(num, 2, 0);
+}

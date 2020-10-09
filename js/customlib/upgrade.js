@@ -257,6 +257,8 @@ class Upgrade{
     }
 
     hastag(key){
-      return this[key] != undefined;
+      if(this.tags == undefined)
+        return false;
+      return this.tags.includes(key);
     }
 }

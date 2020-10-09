@@ -5,15 +5,25 @@
 <div id="subatomicidling">
   <div class="sidenav">
     <a class="gamename">Subatomic Idling {{settings.version}}</a>
-    <a class="menubutton quark" onclick='openscreen("quark")'>Quark</a>
-    <a class="menubutton" onclick='openscreen("electron")' v-if='hasachievement("electrifyunlock")'>Electron</a>
-    <a class="menubutton" onclick='openscreen("achievements")'>Achievements</a>
-    <a class="menubutton" onclick='openscreen("stats")'>Statistics</a>
-    <a class="menubutton" onclick='openscreen("options")'>Options</a>
-    <a class="menubutton" onclick='openscreen("changelog")'>Changelog</a>
-    <a class="menubutton" onclick='openscreen("howtoplay")'>How To Play</a>
+    <a class="menubutton quarkmenubutton" onclick='openscreen("quark")'>Quark</a>
+    <a class="menubutton electronmenubutton" onclick='openscreen("electron")' v-if='hasachievement("electrifyunlock")'>Electron</a>
+    <a class="menubutton achievementmenubutton" onclick='openscreen("achievements")'>Achievements</a>
+    <a class="menubutton statisticsmenubutton" onclick='openscreen("stats")'>Statistics</a>
+    <a class="menubutton settingsmenubutton" onclick='openscreen("options")'>Settings</a>
+    <a class="menubutton changelogmenubutton" onclick='openscreen("changelog")'>Changelog</a>
+    <a class="menubutton htpmenubutton" onclick='openscreen("howtoplay")'>How To Play</a>
   </div>
   <div id="gamecontent">
+    <div id="currenciesdisplay">
+      <table id="currenciestable">
+        <tr class="currenciesrow">
+          <td class="currenciescell"><currency-display v-bind:currency="player.quarkstage.quarks"></currency-display></td>
+          <td class="currenciescell" v-if='hasachievement("electrifyunlock")'><currency-display v-bind:currency="player.electronstage.electrons"></currency-display></td>
+        </tr>
+        <tr class="currenciesrow">
+        </tr>
+      </table>
+    </div>
     <div id="screens">
       <div id="optionsscreen" class="centered" style="display: none">
         <table align="center">
@@ -68,59 +78,32 @@
         </table>
       </div>
       <div id="quarkscreen">
-        <div id="quarkamountdisplay">
-            <span class="currencyextra">You have <span id="currency_quarks_amount" class="currencydisplay quark"> {{formatSpecial(player.quarkstage.quarks.amount, 1)}} </span> Quarks.
-            </span>
-            <span id="currency_quarks_amountpersec" class="currencyextra">You are making <span class="quark">{{formatSpecial(player.quarkstage.quarks.temp.persec, 1)}}</span> Quarks per second.</span>
-        </div>
-        <div id="quarkproducers" style="float:left;">
-          <div>
-            <span class="producerlabel">
-              Quark Producers
-            </span>
-            <div v-for="producer in player.quarkstage.producers" v-bind:producer="producer" v-if="producer.unlocked">
-              <quark-producer-item v-bind:producer="producer" ></quark-producer-item>
-            </div>
-            <buy-display buykey='quarkgen' buydisplay="Quark Generators"></buy-display>
-          </div>
-        </div>
-        <div id="quarkrebuyableupgrades" style="float:left; padding-left: 10px;">
-          <span class="producerlabel">
-            Quark Rebuyables
-          </span>
-          <div v-for="upgrade in player.quarkstage.upgrades" v-bind:producer="upgrade" class="test" v-if="upgrade.unlocked">
-            <quark-upgrade-item v-bind:upgrade="upgrade" ></quark-upgrade-item>
-          </div>
-          <buy-display buykey='quarkupg' buydisplay="Quark Rebuyables"></buy-display>
-        </div>
-        <div id="elctrolizebuttonquark" v-if='hasachievement("electrifyunlock")'>
-          <button class="prestigedisplay quarkscreenelectrolyzebutton" v-on:click="player.quarkstage.electrify.doprestige()">Electrolize for {{format(player.quarkstage.electrify.producedcurrencyamount)}} Electrons</button>
-        </div>
+        <producers-display v-bind:producers="player.quarkstage.producers" type="quark"></producers-display>
       </div>
       <div id="electronscreen" style="display: none;">
-        <div id="electronamountdisplay">
-            <span class="currencyextra">You have <span id="currency_electrons_amount" class="currencydisplay"> {{formatDecimalNormal(player.electronstage.electrons.amount)}} </span> Electrons.
-            </span>
-        </div>
-        <div id="electronupgrades" class="moveablescalableobject electronupgradecloud" style="overflow: hidden;" onwheel='scalediv(event, this.id)' onmouseout='stopmovingobject(this.id)' onmouseup='stopmovingobject(this.id)' onmousedown='startmovingobject(event, this.id)' onmousemove='movingobject(event, this.id)'>
-          <div id="electronupgradescontent" style="display: block;">
-            <div id="quarkspinproducerdisplay" style="left: -2000; position: absolute;" v-if="player.electronstage.quarkspin.unlocked">
-              <div>{{player.electronstage.quarkspin.effects[0].description}}</div>
-              <quark-spin-producer v-for="producer in player.electronstage.quarkspinproducers" v-bind:producer="producer"></quark-spin-producer>
-              <buy-display buykey='spingen' buydisplay="Spinners"></buy-display>
-            </div>
-            <div id="electronupgradelines"><line-tree v-bind:linetree="player.electronstage.electronupgradelinetree" v-bind:classspecial="'electron'"></line-tree></div>
-            <div>
-              <electron-upgrade-item v-for="upgrade in player.electronstage.upgradetree" v-bind:upgrade="upgrade" ></electron-upgrade-item>
-            </div>
+        <div id="electronupgrades">
+          <div class="grid electronupgrades">
+            <electron-upgrade-item v-for="upgrade in player.electronstage.upgrades" v-bind:upgrade="upgrade" ></electron-upgrade-item>
           </div>
         </div>
-        <button style="align: right;" onclick='recenter("electronupgrades")'>Reset View</button>
-        <buy-display buykey='eupg' buydisplay="Electron Upgrades"></buy-display>
+        <div id="electronupgradeinfo">
+          <span class="electronupgradename">{{selectedelectronupgrade.displayname}}</span><br><br>
+          <span class="electronupgradecost">Cost: {{selectedelectronupgrade.costs[0].description}}</span><br>
+          <span class="electronupgradelevel">Level: {{selectedelectronupgrade.bought}}/{{selectedelectronupgrade.maxbuyable}}</span><br>
+          <span class="electronupgradeeffect">Effect: {{selectedelectronupgrade.effects[0].description}}</span><br><br>
+          <button class="electronupgradebuyamount">Buy Amount: {{getbuyamount("eupg")}}</button>
+          <button class="electronupgradeauto">Automatic: Locked</button>
+        </div>
       </div>
       <div id="achievementsscreen" style="display: none">
-        <div class="achievementdisplay">
+        <div class="grid achievementdisplay">
             <achievement-item v-for="achieve in player.achievements" v-bind:achievement="achieve"> <achievement-item>
+        </div>
+        <div id="achievementinfo">
+          <span class="achievementhover achievementinfo">Hover over achievement for more information!</span><br><br>
+          <span class="achievementname achievementinfo">{{selectedachievement.displayname}}</span><br><br>
+          <span class="achievementrequirement achievementinfo">Requires: {{selectedachievement.requirement}}</span><br>
+          <span class="achievementeffect achievementinfo">Effect: {{selectedachievement.effect}}</span><br><br>
         </div>
       </div>
       <div id="statsscreen" class="centered" style="display: none">
@@ -147,45 +130,13 @@
         </div>
       </div>
       <div id ="changelogscreen" class="centered" style="display: none">
-        <span class="centered changelogversion">
-          Current Version: 0.03
-        </span>
-
-        <span class="centered changelogtext">
-          Had game idea for fun. Decided to do it.
-          Big idea, small time.
-          Bad idea? nah
-        </span>
-        <div class="leftalign">
-          <span class="changelogtext">
-                Version: 0.03
-            		Date: August 23, 2020
-
-                1. Its been a long time and lots of stuff has been added, but progress was slowed for a while
-                2. Added an electron upgrade cloud.
-                3. Something like 65 upgrades that cost electrons.
-                4. Electron gain scaling added >> floor(max(log10([Quarks]/1e20), 1)) >> Quarks above 1e16
-                5. Electron upgrades to increase base electron gain, as well as multiply above function
-                6. Electron upgrades that can be purchased infinite times for increasing production
-                7. Electron upgrades that decrease price scaling on quark producers
-                8. Upgrade that unlocks the next layer of prestige (Not implemented nor pricing figured out)
-
-                Version: 0.02
-            		Date: June 1, 2020
-
-                1. Added an upgrade/multiplier function.
-                2. Did some slight balancing. Takes 40 hours for a stupid optimizer to do stuff.
-                3. Hoping to have humans prestige in like, 6 hours. We'll see.
-                4. First prestige layer created. ELECTRONS!
-
-                Version 0.01
-                Date: May 28, 2020
-
-                1. Created main functionality
-                2. Created terrible rates
-                3. Tier 1-10 created for Quarks!
-
-          </span>
+        <div class="statsidenav">
+          <a class="gamename">Changelog</a>
+          <a class="menubutton" onclick='openchangelogscreen("v0.0.1")'>0.0.1</a>
+          <a class="menubutton" onclick='openstatscreen("v0.0.2")'>0.0.2</a>
+        </div>
+        <div class="statcontent">
+          <div id="changelog"></div>
           <div class="centered">
             <span class="changelogtext">
               Will be balanced... soon™
@@ -209,9 +160,13 @@
 <script src="js/customlib/prestige.js"> </script>
 <script src="js/customlib/achievement.js"> </script>
 <script src="js/customlib/linetree.js"> </script>
-<script src="js/AIPlayer.js"> </script>
 <script src="js/settings.js"> </script>
 <script src="js/UI.js"> </script>
+<script src="js/content/stages/00_quark/base.js"> </script>
+<script src="js/content/stages/01_electron/base.js"> </script>
+<script src="js/content/achievements.js"> </script>
+<script src="js/math.js"> </script>
+<script src="js/savemanager.js"> </script>
 <script src="js/game.js"> </script>
 <script src="js/vueimplementation.js"></script>
 </html>

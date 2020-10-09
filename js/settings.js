@@ -15,3 +15,32 @@ settings = {
       past10electrifies : [[],[],[],[],[],[],[],[],[],[]]
     }
 }
+
+function getbuyamount(type,object){
+  if(type == undefined)
+    return "type Undefined"
+  var buyamount = player.options.buyamounts[type];
+  if(buyamount == undefined || buyamount.equals == undefined){
+    player.options.buyamounts[type] = new Decimal(1);
+    return new Decimal(1);
+  }
+  if(!buyamount.equals(-1))
+    return buyamount;
+  if(object == undefined)
+    return "Max"
+  return object.buyamount;
+}
+
+function setbuyamount(type, num){
+  player.options.buyamounts[type] = new Decimal(num);
+  producerregistry.forEach((prod, i) => {
+    prod.recalculatecosts();
+  });
+  upgraderegistry.forEach((upgr, i) => {
+    upgr.recalculatecosts();
+  });
+}
+
+function resetstats(){
+  player.stats = shallowcopy(settings.defaultstats);
+}

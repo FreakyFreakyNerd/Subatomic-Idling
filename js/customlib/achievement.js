@@ -113,6 +113,17 @@ class Achievement{
     return this.getdescription();
   }
 
+  get effect(){
+    if(this.effects == undefined)
+      return "Nothing! Absoluting Nothing"
+    return this.effects[0].description;
+  }
+  get requirement(){
+    if(this.requirements == undefined)
+      return "Nothing! Absoluting Nothing"
+    return this.requirements[0].requirementtext;
+  }
+
   reset(){
     this.unlocked = false;
     this.show = false;

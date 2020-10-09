@@ -1,22 +1,56 @@
-body{
-  background-color: #222;
+:root{
+  --main-color: #111;
 }
 
+body{
+  background-color: var(--main-color);
+}
 
+/*Currency Colors*/
 .quark{
   color: #0066ff !important;
+}
+.electron{
+  color: #7dcf13 !important;
 }
 
 /*Side Navigation*/
 .sidenav {
   background-color: #111;
   color: #888;
-
-  border: 2px solid #333;
 }
 
 .sidenav .menubutton {
   color: #777;
+}
+
+.quarkmenubutton{
+  border-color: #0066ff !important;
+  color: white !important;
+}
+.electronmenubutton{
+  border-color: #7dcf13 !important;
+  color: white !important;
+}
+.achievementmenubutton{
+  border-color: white !important;
+  color: white !important;
+}
+.settingsmenubutton{
+  border-color: white !important;
+  color: white !important;
+}
+.statisticsmenubutton{
+  border-color: white !important;
+  color: white !important;
+}
+.changelogmenubutton{
+  border-color: white !important;
+  color: white !important;
+}
+.htpmenubutton{
+  border-color: white !important;
+  color: white !important;
 }
 
 /*Stat Menu*/
@@ -72,26 +106,79 @@ body{
 }
 
 /*Electron Upgrades*/
-.electronquickupgradebutton {
-  border-color: #444;
-  background-color: #888;
+.electronupgradebuyamount{
+  border-color: #dbac65;
+  color: white;
+  background-color: var(--main-color);
 }
-.electronquickupgradebuttonbought {
-  background-color: #227722;
+.electronupgradeauto{
+  border-color: #2b5d6e;
+  color: white;
+  background-color: var(--main-color);
+}
+.electronupgradename{
+  color: #dbac65;
+}
+.electronupgradelevel{
+  color: white;
+}
+.electronupgradecost{
+  color: yellow;
+}
+.electronupgradeeffect{
+  color: white;
+}
+.electronupgrademax{
+  background-color: #42b844 !important;
+}
+.electronupgradebought{
+  background-color: #9f32c9;
 }
 
-.pinkborder {
-  border-color: #884444;
+/*Achievement*/
+.achievementname{
+  color: #dbac65;
+}
+.achievementrequirement{
+  color: yellow;
+}
+.achievementeffect{
+  color: white;
+}
+.achievementgot{
+  background-color: #42b844 !important;
+}
+.achievementhover{
+  color: #ccb678;
 }
 
-.greenborder {
-  border-color: #fff;
+/*Currency Display*/
+.currencyquarkdisplay{
+  color: #5BF9FF;
+}
+.currencyelectrondisplay{
+  color: #FFFC5B;
 }
 
-.redborder {
-  border-color: #ff5555;
+/*Producer Display*/
+.producerimage{
+  width: 40px;
 }
-
-.orangeborder {
-  border-color: #FF6666;
+.producerquarkname{
+  color: #ebcb2d;
+}
+.producerquarkproduction{
+  color: #ebcb2d;
+}
+.producerquarkcostbutton{
+  background-color: var(--main-color);
+  color: white;
+  border-radius: 8px;
+  border: 2px solid #999;
+}
+.producerquarkautobutton{
+  background-color: var(--main-color);
+  color: white;
+  border-radius: 2px;
+  border: 2px solid green;
 }

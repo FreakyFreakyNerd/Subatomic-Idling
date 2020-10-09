@@ -243,7 +243,7 @@ class FlavorEffect extends Effect{
   apply(){}
   remove(){}
   recalculatevalue(){}
-  geteffect(){
+  get description(){
     return this.flavortext;
   }
 }

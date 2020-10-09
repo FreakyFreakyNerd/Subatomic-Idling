@@ -3,8 +3,12 @@ body{
 }
 
 
+/*Currency Colors*/
 .quark{
   color: #0066ff !important;
+}
+.electron{
+  color: #7dcf13 !important;
 }
 
 /*Side Navigation*/

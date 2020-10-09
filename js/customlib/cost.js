@@ -59,6 +59,8 @@ class ExponentialCost extends Cost{
         this.cost = (new Decimal(1)).minus(Decimal.pow(this.scaling, buyamount)).divide((new Decimal(1)).minus(this.scaling)).times(Decimal.pow(this.scaling, amount)).times(this.startingcost);
       else
         this.cost = this.startingcost.times(Decimal.pow(this.scaling, amount));
+      if(this.cost.lessThan(0))
+        this.cost = this.startingcost.times(Decimal.pow(this.scaling, amount));
     }
 
     getmaxbuyable(amount){
@@ -73,8 +75,10 @@ class LinearCost extends Cost{
         this.cost = this.startingcost.add(this.scaling.times(amount));
       else
         this.cost = this.startingcost.add(this.scaling.times(amount));
+      if(this.cost.lessThan(0))
+        this.cost = this.startingcost.add(this.scaling.times(amount));
     }
-    
+
     getmaxbuyable(amount){
       var amountavailable = this.costobject.amount;
       return Decimal.floor(Decimal.log(new Decimal(1).minus((new Decimal(1)).minus(this.scaling).times(amountavailable).divide(this.startingcost).divide(Decimal.pow(this.scaling, amount))), this.scaling));
