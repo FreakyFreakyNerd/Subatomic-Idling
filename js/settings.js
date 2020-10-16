@@ -1,7 +1,7 @@
 settings = {
-    tickspersecond : 20,
-    logictickspersecond : 20,
-    version: "Alpha v0.02",
+    tickspersecond : 10,
+    logictickspersecond : 10,
+    version: "Alpha v0.01",
     defaultoptions : {
         uidelay : 50,
         notation : "standard",
@@ -12,7 +12,8 @@ settings = {
     defaultstats : {
       currentelectrifytime : 0,
       electrified : 0,
-      past10electrifies : [[],[],[],[],[],[],[],[],[],[]]
+      past10electrifies : [[],[],[],[],[],[],[],[],[],[]],
+      playtime: 0
     }
 }
 

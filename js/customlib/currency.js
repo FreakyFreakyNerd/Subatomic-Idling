@@ -20,15 +20,15 @@ class Currency{
     }
 
     save(){
-        return { amount : this.amount.toString(), gained : this.gained.toString()};
+        return [this.amount.toString(),this.gained.toString()];
     }
 
     parse(data){
       if(data != undefined){
-        if(data.amount != undefined)
-            this.amount = Decimal.fromString(data.amount);
-        if(data.gained != undefined)
-          this.gained = Decimal.fromString(data.gained);
+        if(data[0] != undefined)
+            this.amount = Decimal.fromString(data[0]);
+        if(data[1] != undefined)
+          this.gained = Decimal.fromString(data[1]);
       }
     }
 

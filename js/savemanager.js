@@ -112,16 +112,21 @@ function loadstats(){
 function save(){
   savedata = {}
   saveplayer()
-  localStorage.setItem('subatomicidlingsave',JSON.stringify(savedata))
+  localStorage.setItem('subatomicidlingsave',Base64.encode(JSON.stringify(savedata)))
 }
 
 function load(){
-  loadeddata = JSON.parse(localStorage.getItem('subatomicidlingsave'))
-  if(loadeddata == undefined){
-    loadeddata = {};
+  try{
+    loadeddata = JSON.parse(Base64.decode(localStorage.getItem('subatomicidlingsave')));
+  }catch{
+    console.log("Save Broken");
+    loadeddata = undefined;
   }
-  loadplayer();
-  updateafterplayer();
+    if(loadeddata == undefined){
+      loadeddata = {};
+    }
+    loadplayer();
+    updateafterplayer();
 }
 
 function fixsave(){

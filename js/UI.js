@@ -23,7 +23,7 @@ notations = {
 }
 
 //UI
-currentscreen = "quark"
+currentscreen = "producers"
 function openscreen(screen){
   document.getElementById(currentscreen + "screen").style.display = "none";
   document.getElementById(screen + "screen").style.display = "block";
@@ -200,4 +200,18 @@ function formatDecimalNormal(num,dec){
   if(dec != undefined)
     return notations[player.options.notation].format(num, dec, 0);
   return notations[player.options.notation].format(num, 2, 0);
+}
+
+currentproducersscreen = "quark"
+function openproducersscreen(screen){
+  document.getElementById(currentproducersscreen + "producersscreen").style.display = "none";
+  document.getElementById(screen + "producersscreen").style.display = "block";
+  currentproducersscreen = screen;
+}
+
+currentupgradesscreen = "quark"
+function openupgradesscreen(screen){
+  document.getElementById(currentupgradesscreen + "upgradesscreen").style.display = "none";
+  document.getElementById(screen + "upgradesscreen").style.display = "block";
+  currentupgradesscreen = screen;
 }

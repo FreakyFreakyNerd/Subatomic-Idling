@@ -5,13 +5,12 @@
 <div id="subatomicidling">
   <div class="sidenav">
     <a class="gamename">Subatomic Idling {{settings.version}}</a>
-    <a class="menubutton quarkmenubutton" onclick='openscreen("quark")'>Quark</a>
-    <a class="menubutton electronmenubutton" onclick='openscreen("electron")' v-if='hasachievement("electrifyunlock")'>Electron</a>
+    <a class="menubutton producersmenubutton" onclick='openscreen("producers")'>Producers</a>
+    <a class="menubutton upgradesmenubutton" onclick='openscreen("upgrades")'>Upgrades</a>
     <a class="menubutton achievementmenubutton" onclick='openscreen("achievements")'>Achievements</a>
     <a class="menubutton statisticsmenubutton" onclick='openscreen("stats")'>Statistics</a>
     <a class="menubutton settingsmenubutton" onclick='openscreen("options")'>Settings</a>
     <a class="menubutton changelogmenubutton" onclick='openscreen("changelog")'>Changelog</a>
-    <a class="menubutton htpmenubutton" onclick='openscreen("howtoplay")'>How To Play</a>
   </div>
   <div id="gamecontent">
     <div id="currenciesdisplay">
@@ -77,27 +76,47 @@
           </tbody>
         </table>
       </div>
-      <div id="quarkscreen">
-        <producers-display v-bind:producers="player.quarkstage.producers" type="quark"></producers-display>
+      <div id="producersscreen">
+        <div class="subsidenav">
+          <a class="menubutton quarksubmenubutton" onclick='openproducersscreen("quark")'>Quark</a>
+          <a class="menubutton electronsubmenubutton" onclick='openproducersscreen("electron")' v-if='hasachievement("electrifyunlock")'>Electron</a>
+        </div>
+        <div class="subcontent" id="quarkproducersscreen">
+          <producers-display v-bind:producers="player.quarkstage.producers" type="quark"></producers-display>
+          <div class="spacer32"></div>
+          <upgrades-display v-bind:upgrades="player.quarkstage.upgrades" type="quark"></upgrades-display>
+        </div>
+        <div class="subcontent" id="electronproducersscreen" style="display:none;">
+          <upgrade-bonus v-bind:upgrade="player.electronstage.quarkspin"></upgrade-bonus>
+          <producers-display v-bind:producers="player.electronstage.quarkspinproducers" type="quark"></producers-display>
+        </div>
       </div>
-      <div id="electronscreen" style="display: none;">
-        <div id="electronupgrades">
-          <div class="grid electronupgrades">
+      <div id="upgradesscreen" style="display: none;">
+        <div class="subsidenav">
+          <a class="menubutton quarksubmenubutton" onclick='openupgradesscreen("quark")'>Quark</a>
+          <a class="menubutton electronsubmenubutton" onclick='openupgradesscreen("electron")' v-if='hasachievement("electrifyunlock")'>Electron</a>
+        </div>
+        <div id="quarkupgradesscreen">
+        </div>
+        <div id="electronupgradesscreen" class="subcontent" style="display: none;">
+          <div class="electronupgrades">
             <electron-upgrade-item v-for="upgrade in player.electronstage.upgrades" v-bind:upgrade="upgrade" ></electron-upgrade-item>
           </div>
         </div>
-        <div id="electronupgradeinfo">
-          <span class="electronupgradename">{{selectedelectronupgrade.displayname}}</span><br><br>
-          <span class="electronupgradecost">Cost: {{selectedelectronupgrade.costs[0].description}}</span><br>
-          <span class="electronupgradelevel">Level: {{selectedelectronupgrade.bought}}/{{selectedelectronupgrade.maxbuyable}}</span><br>
-          <span class="electronupgradeeffect">Effect: {{selectedelectronupgrade.effects[0].description}}</span><br><br>
-          <button class="electronupgradebuyamount">Buy Amount: {{getbuyamount("eupg")}}</button>
-          <button class="electronupgradeauto">Automatic: Locked</button>
+        <div class="subcontent">
+          <div id="upgradeinfo">
+            <span class="upgradename">{{selectedelectronupgrade.displayname}}</span><br><br>
+            <span class="upgradecost">Cost: {{selectedelectronupgrade.costs[0].description}}</span><br>
+            <span class="upgradelevel">Level: {{selectedelectronupgrade.bought}}/{{selectedelectronupgrade.maxbuyable}}</span><br>
+            <span class="upgradeeffect">Effect: {{selectedelectronupgrade.effects[0].description}}</span><br><br>
+            <button class="upgradebuyamount">Buy Amount: {{getbuyamount("eupg")}}</button>
+            <button class="upgradescreenauto">Automatic: Locked</button>
+          </div>
         </div>
       </div>
       <div id="achievementsscreen" style="display: none">
-        <div class="grid achievementdisplay">
-            <achievement-item v-for="achieve in player.achievements" v-bind:achievement="achieve"> <achievement-item>
+        <div class="achievementdisplay">
+          <achievement-grid v-bind:achievementslist="player.achievements"></achievement-grid>
         </div>
         <div id="achievementinfo">
           <span class="achievementhover achievementinfo">Hover over achievement for more information!</span><br><br>
@@ -107,13 +126,14 @@
         </div>
       </div>
       <div id="statsscreen" class="centered" style="display: none">
-        <div class="statsidenav">
-          <a class="gamename">Statistics</a>
+        <div class="subsidenav">
           <a class="menubutton" onclick='openstatscreen("general")'>General</a>
           <a class="menubutton" onclick='openstatscreen("electrify")' v-if='hasachievement("electrifyunlock")'>Electrify</a>
         </div>
-        <div class="statcontent">
-          <div id="generalstatscreen"></div>
+        <div class="subcontent">
+          <div id="generalstatscreen">
+            <span class="currencyextra">Playtime: {{formattime(player.stats.playtime,false,false,true,true,false)}}</span>
+          </div>
           <div id="electrifystatscreen" style="display: none">
             <span class="currencyextra">Current Electrify Time: {{formattime(player.stats.currentelectrifytime,false,false,true,true,false)}}</span>
             <br>
@@ -129,15 +149,14 @@
           </div>
         </div>
       </div>
-      <div id ="changelogscreen" class="centered" style="display: none">
-        <div class="statsidenav">
-          <a class="gamename">Changelog</a>
-          <a class="menubutton" onclick='openchangelogscreen("v0.0.1")'>0.0.1</a>
-          <a class="menubutton" onclick='openstatscreen("v0.0.2")'>0.0.2</a>
+      <div id ="changelogscreen" class="centered" style="display: none;">
+        <div class="subsidenav">
+          <a v-for="version in versions" class="menubutton" v-on:click='openchangelogscreen(version)'>{{version}}</a>
         </div>
-        <div class="statcontent">
+        <div class="subcontent">
           <div id="changelog"></div>
           <div class="centered">
+            <span id="changelogdisplay" class="changelogtext"></span><br>
             <span class="changelogtext">
               Will be balanced... soon™
             </span>
@@ -150,6 +169,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/break_infinity.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@antimatter-dimensions/notations"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
 <script src="js/customlib/producer.js"> </script>
 <script src="js/customlib/currency.js"> </script>
 <script src="js/customlib/requirement.js"> </script>
@@ -161,6 +181,7 @@
 <script src="js/customlib/achievement.js"> </script>
 <script src="js/customlib/linetree.js"> </script>
 <script src="js/settings.js"> </script>
+<script src="js/changelog.js"> </script>
 <script src="js/UI.js"> </script>
 <script src="js/content/stages/00_quark/base.js"> </script>
 <script src="js/content/stages/01_electron/base.js"> </script>

@@ -58,16 +58,16 @@ class Producer {
     }
 
     save(){
-        return { produced : this.produced.toString(), bought : this.bought.toString()};
+        return [this.bought.toString(), this.produced.toString()];
     }
 
     parse(data){
         if(data == undefined)
             return;
-        if(data.bought != undefined)
-            this.bought = Decimal.fromString(data.bought);
-        if(data.produced != undefined)
-            this.produced = Decimal.fromString(data.produced);
+        if(data[0] != undefined)
+            this.bought = Decimal.fromString(data[0]);
+        if(data[1] != undefined)
+            this.produced = Decimal.fromString(data[1]);
         this.recalculatecosts();
         this.recalculateproductions();
     }

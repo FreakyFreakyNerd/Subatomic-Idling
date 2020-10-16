@@ -1,6 +1,0 @@
-Welcome to the beginning of Subatomic Idling- Be warned this will contain heavy spoilers
-
-- 10 Base Quark Generators, which can be upgraded with quarks and will produce more quarks
-- 10 Base Quark Upgrades, which can be upgraded with quarks and will increase quark production
-
-- Electrify: Upon reaching 1e16 quarks electrify will open up providing new upgrades to by, and some other fun things

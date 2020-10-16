@@ -16,3 +16,20 @@ class NumRequirement{
       return formatDecimal(this.amount) + "x " + this.requiredobject.displayname;
     }
 }
+class AchievementRequirement{
+    constructor(requiredachievement){
+        this.requiredachievement = requiredachievement;
+    }
+
+    hasRequirement(){
+        return hasachievement(this.requiredachievement);
+    }
+
+    get hasrequirement(){
+        return this.hasRequirement();
+    }
+
+    get requirementtext(){
+      return "Achievement: " + this.requiredachievement;
+    }
+}

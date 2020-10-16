@@ -60,10 +60,10 @@ Vue.component('producers-display', {
   props: ['producers','type'],
   template: `
     <table>
-      <tr class="producerrow" v-for="producer in producers">
+      <tr class="producerrow" v-for="producer in producers" v-if="producer.unlocked">
         <td v-bind:class='"producerimage producer"+type+"image"'><img v-bind:src='"images/producer/"+producer.id+".png"' @error="$event.target.src='images/missing.png'"/></td>
         <td v-bind:class='"producername producer"+type+"name"'>{{producer.displayname}}: {{producer.amountdescription}}</td>
-        <td v-bind:class='"producercost producer"+type+"cost"'><button v-bind:class='"producercostbutton producer"+type+"costbutton"' v-on:click="buyProducer(producer)">Cost: {{producer.costdescription}}</button></td>
+        <td v-bind:class='"producercost producer"+type+"cost"'><button v-bind:class='{producercostbutton:true, producercostbuttonbuyable: producer.canbuy}' v-on:click="buyProducer(producer)">Cost: {{producer.costdescription}}</button></td>
         <td v-bind:class='"producerauto producer"+type+"auto"'><button v-bind:class='"producerautobutton producer"+type+"autobutton"' v-on:click="buyProducer(producer)">AUTO: [LOK]</button></td>
         <td v-bind:class='"producerproduction producer"+type+"production"'>{{producer.productiondescription}}</td>
       </tr>
@@ -72,6 +72,27 @@ Vue.component('producers-display', {
   methods: {
     buyProducer: function(producer){
       producer.buy();
+      recalculateCurrencyPerSec();
+    }
+  }
+})
+
+Vue.component('upgrades-display', {
+  props: ['upgrades','type'],
+  template: `
+    <table>
+      <tr class="upgraderow" v-for="upgrade in upgrades" v-if="upgrade.unlocked">
+        <td v-bind:class='"upgradeimage upgrade"+type+"image"'><img v-bind:src='"images/upgrade/"+upgrade.id+".png"' @error="$event.target.src='images/missing.png'"/></td>
+        <td v-bind:class='"upgradename upgrade"+type+"name"'>{{upgrade.displayname}}: {{upgrade.amountdescription}}</td>
+        <td v-bind:class='"upgradecost upgrade"+type+"cost"'><button v-bind:class='{upgradecostbutton:true, upgradecostbuttonbuyable: upgrade.canbuy}' v-on:click="buyUpgrade(upgrade)">Cost: {{upgrade.specialcostdescription}}</button></td>
+        <td v-bind:class='"upgradeauto upgrade"+type+"auto"'><button v-bind:class='"upgradeautobutton upgrade"+type+"autobutton"' v-on:click="buyupgrade(upgrade)">AUTO: [LOK]</button></td>
+        <td v-bind:class='"upgradeeffect upgrade"+type+"effect"'>{{upgrade.specialeffectdescription}}</td>
+      </tr>
+    </table>
+  `,
+  methods: {
+    buyUpgrade: function(upgrade){
+      upgrade.buy();
       recalculateCurrencyPerSec();
     }
   }
@@ -144,7 +165,32 @@ Vue.component('tree-line', {
 Vue.component('achievement-item', {
     props: ['achievement'],
     template: `
-      <img v-bind:class="{achievement : true, achievement: achievement.unlocked}"" v-bind:src='"images/achievement/"+achievement.id+".png"' @error="$event.target.src='images/missing.png'" @mouseover="showAchievement(achievement)"/>
+      <img v-bind:class="{achievement : true, achievementgot: achievement.unlocked}"" v-bind:src='"images/achievement/"+achievement.id+".png"' @error="$event.target.src='images/missing.png'" @mouseover="showAchievement(achievement)"/>
+    `,
+    methods: {
+        showAchievement(achievement){
+          subatomicidlingapp.selectedachievement = achievement;
+        }
+    }
+})
+
+Vue.component('upgrade-bonus', {
+  props: ['upgrade', 'type'],
+  template:`
+    <span v-bind:class='"bonusupgrade bonus"+upgrade.id+"upgrade"'>{{upgrade.effects[0].geteffect()}}</span>
+  `
+});
+
+Vue.component('achievement-grid', {
+    props: ['achievementslist'],
+    template: `
+    <table>
+      <tr v-for="achievements in achievementslist">
+        <td v-for="achievement in achievements">
+          <achievement-item v-bind:achievement="achievement">
+        </td>
+      </tr>
+    </table>
     `,
     methods: {
         showAchievement(achievement){
@@ -178,7 +224,8 @@ var subatomicidlingapp = new Vue({
         player : player,
         settings : settings,
         selectedelectronupgrade : player.electronstage.upgrades[0],
-        selectedachievement : player.achievements[0]
+        selectedachievement : player.achievements[0][0],
+        versions : versions
     },
     methods: {
     }

@@ -42,6 +42,7 @@ ticks = 0;
 function gameLogicTick(){
   starttime = new Date().getTime();
   player.stats.currentelectrifytime += 1;
+  player.stats.playtime += 1;
   achievementtick();
   produce();
   //lengthCalculator();
@@ -63,8 +64,11 @@ recalculateCurrencyPerSec();
 
 gameLogicIntervalID = setInterval(() => {
   gameLogicTick();
-  save();
 }, 1000/settings.logictickspersecond);
+
+gameSaveIntervalID = setInterval(() => {
+  save();
+}, 10000);
 
 updateafterplayer();
 

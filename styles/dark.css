@@ -6,6 +6,21 @@ body{
   background-color: var(--main-color);
 }
 
+/*Scroll Bar*/
+::-webkit-scrollbar-track {
+  background: var(--main-color);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 /*Currency Colors*/
 .quark{
   color: #0066ff !important;
@@ -23,13 +38,12 @@ body{
 .sidenav .menubutton {
   color: #777;
 }
-
-.quarkmenubutton{
-  border-color: #0066ff !important;
+.producersmenubutton{
+  border-color: red !important;
   color: white !important;
 }
-.electronmenubutton{
-  border-color: #7dcf13 !important;
+.upgradesmenubutton{
+  border-color: yellow !important;
   color: white !important;
 }
 .achievementmenubutton{
@@ -53,16 +67,24 @@ body{
   color: white !important;
 }
 
-/*Stat Menu*/
-.statsidenav {
-  background-color: #111;
-  color: #888;
-
-  border: 2px solid #333;
+/*Submenu side stuff*/
+.quarksubmenubutton{
+  border-color: #0066ff !important;
+  color: white !important;
+}
+.electronsubmenubutton{
+  border-color: #7dcf13 !important;
+  color: white !important;
 }
 
-.statsidenav .menubutton {
-  color: #777;
+/*Stat Menu*/
+.subsidenav {
+}
+
+.subsidenav .menubutton {
+  color: white;
+  border-color: white;
+  margin-bottom: 2px;
 }
 
 .past10label {
@@ -105,34 +127,37 @@ body{
   border: 2px solid #333 !important;
 }
 
-/*Electron Upgrades*/
-.electronupgradebuyamount{
+/*Upgrades*/
+.upgradebuyamount{
   border-color: #dbac65;
   color: white;
   background-color: var(--main-color);
 }
-.electronupgradeauto{
+.upgradescreenauto{
   border-color: #2b5d6e;
   color: white;
   background-color: var(--main-color);
 }
-.electronupgradename{
+.upgradename{
   color: #dbac65;
 }
-.electronupgradelevel{
+.upgradelevel{
   color: white;
 }
-.electronupgradecost{
+.upgradecost{
   color: yellow;
 }
-.electronupgradeeffect{
+.upgradeeffect{
   color: white;
 }
-.electronupgrademax{
+.upgrademax{
   background-color: #42b844 !important;
 }
-.electronupgradebought{
+.upgradebought{
   background-color: #9f32c9;
+}
+.bonusquarkspinupgrade{
+  color: #ebcb2d;
 }
 
 /*Achievement*/
@@ -161,24 +186,58 @@ body{
 }
 
 /*Producer Display*/
-.producerimage{
-  width: 40px;
-}
 .producerquarkname{
   color: #ebcb2d;
 }
 .producerquarkproduction{
   color: #ebcb2d;
 }
-.producerquarkcostbutton{
+.producercostbutton{
   background-color: var(--main-color);
   color: white;
   border-radius: 8px;
   border: 2px solid #999;
 }
-.producerquarkautobutton{
+.producercostbuttonbuyable{
+  background-color: #555 ;
+  color: white;
+  border-radius: 8px;
+  border: 2px solid #999;
+}
+.producerautobutton{
   background-color: var(--main-color);
   color: white;
   border-radius: 2px;
   border: 2px solid green;
+}
+
+/*upgrade Display*/
+.upgradequarkname{
+  color: #ebcb2d;
+}
+.upgradequarkeffect{
+  color: #ebcb2d;
+}
+.upgradecostbutton{
+  background-color: var(--main-color);
+  color: white;
+  border-radius: 8px;
+  border: 2px solid #999;
+}
+.upgradecostbuttonbuyable{
+  background-color: #555;
+  color: white;
+  border-radius: 8px;
+  border: 2px solid #999;
+}
+.upgradeautobutton{
+  background-color: var(--main-color);
+  color: white;
+  border-radius: 2px;
+  border: 2px solid green;
+}
+
+/*Changelog*/
+.changelogtext{
+  color: #666;
 }

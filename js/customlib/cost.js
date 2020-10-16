@@ -65,7 +65,10 @@ class ExponentialCost extends Cost{
 
     getmaxbuyable(amount){
       var amountavailable = this.costobject.amount;
-      return Decimal.floor(Decimal.log(new Decimal(1).minus((new Decimal(1)).minus(this.scaling).times(amountavailable).divide(this.startingcost).divide(Decimal.pow(this.scaling, amount))), this.scaling));
+      var sae = this.startingcost.times(Decimal.pow(this.scaling, amount));
+      var buyamount = Decimal.log((sae.plus(amountavailable.times(this.scaling.minus(1)))).divide(sae), this.scaling);
+      var oldbuyamount = Decimal.log(new Decimal(1).minus((new Decimal(1)).minus(this.scaling).times(amountavailable).divide(this.startingcost).divide(Decimal.pow(this.scaling, amount))), this.scaling);
+      return Decimal.floor(buyamount);
     }
 }
 

@@ -18,6 +18,11 @@ span {
   white-space: pre-line;
 }
 
+/*Scroll Bar*/
+::-webkit-scrollbar {
+  width: 10px;
+}
+
 /*Side Navigation*/
 .sidenav {
   height: 100%;
@@ -162,7 +167,8 @@ td.righttablecolumn {
   margin-top: 20px;
 }
 
-#electronupgradeinfo{
+/*Upgrade Information*/
+#upgradeinfo{
   position: fixed;
   bottom: 30px;
   text-align: center;
@@ -170,7 +176,7 @@ td.righttablecolumn {
   width: 90%;
 }
 
-.electronupgradebuyamount{
+.upgradebuyamount{
   width: 200px;
   height: 30px;
   text-align: center;
@@ -178,23 +184,27 @@ td.righttablecolumn {
   margin-right: 20px;
 }
 
-.electronupgradeauto{
+.upgradescreenauto{
   width: 200px;
   height: 30px;
   text-align: center;
   border: solid 3px;
   margin-left: 20px;
 }
-.electronupgradename{
+.upgradename{
   font-size: 18px;
 }
-.electronupgradelevel{
+.upgradelevel{
+  font-size: auto;
+}
+.upgradecost{
   font-size: 18px;
 }
-.electronupgradecost{
+.upgradeeffect{
   font-size: 18px;
 }
-.electronupgradeeffect{
+
+.bonusupgrade{
   font-size: 18px;
 }
 
@@ -202,8 +212,12 @@ td.righttablecolumn {
 .achievement{
   width: 32px;
   height: 32px;
-  margin: 1px 1px 1px 1px;
   text-decoration: none;
+}
+
+.achievementdisplay{
+  height: 65%;
+  overflow-y: scroll;
 }
 
 #achievements{
@@ -221,10 +235,6 @@ td.righttablecolumn {
   font-size: 18px;
 }
 
-.achievement:hover {
-  cursor: default;
-}
-
 /*General*/
 .fittingimage{
   width: 100%;
@@ -238,14 +248,11 @@ td.righttablecolumn {
 /*Statistics*/
 
 .subsidenav {
-  height: 100%;
   width: 80px;
   position: absolute;
   z-index: 1;
-  top: 0;
   left: 165px;
   overflow-x: hidden;
-  padding-top: 20px;
   align: left;
 }
 
@@ -254,6 +261,7 @@ td.righttablecolumn {
   text-decoration: none;
   font-size: 16px;
   display: block;
+  border: 1px solid;
 }
 
 .subsidenav .menubutton:hover {
@@ -263,6 +271,7 @@ td.righttablecolumn {
 .subcontent {
   margin-left: 80px; /* Same as the width of the sidebar */
   padding: 0px 10px;
+  overflow-y: scroll;
 }
 
 .past10value {
@@ -304,7 +313,7 @@ td.righttablecolumn {
 
 /*Producer Display*/
 .producerrow{
-  height: 34px;
+  height: 32px;
 }
 .producerimage{
   width: 36px;
@@ -326,6 +335,44 @@ td.righttablecolumn {
   width: 120px;
 }
 .producerautobutton{
-  height: 36px;
+  height: 32px;
   width: 96%;
+}
+
+/*Upgrade Display*/
+.upgraderow{
+}
+.upgradeimage{
+  width: 36px;
+}
+.upgradename{
+  width: 220px;
+  white-space: pre-line;
+}
+.upgradeproduction{
+  width: 220px;
+}
+.upgradecost{
+  width: 200px;
+}
+.upgradecostbutton{
+  height: 32px;
+  width: 96%;
+}
+.upgradeauto{
+  width: 120px;
+}
+.upgradeautobutton{
+  height: 32px;
+  width: 96%;
+}
+
+/*Seperation*/
+.spacer32{
+  height: 32;
+}
+
+/*Changelog*/
+.changelogtext{
+  font-size: 16px;
 }

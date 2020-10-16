@@ -21,7 +21,8 @@ class Achievement{
   parse(list){
     if(list.includes(this.id))
       this.unlocked = true;
-    this.checkforshow();
+    if(this.unlocked)
+      this.onunlock();
     this.checkforshow();
   }
 
@@ -45,6 +46,8 @@ class Achievement{
       }
     });
     this.unlocked = unlock;
+    if(this.unlocked)
+      this.onunlock();
   }
 
   checkforshow(){
@@ -66,6 +69,7 @@ class Achievement{
     if(this.effects != null && this.effects != undefined)
       this.effects.forEach((effect, i) => {
         effect.apply();
+      console.log("Applied Effect: " + effect.geteffect());
       });
   }
 
@@ -116,7 +120,7 @@ class Achievement{
   get effect(){
     if(this.effects == undefined)
       return "Nothing! Absoluting Nothing"
-    return this.effects[0].description;
+    return this.effects[0].geteffect();
   }
   get requirement(){
     if(this.requirements == undefined)
