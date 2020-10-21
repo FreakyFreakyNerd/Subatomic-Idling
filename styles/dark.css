@@ -46,6 +46,10 @@ body{
   border-color: yellow !important;
   color: white !important;
 }
+.challengemenubutton{
+  border-color: #bd1381 !important;
+  color: white !important;
+}
 .achievementmenubutton{
   border-color: white !important;
   color: white !important;
@@ -158,6 +162,50 @@ body{
 }
 .bonusquarkspinupgrade{
   color: #ebcb2d;
+}
+
+/*challenges*/
+.challengebuyamount{
+  border-color: #dbac65;
+  color: white;
+  background-color: var(--main-color);
+}
+.challengescreenauto{
+  border-color: #2b5d6e;
+  color: white;
+  background-color: var(--main-color);
+}
+.challengename{
+  color: #dbac65;
+}
+.challengedescription{
+  color: #dbac65;
+}
+.challengecompleted{
+  color: white;
+}
+.challengeeffect{
+  color: yellow;
+}
+.challengereward{
+  color: white;
+}
+.challengein{
+  background-color: #42b844 !important;
+}
+.challengerequirement{
+  color: white;
+}
+
+.enterchallenge{
+  border-color: green;
+  color: green;
+  background-color: var(--main-color);
+}
+.exitchallenge{
+  border-color: red;
+  color: red;
+  background-color: var(--main-color);
 }
 
 /*Achievement*/

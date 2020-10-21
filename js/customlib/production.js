@@ -9,8 +9,10 @@ class LinearProduction{
     this.production = new Decimal(startingproduction);
     this.additioneffects = [];
     this.multipliereffects = [];
+    this.exponentialeffects = [];
     this.additionproduction = new Decimal(0);
-    this.multiplier = new Decimal(1)
+    this.multiplier = new Decimal(1);
+    this.exponent = new Decimal(1);
   }
 
   recalculateproductionaddition(){
@@ -18,6 +20,14 @@ class LinearProduction{
     this.additioneffects.forEach((effect, i) => {
       this.additionproduction = this.additionproduction.add(effect.value);
       console.log(this.additionproduction)
+    });
+  }
+
+  recalculateproductionexponential(){
+    this.exponent = new Decimal(1);
+    this.exponentialeffects.forEach((effect, i) => {
+      this.exponent = this.exponent.times(effect.value);
+      console.log(formatDecimalOverride(this.exponent, 3));
     });
   }
 
@@ -31,10 +41,11 @@ class LinearProduction{
   recalculateeffectvalues(){
     this.recalculateproductionaddition();
     this.recalculateproductionmultiplier();
+    this.recalculateproductionexponential();
   }
 
   recalculateproduction(amount){
-    this.production = this.startingproduction.add(this.productionincrease.add(this.additionproduction).times(amount).times(this.multiplier));
+    this.production = Decimal.pow(this.productionper.times(amount), this.exponent);
   }
 
   produce(){
@@ -54,6 +65,10 @@ class LinearProduction{
       this.multipliereffects.push(effect);
       this.recalculateproductionmultiplier();
     }
+    if(effect.effecttype == EffectTypes.ProducerExponentialProduction){
+      this.exponentialeffects.push(effect);
+      this.recalculateproductionexponential();
+    }
   }
 
 
@@ -70,6 +85,13 @@ class LinearProduction{
       if(ind > -1){
         this.multipliereffects.splice(this.multipliereffects.indexOf(effect), 1);
         this.recalculateproductionmultiplier();
+      }
+    }
+    if(effect.effecttype == EffectTypes.ProducerExponentialProduction){
+      var ind = this.exponentialeffects.indexOf(effect);
+      if(ind > -1){
+        this.exponentialeffects.splice(ind, 1);
+        this.recalculateproductionexponential();
       }
     }
   }

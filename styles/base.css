@@ -195,7 +195,7 @@ td.righttablecolumn {
   font-size: 18px;
 }
 .upgradelevel{
-  font-size: auto;
+  font-size: 18px;
 }
 .upgradecost{
   font-size: 18px;
@@ -206,6 +206,62 @@ td.righttablecolumn {
 
 .bonusupgrade{
   font-size: 18px;
+}
+
+/*Challenge Information*/
+#challengeinfo{
+  position: fixed;
+  bottom: 30px;
+  text-align: center;
+  align-self: center;
+  width: 90%;
+}
+
+.challengeenterexit{
+  width: 200px;
+  height: 30px;
+  text-align: center;
+  border: solid 3px;
+  margin-right: 20px;
+}
+
+.challengebuyamount{
+  width: 200px;
+  height: 30px;
+  text-align: center;
+  border: solid 3px;
+  margin-right: 20px;
+}
+
+.challengescreenauto{
+  width: 200px;
+  height: 30px;
+  text-align: center;
+  border: solid 3px;
+  margin-left: 20px;
+}
+.challengename{
+  font-size: 18px;
+}
+.challengedescription{
+  font-size: 18px;
+}
+.challengecompleted{
+  font-size: 18px;
+}
+.challengerequirement{
+  font-size: 18px;
+}
+.challengereward{
+  font-size: 18px;
+}
+.challengeeffect{
+  font-size: 18px;
+}
+.challenge{
+  width: 64px;
+  height: 64px;
+  padding: 2px 2px 2px 2px;
 }
 
 /*Achievements*/

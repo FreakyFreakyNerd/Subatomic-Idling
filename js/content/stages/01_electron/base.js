@@ -8,7 +8,7 @@ function setupElectronStage(){
     num = Decimal.pow(num, Decimal.max(Decimal.log(amount.divide(new Decimal("1e50")), new Decimal("1e100")), 1))
     return num;
   }
-  player.quarkstage.electrify = new Prestige("Electrify",player.electronstage.electrons, player.quarkstage.quarks, electrongain, (producedamount) => {if(producedamount.equals(0)) return; resetQuarkStage(); player.stats.electrified += 1; player.stats.past10electrifies.unshift([player.stats.currentelectrifytime, producedamount]); player.stats.past10electrifies.pop(); player.stats.currentelectrifytime = 0;})
+  player.quarkstage.electrify = new Prestige("Electrify",player.electronstage.electrons, player.quarkstage.quarks, electrongain, (producedamount) => { resetQuarkStage(); if(producedamount.equals(0)) return; player.stats.electrified += 1; player.stats.past10electrifies.unshift([player.stats.currentelectrifytime, producedamount]); player.stats.past10electrifies.pop(); player.stats.currentelectrifytime = 0;})
   player.electronstage.upgrades = [];
 
   player.electronstage.upgrades.push(new Upgrade("eu0", "[e1] Twice The Speed!", 1, null, [new StaticEffect(player.quarkstage.producers, 2, EffectTypes.ProducerMultiplierProduction, "Quark Generators")], [new StaticCost(player.electronstage.electrons, 1)], "eupg"));

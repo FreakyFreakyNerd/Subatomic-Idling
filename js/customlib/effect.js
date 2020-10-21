@@ -21,6 +21,7 @@ class Effect{
     this.increasemultipliereffects =[];
     this.onconstructfinish();
     this.queuedamount = new Decimal();
+    this.applied = false;
   }
 
   onconstructfinish(){}
@@ -79,18 +80,22 @@ class Effect{
   }
 
   oneffectchanged(){
+    if(!this.applied)
+      return;
     this.appliesto.forEach((item, i) => {
       item.effectchanged();
     });
   }
 
   apply(){
+    this.applied = true;
     this.appliesto.forEach((obj, i) => {
       obj.applyeffect(this);
     });
   }
 
   remove(){
+    this.applied = false;
     this.appliesto.forEach((obj, i) => {
       obj.removeeffect(this);
     });
@@ -258,12 +263,14 @@ class FunctionEffect extends Effect{
   }
 
   apply(){
+    this.applied = true;
     this.appliesto.forEach((obj, i) => {
       obj.applyeffect(this);
     });
   }
 
   remove(){
+    this.applied = false;
     this.appliesto.forEach((obj, i) => {
       obj.removeeffect(this);
     });
@@ -297,5 +304,6 @@ const EffectTypes = {
   PrestigeCurrencyBaseGain: 4,
   PrestigeCurrencyMultiplicativeGain: 5,
   UpgradeIncreaseMultiplier: 6,
-  UpgradeBonusLevels: 7
+  UpgradeBonusLevels: 7,
+  ProducerExponentialProduction: 8
 }

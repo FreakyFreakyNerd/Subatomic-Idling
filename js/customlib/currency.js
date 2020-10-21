@@ -50,7 +50,7 @@ class Currency{
     }
 
     has(amount){
-        return this.amount.greaterThan(amount) || this.amount.equals(amount);
+        return this.amount.greaterThanOrEqualTo(amount);
     }
 
     hasrequirement(amount){

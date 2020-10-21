@@ -185,6 +185,9 @@ class Producer {
         case EffectTypes.ProducerBaseProduction:
             this.applyproductioneffect(effect);
           break;
+        case EffectTypes.ProducerExponentialProduction:
+            this.applyproductioneffect(effect);
+          break;
         case EffectTypes.PriceScaling:
             this.applycosteffect(effect);
           break;
@@ -194,12 +197,11 @@ class Producer {
     }
 
     applyproductioneffect(effect){
-      var objid = effect.getarg("productionobjectid");
+      console.log(effect);
       this.productions.forEach((prod, i) => {
-        if(objid == undefined || objid == prod.id){
-          prod.applyeffect(effect)
-        }
+        prod.applyeffect(effect)
       });
+      this.recalculateproductions();
     }
 
     applycosteffect(effect){

@@ -13,7 +13,7 @@ class NumRequirement{
     }
 
     get requirementtext(){
-      return formatDecimal(this.amount) + "x " + this.requiredobject.displayname;
+      return formatDecimal(this.amount) + " " + this.requiredobject.displayname;
     }
 }
 class AchievementRequirement{

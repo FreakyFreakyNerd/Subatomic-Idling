@@ -2,6 +2,7 @@ currencyregistry = []
 producerregistry = []
 upgraderegistry = []
 achievementregistry = []
+
 updaterequiredregistry = []
 
 player = {
@@ -13,6 +14,7 @@ player = {
     buyamount : new Decimal(1)
   },
   achievements : [],
+  challenges : [],
   stats : {
   }
 }
@@ -34,6 +36,7 @@ function shallowcopy(obj){
 setupQuarkStage();
 setupElectronStage();
 setupachievements();
+setupchallenges();
 
 tickspersecactual = 0
 
@@ -46,7 +49,7 @@ function gameLogicTick(){
   achievementtick();
   produce();
   //lengthCalculator();
-  calculatePerSecond(player.quarkstage.quarks);
+  //calculatePerSecond(player.quarkstage.quarks);
   updaterequiredregistry.forEach((item, i) => {
     item.tick();
   });

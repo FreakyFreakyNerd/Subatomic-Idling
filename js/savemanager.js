@@ -6,6 +6,7 @@ function saveplayer(){
   saveoptions();
   savestats();
   saveachievements();
+  savechallenges();
 }
 
 function saveachievements(){
@@ -16,6 +17,24 @@ function saveachievements(){
     }
   });
   savedata["achievements"] = achievements;
+}
+
+function savechallenges(){
+  challenges = {};
+  player.challenges.forEach((chal, i) => {
+      challenges[chal.id] = chal.save();
+  });
+  savedata["chal"] = challenges;
+}
+
+function loadchallenges(){
+  challenges = loadeddata["chal"]
+  if(challenges == undefined)
+    return;
+  player.challenges.forEach((chal, i) => {
+    if(challenges[chal.id] != undefined)
+      chal.parse(challenges[chal.id]);
+  });
 }
 
 function saveQuarkStage(){
@@ -62,6 +81,7 @@ function loadplayer(){
   loadstats();
   loadQuarkStage();
   loadachievements();
+  loadchallenges();
 }
 
 function loadachievements(){

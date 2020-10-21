@@ -7,6 +7,7 @@
     <a class="gamename">Subatomic Idling {{settings.version}}</a>
     <a class="menubutton producersmenubutton" onclick='openscreen("producers")'>Producers</a>
     <a class="menubutton upgradesmenubutton" onclick='openscreen("upgrades")'>Upgrades</a>
+    <a class="menubutton challengemenubutton" onclick='openscreen("challenges")'>Challenges</a>
     <a class="menubutton achievementmenubutton" onclick='openscreen("achievements")'>Achievements</a>
     <a class="menubutton statisticsmenubutton" onclick='openscreen("stats")'>Statistics</a>
     <a class="menubutton settingsmenubutton" onclick='openscreen("options")'>Settings</a>
@@ -77,9 +78,9 @@
         </table>
       </div>
       <div id="producersscreen">
-        <div class="subsidenav">
+        <div class="subsidenav" v-if='hasachievement("electrifyunlock")'>
           <a class="menubutton quarksubmenubutton" onclick='openproducersscreen("quark")'>Quark</a>
-          <a class="menubutton electronsubmenubutton" onclick='openproducersscreen("electron")' v-if='hasachievement("electrifyunlock")'>Electron</a>
+          <a class="menubutton electronsubmenubutton" onclick='openproducersscreen("electron")'>Electron</a>
         </div>
         <div class="subcontent" id="quarkproducersscreen">
           <producers-display v-bind:producers="player.quarkstage.producers" type="quark"></producers-display>
@@ -92,9 +93,9 @@
         </div>
       </div>
       <div id="upgradesscreen" style="display: none;">
-        <div class="subsidenav">
+        <div class="subsidenav" v-if='hasachievement("electrifyunlock")'>
           <a class="menubutton quarksubmenubutton" onclick='openupgradesscreen("quark")'>Quark</a>
-          <a class="menubutton electronsubmenubutton" onclick='openupgradesscreen("electron")' v-if='hasachievement("electrifyunlock")'>Electron</a>
+          <a class="menubutton electronsubmenubutton" onclick='openupgradesscreen("electron")'>Electron</a>
         </div>
         <div id="quarkupgradesscreen">
         </div>
@@ -103,15 +104,13 @@
             <electron-upgrade-item v-for="upgrade in player.electronstage.upgrades" v-bind:upgrade="upgrade" ></electron-upgrade-item>
           </div>
         </div>
-        <div class="subcontent">
-          <div id="upgradeinfo">
-            <span class="upgradename">{{selectedelectronupgrade.displayname}}</span><br><br>
-            <span class="upgradecost">Cost: {{selectedelectronupgrade.costs[0].description}}</span><br>
-            <span class="upgradelevel">Level: {{selectedelectronupgrade.bought}}/{{selectedelectronupgrade.maxbuyable}}</span><br>
-            <span class="upgradeeffect">Effect: {{selectedelectronupgrade.effects[0].description}}</span><br><br>
-            <button class="upgradebuyamount">Buy Amount: {{getbuyamount("eupg")}}</button>
-            <button class="upgradescreenauto">Automatic: Locked</button>
-          </div>
+        <div id="upgradeinfo">
+          <span class="upgradename">{{selectedupgrade.displayname}}</span><br><br>
+          <span class="upgradecost">Cost: {{selectedupgrade.costs[0].description}}</span><br>
+          <span class="upgradelevel">Level: {{selectedupgrade.bought}}/{{selectedupgrade.maxbuyable}}</span><br>
+          <span class="upgradeeffect">Effect: {{selectedupgrade.effects[0].geteffect()}}</span><br><br>
+          <button class="upgradebuyamount">Buy Amount: {{getbuyamount("upg")}}</button>
+          <button class="upgradescreenauto">Automatic: Locked</button>
         </div>
       </div>
       <div id="achievementsscreen" style="display: none">
@@ -149,6 +148,22 @@
           </div>
         </div>
       </div>
+      <div id="challengesscreen" style="display: none;">
+        <div class="challengelist">
+          <challenge-item v-for="challenge in player.challenges" v-bind:challenge="challenge"></challenge-item>
+        </div>
+        <div id="challengeinfo">
+          <span class="challengename">{{selectedchallenge.displayname}}</span><br><br>
+          <span class="challengedescription">{{selectedchallenge.description}}</span><br>
+          <span class="challengerequirement">Requires: {{selectedchallenge.completionrequirements[0].requirementtext}}</span><br>
+          <span class="challengeeffect">Effect: {{selectedchallenge.inchaleffects[0].geteffect()}}</span><br>
+          <span class="challengecompleted">Completed: {{selectedchallenge.completed}}/{{selectedchallenge.maxcompletions}}</span><br>
+          <span class="challengereward">Rewards:<br></span>
+          <span class="challengereward" v-for="reward in selectedchallenge.rewards">{{selectedchallenge.rewards[0].description}}<br></span><br>
+          <button v-bind:class='{challengeenterexit: true, enterchallenge: !selectedchallenge.in, exitchallenge: selectedchallenge.in}' v-on:click='togglechallenge(selectedchallenge)'><span v-if="!selectedchallenge.in">Enter</span><span v-if="selectedchallenge.in">Exit</span> Challenge</button>
+          <button class="challengescreenauto">Automatic: Locked</button>
+        </div>
+      </div>
       <div id ="changelogscreen" class="centered" style="display: none;">
         <div class="subsidenav">
           <a v-for="version in versions" class="menubutton" v-on:click='openchangelogscreen(version)'>{{version}}</a>
@@ -179,13 +194,14 @@
 <script src="js/customlib/effect.js"> </script>
 <script src="js/customlib/prestige.js"> </script>
 <script src="js/customlib/achievement.js"> </script>
-<script src="js/customlib/linetree.js"> </script>
+<script src="js/customlib/challenge.js"> </script>
 <script src="js/settings.js"> </script>
 <script src="js/changelog.js"> </script>
 <script src="js/UI.js"> </script>
 <script src="js/content/stages/00_quark/base.js"> </script>
 <script src="js/content/stages/01_electron/base.js"> </script>
 <script src="js/content/achievements.js"> </script>
+<script src="js/content/challenges.js"> </script>
 <script src="js/math.js"> </script>
 <script src="js/savemanager.js"> </script>
 <script src="js/game.js"> </script>

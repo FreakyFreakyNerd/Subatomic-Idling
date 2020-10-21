@@ -65,6 +65,13 @@ class Prestige{
   }
 
   doprestige(){
+    if(this.producedamount.equals(0))
+      return;
+    this.producescurrency.add(this.producedcurrencyamount)
+    this.onprestigefunction(this.producedcurrencyamount);
+  }
+
+  forceprestige(){
     this.producescurrency.add(this.producedcurrencyamount)
     this.onprestigefunction(this.producedcurrencyamount);
   }

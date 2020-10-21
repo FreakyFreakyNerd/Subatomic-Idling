@@ -174,6 +174,18 @@ Vue.component('achievement-item', {
     }
 })
 
+Vue.component('challenge-item', {
+    props: ['challenge'],
+    template: `
+      <img v-bind:class="{challenge : true, inchallenge: challenge.in}"" v-bind:src='"images/challenge/"+challenge.id+".png"' @error="$event.target.src='images/missing.png'" @mouseover="showChallenge(challenge)"/>
+    `,
+    methods: {
+        showChallenge(challenge){
+          subatomicidlingapp.selectedchallenge = challenge;
+        }
+    }
+})
+
 Vue.component('upgrade-bonus', {
   props: ['upgrade', 'type'],
   template:`
@@ -223,8 +235,9 @@ var subatomicidlingapp = new Vue({
     data: {
         player : player,
         settings : settings,
-        selectedelectronupgrade : player.electronstage.upgrades[0],
+        selectedupgrade : player.quarkstage.upgrades[0],
         selectedachievement : player.achievements[0][0],
+        selectedchallenge : player.challenges[0],
         versions : versions
     },
     methods: {

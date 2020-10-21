@@ -62,7 +62,6 @@ function resetachievements(){
   achievementregistry.forEach((achieve, i) => {
     achieve.reset();
   });
-
 }
 
 function hasachievement(achieveid){
@@ -80,5 +79,4 @@ function achievementtick(){
   achievementregistry.forEach((achieve, i) => {
     achieve.check();
   });
-
 }
