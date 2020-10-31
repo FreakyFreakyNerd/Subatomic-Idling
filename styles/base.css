@@ -156,14 +156,14 @@ td.righttablecolumn {
 }
 
 /*Electron Upgrades*/
-.electronupgrade{
+.upgrade{
   width: 32px;
   height: 32px;
   margin: 1px 1px 1px 1px;
   text-decoration: none;
 }
 
-#electronupgrades{
+#upgrades{
   margin-top: 20px;
 }
 
@@ -250,6 +250,9 @@ td.righttablecolumn {
   font-size: 18px;
 }
 .challengerequirement{
+  font-size: 18px;
+}
+.challengerewardlabel{
   font-size: 18px;
 }
 .challengereward{
@@ -339,7 +342,23 @@ td.righttablecolumn {
   font-size: 24px;
 }
 
+/*TopBar*/
+#topbardisplay{
+  width: 100%;
+}
+.currencymarker{
+  width:70%;
+}
+.prestigemarker{
+  width:30%;
+}
+
 /*Currency Displays*/
+#currenciesdisplay{
+  width:100%;
+  overflow-x: scroll;
+}
+
 .currencydisplay {
   font-size: 14px;
   font-weight: bold;
@@ -365,6 +384,36 @@ td.righttablecolumn {
   height: 100%;
   width: 100%;
   margin: auto;
+}
+
+/* Prestige Display */
+#prestigedisplay{
+  width: 100%;
+  height: 56px;
+  overflow-x: scroll;
+  margin-top: 1px;
+  margin-left: 1px;
+}
+
+#prestigegain{
+  width: 100%;
+  overflow-x: scroll;
+  margin-top: 1px;
+  margin-left: 1px;
+}
+
+.prestigerequirement{
+  font-size: 16px;
+}
+
+.prestigereward{
+  font-size: 16px;
+  vertical-align: center;
+}
+
+.prestigerewardicon{
+  width: 16px;
+  height: 16px;  
 }
 
 /*Producer Display*/

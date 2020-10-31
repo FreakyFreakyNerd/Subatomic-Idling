@@ -104,6 +104,17 @@ body{
   color: #888888;
 }
 
+/* Prestige Display */
+.prestigerequirement{
+  color: green;
+}
+.notprestigerequirement{
+  color: red !important;
+}
+.prestigereward{
+  color: white;
+}
+
 /*Quark Menu*/
 .producerlabel{
   color: #666;
@@ -152,7 +163,7 @@ body{
   color: yellow;
 }
 .upgradeeffect{
-  color: white;
+  color: #ba32af;
 }
 .upgrademax{
   background-color: #42b844 !important;
@@ -187,8 +198,14 @@ body{
 .challengeeffect{
   color: yellow;
 }
-.challengereward{
+.challengerewardlabel{
   color: white;
+}
+.challengereward{
+  color: #ba32af;
+}
+.challengerewardcurrent{
+  color: #9e2b95;
 }
 .challengein{
   background-color: #42b844 !important;

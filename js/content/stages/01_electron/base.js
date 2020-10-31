@@ -8,11 +8,13 @@ function setupElectronStage(){
     num = Decimal.pow(num, Decimal.max(Decimal.log(amount.divide(new Decimal("1e50")), new Decimal("1e100")), 1))
     return num;
   }
-  player.quarkstage.electrify = new Prestige("Electrify",player.electronstage.electrons, player.quarkstage.quarks, electrongain, (producedamount) => { resetQuarkStage(); if(producedamount.equals(0)) return; player.stats.electrified += 1; player.stats.past10electrifies.unshift([player.stats.currentelectrifytime, producedamount]); player.stats.past10electrifies.pop(); player.stats.currentelectrifytime = 0;})
+  //,player.electronstage.electrons, player.quarkstage.quarks, electrongain,
+  player.quarkstage.electrify = new Prestige("Electrify", (hadrequire, producedamounts) => { resetQuarkStage(); if(!hadrequire) return; player.stats.electrified += 1; player.stats.past10electrifies.unshift([player.stats.currentelectrifytime, producedamounts[0]]); player.stats.past10electrifies.pop(); player.stats.currentelectrifytime = 0;}, new NumRequirement(player.quarkstage.quarks, "1e16"), new PrestigeReward(player.electronstage.electrons, player.quarkstage.quarks, electrongain))
   player.electronstage.upgrades = [];
 
   player.electronstage.upgrades.push(new Upgrade("eu0", "[e1] Twice The Speed!", 1, null, [new StaticEffect(player.quarkstage.producers, 2, EffectTypes.ProducerMultiplierProduction, "Quark Generators")], [new StaticCost(player.electronstage.electrons, 1)], "eupg"));
 
+  /*
   //Starts out at upgrade slot 1
   player.electronstage.upgrades.push(new Upgrade("eu1", "A One",   100, null, [new LinearEffect(player.quarkstage.producers[0], 1, 1, EffectTypes.ProducerMultiplierProduction, "Quark Generator 1")], [new ExponentialCost(player.electronstage.electrons, 2, 2)], "eupg"));
   player.electronstage.upgrades.push(new Upgrade("eu2", "A Two",   100, null, [new LinearEffect(player.quarkstage.producers[1], 1, 1, EffectTypes.ProducerMultiplierProduction, "Quark Generator 2")], [new ExponentialCost(player.electronstage.electrons, 3, 2)], "eupg"));
@@ -97,7 +99,7 @@ function setupElectronStage(){
   player.electronstage.upgrades.push(new Upgrade("eu66", "Add A Litte Flavor", 1, null, new LinkedExponentialEffect(player.quarkstage.producers, () => { num = new Decimal(); player.quarkstage.producers.forEach((prod, i) => {num = num.add(prod.bought)}); return num; }, 1, 1.001, EffectTypes.ProducerMultiplierProduction, "", (obj) => {return "Multiply Quark Generators production by " + formatDecimalOverride(obj.value, 3) + "(x" + formatDecimalOverride(obj.increase, 3) +" per bought quark generator).";}), new StaticCost(player.electronstage.electrons, "1000"), "eupg", {xpos: 0, ypos: 324, label: "*QG"}));
 
   player.electronstage.upgrades.push(new Upgrade("eu67", "Yep Something Newwwww", 1, null, new FlavorEffect("Unlocks some new producers (only buy if you have at least 11 electrons)"), new StaticCost(player.electronstage.electrons, "1"), "eupg", {xpos: -1500, ypos: 0, label: "QS"}));
-
+    */
   var spinmult = (amount) => {
     if(amount.lessThanOrEqualTo(1))
       return new Decimal(1);

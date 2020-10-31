@@ -1,27 +1,42 @@
 <html>
 <link rel="stylesheet" type="text/css" href="styles/base.css">
-<link id="stylemanager" rel="stylesheet" type="text/css" href="styles/light.css">
+<link id="stylemanager" rel="stylesheet" type="text/css" href="styles/dark.css">
 <title> Subatomic Idling </title>
 <div id="subatomicidling">
   <div class="sidenav">
     <a class="gamename">Subatomic Idling {{settings.version}}</a>
     <a class="menubutton producersmenubutton" onclick='openscreen("producers")'>Producers</a>
     <a class="menubutton upgradesmenubutton" onclick='openscreen("upgrades")'>Upgrades</a>
-    <a class="menubutton challengemenubutton" onclick='openscreen("challenges")'>Challenges</a>
+    <a class="menubutton challengemenubutton" onclick='openscreen("challenges")' v-if='hasachievement("challengeunlock")'>Challenges</a>
     <a class="menubutton achievementmenubutton" onclick='openscreen("achievements")'>Achievements</a>
     <a class="menubutton statisticsmenubutton" onclick='openscreen("stats")'>Statistics</a>
     <a class="menubutton settingsmenubutton" onclick='openscreen("options")'>Settings</a>
     <a class="menubutton changelogmenubutton" onclick='openscreen("changelog")'>Changelog</a>
   </div>
   <div id="gamecontent">
-    <div id="currenciesdisplay">
-      <table id="currenciestable">
-        <tr class="currenciesrow">
-          <td class="currenciescell"><currency-display v-bind:currency="player.quarkstage.quarks"></currency-display></td>
-          <td class="currenciescell" v-if='hasachievement("electrifyunlock")'><currency-display v-bind:currency="player.electronstage.electrons"></currency-display></td>
-        </tr>
-        <tr class="currenciesrow">
-        </tr>
+    <div>
+      <table id="topbardisplay">
+          <td class="currencymarker">
+            <div id="currenciesdisplay">
+            <table id="currenciestable">
+              <tr class="currenciesrow">
+                <td class="currenciescell"><currency-display v-bind:currency="player.quarkstage.quarks"></currency-display></td>
+                <td class="currenciescell" v-if='hasachievement("electrifyunlock")'><currency-display v-bind:currency="player.electronstage.electrons"></currency-display></td>
+              </tr>
+              <tr class="currenciesrow">
+              </tr>
+            </table>
+            </div>
+          </td>
+          <td class="prestigemarker">
+            <div id="prestigedisplay">
+              <prestige-icon v-for="prestige in prestiges" v-bind:prestige="prestige"></prestige-icon>
+            </div>
+            <div id="prestigegain">
+              <prestige-requirement v-bind:requirement="selectedprestige.requirement"></prestige-requirement>
+              <prestige-reward v-for="reward in selectedprestige.rewards" v-bind:reward="reward"></prestige-reward>
+            </div>
+          </td>
       </table>
     </div>
     <div id="screens">
@@ -97,11 +112,14 @@
           <a class="menubutton quarksubmenubutton" onclick='openupgradesscreen("quark")'>Quark</a>
           <a class="menubutton electronsubmenubutton" onclick='openupgradesscreen("electron")'>Electron</a>
         </div>
-        <div id="quarkupgradesscreen">
+        <div id="quarkupgradesscreen" class="subcontent">
+          <div class="upgrades">
+            <upgrade-item v-for="upgrade in player.quarkstage.singletonupgrades" v-bind:upgrade="upgrade" ></upgrade-item>
+          </div>
         </div>
         <div id="electronupgradesscreen" class="subcontent" style="display: none;">
           <div class="electronupgrades">
-            <electron-upgrade-item v-for="upgrade in player.electronstage.upgrades" v-bind:upgrade="upgrade" ></electron-upgrade-item>
+            <upgrade-item v-for="upgrade in player.electronstage.upgrades" v-bind:upgrade="upgrade" ></upgrade-item>
           </div>
         </div>
         <div id="upgradeinfo">
@@ -158,8 +176,8 @@
           <span class="challengerequirement">Requires: {{selectedchallenge.completionrequirements[0].requirementtext}}</span><br>
           <span class="challengeeffect">Effect: {{selectedchallenge.inchaleffects[0].geteffect()}}</span><br>
           <span class="challengecompleted">Completed: {{selectedchallenge.completed}}/{{selectedchallenge.maxcompletions}}</span><br>
-          <span class="challengereward">Rewards:<br></span>
-          <span class="challengereward" v-for="reward in selectedchallenge.rewards">{{selectedchallenge.rewards[0].description}}<br></span><br>
+          <span class="challengerewardlabel">Per Completion Bonus:<br></span>
+          <span class="challengereward" v-for="reward in selectedchallenge.rewards">{{reward.geteffect()}}<br></span><br>
           <button v-bind:class='{challengeenterexit: true, enterchallenge: !selectedchallenge.in, exitchallenge: selectedchallenge.in}' v-on:click='togglechallenge(selectedchallenge)'><span v-if="!selectedchallenge.in">Enter</span><span v-if="selectedchallenge.in">Exit</span> Challenge</button>
           <button class="challengescreenauto">Automatic: Locked</button>
         </div>

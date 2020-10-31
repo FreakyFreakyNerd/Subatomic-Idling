@@ -111,18 +111,18 @@ Vue.component('buy-display', {
   `
 })
 
-Vue.component('electron-upgrade-item', {
+Vue.component('upgrade-item', {
     props: ['upgrade'],
     template: `
-      <img v-bind:class="{electronupgrade : true, electronupgradebought: upgrade.bought >= 1, electronupgrademax : upgrade.ismaxbuyable}" v-on:click="buyUpgrade(upgrade)" v-if="upgrade.unlocked" v-bind:src='"images/electron/"+upgrade.id+".png"' @error="$event.target.src='images/missing.png'" @mouseover="showElectronUpgrade(upgrade)"/>
+      <img v-bind:class="{upgrade : true, upgradebought: upgrade.bought >= 1, upgrademax : upgrade.ismaxbuyable}" v-on:click="buyUpgrade(upgrade)" v-if="upgrade.unlocked" v-bind:src='"images/upgrade/"+upgrade.id+".png"' @error="$event.target.src='images/missing.png'" @mouseover="showUpgrade(upgrade)"/>
     `,
     methods: {
         buyUpgrade: function(upgrade){
             upgrade.buy();
             recalculateCurrencyPerSec();
         },
-        showElectronUpgrade(upgrade){
-          subatomicidlingapp.selectedelectronupgrade = upgrade;
+        showUpgrade(upgrade){
+          subatomicidlingapp.selectedupgrade = upgrade;
         }
     }
 })
@@ -131,8 +131,8 @@ Vue.component('currency-display', {
   props: ['currency'],
   template: `
   <div class="currencydisplaydiv">
-    <img class="currencyimage" v-bind:src='"images/currency/"+currency.id+".png"' @error="$event.target.src='images/missing.png'"/>
-    <span v-bind:class='"currency"+currency.id+"display currencydisplay"'>{{formatSpecial(currency.amount, 1)}}</span>
+    <img class="currencyimage" v-bind:src='currency.iconpath' @error="$event.target.src='images/missing.png'"/>
+    <span v-bind:class='currency.colorclass+" currencydisplay"'>{{formatSpecial(currency.amount, 1)}}</span>
   </div>
   `,
   methods: {
@@ -184,6 +184,35 @@ Vue.component('challenge-item', {
           subatomicidlingapp.selectedchallenge = challenge;
         }
     }
+})
+
+Vue.component('prestige-icon', {
+    props: ['prestige'],
+    template: `
+      <img v-bind:class="{prestigeicon : true}"" v-bind:src='"images/prestige/"+prestige.id+".png"' @error="$event.target.src='images/missing.png'" @mouseover="showPrestigeRewards(prestige)" v-on:click="prestige.doprestige()"/>
+    `,
+    methods: {
+        showPrestigeRewards(prestige){
+          subatomicidlingapp.selectedprestige = prestige;
+        }
+    }
+})
+
+Vue.component('prestige-requirement', {
+    props: ['requirement'],
+    template: `
+      <span v-bind:class='{prestigerequirement: true, notprestigerequirement: !requirement.hasrequirement}'>{{requirement.progresstext}}</span>
+    `
+})
+
+Vue.component('prestige-reward', {
+    props: ['reward'],
+    template: `
+     <div class="prestigereward">
+      <img v-bind:class="{prestigerewardicon : true}"" v-bind:src='reward.iconpath' @error="$event.target.src='images/missing.png'"/>
+      <span v-bind:class='"prestigerewardamount " + reward.colorclass'>+ {{reward.producedamount}}</span>
+      </div>
+    `
 })
 
 Vue.component('upgrade-bonus', {
@@ -238,7 +267,9 @@ var subatomicidlingapp = new Vue({
         selectedupgrade : player.quarkstage.upgrades[0],
         selectedachievement : player.achievements[0][0],
         selectedchallenge : player.challenges[0],
-        versions : versions
+        selectedprestige : prestigeregistry[0],
+        versions : versions,
+        prestiges : prestigeregistry
     },
     methods: {
     }

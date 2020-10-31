@@ -240,6 +240,17 @@ class FunctionEffect extends Effect{
     this.effectdescription = effectdescriptionfunction;
     this.amount = new Decimal();
     this.value = new Decimal(1);
+    this.delay = 10;
+
+      updaterequiredregistry.push(this);
+  }
+
+  tick(){
+    this.delay--;
+    if(this.delay <= 0){
+      this.recalculatevalue(this.amount);
+      this.delay = 10;
+    }
   }
 
   recalculatevalue(amount){
@@ -248,6 +259,7 @@ class FunctionEffect extends Effect{
       this.value = this.effectvaluefunction(amount);
     else
       this.value = new Decimal(1);
+    this.oneffectchanged();
   }
 
   get description(){

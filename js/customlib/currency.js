@@ -10,6 +10,14 @@ class Currency{
         this.temp = {};
     }
 
+    get iconpath(){
+      return "images/currency/" + this.id + ".png";
+    }
+
+    get colorclass(){
+      return "currency"+this.id+"display";
+    }
+
     reset(){
       this.amount = new Decimal(this.startingamount)
       this.gained = new Decimal(0);
@@ -54,6 +62,6 @@ class Currency{
     }
 
     hasrequirement(amount){
-      return this.has(amount);
+      return this.gained.greaterThanOrEqualTo(amount);
     }
 }

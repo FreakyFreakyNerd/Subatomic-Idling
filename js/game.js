@@ -2,6 +2,7 @@ currencyregistry = []
 producerregistry = []
 upgraderegistry = []
 achievementregistry = []
+prestigeregistry = []
 
 updaterequiredregistry = []
 

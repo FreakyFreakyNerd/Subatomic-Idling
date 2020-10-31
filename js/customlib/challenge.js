@@ -72,7 +72,9 @@ class Challenge{
   }
 
   applyrewards(){
-
+    this.rewards.forEach((reward, i) => {
+      reward.apply();
+    });
   }
 
   hasrequirement(amount){

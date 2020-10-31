@@ -9,6 +9,8 @@ class Producer {
         this.produced = new Decimal(0);
         this.unlockrequirements = unlockrequirements;
         this.onbuymax = false;
+        this.onamountchange = [];
+
         producerregistry.push(this);
         updaterequiredregistry.push(this);
     }
@@ -47,6 +49,12 @@ class Producer {
 
     get saveData(){
         return this.save()
+    }
+
+    updateamountchanged(){
+      this.onamountchange.forEach(element => {
+        element(element);
+      });
     }
 
     has(amount){
