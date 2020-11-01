@@ -39,25 +39,25 @@ function setupachievements(){
     player.achievements.push([]);
     player.achievements[6].push(new Achievement("onequarkgenseven", "MURRRAAAYYYY!!!", [new NumRequirement(player.quarkstage.producers[6], 1)], null, null));
   player.achievements[6].push(new Achievement("10quarkgenseven", "A dozen Murrays.", [new NumRequirement(player.quarkstage.producers[6], 10)], null, [new FlavorEffect("Unlocks Epoch for purchase.")]));
-  player.achievements[6].push(new Achievement("100quarkgenseven", "A dozen Murrays.", [new NumRequirement(player.quarkstage.producers[6], 10)], null, [new FlavorEffect("Something Sometime")]));
+  player.achievements[6].push(new Achievement("100quarkgenseven", "A dozen Murrays.", [new NumRequirement(player.quarkstage.producers[6], 100)], null, [new FlavorEffect("Something Sometime")]));
 
     //Row 7
     player.achievements.push([]);
     player.achievements[7].push(new Achievement("onequarkgeneight", "What even is an Epoch.", [new NumRequirement(player.quarkstage.producers[7], 1)], null, null));
   player.achievements[7].push(new Achievement("10quarkgeneight", "Spoiler, Its a defining period of time.", [new NumRequirement(player.quarkstage.producers[7], 10)], null, [new FlavorEffect("Unlocks Scattering for purchase.")]));
-  player.achievements[7].push(new Achievement("100quarkgeneight", "Spoiler, Its a defining period of time.", [new NumRequirement(player.quarkstage.producers[7], 10)], null, [new FlavorEffect("Something Sometime")]));
+  player.achievements[7].push(new Achievement("100quarkgeneight", "Spoiler, Its a defining period of time.", [new NumRequirement(player.quarkstage.producers[7], 100)], null, [new FlavorEffect("Something Sometime")]));
 
     //Row 8
     player.achievements.push([]);
     player.achievements[8].push(new Achievement("onequarkgennine", "Start the light Scattering", [new NumRequirement(player.quarkstage.producers[8], 1)], null, null));
   player.achievements[8].push(new Achievement("10quarkgennine", "Lets scatter some more.", [new NumRequirement(player.quarkstage.producers[8], 10)], null, [new FlavorEffect("Unlocks Big Bang for purchase.")]));
-  player.achievements[8].push(new Achievement("100quarkgennine", "Lets scatter some more.", [new NumRequirement(player.quarkstage.producers[8], 10)], null, [new FlavorEffect("Something Sometime")]));
+  player.achievements[8].push(new Achievement("100quarkgennine", "Lets scatter some more.", [new NumRequirement(player.quarkstage.producers[8], 100)], null, [new FlavorEffect("Something Sometime")]));
 
     //Row 9
     player.achievements.push([]);
     player.achievements[9].push(new Achievement("onequarkgenten", "Such a Big Bang", [new NumRequirement(player.quarkstage.producers[9], 1)], null, null));
   player.achievements[9].push(new Achievement("10quarkgenten", "But, How?", [new NumRequirement(player.quarkstage.producers[9], 10)], null, [new FlavorEffect("How does 2 new quark upgrades sound?")]));
-  player.achievements[9].push(new Achievement("100quarkgenten", "But, How?", [new NumRequirement(player.quarkstage.producers[9], 10)], null, [new FlavorEffect("Something Sometime")]));
+  player.achievements[9].push(new Achievement("100quarkgenten", "But, How?", [new NumRequirement(player.quarkstage.producers[9], 100)], null, [new FlavorEffect("Unlocks Multiplication Boost for purchase.")]));
 
     //Row 10
     player.achievements.push([]);

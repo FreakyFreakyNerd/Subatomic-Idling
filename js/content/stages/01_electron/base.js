@@ -4,8 +4,9 @@ function setupElectronStage(){
   var electrongain = (amount) => {
     if(amount.lessThan(new Decimal("1e16")))
       return new Decimal();
-    num = Decimal.floor(Decimal.max(Decimal.log(amount.divide(new Decimal("1e20")), 10), 1));
-    num = Decimal.pow(num, Decimal.max(Decimal.log(amount.divide(new Decimal("1e50")), new Decimal("1e100")), 1))
+    num = Decimal.floor(Decimal.pow(amount.divide("1e16"), 1/3));
+    //num = Decimal.floor(Decimal.max(Decimal.log(amount.divide(new Decimal("1e20")), 10), 1));
+    //num = Decimal.pow(num, Decimal.max(Decimal.log(amount.divide(new Decimal("1e50")), new Decimal("1e100")), 1))
     return num;
   }
   //,player.electronstage.electrons, player.quarkstage.quarks, electrongain,
