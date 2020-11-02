@@ -141,7 +141,7 @@ class Producer {
     get buyamount(){
       if(!this.unlocked)
         return "Locked";
-      if(player.options.buyamounts[this.buykey].equals(-1)){
+      if(player.options.buyamounts[this.buykey] == -1){
         var max = this.getmaxbuyable();
         this.onbuymax = true;
         if(max.lessThanOrEqualTo(new Decimal(0)))

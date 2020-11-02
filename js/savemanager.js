@@ -113,7 +113,7 @@ function loadoptions(){
     if(options.buyamounts != undefined){
       for(let [key,value] of Object.entries(options.buyamounts)){
         if(key in player.options.buyamounts)
-          player.options.buyamounts[key] = Decimal.fromString(value);
+          player.options.buyamounts[key] = parseInt(value);
       }
     }
   }

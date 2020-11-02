@@ -110,16 +110,16 @@ function setupElectronStage(){
   player.electronstage.quarkspin = new Upgrade("quarkspin", "Quark Spin", 0, null, new FunctionEffect(player.quarkstage.producers, EffectTypes.ProducerMultiplierProduction, spinmult, (obj) => {return "You have " + formatDecimalNormal(obj.amount) + " Quark Spin, providing a x" + formatDecimal(obj.value) + " production boost to Quark Producers."}));
 
   player.electronstage.quarkspinproducers = [];
-  player.electronstage.quarkspinproducers.push(new Producer("qs1", "Spinner 1", [new ExponentialCost(player.electronstage.electrons, "1", 2)], [new LinearProduction(player.electronstage.quarkspin, "1")], null, "spingen"));
-  player.electronstage.quarkspinproducers.push(new Producer("qs2", "Spinner 2", [new ExponentialCost(player.electronstage.electrons, "10", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[0], "1")], null, "spingen"));
-  player.electronstage.quarkspinproducers.push(new Producer("qs3", "Spinner 3", [new ExponentialCost(player.electronstage.electrons, "1e3", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[1], "1")], null, "spingen"));
-  player.electronstage.quarkspinproducers.push(new Producer("qs4", "Spinner 4", [new ExponentialCost(player.electronstage.electrons, "1e6", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[2], "1")], null, "spingen"));
-  player.electronstage.quarkspinproducers.push(new Producer("qs5", "Spinner 5", [new ExponentialCost(player.electronstage.electrons, "1e12", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[3], "1")], null, "spingen"));
-  player.electronstage.quarkspinproducers.push(new Producer("qs6", "Spinner 6", [new ExponentialCost(player.electronstage.electrons, "1e24", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[4], "1")], null, "spingen"));
-  player.electronstage.quarkspinproducers.push(new Producer("qs7", "Spinner 7", [new ExponentialCost(player.electronstage.electrons, "1e48", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[5], "1")], null, "spingen"));
-  player.electronstage.quarkspinproducers.push(new Producer("qs8", "Spinner 8", [new ExponentialCost(player.electronstage.electrons, "1e96", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[6], "1")], null, "spingen"));
-  player.electronstage.quarkspinproducers.push(new Producer("qs9", "Spinner 9", [new ExponentialCost(player.electronstage.electrons, "1e200", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[7], "1")], null, "spingen"));
-  player.electronstage.quarkspinproducers.push(new Producer("qs10", "Spinner 10", [new ExponentialCost(player.electronstage.electrons, "1e500", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[8], "1")], null, "spingen"));
+  player.electronstage.quarkspinproducers.push(new Producer("qs1", "Spinner 1", [new ExponentialCost(player.electronstage.electrons, "1", 2)], [new LinearProduction(player.electronstage.quarkspin, "1")], null, "qsp"));
+  player.electronstage.quarkspinproducers.push(new Producer("qs2", "Spinner 2", [new ExponentialCost(player.electronstage.electrons, "10", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[0], "1")], null, "qsp"));
+  player.electronstage.quarkspinproducers.push(new Producer("qs3", "Spinner 3", [new ExponentialCost(player.electronstage.electrons, "1e3", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[1], "1")], null, "qsp"));
+  player.electronstage.quarkspinproducers.push(new Producer("qs4", "Spinner 4", [new ExponentialCost(player.electronstage.electrons, "1e6", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[2], "1")], null, "qsp"));
+  player.electronstage.quarkspinproducers.push(new Producer("qs5", "Spinner 5", [new ExponentialCost(player.electronstage.electrons, "1e12", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[3], "1")], null, "qsp"));
+  player.electronstage.quarkspinproducers.push(new Producer("qs6", "Spinner 6", [new ExponentialCost(player.electronstage.electrons, "1e24", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[4], "1")], null, "qsp"));
+  player.electronstage.quarkspinproducers.push(new Producer("qs7", "Spinner 7", [new ExponentialCost(player.electronstage.electrons, "1e48", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[5], "1")], null, "qsp"));
+  player.electronstage.quarkspinproducers.push(new Producer("qs8", "Spinner 8", [new ExponentialCost(player.electronstage.electrons, "1e96", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[6], "1")], null, "qsp"));
+  player.electronstage.quarkspinproducers.push(new Producer("qs9", "Spinner 9", [new ExponentialCost(player.electronstage.electrons, "1e200", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[7], "1")], null, "qsp"));
+  player.electronstage.quarkspinproducers.push(new Producer("qs10", "Spinner 10", [new ExponentialCost(player.electronstage.electrons, "1e500", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[8], "1")], null, "qsp"));
 
   //player.electronstage.electronupgradelinetree = new LineTree(dumplines(player.electronstage.upgrades, 64), "electronupgrades");
 }

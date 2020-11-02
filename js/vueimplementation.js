@@ -259,6 +259,15 @@ Vue.component('quark-spin-producer', {
     }
 })
 
+Vue.component('buy-amount-selector', {
+  props: ['type'],
+  template: `
+    <button v-bind:class='"buyamountdisplay "+type+"buyamountdisplay"' v-on:click="togglebuyamount(type)">
+      <span class='buyamounttext'>Buy Amount: {{getbuyamount(type)}}</span>
+    </button>
+  `
+})
+
 var subatomicidlingapp = new Vue({
     el: '#subatomicidling',
     data: {

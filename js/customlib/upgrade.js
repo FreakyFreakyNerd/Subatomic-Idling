@@ -172,14 +172,14 @@ class Upgrade{
         return 1;
 
       var amount = new Decimal(0);
-      if(player.options.buyamounts[this.buykey].equals(-1)){
+      if(player.options.buyamounts[this.buykey] == -1){
         amount = this.getmaxbuyable();
         this.onbuymax = true;
         if(amount.lessThanOrEqualTo(0))
           amount = new Decimal(1);
       }else{
         this.onbuymax = false
-        amount =  player.options.buyamounts[this.buykey];
+        amount =  new Decimal(player.options.buyamounts[this.buykey]);
       }
       if(this.maxbuyable == -1)
         return amount;

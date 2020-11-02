@@ -481,3 +481,17 @@ td.righttablecolumn {
 .changelogtext{
   font-size: 16px;
 }
+
+/*Buy Amount Stuff*/
+.buyamountdisplay{
+  position: fixed;
+  bottom: 30px;
+  border: 2px solid;
+  padding: 4px 4px 4px 4px;
+  width: 240px;
+  height : 32px;
+}
+
+.buyamounttext{
+  font-size: 16px;
+}

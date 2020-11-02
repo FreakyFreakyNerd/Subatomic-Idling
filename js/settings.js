@@ -7,8 +7,9 @@ settings = {
         notation : "standard",
         notationdecimals : 3,
         theme : "light",
-        buyamounts : {quarkgen: new Decimal(1),quarkupg: new Decimal(1),spingen: new Decimal(1),eupg: new Decimal(1)},
-        autochallengeretry : false
+        buyamounts : {qp: 1,quarkupg: 1,qsp: 1,eupg: 1},
+        autochallengeretry : false,
+        toggleamounts: [1,10,25,100,-1]
     },
     defaultstats : {
       currentelectrifytime : 0,
@@ -22,11 +23,11 @@ function getbuyamount(type,object){
   if(type == undefined)
     return "type Undefined"
   var buyamount = player.options.buyamounts[type];
-  if(buyamount == undefined || buyamount.equals == undefined){
-    player.options.buyamounts[type] = new Decimal(1);
-    return new Decimal(1);
+  if(buyamount == undefined){
+    player.options.buyamounts[type] = 1;
+    return 1;
   }
-  if(!buyamount.equals(-1))
+  if(buyamount != -1)
     return buyamount;
   if(object == undefined)
     return "Max"
@@ -34,7 +35,7 @@ function getbuyamount(type,object){
 }
 
 function setbuyamount(type, num){
-  player.options.buyamounts[type] = new Decimal(num);
+  player.options.buyamounts[type] = num;
   producerregistry.forEach((prod, i) => {
     prod.recalculatecosts();
   });
@@ -45,4 +46,17 @@ function setbuyamount(type, num){
 
 function resetstats(){
   player.stats = shallowcopy(settings.defaultstats);
+}
+
+function togglebuyamount(type){
+  var buyamount = getbuyamount(type);
+  var ind = player.options.toggleamounts.indexOf(buyamount);
+  if(ind == undefined || ind == player.options.toggleamounts.length-1){
+    setbuyamount(type, player.options.toggleamounts[0]);
+  }
+  else{
+    setbuyamount(type, player.options.toggleamounts[ind+1])
+    console.log("Yepp Changed To Next In Line: " + player.options.toggleamounts[ind+1])
+    console.log("Buy Amount: " + getbuyamount(type))
+  }
 }

@@ -306,3 +306,20 @@ body{
 .changelogtext{
   color: #666;
 }
+
+/*Buy Amount Stuff*/
+.buyamountdisplay{
+  background-color: var(--main-color);
+}
+
+.qpbuyamountdisplay{
+  border-color: #ebcb2d;
+}
+
+.qspbuyamountdisplay{
+  border-color: #ebcb2d;
+}
+
+.buyamounttext{
+  color: white;
+}

@@ -101,10 +101,12 @@
           <producers-display v-bind:producers="player.quarkstage.producers" type="quark"></producers-display>
           <div class="spacer32"></div>
           <upgrades-display v-bind:upgrades="player.quarkstage.upgrades" type="quark"></upgrades-display>
+          <buy-amount-selector type="qp"></buy-amount-selector>
         </div>
         <div class="subcontent" id="electronproducersscreen" style="display:none;">
           <upgrade-bonus v-bind:upgrade="player.electronstage.quarkspin"></upgrade-bonus>
           <producers-display v-bind:producers="player.electronstage.quarkspinproducers" type="quark"></producers-display>
+          <buy-amount-selector type="qsp"></buy-amount-selector>
         </div>
       </div>
       <div id="upgradesscreen" style="display: none;">
