@@ -25,6 +25,7 @@ class LinearProduction{
   recalculateproductionexponential(){
     this.exponent = new Decimal(1);
     this.exponentialeffects.forEach((effect, i) => {
+      this.exponent = this.exponent.times(effect.value);
     });
   }
 

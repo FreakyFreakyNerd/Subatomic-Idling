@@ -229,6 +229,9 @@ class Producer {
         case EffectTypes.ProducerBaseProduction:
             this.removeproductioneffect(effect);
           break;
+        case EffectTypes.ProducerExponentialProduction:
+            this.removeproductioneffect(effect);
+          break;
         case EffectTypes.PriceScaling:
             this.removecosteffect(effect);
           break;
