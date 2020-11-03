@@ -82,5 +82,6 @@ function reset(){
     resetElectronStage();
     resetstats();
     resetachievements();
+    resetchallenges(0, player.challenges.length);
   }
 }

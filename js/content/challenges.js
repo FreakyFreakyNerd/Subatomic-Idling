@@ -15,3 +15,9 @@ function togglechallenge(challenge){
   else
     challenge.start();
 }
+
+function resetchallenges(startind, endind){
+  for(var i = startind; i < endind; i++){
+    player.challenges[i].reset();
+  }
+}
