@@ -19,15 +19,12 @@ class LinearProduction{
     this.additionproduction = new Decimal(0);
     this.additioneffects.forEach((effect, i) => {
       this.additionproduction = this.additionproduction.add(effect.value);
-      console.log(this.additionproduction)
     });
   }
 
   recalculateproductionexponential(){
     this.exponent = new Decimal(1);
     this.exponentialeffects.forEach((effect, i) => {
-      this.exponent = this.exponent.times(effect.value);
-      console.log(formatDecimalOverride(this.exponent, 3));
     });
   }
 
