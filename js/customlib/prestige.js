@@ -1,5 +1,6 @@
 class Prestige{
-  constructor(displayname, onprestigefunction, requirement, rewards){
+  constructor(id, displayname, onprestigefunction, requirement, rewards){
+    this.id = id;
     this.displayname = displayname;
     this.onprestigefunction = onprestigefunction;
     this.requirement = requirement;

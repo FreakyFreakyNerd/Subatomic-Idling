@@ -106,6 +106,8 @@
         <div class="subcontent" id="electronproducersscreen" style="display:none;">
           <upgrade-bonus v-bind:upgrade="player.electronstage.quarkspin"></upgrade-bonus>
           <producers-display v-bind:producers="player.electronstage.quarkspinproducers" type="quark"></producers-display>
+          <div class="spacer32"></div>
+          <upgrades-display v-bind:upgrades="player.electronstage.quarkspinupgrades" type="quark"></upgrades-display>
           <buy-amount-selector type="qsp"></buy-amount-selector>
         </div>
       </div>

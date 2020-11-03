@@ -10,7 +10,7 @@ function setupElectronStage(){
     return num;
   }
   //,player.electronstage.electrons, player.quarkstage.quarks, electrongain,
-  player.quarkstage.electrify = new Prestige("Electrify", (hadrequire, producedamounts) => { resetQuarkStage(); if(!hadrequire) return; player.stats.electrified += 1; player.stats.past10electrifies.unshift([player.stats.currentelectrifytime, producedamounts[0]]); player.stats.past10electrifies.pop(); player.stats.currentelectrifytime = 0;}, new NumRequirement(player.quarkstage.quarks, "1e16"), new PrestigeReward(player.electronstage.electrons, player.quarkstage.quarks, electrongain))
+  player.quarkstage.electrify = new Prestige("electrify","Electrify", (hadrequire, producedamounts) => { resetQuarkStage(); if(!hadrequire) return; player.stats.electrified += 1; player.stats.past10electrifies.unshift([player.stats.currentelectrifytime, producedamounts[0]]); player.stats.past10electrifies.pop(); player.stats.currentelectrifytime = 0;}, new NumRequirement(player.quarkstage.quarks, "1e16"), new PrestigeReward(player.electronstage.electrons, player.quarkstage.quarks, electrongain))
   player.electronstage.upgrades = [];
 
   player.electronstage.upgrades.push(new Upgrade("eu0", "[e1] Twice The Speed!", 1, null, [new StaticEffect(player.quarkstage.producers, 2, EffectTypes.ProducerMultiplierProduction, "Quark Generators")], [new StaticCost(player.electronstage.electrons, 1)], "eupg"));
@@ -110,16 +110,20 @@ function setupElectronStage(){
   player.electronstage.quarkspin = new Upgrade("quarkspin", "Quark Spin", 0, null, new FunctionEffect(player.quarkstage.producers, EffectTypes.ProducerMultiplierProduction, spinmult, (obj) => {return "You have " + formatDecimalNormal(obj.amount) + " Quark Spin, providing a x" + formatDecimal(obj.value) + " production boost to Quark Producers."}));
 
   player.electronstage.quarkspinproducers = [];
-  player.electronstage.quarkspinproducers.push(new Producer("qs1", "Spinner 1", [new ExponentialCost(player.electronstage.electrons, "1", 2)], [new LinearProduction(player.electronstage.quarkspin, "1")], null, "qsp"));
-  player.electronstage.quarkspinproducers.push(new Producer("qs2", "Spinner 2", [new ExponentialCost(player.electronstage.electrons, "10", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[0], "1")], null, "qsp"));
-  player.electronstage.quarkspinproducers.push(new Producer("qs3", "Spinner 3", [new ExponentialCost(player.electronstage.electrons, "1e3", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[1], "1")], null, "qsp"));
-  player.electronstage.quarkspinproducers.push(new Producer("qs4", "Spinner 4", [new ExponentialCost(player.electronstage.electrons, "1e6", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[2], "1")], null, "qsp"));
-  player.electronstage.quarkspinproducers.push(new Producer("qs5", "Spinner 5", [new ExponentialCost(player.electronstage.electrons, "1e12", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[3], "1")], null, "qsp"));
-  player.electronstage.quarkspinproducers.push(new Producer("qs6", "Spinner 6", [new ExponentialCost(player.electronstage.electrons, "1e24", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[4], "1")], null, "qsp"));
-  player.electronstage.quarkspinproducers.push(new Producer("qs7", "Spinner 7", [new ExponentialCost(player.electronstage.electrons, "1e48", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[5], "1")], null, "qsp"));
-  player.electronstage.quarkspinproducers.push(new Producer("qs8", "Spinner 8", [new ExponentialCost(player.electronstage.electrons, "1e96", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[6], "1")], null, "qsp"));
-  player.electronstage.quarkspinproducers.push(new Producer("qs9", "Spinner 9", [new ExponentialCost(player.electronstage.electrons, "1e200", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[7], "1")], null, "qsp"));
-  player.electronstage.quarkspinproducers.push(new Producer("qs10", "Spinner 10", [new ExponentialCost(player.electronstage.electrons, "1e500", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[8], "1")], null, "qsp"));
+  player.electronstage.quarkspinproducers.push(new Producer("qs1", "Green Quark", [new ExponentialCost(player.electronstage.electrons, "1", 2)], [new LinearProduction(player.electronstage.quarkspin, "1")], null, "qsp"));
+  player.electronstage.quarkspinproducers.push(new Producer("qs2", "Red Quark", [new ExponentialCost(player.electronstage.electrons, "10", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[0], "1")], null, "qsp"));
+  player.electronstage.quarkspinproducers.push(new Producer("qs3", "Blue Quark", [new ExponentialCost(player.electronstage.electrons, "1e3", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[1], "1")], null, "qsp"));
+  player.electronstage.quarkspinproducers.push(new Producer("qs4", "Antigreen Quark", [new ExponentialCost(player.electronstage.electrons, "1e6", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[2], "1")], null, "qsp"));
+  player.electronstage.quarkspinproducers.push(new Producer("qs5", "Antired Quark", [new ExponentialCost(player.electronstage.electrons, "1e12", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[3], "1")], null, "qsp"));
+  player.electronstage.quarkspinproducers.push(new Producer("qs6", "Antiblue Quark", [new ExponentialCost(player.electronstage.electrons, "1e24", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[4], "1")], null, "qsp"));
+  player.electronstage.quarkspinproducers.push(new Producer("qs7", "Meson Quark", [new ExponentialCost(player.electronstage.electrons, "1e48", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[5], "1")], null, "qsp"));
+  player.electronstage.quarkspinproducers.push(new Producer("qs8", "Baryon Quark", [new ExponentialCost(player.electronstage.electrons, "1e96", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[6], "1")], null, "qsp"));
+  player.electronstage.quarkspinproducers.push(new Producer("qs9", "Antibaryon Quark", [new ExponentialCost(player.electronstage.electrons, "1e200", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[7], "1")], null, "qsp"));
+  player.electronstage.quarkspinproducers.push(new Producer("qs10", "Metaphysical Quark", [new ExponentialCost(player.electronstage.electrons, "1e500", 2)], [new LinearProduction(player.electronstage.quarkspinproducers[8], "1")], null, "qsp"));
+
+  player.electronstage.quarkspinupgrades = [];
+  player.electronstage.quarkspinupgrades.push(new Upgrade("su1", "Respinner", -1, null, [new ExponentialEffect(player.electronstage.quarkspinproducers, 1, 1.1, EffectTypes.ProducerMultiplierProduction, null, (obj) => "Respinner Power x" + formatDecimalOverride(obj.increase, 1) + " | Quark Spin Production x" + formatDecimalOverride(obj.value, 2))], [new ExponentialCost(player.electronstage.quarkspin, "1e3", 10)], "qsp"));
+  player.electronstage.quarkspinupgrades.push(new Upgrade("su2", "Aceleron Plus", -1, null, [new LinearEffect(player.quarkstage.upgrades[0], 0, 1, EffectTypes.UpgradeBonusLevels, null, (obj) => "Aceleron Plus Power +" + formatDecimalNormal(obj.increase) + " | Free Acelerons: " + formatDecimalNormal(obj.value))], [new ExponentialCost(player.electronstage.quarkspin, "1e6", 10)], "qsp"));
 
   //player.electronstage.electronupgradelinetree = new LineTree(dumplines(player.electronstage.upgrades, 64), "electronupgrades");
 }

@@ -337,6 +337,14 @@ class Upgrade{
           return;
       }
     }
+
+    has(amount){
+      return this.produced.greaterThanOrEqualTo(amount);
+    }
+
+    subtract(amount){
+      this.produced = this.produced.minus(amount);
+    }
 }
 
 class DiminishingUpgrade extends Upgrade{
