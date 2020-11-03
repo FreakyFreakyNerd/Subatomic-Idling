@@ -15,14 +15,14 @@ class Prestige{
   doprestige(){
     if(!this.requirement.hasrequirement)
       return;
-    this.producedamounts = [];
-    this.rewards.forEach(reward =>{
-      this.producedamounts.push(reward.apply());
-    });
     this.prestige();
   }
 
   prestige(){
+    this.producedamounts = [];
+    this.rewards.forEach(reward =>{
+      this.producedamounts.push(reward.apply());
+    });
     this.onprestigefunction(this.requirement.hasrequirement, this.producedamounts);
   }
 
@@ -38,9 +38,9 @@ class Prestige{
     });
   }
 
-  oneffectchange(){
+  effectchanged(){
     this.rewards.forEach(reward => {
-      reward.oneffectchange();
+      reward.effectchanged();
     });
   }
 }
@@ -54,6 +54,8 @@ class PrestigeReward{
     this.addeffects = [];
     this.effectmult = new Decimal(1);
     this.multeffects = [];
+    this.effectexpo = new Decimal(1);
+    this.expoeffects = [];
   }
 
   get iconpath(){
@@ -73,7 +75,7 @@ class PrestigeReward{
   get producedamount(){
     if(this.baseamount.equals("0"))
       return new Decimal();
-    return this.baseamount.add(this.effectadd).times(this.effectmult);
+    return Decimal.floor(Decimal.pow(this.baseamount.add(this.effectadd).times(this.effectmult), this.effectexpo));
   }
 
   get baseamount(){
@@ -94,6 +96,12 @@ class PrestigeReward{
           this.recalculatemulteffect();
         }
         break;
+      case EffectTypes.PrestigeCurrencyExponentialGain:
+        if(!this.expoeffects.includes(effect)){
+          this.expoeffects.push(effect);
+          this.recalculateexpoeffect();
+        }
+        break;
     }
   }
 
@@ -111,12 +119,19 @@ class PrestigeReward{
           this.recalculatemulteffect();
         }
         break;
+      case EffectTypes.PrestigeCurrencyExponentialGain:
+        if(this.expoeffects.includes(effect)){
+          this.expoeffects.splice(this.expoeffects.indexOf(effect));
+          this.recalculateexpoeffect();
+        }
+        break;
     }
   }
 
   effectchanged(){
     this.recalculateaddeffect();
     this.recalculatemulteffect();
+    this.recalculateexpoeffect();
   }
 
   recalculateaddeffect(){
@@ -130,6 +145,13 @@ class PrestigeReward{
     this.effectmult = new Decimal(1);
     this.multeffects.forEach((item, i) => {
       this.effectmult = this.effectmult.times(item.value);
+    });
+  }
+
+  recalculateexpoeffect(){
+    this.effectexpo = new Decimal(1);
+    this.expoeffects.forEach((item, i) => {
+      this.effectexpo = this.effectexpo.times(item.value);
     });
   }
 }

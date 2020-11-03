@@ -28,6 +28,7 @@ class Challenge{
     this.completed = 0;
     this.updateinchaleffects();
     this.updaterewards();
+    this.removerewards();
   }
 
   save(){
@@ -77,6 +78,12 @@ class Challenge{
     });
   }
 
+  removerewards(){
+    this.rewards.forEach((reward, i) => {
+      reward.remove();
+    });
+  }
+
   hasrequirement(amount){
     return amount.lessThanOrEqualTo(this.completions);
   }
@@ -114,9 +121,10 @@ class Challenge{
 
   tick(){
     if(this.iscomplete){
-      if(this.completed = 0)
+      if(this.completed == 0)
         this.applyrewards();
       this.completed += 1;
+      console.log(this.completed);
       if(this.completed >= this.maxcompletions){
         this.completed = this.maxcompletions;
         this.exit();

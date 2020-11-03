@@ -317,5 +317,6 @@ const EffectTypes = {
   PrestigeCurrencyMultiplicativeGain: 5,
   UpgradeIncreaseMultiplier: 6,
   UpgradeBonusLevels: 7,
-  ProducerExponentialProduction: 8
+  ProducerExponentialProduction: 8,
+  PrestigeCurrencyExponentialGain: 9
 }
