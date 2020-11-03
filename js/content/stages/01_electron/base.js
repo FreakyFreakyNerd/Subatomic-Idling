@@ -13,7 +13,15 @@ function setupElectronStage(){
   player.quarkstage.electrify = new Prestige("electrify","Electrify", (hadrequire, producedamounts) => { resetQuarkStage(); if(!hadrequire || producedamounts == undefined) return; player.stats.electrified += 1; player.stats.past10electrifies.unshift([player.stats.currentelectrifytime, producedamounts[0]]); player.stats.past10electrifies.pop(); player.stats.currentelectrifytime = 0;}, new NumRequirement(player.quarkstage.quarks, "1e16"), new PrestigeReward(player.electronstage.electrons, player.quarkstage.quarks, electrongain))
   player.electronstage.upgrades = [];
 
-  player.electronstage.upgrades.push(new Upgrade("eu0", "[e1] Twice The Speed!", 1, null, [new StaticEffect(player.quarkstage.producers, 2, EffectTypes.ProducerMultiplierProduction, "Quark Generators")], [new StaticCost(player.electronstage.electrons, 1)], "eupg"));
+  player.electronstage.upgrades.push(new Upgrade("eu0", "[e1] Twice The Speed!", 1, null, [new StaticEffect(player.quarkstage.producers, 2, EffectTypes.ProducerMultiplierProduction, null, ()=>"Quark Gain x2")], [new StaticCost(player.electronstage.electrons, 10)], "upg"));
+
+  player.electronstage.upgrades.push(new Upgrade("eu1", "[e2] Get 5 free Acelerons.", 1, null, [new StaticEffect(player.quarkstage.upgrades[0], 5, EffectTypes.UpgradeBonusLevels, null, () => "Exactly what I told you above")], [new StaticCost(player.electronstage.electrons, 100)], "upg"))
+  player.electronstage.upgrades.push(new Upgrade("eu2", "[e3] Get 2 free Multors.", 1, null, [new StaticEffect(player.quarkstage.upgrades[5], 2, EffectTypes.UpgradeBonusLevels, null, () => "Trust me I am not lying to yah")], [new StaticCost(player.electronstage.electrons, "1e3")], "upg"))
+  player.electronstage.upgrades.push(new Upgrade("eu3", "[e4] Get 10 free Acelerons, and 3 free Multors.", 1, null, [new StaticEffect(player.quarkstage.upgrades[5], 2, EffectTypes.UpgradeBonusLevels, null, () => "I dont know go ahead and take some more")], [new StaticCost(player.electronstage.electrons, "1e4")], "upg"))
+  player.electronstage.upgrades.push(new Upgrade("eu4", "[e5] Get a free Accelerator per 200 Quark Producers bought.", 1, null, [new LinkedLinearEffect(player.quarkstage.upgrades[2], () => Decimal.floor(totalproducerbought(player.quarkstage.producers).divide(200)), 0, 1, EffectTypes.UpgradeBonusLevels, null, (obj) => "Free Accelerators: " + formatDecimalNormal(obj.value))], [new StaticCost(player.electronstage.electrons, "1e5")], "upg"))
+
+  var electronmult = () => new Decimal("1e15").divide(Decimal.pow(player.electronstage.electrons.amount.divide("1e6").add("1e5").add(1),2).times(-1)).add("1e5"); 
+  player.electronstage.upgrades.push(new Upgrade("eu5", "[e6] Gain production based on unspent Electrons", 1, null, [new FunctionEffect(player.quarkstage.producers, EffectTypes.ProducerMultiplierProduction, electronmult, (obj)=>"Quark Gain x" + formatDecimalOverride(obj.value, 2))], [new StaticCost(player.electronstage.electrons, "1e6")], "eupg"));
 
   /*
   //Starts out at upgrade slot 1
@@ -123,7 +131,7 @@ function setupElectronStage(){
 
   player.electronstage.quarkspinupgrades = [];
   player.electronstage.quarkspinupgrades.push(new Upgrade("su1", "Respinner", -1, null, [new ExponentialEffect(player.electronstage.quarkspinproducers, 1, 1.1, EffectTypes.ProducerMultiplierProduction, null, (obj) => "Respinner Power x" + formatDecimalOverride(obj.increase, 1) + " | Quark Spin Production x" + formatDecimalOverride(obj.value, 2))], [new ExponentialCost(player.electronstage.quarkspin, "1e3", 10)], "qsp"));
-  player.electronstage.quarkspinupgrades.push(new Upgrade("su2", "Aceleron Plus", -1, null, [new LinearEffect(player.quarkstage.upgrades[0], 0, 1, EffectTypes.UpgradeBonusLevels, null, (obj) => "Aceleron Plus Power +" + formatDecimalNormal(obj.increase) + " | Free Acelerons: " + formatDecimalNormal(obj.value))], [new ExponentialCost(player.electronstage.quarkspin, "1e6", 10)], "qsp"));
+  player.electronstage.quarkspinupgrades.push(new Upgrade("su2", "Aceleron Plus", -1, null, [new LinearEffect(player.quarkstage.upgrades[0], 0, .5, EffectTypes.UpgradeIncreaseMultiplier, null, (obj) => "Aceleron Plus Power +" + formatDecimalNormal(obj.increase) + " | Aceleron power x" + formatDecimalNormal(obj.value))], [new ExponentialCost(player.electronstage.quarkspin, "1e6", 25)], "qsp"));
 
   //player.electronstage.electronupgradelinetree = new LineTree(dumplines(player.electronstage.upgrades, 64), "electronupgrades");
 }

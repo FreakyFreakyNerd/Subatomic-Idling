@@ -63,7 +63,7 @@ function setupachievements(){
     player.achievements.push([]);
     player.achievements[6].push(new Achievement("onequarkgenseven", "MURRRAAAYYYY!!!", [new NumRequirement(player.quarkstage.producers[6], 1)], null, null));
   player.achievements[6].push(new Achievement("10quarkgenseven", "A dozen Murrays.", [new NumRequirement(player.quarkstage.producers[6], 10)], null, [new FlavorEffect("Unlocks Epoch for purchase.")]));
-  player.achievements[6].push(new Achievement("100quarkgenseven", "A century of Murrays.", [new NumRequirement(player.quarkstage.producers[6], 100)], null, [new FlavorEffect("Something Sometime")]));
+  player.achievements[6].push(new Achievement("100quarkgenseven", "A century of Murrays.", [new NumRequirement(player.quarkstage.producers[6], 100)], null, [new LinkedLinearEffect(player.quarkstage.upgrades[0], () => { return Decimal.floor(player.quarkstage.producers[6].bought.divide(50)); }, 0, 1, EffectTypes.UpgradeBonusLevels, null, (obj) => {return "Get 1 free Aceleron per 50 Murrays bought."})]));
   player.achievements[6].push(new Achievement("1e3quarkgenseven", "Should we mix the Murrays and Georges?", [new NumRequirement(player.quarkstage.producers[6], 1e3)], null, [new FlavorEffect("Something Sometime")]));
   player.achievements[6].push(new Achievement("1e5quarkgenseven", "Timeless, memories.", [new NumRequirement(player.quarkstage.producers[6], "1e5")], null, [new FlavorEffect("Something Sometime")]));
   player.achievements[6].push(new Achievement("1e7quarkgenseven", "Just impractical.", [new NumRequirement(player.quarkstage.producers[6], "1e7")], null, [new FlavorEffect("Something Sometime")]));
@@ -73,7 +73,7 @@ function setupachievements(){
     player.achievements.push([]);
     player.achievements[7].push(new Achievement("onequarkgeneight", "What even is an Epoch.", [new NumRequirement(player.quarkstage.producers[7], 1)], null, null));
   player.achievements[7].push(new Achievement("10quarkgeneight", "Spoiler, Its a defining period of time.", [new NumRequirement(player.quarkstage.producers[7], 10)], null, [new FlavorEffect("Unlocks Scattering for purchase.")]));
-  player.achievements[7].push(new Achievement("100quarkgeneight", "The time be dragging.", [new NumRequirement(player.quarkstage.producers[7], 100)], null, [new FlavorEffect("Something Sometime")]));
+  player.achievements[7].push(new Achievement("100quarkgeneight", "The time be dragging.", [new NumRequirement(player.quarkstage.producers[7], 100)], null, [new LinkedLinearEffect(player.quarkstage.upgrades[4], () => { return Decimal.floor(player.quarkstage.producers[7].bought.divide(25)); }, 0, 1, EffectTypes.UpgradeBonusLevels, null, (obj) => {return "Get 1 free Aceleron per 25 Epochs bought."})]));
   player.achievements[7].push(new Achievement("1e3quarkgeneight", "Time should speed up and slow down.", [new NumRequirement(player.quarkstage.producers[7], 1e3)], null, [new FlavorEffect("Something Sometime")]));
   player.achievements[7].push(new Achievement("1e5quarkgeneight", "Wait, there is relativity.", [new NumRequirement(player.quarkstage.producers[7], "1e5")], null, [new FlavorEffect("Something Sometime")]));
   player.achievements[7].push(new Achievement("1e7quarkgeneight", "Just leave the game running on a ship pc...", [new NumRequirement(player.quarkstage.producers[7], "1e7")], null, [new FlavorEffect("Something Sometime")]));
@@ -83,7 +83,7 @@ function setupachievements(){
     player.achievements.push([]);
     player.achievements[8].push(new Achievement("onequarkgennine", "Start the light Scattering", [new NumRequirement(player.quarkstage.producers[8], 1)], null, null));
   player.achievements[8].push(new Achievement("10quarkgennine", "Lets scatter some more.", [new NumRequirement(player.quarkstage.producers[8], 10)], null, [new FlavorEffect("Unlocks Big Bang for purchase.")]));
-  player.achievements[8].push(new Achievement("100quarkgennine", "Get some mirrors.", [new NumRequirement(player.quarkstage.producers[8], 100)], null, [new FlavorEffect("Something Sometime")]));
+  player.achievements[8].push(new Achievement("100quarkgennine", "Get some mirrors.", [new NumRequirement(player.quarkstage.producers[8], 100)], null, [new FlavorEffect("Unlocks Accelerator for purchase.")]));
   player.achievements[8].push(new Achievement("1e3quarkgennine", "Lets try some color refraction.", [new NumRequirement(player.quarkstage.producers[8], 1e3)], null, [new FlavorEffect("Something Sometime")]));
   player.achievements[8].push(new Achievement("1e5quarkgennine", "You need some prisms.", [new NumRequirement(player.quarkstage.producers[8], "1e5")], null, [new FlavorEffect("Something Sometime")]));
   player.achievements[8].push(new Achievement("1e7quarkgennine", "Can I add more scatter?", [new NumRequirement(player.quarkstage.producers[8], "1e7")], null, [new FlavorEffect("Something Sometime")]));
