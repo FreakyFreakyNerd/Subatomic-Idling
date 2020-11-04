@@ -210,7 +210,7 @@ Vue.component('prestige-reward', {
     template: `
      <div class="prestigereward">
       <img v-bind:class="{prestigerewardicon : true}"" v-bind:src='reward.iconpath' @error="$event.target.src='images/missing.png'"/>
-      <span v-bind:class='"prestigerewardamount " + reward.colorclass'>+ {{reward.producedamount}}</span>
+      <span v-bind:class='"prestigerewardamount " + reward.colorclass'>+ {{formatDecimalNormal(reward.producedamount)}}</span>
       </div>
     `
 })
