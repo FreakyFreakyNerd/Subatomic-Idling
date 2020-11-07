@@ -1,16 +1,16 @@
 function setupQuarkStage(){
   player.quarkstage.quarks = new Currency("quark", "Quarks", "Quark", 10);
   player.quarkstage.producers = [];
-  player.quarkstage.producers.push(new Producer("quarkgenone",     "Charger",       [new ExponentialCost(player.quarkstage.quarks, "10", 1.07)],    [new LinearProduction(player.quarkstage.quarks, "1")]  ,    null ,                                          "qp"));
-  player.quarkstage.producers.push(new Producer("quarkgentwo",     "Spinner",       [new ExponentialCost(player.quarkstage.quarks, "100", 1.07)],   [new LinearProduction(player.quarkstage.quarks, "9")]  ,    [new AchievementRequirement("10quarkgenone")],  "qp"));
-  player.quarkstage.producers.push(new Producer("quarkgenthree",   "Flipper",       [new ExponentialCost(player.quarkstage.quarks, "1500", 1.07)],  [new LinearProduction(player.quarkstage.quarks, "100")],    [new AchievementRequirement("10quarkgentwo")],  "qp"));
-  player.quarkstage.producers.push(new Producer("quarkgenfour",    "Charmer",       [new ExponentialCost(player.quarkstage.quarks, "40000", 1.07)], [new LinearProduction(player.quarkstage.quarks, "2000")],   [new AchievementRequirement("10quarkgenthree")],"qp"));
-  player.quarkstage.producers.push(new Producer("quarkgenfive",    "Eightfold Way", [new ExponentialCost(player.quarkstage.quarks, "2e6", 1.07)],   [new LinearProduction(player.quarkstage.quarks, "50000")],  [new AchievementRequirement("10quarkgenfour")], "qp"));
-  player.quarkstage.producers.push(new Producer("quarkgensix",     "George",        [new ExponentialCost(player.quarkstage.quarks, "1e8", 1.07)],   [new LinearProduction(player.quarkstage.quarks, "2e6")],    [new AchievementRequirement("10quarkgenfive")], "qp"));
-  player.quarkstage.producers.push(new Producer("quarkgenseven",   "Murray",        [new ExponentialCost(player.quarkstage.quarks, "1e10", 1.07)],  [new LinearProduction(player.quarkstage.quarks, "1e8")],    [new AchievementRequirement("10quarkgensix")],  "qp"));
-  player.quarkstage.producers.push(new Producer("quarkgeneight",   "Epoch",         [new ExponentialCost(player.quarkstage.quarks, "1e12", 1.07)],  [new LinearProduction(player.quarkstage.quarks, "8e9")],    [new AchievementRequirement("10quarkgenseven")],"qp"));
-  player.quarkstage.producers.push(new Producer("quarkgennine",    "Scattering",    [new ExponentialCost(player.quarkstage.quarks, "1e14", 1.07)],  [new LinearProduction(player.quarkstage.quarks, "5e11")],   [new AchievementRequirement("10quarkgeneight")],"qp"));
-  player.quarkstage.producers.push(new Producer("quarkgenten",     "Big Bang",      [new ExponentialCost(player.quarkstage.quarks, "1e17", 1.07)],  [new LinearProduction(player.quarkstage.quarks, "5e13")],   [new AchievementRequirement("10quarkgennine")], "qp"));
+  player.quarkstage.producers.push(new Producer("quarkgenone",     "Charger",       [new ExponentialCost(player.quarkstage.quarks, "10", 1.07)],    [new LinearProduction(player.quarkstage.quarks, "1")]  ,    null ,                                          "qp", [new AchievementRequirement("1e3quarkgenone")]));
+  player.quarkstage.producers.push(new Producer("quarkgentwo",     "Spinner",       [new ExponentialCost(player.quarkstage.quarks, "100", 1.07)],   [new LinearProduction(player.quarkstage.quarks, "9")]  ,    [new AchievementRequirement("10quarkgenone")],  "qp", [new AchievementRequirement("1e3quarkgentwo")]));
+  player.quarkstage.producers.push(new Producer("quarkgenthree",   "Flipper",       [new ExponentialCost(player.quarkstage.quarks, "1500", 1.07)],  [new LinearProduction(player.quarkstage.quarks, "100")],    [new AchievementRequirement("10quarkgentwo")],  "qp", [new AchievementRequirement("1e3quarkgenthree")]));
+  player.quarkstage.producers.push(new Producer("quarkgenfour",    "Charmer",       [new ExponentialCost(player.quarkstage.quarks, "40000", 1.07)], [new LinearProduction(player.quarkstage.quarks, "2000")],   [new AchievementRequirement("10quarkgenthree")],"qp", [new AchievementRequirement("1e3quarkgenfour")]));
+  player.quarkstage.producers.push(new Producer("quarkgenfive",    "Eightfold Way", [new ExponentialCost(player.quarkstage.quarks, "2e6", 1.07)],   [new LinearProduction(player.quarkstage.quarks, "50000")],  [new AchievementRequirement("10quarkgenfour")], "qp", [new AchievementRequirement("1e3quarkgenfive")]));
+  player.quarkstage.producers.push(new Producer("quarkgensix",     "George",        [new ExponentialCost(player.quarkstage.quarks, "1e8", 1.07)],   [new LinearProduction(player.quarkstage.quarks, "2e6")],    [new AchievementRequirement("10quarkgenfive")], "qp", [new AchievementRequirement("1e3quarkgensix")]));
+  player.quarkstage.producers.push(new Producer("quarkgenseven",   "Murray",        [new ExponentialCost(player.quarkstage.quarks, "1e10", 1.07)],  [new LinearProduction(player.quarkstage.quarks, "1e8")],    [new AchievementRequirement("10quarkgensix")],  "qp", [new AchievementRequirement("1e3quarkgenseven")]));
+  player.quarkstage.producers.push(new Producer("quarkgeneight",   "Epoch",         [new ExponentialCost(player.quarkstage.quarks, "1e12", 1.07)],  [new LinearProduction(player.quarkstage.quarks, "8e9")],    [new AchievementRequirement("10quarkgenseven")],"qp", [new AchievementRequirement("1e3quarkgeneight")]));
+  player.quarkstage.producers.push(new Producer("quarkgennine",    "Scattering",    [new ExponentialCost(player.quarkstage.quarks, "1e14", 1.07)],  [new LinearProduction(player.quarkstage.quarks, "5e11")],   [new AchievementRequirement("10quarkgeneight")],"qp", [new AchievementRequirement("1e3quarkgennine")]));
+  player.quarkstage.producers.push(new Producer("quarkgenten",     "Big Bang",      [new ExponentialCost(player.quarkstage.quarks, "1e17", 1.07)],  [new LinearProduction(player.quarkstage.quarks, "5e13")],   [new AchievementRequirement("10quarkgennine")], "qp", [new AchievementRequirement("1e3quarkgenten")]));
 
   player.quarkstage.singletonupgrades = [];
 
@@ -31,13 +31,13 @@ function setupQuarkStage(){
   player.quarkstage.singletonupgrades.push(new Upgrade("qsu8", "[q9] Increase Scattering production based on Quark Producers bought",     1, null, [new FunctionEffect(player.quarkstage.producers[8], EffectTypes.ProducerMultiplierProduction, () => boughtmult(), (obj) => "Scattering Production x"    + formatDecimalNormal(obj.value))], [new StaticCost(player.quarkstage.quarks, "1e22")], "upgrades"));
   player.quarkstage.singletonupgrades.push(new Upgrade("qsu9", "[q10] Increase Big Bang production based on Quark Producers bought",      1, null, [new FunctionEffect(player.quarkstage.producers[9], EffectTypes.ProducerMultiplierProduction, () => boughtmult(), (obj) => "Big Bang Production x"      + formatDecimalNormal(obj.value))], [new StaticCost(player.quarkstage.quarks, "1e24")], "upgrades"));
 
-  player.quarkstage.singletonupgrades.push(new Upgrade("qsu10", "[qu11] Acceleron is 1.5 times as powerful", 1, [new AchievementRequirement("10quarkgenten")], [new StaticEffect(player.quarkstage.singletonupgrades[9], 1.5, EffectTypes.UpgradeIncreaseMultiplier, null, () => "Acceleron Power x1.5")], [new StaticCost(player.quarkstage.quarks, "1e25")], "upgrades"));
+  player.quarkstage.singletonupgrades.push(new Upgrade("qsu10", "[q11] Acceleron is 1.5 times as powerful", 1, null, [new StaticEffect(player.quarkstage.singletonupgrades[9], 1.5, EffectTypes.UpgradeIncreaseMultiplier, null, () => "Acceleron Power x1.5")], [new StaticCost(player.quarkstage.quarks, "1e25")], "upgrades"));
 
   function valuemult(amount){
-    return Decimal.pow(Decimal.log(amount,10), 2);
+    return Decimal.pow(Decimal.log(amount,10), 2).divide(10).add(1);
   }
 
-  player.quarkstage.singletonupgrades.push(new Upgrade("qsu11", "[qu12] Boost Quark production based on current Quarks", 1, [new AchievementRequirement("10quarkgenten")], [new FunctionEffect(player.quarkstage.producers, EffectTypes.ProducerMultiplierProduction, () => valuemult(player.quarkstage.quarks.amount), (obj) => "Quark production x" + formatDecimalNormal(obj.value))], [new StaticCost(player.quarkstage.quarks, "1e30")], "upgrades"));
+  player.quarkstage.singletonupgrades.push(new Upgrade("qsu11", "[q12] Boost Quark production based on current Quarks", 1, null, [new FunctionEffect(player.quarkstage.producers, EffectTypes.ProducerMultiplierProduction, () => valuemult(player.quarkstage.quarks.amount), (obj) => "Quark production x" + formatDecimalNormal(obj.value))], [new StaticCost(player.quarkstage.quarks, "1e27")], "upgrades"));
  
   player.quarkstage.upgrades = [];
   //Acceleron Tree
@@ -53,6 +53,16 @@ function setupQuarkStage(){
   player.quarkstage.upgrades.push(new DiminishingUpgrade("qu7", "Multiplier", -1, [new AchievementRequirement("imp")], [new LinearEffect(player.quarkstage.upgrades[6], 1, .01, EffectTypes.UpgradeIncreaseMultiplier, null, (obj) => {return "Mutiplier Power: +" + formatDecimalOverride(obj.increase, 2) + " || Multron Power: x" + formatDecimalOverride(obj.value, 2)})], [new ExponentialCost(player.quarkstage.quarks,1e80,250)], "qp", new Decimal(1000), (num) => {return Decimal.pow(Decimal.log(num,5),3)}));
   player.quarkstage.upgrades.push(new DiminishingUpgrade("qu8", "Multiplication", -1, [new AchievementRequirement("imp")], [new LinearEffect(player.quarkstage.upgrades[7], 1, .01, EffectTypes.UpgradeIncreaseMultiplier, null, (obj) => {return "Multiplication Power: +" + formatDecimalOverride(obj.increase, 2) + " || Multiplier Power: x" + formatDecimalOverride(obj.value, 2)})], [new ExponentialCost(player.quarkstage.quarks,1e120,250)], "qp", new Decimal(1000), (num) => {return Decimal.pow(Decimal.log(num,5),3)}));
   player.quarkstage.upgrades.push(new DiminishingUpgrade("qu9", "Multiplication Boost", -1, [new AchievementRequirement("100quarkgenten")], [new LinearEffect(player.quarkstage.upgrades[5], 0, 5, EffectTypes.UpgradeBonusLevels, null, (obj) => {return "Multiplication Boost Power: +" + formatDecimalOverride(obj.increase, 2) + " || Free Multors: " + formatDecimalOverride(obj.value, 2)})], [new ExponentialCost(player.quarkstage.quarks,1e16,1000)], "qp", new Decimal(1000), (num) => {return Decimal.pow(Decimal.log(num,5),3)}));
+
+  function productionmult(amount){
+    return Decimal.pow(amount, 1/2);
+  }
+  player.quarkstage.singletonupgrades.push(new Upgrade("qsu12", "[q13] All Accelerons boost Quark production.", 1, null, [new FunctionEffect(player.quarkstage.producers, EffectTypes.ProducerMultiplierProduction, () => productionmult(player.quarkstage.upgrades[0].amount), (obj) => "Quark production x" + formatDecimalNormal(obj.value))], [new StaticCost(player.quarkstage.quarks, "1e30")], "upgrades"));
+
+  player.quarkstage.singletonupgrades.push(new Upgrade("qsu13", "[q14] Get 15 free Accelerons per bought Multor.", 1, null, [new LinkedLinearEffect(player.quarkstage.upgrades[0], () => Decimal.floor(player.quarkstage.upgrades[5].bought),0,15, EffectTypes.UpgradeBonusLevels, null, (obj) => formatDecimalNormal(obj.value) + " Free Accelerons")], [new StaticCost(player.quarkstage.quarks, "1e35")], "upgrades"));
+  player.quarkstage.singletonupgrades.push(new Upgrade("qsu14", "[q15] Get a free Multor per 15 bought Accelerons.", 1, null, [new LinkedLinearEffect(player.quarkstage.upgrades[5], () => Decimal.floor(player.quarkstage.upgrades[0].bought.divide(15)),0,1, EffectTypes.UpgradeBonusLevels, null, (obj) => formatDecimalNormal(obj.value) + " Free Multors")], [new StaticCost(player.quarkstage.quarks, "1e40")], "upgrades"));
+
+  player.quarkstage.singletonupgrades.push(new Upgrade("qsu15", "[q16] Increase Quark production based on Quark Producers bought",      1, null, [new FunctionEffect(player.quarkstage.producers, EffectTypes.ProducerMultiplierProduction, () => boughtmult(), (obj) => "Quark Production x" + formatDecimalNormal(obj.value))], [new StaticCost(player.quarkstage.quarks, "1e50")], "upgrades"));
 }
 
 function resetQuarkStage(){

@@ -64,7 +64,7 @@ Vue.component('producers-display', {
         <td v-bind:class='"producerimage producer"+type+"image"'><img v-bind:src='"images/producer/"+producer.id+".png"' @error="$event.target.src='images/missing.png'"/></td>
         <td v-bind:class='"producername producer"+type+"name"'>{{producer.displayname}}: {{producer.amountdescription}}</td>
         <td v-bind:class='"producercost producer"+type+"cost"'><button v-bind:class='{producercostbutton:true, producercostbuttonbuyable: producer.canbuy}' v-on:click="buyProducer(producer)">Cost: {{producer.costdescription}}</button></td>
-        <td v-bind:class='"producerauto producer"+type+"auto"'><button v-bind:class='"producerautobutton producer"+type+"autobutton"' v-on:click="buyProducer(producer)">AUTO: [LOK]</button></td>
+        <td v-bind:class='"producerauto producer"+type+"auto"'><button v-bind:class='{autobutton: true, autobuttonon: producer.autobuyunlocked && producer.buyauto, autobuttonoff: producer.autobuyunlocked && !producer.buyauto}' v-on:click="toggleproducer(producer)">AUTO: [{{producer.autostate}}]</button></td>
         <td v-bind:class='"producerproduction producer"+type+"production"'>{{producer.productiondescription}}</td>
       </tr>
     </table>
@@ -72,7 +72,9 @@ Vue.component('producers-display', {
   methods: {
     buyProducer: function(producer){
       producer.buy();
-      recalculateCurrencyPerSec();
+    },
+    toggleproducer: function(producer){
+      producer.togglebuystate();
     }
   }
 })
@@ -85,7 +87,7 @@ Vue.component('upgrades-display', {
         <td v-bind:class='"upgradeimage upgrade"+type+"image"'><img v-bind:src='"images/upgrade/"+upgrade.id+".png"' @error="$event.target.src='images/missing.png'"/></td>
         <td v-bind:class='"upgradename upgrade"+type+"name"'>{{upgrade.displayname}}: {{upgrade.amountdescription}}</td>
         <td v-bind:class='"upgradecost upgrade"+type+"cost"'><button v-bind:class='{upgradecostbutton:true, upgradecostbuttonbuyable: upgrade.canbuy}' v-on:click="buyUpgrade(upgrade)">Cost: {{upgrade.specialcostdescription}}</button></td>
-        <td v-bind:class='"upgradeauto upgrade"+type+"auto"'><button v-bind:class='"upgradeautobutton upgrade"+type+"autobutton"' v-on:click="buyupgrade(upgrade)">AUTO: [LOK]</button></td>
+        <td v-bind:class='"upgradeauto upgrade"+type+"auto"'><button v-bind:class='"autobutton"' v-on:click="buyupgrade(upgrade)">AUTO: [LOK]</button></td>
         <td v-bind:class='"upgradeeffect upgrade"+type+"effect"'>{{upgrade.specialeffectdescription}}</td>
       </tr>
     </table>

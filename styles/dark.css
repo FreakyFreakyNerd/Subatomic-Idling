@@ -269,11 +269,19 @@ body{
   border-radius: 8px;
   border: 2px solid #999;
 }
-.producerautobutton{
+
+/*Auto Button*/
+.autobutton{
   background-color: var(--main-color);
   color: white;
   border-radius: 2px;
-  border: 2px solid green;
+  border: 2px solid #9f32c9;
+}
+.autobuttonon{
+  border-color: green !important;
+}
+.autobuttonoff{
+  border-color: red !important;
 }
 
 /*upgrade Display*/
@@ -294,12 +302,6 @@ body{
   color: white;
   border-radius: 8px;
   border: 2px solid #999;
-}
-.upgradeautobutton{
-  background-color: var(--main-color);
-  color: white;
-  border-radius: 2px;
-  border: 2px solid green;
 }
 
 /*Changelog*/

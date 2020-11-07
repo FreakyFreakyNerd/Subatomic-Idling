@@ -29,7 +29,7 @@ class Effect{
   recalculateincrease(){
     this.increase = this.defaultincrease;
     this.increasemultipliereffects.forEach((effect, i) => {
-      if(effect.value.greaterThan(1))
+      if(effect.value)
         this.increase = this.increase.times(effect.value);
     });
   }
@@ -152,7 +152,7 @@ class ExponentialEffect extends Effect{
   recalculateincrease(){
     this.increase = this.defaultincrease.minus(1);
     this.increasemultipliereffects.forEach((effect, i) => {
-      if(effect.value.greaterThan(1))
+      if(effect.value)
         this.increase = this.increase.times(effect.value);
     });
     this.increase = this.increase.add(1);

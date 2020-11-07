@@ -1,5 +1,5 @@
 class Producer {
-    constructor(id, displayname, costs, productions, unlockrequirements, buykey){
+    constructor(id, displayname, costs, productions, unlockrequirements, buykey, autobuyrequirements){
         this.id = id;
         this.buykey = buykey;
         this.displayname = displayname
@@ -9,7 +9,9 @@ class Producer {
         this.produced = new Decimal(0);
         this.unlockrequirements = unlockrequirements;
         this.onbuymax = false;
-        this.onamountchange = [];
+        this.autobuyrequirements = autobuyrequirements;
+        this.buyauto = false;
+        this.autobuyunlocked = false;
 
         producerregistry.push(this);
         updaterequiredregistry.push(this);
@@ -20,6 +22,27 @@ class Producer {
       {
         this.recalculatecosts();
       }
+      if(this.buyauto && !this.autobuylocked){
+        this.buy();
+      }
+      if(!this.autobuyunlocked){
+        if(this.checkforautounlock()){
+          this.autobuyunlocked = true;
+        }
+      }
+    }
+
+    get autostate(){
+      if(!this.autobuyunlocked)
+        return "LOK"
+      if(!this.buyauto)
+        return "OFF"
+      return "ON"
+    }
+
+    togglebuystate(){
+      if(this.autobuyunlocked)
+        this.buyauto = !this.buyauto;
     }
 
     reset(){
@@ -35,6 +58,19 @@ class Producer {
             return true;
         var unlock = true;
         this.unlockrequirements.forEach(element => {
+            if(!element.hasrequirement){
+                unlock = false;
+                return false;
+            }
+        });
+        return unlock;
+    }
+
+    checkforautounlock(){
+        if (this.autobuyrequirements == undefined)
+            return false;
+        var unlock = true;
+        this.autobuyrequirements.forEach(element => {
             if(!element.hasrequirement){
                 unlock = false;
                 return false;
@@ -66,7 +102,7 @@ class Producer {
     }
 
     save(){
-        return [this.bought.toString(), this.produced.toString()];
+        return [this.bought.toString(), this.produced.toString(), this.buyauto];
     }
 
     parse(data){
@@ -76,6 +112,8 @@ class Producer {
             this.bought = Decimal.fromString(data[0]);
         if(data[1] != undefined)
             this.produced = Decimal.fromString(data[1]);
+        if(data[2] != undefined)
+            this.buyauto = data[2];
         this.recalculatecosts();
         this.recalculateproductions();
     }
@@ -143,6 +181,8 @@ class Producer {
         return "Locked";
       if(player.options.buyamounts[this.buykey] == -1){
         var max = this.getmaxbuyable();
+        if(this.buyauto)
+          max = Decimal.floor(max.divide(10));
         this.onbuymax = true;
         if(max.lessThanOrEqualTo(new Decimal(0)))
           return new Decimal(1);

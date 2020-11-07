@@ -439,7 +439,9 @@ td.righttablecolumn {
 .producerauto{
   width: 120px;
 }
-.producerautobutton{
+
+/*Auto Button*/
+.autobutton{
   height: 32px;
   width: 96%;
 }
@@ -466,10 +468,6 @@ td.righttablecolumn {
 }
 .upgradeauto{
   width: 120px;
-}
-.upgradeautobutton{
-  height: 32px;
-  width: 96%;
 }
 
 /*Seperation*/

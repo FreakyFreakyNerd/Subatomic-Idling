@@ -133,6 +133,8 @@ function save(){
   savedata = {}
   saveplayer()
   localStorage.setItem('subatomicidlingsave',Base64.encode(JSON.stringify(savedata)))
+
+  console.log("Saved");
 }
 
 function load(){

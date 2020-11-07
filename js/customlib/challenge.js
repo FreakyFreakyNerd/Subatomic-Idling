@@ -22,6 +22,7 @@ class Challenge{
     this.endfunc = endfunc;
     this.updateinchaleffects();
     this.updaterewards();
+    this.updaterequirements();
   }
 
   reset(){
@@ -44,6 +45,7 @@ class Challenge{
         this.in = data[1];
     this.updateinchaleffects();
     this.updaterewards();
+    this.updaterequirements();
     if(this.in){
       this.inchaleffects.forEach((eff, i) => {
         eff.apply();
@@ -68,7 +70,8 @@ class Challenge{
 
   updaterequirements(){
     this.completionrequirements.forEach((req, i) => {
-      req.recalculatevalue();
+      if(req.recalculatevalue != undefined)
+        req.recalculatevalue(this.completed);
     });
   }
 
@@ -131,6 +134,7 @@ class Challenge{
       }
       this.updateinchaleffects();
       this.updaterewards();
+      this.updaterequirements();
       if(!player.options.autochellengeretry){
         this.exit();
       }
