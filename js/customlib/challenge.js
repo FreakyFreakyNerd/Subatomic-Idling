@@ -30,6 +30,7 @@ class Challenge{
     this.updateinchaleffects();
     this.updaterewards();
     this.removerewards();
+    this.updaterequirements();
   }
 
   save(){
