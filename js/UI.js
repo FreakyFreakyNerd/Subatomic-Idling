@@ -23,18 +23,16 @@ notations = {
 }
 
 //UI
-currentscreen = "producers"
 function openscreen(screen){
-  document.getElementById(currentscreen + "screen").style.display = "none";
+  document.getElementById(player.options.currentscreen + "screen").style.display = "none";
   document.getElementById(screen + "screen").style.display = "block";
-  currentscreen = screen;
+  player.options.currentscreen = screen;
 }
 //stat menu
-currentstatscreen = "general"
 function openstatscreen(screen){
-  document.getElementById(currentstatscreen + "statscreen").style.display = "none";
+  document.getElementById(player.options.currentstatscreen + "statscreen").style.display = "none";
   document.getElementById(screen + "statscreen").style.display = "block";
-  currentstatscreen = screen;
+  player.options.currentstatscreen = screen;
 }
 
 function changeTheme(theme){
@@ -51,11 +49,20 @@ function changeNotation(notation){
 }
 
 function updateafterplayer(){
-  document.getElementById("notations").value = player.options.notation;
-  document.getElementById("themes").value = player.options.theme;
+  openscreen(player.options.currentscreen);
+  openstatscreen(player.options.currentstatscreen);
+  openproducersscreen(player.options.currentproducersscreen);
+  openupgradesscreen(player.options.currentupgradesscreen);
   updateTheme();
 }
-
+function setSelectedValue(selectObj, valueToSet) {
+  for (var i = 0; i < selectObj.options.length; i++) {
+      if (selectObj.options[i].value == valueToSet) {
+        selectObj.options[i].selected = true;
+        return;
+      }
+  }
+}
 const ticksperday = settings.tickspersecond*3600*24
 const ticksperhour = settings.tickspersecond*3600
 const ticksperminute = settings.tickspersecond*60
@@ -201,17 +208,19 @@ function formatDecimalNormal(num,dec){
     return notations[player.options.notation].format(num, dec, 0);
   return notations[player.options.notation].format(num, 2, 0);
 }
-
-currentproducersscreen = "quark"
 function openproducersscreen(screen){
-  document.getElementById(currentproducersscreen + "producersscreen").style.display = "none";
+  document.getElementById(player.options.currentproducersscreen + "producersscreen").style.display = "none";
   document.getElementById(screen + "producersscreen").style.display = "block";
-  currentproducersscreen = screen;
+  player.options.currentproducersscreen = screen;
 }
 
-currentupgradesscreen = "quark"
 function openupgradesscreen(screen){
-  document.getElementById(currentupgradesscreen + "upgradesscreen").style.display = "none";
+  document.getElementById(player.options.currentupgradesscreen + "upgradesscreen").style.display = "none";
   document.getElementById(screen + "upgradesscreen").style.display = "block";
-  currentupgradesscreen = screen;
+  player.options.currentupgradesscreen = screen;
+}
+
+const capitalize = (s) => {
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
 }

@@ -29,6 +29,8 @@ class Upgrade{
         this.produced = new Decimal(0);
         this.bonus = new Decimal(0);
         this.bonuseffects = [];
+        this.bonusmult = new Decimal(1);
+        this.bonusmulteffects = [];
 
         if(extra != null && extra != undefined)
           for(let [key,value] of Object.entries(extra)){
@@ -47,7 +49,7 @@ class Upgrade{
     }
 
     get extraamount(){
-      return this.produced.add(this.bonus);
+      return this.produced.add(this.bonus.times(this.bonusmult));
     }
 
     reset(){
@@ -191,7 +193,7 @@ class Upgrade{
     }
 
     get amount(){
-      return this.extraamount.add(this.bought);
+      return this.extraamount.add(Decimal.floor(this.bought));
     }
 
     recalculatecosts(){
@@ -283,15 +285,25 @@ class Upgrade{
     }
 
     get specialeffectdescription(){
-      if(this.costs == undefined)
+      if(this.effects == undefined)
         return "No Effect";
-      return this.effects[0].geteffect();
+      if(this.showall == undefined)
+        return this.effects[0].geteffect();
+      else{
+        var str = "";
+        this.effects.forEach(eff => {
+          if(eff.effectdescription != undefined)
+            str += ", " + eff.geteffect();
+        });
+        return str.substring(2);
+      }
     }
 
     effectchanged(){
       this.effects.forEach((effect, i) => {
         effect.effectchanged();
       });
+      this.recalculatebonusmult();
       this.recalculatebonus();
     }
 
@@ -299,6 +311,14 @@ class Upgrade{
       this.bonus = new Decimal();
       this.bonuseffects.forEach((effect, i) => {
         this.bonus = this.bonus.add(effect.value);
+      });
+      this.recalculateeffects();
+    }
+
+    recalculatebonusmult(){
+      this.bonusmult = new Decimal(1);
+      this.bonusmulteffects.forEach((effect, i) => {
+        this.bonusmult = this.bonusmult.times(effect.value);
       });
       this.recalculateeffects();
     }
@@ -313,6 +333,10 @@ class Upgrade{
         case EffectTypes.UpgradeBonusLevels:
           this.bonuseffects.push(effect);
           this.recalculatebonus();
+          break;
+        case EffectTypes.UpgradeBonusLevelMultiplier:
+          this.bonusmulteffects.push(effect);
+          this.recalculatebonusmult();
           break;
         default:
           return;
@@ -331,6 +355,13 @@ class Upgrade{
           if(ind > -1){
             this.bonuseffects.splice(this.bonuseffects.indexOf(effect), 1);
             this.recalculatebonus();
+          }
+          break;
+        case EffectTypes.UpgradeBonusLevelMultiplier:
+          var ind = this.bonusmulteffects.indexOf(effect);
+          if(ind > -1){
+            this.bonusmulteffects.splice(this.bonusmulteffects.indexOf(effect), 1);
+            this.recalculatebonusmult();
           }
           break;
         default:

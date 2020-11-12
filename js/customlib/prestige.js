@@ -96,7 +96,7 @@ class PrestigeReward{
           this.recalculatemulteffect();
         }
         break;
-      case EffectTypes.PrestigeCurrencyExponentialGain:
+      case EffectTypes.PrestigeExponentialGain:
         if(!this.expoeffects.includes(effect)){
           this.expoeffects.push(effect);
           this.recalculateexpoeffect();
@@ -119,7 +119,7 @@ class PrestigeReward{
           this.recalculatemulteffect();
         }
         break;
-      case EffectTypes.PrestigeCurrencyExponentialGain:
+      case EffectTypes.PrestigeExponentialGain:
         if(this.expoeffects.includes(effect)){
           this.expoeffects.splice(this.expoeffects.indexOf(effect));
           this.recalculateexpoeffect();

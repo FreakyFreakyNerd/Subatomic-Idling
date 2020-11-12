@@ -312,11 +312,16 @@ class FlavorEffect extends Effect{
 const EffectTypes = {
   ProducerBaseProduction : 1,
   ProducerMultiplierProduction : 2,
-  PriceScaling : 3,
-  PrestigeCurrencyBaseGain: 4,
-  PrestigeCurrencyMultiplicativeGain: 5,
-  UpgradeIncreaseMultiplier: 6,
-  UpgradeBonusLevels: 7,
-  ProducerExponentialProduction: 8,
-  PrestigeCurrencyExponentialGain: 9
+  ProducerExponentialProduction: 3,
+  PriceScaling : 9,
+
+  PrestigeBaseGain: 10,
+  PrestigeMultiplicativeGain: 11,
+  PrestigeExponentialGain: 12,
+
+  UpgradeBonusLevelMultiplier: 20,
+  UpgradeIncreaseMultiplier: 21,
+  UpgradeBonusLevels: 22,
+
+  RequirementMult: 30
 }

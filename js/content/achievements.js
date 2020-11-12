@@ -103,6 +103,10 @@ function setupachievements(){
     player.achievements.push([]);
     player.achievements[10].push(new Achievement("electrifyunlock", "Electrify", [new NumRequirement(player.quarkstage.quarks, "1e16")], null, [new FlavorEffect("Unlocks electrify for all your wonderful electron needs!")]));
     player.achievements[10].push(new Achievement("challengeunlock", "Your getting mightly powerful", [new NumRequirement(player.quarkstage.quarks, "1e24")], null, [new FlavorEffect("Unlocks some challenges to test your power!")]));
+    player.achievements[10].push(new Achievement("multronunlock", "Might as well unlock another upgrade.", [new NumRequirement(player.quarkstage.quarks, "1e60")], null, [new FlavorEffect("Unlocks Multron for purchase!")]));
+
+    player.achievements.push([]);
+    player.achievements[11].push(new Achievement("protifyunlock", "Protify", [new NumRequirement(player.electronstage.electrons, "1e24")], null, [new FlavorEffect("Will someday unlock Protify")]));
 }
 
 function resetachievements(){

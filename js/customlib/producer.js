@@ -245,7 +245,6 @@ class Producer {
     }
 
     applyproductioneffect(effect){
-      console.log(effect);
       this.productions.forEach((prod, i) => {
         prod.applyeffect(effect)
       });

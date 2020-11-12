@@ -69,7 +69,6 @@ class Achievement{
     if(this.effects != null && this.effects != undefined)
       this.effects.forEach((effect, i) => {
         effect.apply();
-      console.log("Applied Effect: " + effect.geteffect());
       });
   }
 

@@ -493,3 +493,21 @@ td.righttablecolumn {
 .buyamounttext{
   font-size: 16px;
 }
+
+/*Options menu*/
+.optioncell{
+  width: 25%;
+  height: 100px;
+  align-content: center;
+}
+.optionbutton{
+  padding: 5px 20px 5px 20px;
+  font-size: 16px;
+}
+.notationoptionlabel{
+  font-size: 24px;
+}
+.notationdropdown{
+  font-size: 16px;
+  border: 2px solid;
+}

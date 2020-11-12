@@ -44,10 +44,10 @@
         <table align="center">
           <tbody>
             <tr>
-              <td>
-                <div class="optionbutton standardbutton">
-                  <label for="notations" class="standardtext">Choose a notation:</label>
-                  <select id="notations" class="standarddropdown" onchange="changeNotation(this.value)">
+              <td class="optioncell">
+                <div class="centered">
+                  <label class="notationoptionlabel">Choose a notation:</label>
+                  <select id="notations" class="notationdropdown" onchange="changeNotation(this.value)" v-bind:value="player.options.notation">
                     <option value="standard">Standard</option>
                     <option value="scientific">Scientific</option>
                     <option value="engineering">Engineering</option>
@@ -71,33 +71,26 @@
                   </select>
                 </div>
               </td>
-              <td>
-                <div class="optionbutton standardbutton">
-                  <label for="themes" class="standardtext">Choose a theme:</label>
-                  <select id="themes" class="standarddropdown" onchange="changeTheme(this.value)">
-                    <option value="light">Light</option>
-                    <option value="dark">Dark</option>
-                    <option value="null">Null</option>
-                  </select>
+              <td class="optioncell">
+                <div class="centered">
+                  <button class="optionbutton" onclick="reset()"><label>Completely Reset Save</label></button>
                 </div>
               </td>
-              <td>
-                <div>
-                  <button class="optionbutton standardbutton" onclick="reset()"><label>Completely Reset Save</label></button>
+              <td class="optioncell">
+                <div class="centered">
+                  <button class="optionbutton" v-on:click="player.options.autochallengeretry = !player.options.autochallengeretry">Automatic Challenge Retry: {{capitalize(player.options.autochallengeretry.toString())}}</button>
                 </div>
-              </td>
-              <td>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div id="producersscreen">
+      <div id="producersscreen" style="display: none">
         <div class="subsidenav" v-if='hasachievement("electrifyunlock")'>
           <a class="menubutton quarksubmenubutton" onclick='openproducersscreen("quark")'>Quark</a>
           <a class="menubutton electronsubmenubutton" onclick='openproducersscreen("electron")'>Electron</a>
         </div>
-        <div class="subcontent" id="quarkproducersscreen">
+        <div class="subcontent" id="quarkproducersscreen" style="display: none">
           <producers-display v-bind:producers="player.quarkstage.producers" type="quark"></producers-display>
           <div class="spacer32"></div>
           <upgrades-display v-bind:upgrades="player.quarkstage.upgrades" type="quark"></upgrades-display>
@@ -116,7 +109,7 @@
           <a class="menubutton quarksubmenubutton" onclick='openupgradesscreen("quark")'>Quark</a>
           <a class="menubutton electronsubmenubutton" onclick='openupgradesscreen("electron")'>Electron</a>
         </div>
-        <div id="quarkupgradesscreen" class="subcontent">
+        <div id="quarkupgradesscreen" class="subcontent" style="display: none">
           <div class="upgrades">
             <upgrade-item v-for="upgrade in player.quarkstage.singletonupgrades" v-bind:upgrade="upgrade" ></upgrade-item>
           </div>
@@ -130,8 +123,8 @@
           <span class="upgradename">{{selectedupgrade.displayname}}</span><br><br>
           <span class="upgradecost">Cost: {{selectedupgrade.costs[0].description}}</span><br>
           <span class="upgradelevel">Level: {{selectedupgrade.bought}}/{{selectedupgrade.maxbuyable}}</span><br>
-          <span class="upgradeeffect">Effect: {{selectedupgrade.effects[0].geteffect()}}</span><br><br>
-          <button class="upgradebuyamount">Buy Amount: {{getbuyamount("upg")}}</button>
+          <span class="upgradeeffect">Effect: {{selectedupgrade.specialeffectdescription}}</span><br><br>
+          <button class="upgradebuyamount" v-on:click='togglebuyamount("upg")'>Buy Amount: {{getbuyamount("upg")}}</button>
           <button class="upgradescreenauto">Automatic: Locked</button>
         </div>
       </div>
@@ -220,10 +213,8 @@
 <script src="js/settings.js"> </script>
 <script src="js/changelog.js"> </script>
 <script src="js/UI.js"> </script>
-<script src="js/content/stages/00_quark/base.js"> </script>
-<script src="js/content/stages/01_electron/base.js"> </script>
+<script src="js/content/base.js"> </script>
 <script src="js/content/achievements.js"> </script>
-<script src="js/content/challenges.js"> </script>
 <script src="js/math.js"> </script>
 <script src="js/savemanager.js"> </script>
 <script src="js/game.js"> </script>

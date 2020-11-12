@@ -74,8 +74,8 @@ class ExponentialCost extends Cost{
 
 class LinearCost extends Cost{
     recalculatecost(amount, buyamount){
-      if(buyamount != undefined)
-        this.cost = this.startingcost.add(this.scaling.times(amount));
+      if(buyamount != undefined && buyamount != 1)
+        this.cost = Decimal.floor(this.startingcost.times(buyamount).add(new Decimal(buyamount).divide(2).times(amount.times(2).plus(buyamount)).times(this.scaling)));
       else
         this.cost = this.startingcost.add(this.scaling.times(amount));
       if(this.cost.lessThan(0))
@@ -84,17 +84,23 @@ class LinearCost extends Cost{
 
     getmaxbuyable(amount){
       var amountavailable = this.costobject.amount;
-      return Decimal.floor(Decimal.log(new Decimal(1).minus((new Decimal(1)).minus(this.scaling).times(amountavailable).divide(this.startingcost).divide(Decimal.pow(this.scaling, amount))), this.scaling));
+      var buyamount = Decimal.floor(Decimal.log(new Decimal(1).minus((new Decimal(1)).minus(this.scaling).times(amountavailable).divide(this.startingcost).divide(Decimal.pow(this.scaling, amount))), this.scaling));
+      return buyamount;
     }
 }
 
 class StaticCost extends Cost{
     constructor(costobject, cost){
       super(costobject, cost, "0");
-      this.cost = cost;
+      this.cost = new Decimal(cost);
     }
 
     recalculatecost(amount, buyamount){
-      return;
+      this.cost = this.startingcost.times(buyamount);
+    }
+
+    getmaxbuyable(){
+      var amt = this.costobject.amount;
+      return Decimal.floor(amt.divide(this.startingcost));
     }
 }

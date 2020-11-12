@@ -325,3 +325,28 @@ body{
 .buyamounttext{
   color: white;
 }
+
+/*Options menu*/
+.optioncell{
+  border-radius: 10px;
+  border: 2px solid white;
+}
+.optionbutton{
+  color: white;
+  background-color: var(--main-color);
+  border-color:  #ebcb2d;  
+}
+.autochallengeretry{
+  color: white;
+  background-color: var(--main-color);
+  border-color:  #ebcb2d;  
+}
+.notationoptionlabel{
+  color: white;
+}
+.notationdropdown{
+  border-color:  #ebcb2d;
+  color: white;
+  padding: 5px 5px 5px 5px;
+  background-color: var(--main-color);
+}

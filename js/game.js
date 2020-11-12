@@ -34,11 +34,8 @@ function shallowcopy(obj){
   return JSON.parse(JSON.stringify(obj));
 }
 
-setupQuarkStage();
-setupElectronStage();
+setupGame();
 setupachievements();
-setupchallenges();
-
 tickspersecactual = 0
 
 gameLogicIntervalID = 0;
@@ -73,8 +70,6 @@ gameLogicIntervalID = setInterval(() => {
 gameSaveIntervalID = setInterval(() => {
   save();
 }, 10000);
-
-updateafterplayer();
 
 function reset(){
   if(confirm("Completely Reset Save?")){

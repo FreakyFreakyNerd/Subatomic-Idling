@@ -141,4 +141,30 @@ class Challenge{
       }
     }
   }
+
+  applyeffect(effect){
+    switch(effect.effecttype){
+      case EffectTypes.RequirementMult:
+        this.completionrequirements.forEach(elem => {
+          elem.applyeffect(effect);
+        });
+        break;
+    }
+  }
+
+  removeeffect(effect){
+    switch(effect.effecttype){
+      case EffectTypes.RequirementMult:
+        this.completionrequirements.forEach(elem => {
+          elem.removeeffect(effect);
+        });
+        break;
+    }
+  }
+
+  effectchanged(){
+    this.completionrequirements.forEach(elem => {
+      elem.effectchanged();
+    });
+  }
 }

@@ -7,9 +7,13 @@ settings = {
         notation : "standard",
         notationdecimals : 3,
         theme : "light",
-        buyamounts : {qp: 1,quarkupg: 1,qsp: 1,eupg: 1},
+        buyamounts : {qp: 1,qsp: 1,upg: 1},
         autochallengeretry : false,
-        toggleamounts: [1,10,25,100,-1]
+        toggleamounts: [1,10,25,100,-1],
+        currentscreen: "producers",
+        currentstatscreen: "general",
+        currentproducersscreen: "quark",
+        currentupgradesscreen: "quark"
     },
     defaultstats : {
       currentelectrifytime : 0,
