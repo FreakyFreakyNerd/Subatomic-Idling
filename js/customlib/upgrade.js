@@ -338,6 +338,11 @@ class Upgrade{
           this.bonusmulteffects.push(effect);
           this.recalculatebonusmult();
           break;
+        case EffectTypes.UpgradeValuePower:
+          this.effects.forEach((eff, i) => {
+            eff.applyeffect(effect);
+          });
+          break;
         default:
           return;
       }
@@ -363,6 +368,11 @@ class Upgrade{
             this.bonusmulteffects.splice(this.bonusmulteffects.indexOf(effect), 1);
             this.recalculatebonusmult();
           }
+          break;
+        case EffectTypes.UpgradeValuePower:
+          this.effects.forEach((eff, i) => {
+            eff.removeeffect(effect);
+          });
           break;
         default:
           return;

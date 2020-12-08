@@ -249,6 +249,9 @@ body{
 .currencyelectrondisplay{
   color: #FFFC5B;
 }
+.currencyprotondisplay{
+  color: #de2676;
+}
 
 /*Producer Display*/
 .producerquarkname{

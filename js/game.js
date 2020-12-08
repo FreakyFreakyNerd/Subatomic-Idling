@@ -11,6 +11,9 @@ player = {
   },
   electronstage : {
   },
+  protonstage : {
+
+  },
   options : {
     buyamount : new Decimal(1)
   },

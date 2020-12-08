@@ -2,16 +2,23 @@ function setupGame(){
   //Currencies
   player.quarkstage.quarks = new Currency("quark", "Quarks", "Quark", 10);
   player.electronstage.electrons = new Currency("electron", "Electrons", "Electron", 0);
+  player.protonstage.protons = new Currency("proton", "Protons", "Proton", 0);
 
   //Prestiges
   var electrongain = (amount) => {
     if(amount.lessThan(new Decimal("1e16")))
       return new Decimal();
-    var num = Decimal.floor(Decimal.pow(amount.divide("1e16"), 1/3));
-    return num;
+    return Decimal.floor(Decimal.pow(amount.divide("1e16"), 1/3));
   }
   player.quarkstage.electrify = new Prestige("electrify","Electrify", (hadrequire, producedamounts) => { resetQuarkStage(); if(!hadrequire || producedamounts == undefined) return; player.stats.electrified += 1; player.stats.past10electrifies.unshift([player.stats.currentelectrifytime, producedamounts[0]]); player.stats.past10electrifies.pop(); player.stats.currentelectrifytime = 0;}, new NumRequirement(player.quarkstage.quarks, "1e16"), new PrestigeReward(player.electronstage.electrons, player.quarkstage.quarks, electrongain))
   
+  var protongain = (amount) => {
+    if(amount.lessThan("1e24"))
+      return new Decimal();
+    return Decimal.floor(Decimal.pow(amount.divide("1e24"), 1/4));
+  }
+  player.electronstage.protify = new Prestige("protify", "Protify", (hadrequire, producedamounts) => {resetQuarkStage(); resetElectronStage();}, new NumRequirement(player.electronstage.electrons, "1e24"), new PrestigeReward(player.protonstage.protons, player.electronstage.electrons, protongain));
+
   //Base Quark Stage
   player.quarkstage.producers = [];
   player.quarkstage.producers.push(new Producer("quarkgenone",     "Charger",       [new ExponentialCost(player.quarkstage.quarks, "10", 1.07)],    [new LinearProduction(player.quarkstage.quarks, "1")]  ,    null ,                                          "qp", [new AchievementRequirement("1e3quarkgenone")]));
@@ -78,7 +85,8 @@ function setupGame(){
   player.quarkstage.singletonupgrades.push(new Upgrade("qsu15", "[q16] Increase Quark production based on Quark Producers bought",      1, null, [new FunctionEffect(player.quarkstage.producers, EffectTypes.ProducerMultiplierProduction, () => boughtmult(), (obj) => "Quark Production x" + formatDecimalNormal(obj.value))], [new StaticCost(player.quarkstage.quarks, "1e50")], "upg"));
 
   //Long term loads of levels sort of thing
-  player.quarkstage.singletonupgrades.push(new Upgrade("qsu16", "[q17] Quark Production +.001, Electron gain +.0001, +.000001 More free Accelerons/Multors", "1e5", null, [new LinearEffect(player.quarkstage.producers, 1, .001, EffectTypes.ProducerMultiplierProduction, null, (obj) => "Quark Production x" + formatDecimalOverride(obj.value, 3)),new LinearEffect(player.quarkstage.electrify, 1, "1e-4", EffectTypes.PrestigeMultiplicativeGain, null, (obj) => "Electron Gain x" + formatDecimalOverride(obj.value, 4)),new LinearEffect(player.quarkstage.upgrades[0], 1, "1e-6", EffectTypes.UpgradeBonusLevelMultiplier, null, (obj) => "Acceleron/Multor Free Levels x" + formatDecimalOverride(obj.value, 6)),new LinearEffect(player.quarkstage.upgrades[5], 1, "1e-6", EffectTypes.UpgradeBonusLevelMultiplier, null, undefined)], [new ExponentialCost(player.quarkstage.quarks, "1e60", "1.01")], "upg", {showall: true}));
+  player.quarkstage.singletonupgrades.push(new Upgrade("qsu16", "[q17] Quark Production +.01, Electron gain +.001, +.00001 More free Accelerons/Multors", "1e4", null, [new LinearEffect(player.quarkstage.producers, 1, .01, EffectTypes.ProducerMultiplierProduction, null, (obj) => "Quark Production x" + formatDecimalOverride(obj.value, 2)),new LinearEffect(player.quarkstage.electrify, 1, "1e-3", EffectTypes.PrestigeMultiplicativeGain, null, (obj) => "Electron Gain x" + formatDecimalOverride(obj.value, 3)),new LinearEffect(player.quarkstage.upgrades[0], 1, "1e-5", EffectTypes.UpgradeBonusLevelMultiplier, null, (obj) => "Acceleron/Multor Free Levels x" + formatDecimalOverride(obj.value, 5)),new LinearEffect(player.quarkstage.upgrades[5], 1, "1e-5", EffectTypes.UpgradeBonusLevelMultiplier, null, undefined)], [new ExponentialCost(player.quarkstage.quarks, "1e60", "1.02")], "upg", {showall: true}));
+
   
   //Electron Stage
   player.electronstage.upgrades = [];
@@ -132,25 +140,25 @@ function setupGame(){
   player.challenges.push(new Challenge("c2", "[c2] Cutting Down Down Down", "Electrify and reach the goal, but Acceleron and Multor have a weakened effect", new ExponentialEffect([player.quarkstage.upgrades[0],player.quarkstage.upgrades[5]], .5, .9,EffectTypes.UpgradeIncreaseMultiplier, null, (obj) => "Multors and Accelerons effect x" + formatDecimalOverride(obj.value, 4)), [c2bonus1,c2bonus2,c2bonus3], new ExponentialNumRequirement(player.quarkstage.quarks, "1e20", "1e4"), 100, () => {player.quarkstage.electrify.prestige();}));
 
 
-  //Challenge 2
-  var c3bonus1 = new LinearEffect(player.quarkstage.upgrades[0], 1, .125, EffectTypes.UpgradeIncreaseMultiplier, null, (obj) => "+" + formatDecimalOverride(obj.increase, 3) + " Acceleron Power Multiplier || Acceleron power *" + formatDecimalOverride(obj.value, 3))
-  var c3bonus2 = new LinearEffect(player.quarkstage.upgrades[5], 1, .05, EffectTypes.UpgradeIncreaseMultiplier, null, (obj) => "+" + formatDecimalOverride(obj.increase, 2) + " Multor Power Multiplier || Multor power *" + formatDecimalOverride(obj.value, 2))
-  var c3bonus3 = new LinearEffect(player.quarkstage.upgrades[5], 0, 3, EffectTypes.UpgradeBonusLevels, null, (obj) => formatDecimalOverride(obj.increase, 1) + " Free Multors || +" + formatDecimalNormal(obj.value) + " Free Multors")
-  player.challenges.push(new Challenge("c3", "[c3] Only 1", "Electrify and reach the goal, but you only can buy 1 producer.", new ExponentialEffect([player.quarkstage.upgrades[0],player.quarkstage.upgrades[5]], .5, .9,EffectTypes.UpgradeIncreaseMultiplier, null, (obj) => "Multors and Accelerons effect x" + formatDecimalOverride(obj.value, 4)), [c2bonus1,c2bonus2,c2bonus3], new ExponentialNumRequirement(player.quarkstage.quarks, "1e20", "1e4"), 100, () => {player.quarkstage.electrify.prestige();}));
+  //Challenge 3
+  var c3bonus1 = new ExponentialEffect(player.quarkstage.producers, 1, 2, EffectTypes.ProducerMultiplierProduction, null, (obj) => "x" + formatDecimal(obj.increase, 0) + " Quark Production || Quark Production *" + formatDecimal(obj.value))
+  var c3bonus2 = new LinearEffect(player.quarkstage.upgrades[1], 1, .25, EffectTypes.UpgradeIncreaseMultiplier, null, (obj) => "+" + formatDecimalOverride(obj.increase, 2) + " Accelerator Power Multiplier || Accelerator power *" + formatDecimalOverride(obj.value, 2))
+  var c3bonus3 = new LinearEffect(player.quarkstage.upgrades[1], 0, 6, EffectTypes.UpgradeBonusLevels, null, (obj) => formatDecimalOverride(obj.increase, 1) + " Free Accelerators || +" + formatDecimalNormal(obj.value) + " Free Accelerators")
+  player.challenges.push(new Challenge("c3", "[c3] Only 1", "Electrify and reach the goal, but you only can buy 1 Charger.", [new StaticEffect(player.quarkstage.producers[0], 1,EffectTypes.ForceLimit, null, (obj) => "Max Chargers Buyable : 1"),new StaticEffect(player.quarkstage.producers.slice(1), 0, EffectTypes.ForceLimit, null, (obj) => "Max Quark Producers(Excluding Charger) Buyable : 0")], [c3bonus1,c3bonus2,c3bonus3], new ExponentialNumRequirement(player.quarkstage.quarks, "1e32", "1e4"), 100, () => {player.quarkstage.electrify.prestige();}));
 
   //And Now quark spin upgrades
   player.electronstage.quarkspinupgrades = [];
   player.electronstage.quarkspinupgrades.push(new Upgrade("su1", "Respinner", -1, null, [new ExponentialEffect(player.electronstage.quarkspinproducers, 1, 1.1, EffectTypes.ProducerMultiplierProduction, null, (obj) => "Respinner Power x" + formatDecimalOverride(obj.increase, 1) + " | Quark Spin Production x" + formatDecimalOverride(obj.value, 2))], [new ExponentialCost(player.electronstage.quarkspin, "1e3", 10)], "qsp"));
   player.electronstage.quarkspinupgrades.push(new Upgrade("su2", "Aceleron Plus", -1, null, [new LinearEffect(player.quarkstage.upgrades[0], 1, .5, EffectTypes.UpgradeIncreaseMultiplier, null, (obj) => "Acceleron Power +" + formatDecimalOverride(obj.increase,1) + " | Acceleron power x" + formatDecimalOverride(obj.value, 1))], [new ExponentialCost(player.electronstage.quarkspin, "1e6", 25)], "qsp"));
   player.electronstage.quarkspinupgrades.push(new Upgrade("su3", "Multor Plus", -1, null, [new LinearEffect(player.quarkstage.upgrades[0], 1, .1, EffectTypes.UpgradeIncreaseMultiplier, null, (obj) => "Multor Power +" + formatDecimalOverride(obj.increase,1) + " | Multor power x" + formatDecimalOverride(obj.value, 1))], [new ExponentialCost(player.electronstage.quarkspin, "1e12", 100)], "qsp"));
-  player.electronstage.quarkspinupgrades.push(new Upgrade("su4", "Easier Challenges", -1, null, [new ExponentialEffect([player.challenges[0],player.challenges[1]], 1, .99, EffectTypes.RequirementMult, null, (obj) => "Challenge 1-5 Requirement x" + formatDecimalOverride(obj.value, 3))], [new ExponentialCost(player.electronstage.quarkspin, "1e20", "1e5")], "qsp"));
+  player.electronstage.quarkspinupgrades.push(new Upgrade("su4", "Easier Challenges", -1, null, [new ExponentialEffect([player.challenges[0],player.challenges[1],player.challenges[2]], 1, .9, EffectTypes.RequirementMult, null, (obj) => "Challenge 1-3 Requirement x" + formatDecimalOverride(obj.value, 3))], [new ExponentialCost(player.electronstage.quarkspin, "1e20", "1e5")], "qsp"));
 
   //And Yep Now I need to add Quark upgrades down here
   player.quarkstage.singletonupgrades.push(new Upgrade("qsu17", "[q18] Increase Quark Spin Production * 1(+.05/level)", 80, null, [new LinearEffect(player.electronstage.quarkspinproducers, 1,.05,EffectTypes.ProducerMultiplierProduction, null, (obj) => "Quark Spin production x" + formatDecimalOverride(obj.value,2))], [new StaticCost(player.quarkstage.quarks, "1e60")], "upg"));
-
+  player.quarkstage.singletonupgrades.push(new Upgrade("qsu18", "[q19] Quark Spin multiplier is slightly better.", "1", null, [new StaticEffect(player.electronstage.quarkspin, 1.5, EffectTypes.UpgradeValuePower, null, () => "Quark Spin Multiplier ^1.5")], [new StaticCost(player.quarkstage.quarks, "1e76")], "upg"));
 
   player.electronstage.upgrades.push(new Upgrade("eu9", "[e10] Time to make the quark spin production faster, x2.5(+.01/Level)", 250, null, [new LinearEffect(player.electronstage.quarkspinproducers, 2.5, .01, EffectTypes.ProducerMultiplierProduction, null, (obj) => "Quark spin production x" + formatDecimalOverride(obj.value, 2))], new LinearCost(player.electronstage.electrons, "1e16", "1e16"), "upg"));
-  player.electronstage.upgrades.push(new Upgrade("eu10", "[e11] Quark Production +.1, Electron Production +.01, +.0001x Accelerator/Multron Power ", 1e4, null, [new LinearEffect(player.quarkstage.producers, 1, .1, EffectTypes.ProducerMultiplierProduction, null, (obj) => "Quark production x" + formatDecimalOverride(obj.value, 1)),new LinearEffect(player.quarkstage.electrify, 1, .01, EffectTypes.PrestigeMultiplicativeGain, null, (obj) => "Electrons x" + formatDecimalOverride(obj.value, 2)),new LinearEffect([player.quarkstage.upgrades[1],player.quarkstage.upgrades[6]], 1, .0001, EffectTypes.UpgradeIncreaseMultiplier, null, (obj) => "Accelerator/Multron Power x" + formatDecimalOverride(obj.value, 4))], new ExponentialCost(player.electronstage.electrons, "1e16", 1.05), "upg", {"showall":true}));
+  player.electronstage.upgrades.push(new Upgrade("eu10", "[e11] Quark Production +.1, Electron Production +.01, +.0001x Accelerator/Multron Power ", 1e4, null, [new LinearEffect(player.quarkstage.producers, 1, .1, EffectTypes.ProducerMultiplierProduction, null, (obj) => "Quark production x" + formatDecimalOverride(obj.value, 1)),new LinearEffect(player.quarkstage.electrify, 1, .01, EffectTypes.PrestigeMultiplicativeGain, null, (obj) => "Electrons x" + formatDecimalOverride(obj.value, 2)),new LinearEffect([player.quarkstage.upgrades[1],player.quarkstage.upgrades[6]], 1, .0001, EffectTypes.UpgradeIncreaseMultiplier, null, (obj) => "Accelerator/Multron Power x" + formatDecimalOverride(obj.value, 4))], new ExponentialCost(player.electronstage.electrons, "1e16", 1.02), "upg", {"showall":true}));
 }
 
 function resetQuarkStage(){
@@ -175,7 +183,6 @@ function resetElectronStage(){
   player.electronstage.quarkspinproducers.forEach((prod, i) => {
     prod.reset();
   });
-
 }
 
 function totalproducerbought(producers){

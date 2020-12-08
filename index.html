@@ -22,6 +22,7 @@
               <tr class="currenciesrow">
                 <td class="currenciescell"><currency-display v-bind:currency="player.quarkstage.quarks"></currency-display></td>
                 <td class="currenciescell" v-if='hasachievement("electrifyunlock")'><currency-display v-bind:currency="player.electronstage.electrons"></currency-display></td>
+                <td class="currenciescell" v-if='hasachievement("protifyunlock")'><currency-display v-bind:currency="player.protonstage.protons"></currency-display></td>
               </tr>
               <tr class="currenciesrow">
               </tr>
@@ -158,7 +159,7 @@
               <span class="past10label">Past 10 Electrifies</span>
               <br>
               <br>
-              <span class="past10value" v-for="(val, index) in player.stats.past10electrifies" :key="index">The Electrify {{index+1}} Electrify ago took {{formattime(val[0],false,false,true,true,false)}} and gave {{val[1]}} Electrons <br></span>
+              <span class="past10value" v-for="(val, index) in player.stats.past10electrifies" :key="index">The Electrify {{index+1}} Electrify ago took {{formattime(val[0],false,false,true,true,false)}} and gave {{formatDecimal(val[1])}} Electrons <br></span>
             </div>
           </div>
         </div>

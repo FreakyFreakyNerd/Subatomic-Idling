@@ -128,7 +128,6 @@ class Challenge{
       if(this.completed == 0)
         this.applyrewards();
       this.completed += 1;
-      console.log(this.completed);
       if(this.completed >= this.maxcompletions){
         this.completed = this.maxcompletions;
         this.exit();
@@ -136,7 +135,7 @@ class Challenge{
       this.updateinchaleffects();
       this.updaterewards();
       this.updaterequirements();
-      if(!player.options.autochellengeretry){
+      if(!player.options.autochallengeretry){
         this.exit();
       }
     }

@@ -15,6 +15,8 @@ class Producer {
 
         producerregistry.push(this);
         updaterequiredregistry.push(this);
+        this.limiteffect = undefined;
+        this.limit = new Decimal(-1);
     }
 
     tick(){
@@ -137,6 +139,10 @@ class Producer {
     }
 
     get canbuy(){
+      if(this.limit.equals(0))
+        return false;
+      if(!this.limit.equals(-1) && this.bought.greaterThanOrEqualTo(this.limit))
+        return false;
       var boolcan = true;
       this.costs.forEach((cost, i) => {
         if(!cost.hascost){
@@ -155,6 +161,12 @@ class Producer {
           maxamount = cmax;
         }
       });
+      if(!this.limit.equals(-1) && this.bought.add(maxamount).greaterThan(this.limit)){
+        if(this.limit.minus(this.bought).lessThan(0))
+          maxamount = new Decimal();
+        else
+          maxamount = this.limit.minus(this.bought);
+      }
       return maxamount;
     }
 
@@ -239,6 +251,9 @@ class Producer {
         case EffectTypes.PriceScaling:
             this.applycosteffect(effect);
           break;
+        case EffectTypes.ForceLimit:
+            this.applylimit(effect);
+          break;
         default:
           return;
       }
@@ -260,6 +275,15 @@ class Producer {
       });
     }
 
+    applylimit(effect){
+      if(this.limiteffect == undefined){
+        this.limiteffect = effect;
+        this.limit = effect.value;
+      }else{
+        console.log("A limit is already defined for " + this.id);
+      }
+    }
+
     removeeffect(effect){
       switch (effect.effecttype) {
         case EffectTypes.ProducerMultiplierProduction:
@@ -273,6 +297,9 @@ class Producer {
           break;
         case EffectTypes.PriceScaling:
             this.removecosteffect(effect);
+          break;
+        case EffectTypes.ForceLimit:
+            this.removelimit(effect);
           break;
         default:
           return;
@@ -296,6 +323,13 @@ class Producer {
           cost.removeeffect(effect)
         }
       });
+    }
+
+    removelimit(effect){
+      this.limit = new Decimal(-1);
+      if(this.limiteffect == effect){
+        this.limiteffect = undefined;
+      }
     }
 
     effectchanged(){

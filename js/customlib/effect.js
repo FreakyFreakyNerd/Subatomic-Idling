@@ -17,8 +17,10 @@ class Effect{
     this.defaultincrease = new Decimal(effectincrease);
     this.increase = new Decimal(effectincrease);
     this.defaultval = new Decimal(effectdefualtvalue);
-    this.value = new Decimal(effectdefualtvalue);
+    this.basevalue = new Decimal(effectdefualtvalue);
     this.increasemultipliereffects =[];
+    this.basevaluepow = new Decimal(1);
+    this.poweffects = [];
     this.onconstructfinish();
     this.queuedamount = new Decimal();
     this.applied = false;
@@ -29,8 +31,8 @@ class Effect{
   recalculateincrease(){
     this.increase = this.defaultincrease;
     this.increasemultipliereffects.forEach((effect, i) => {
-      if(effect.value)
-        this.increase = this.increase.times(effect.value);
+      if(effect.basevalue)
+        this.increase = this.increase.times(effect.basevalue);
     });
   }
   applyeffect(effect){
@@ -39,17 +41,38 @@ class Effect{
         this.increasemultipliereffects.push(effect);
         this.recalculateincrease();
         break;
+      case EffectTypes.UpgradeValuePower:
+        this.poweffects.push(effect);
+        this.recalculatepow();
+      break;
     }
   }
   removeeffect(effect){
-    if(effect.effecttype == EffectTypes.UpgradeIncreaseMultiplier){
-      var ind = this.increasemultipliereffects.indexOf(effect);
-      if(ind > -1){
-        this.increasemultipliereffects.splice(this.increasemultipliereffects.indexOf(effect), 1);
-        this.recalculateincrease();
-      }
+    switch(effect.effecttype){
+      case EffectTypes.UpgradeIncreaseMultiplier:
+        var ind = this.increasemultipliereffects.indexOf(effect);
+        if(ind > -1){
+          this.increasemultipliereffects.splice(ind, 1);
+          this.recalculateincrease();
+        }
+        break;
+      case EffectTypes.UpgradeValuePower:
+        var ind = this.poweffects.indexOf(effect);
+        if(ind > -1){
+          this.poweffects.splice(ind, 1);
+          this.recalculatepow();
+        }
+        break;
     }
   }
+
+  recalculatepow(){
+    this.basevaluepow = new Decimal(1);
+    this.poweffects.forEach(effect => {
+      this.basevaluepow = this.basevaluepow.times(effect.value);
+    })
+  }
+
   effectchanged(){
     this.recalculateincrease();
     this.recalculatevalue(this.queuedamount);
@@ -75,7 +98,7 @@ class Effect{
   }
 
   recalculatevalue(){
-    this.value = new Decimal();
+    this.basevalue = new Decimal();
     oneffectchanged();
   }
 
@@ -100,23 +123,27 @@ class Effect{
       obj.removeeffect(this);
     });
   }
+
+  get value(){
+    return Decimal.pow(this.basevalue, this.basevaluepow);
+  }
 }
 
 class LinearEffect extends Effect{
   recalculatevalue(amount){
     this.queuedamount = amount;
-    this.value = this.defaultval.add(this.increase.times(amount));
+    this.basevalue = this.defaultval.add(this.increase.times(amount));
     this.oneffectchanged();
   }
 
   get description(){
     switch(this.effecttype){
       case EffectTypes.ProducerMultiplierProduction:
-        return "Multiplies " + this.appliestotext + " production by x" + formatDecimal(this.value) + "(+" + formatDecimal(this.increase) + " per level)";
+        return "Multiplies " + this.appliestotext + " production by x" + formatDecimal(this.basevalue) + "(+" + formatDecimal(this.increase) + " per level)";
       case EffectTypes.PrestigeCurrencyBaseGain:
-        return "Adds " + formatDecimal(this.value) + "(+" + formatDecimal(this.increase) + "per bought) to " + this.appliestotext + " gain on " + this.appliesto[0].displayname + ".";
+        return "Adds " + formatDecimal(this.basevalue) + "(+" + formatDecimal(this.increase) + "per bought) to " + this.appliestotext + " gain on " + this.appliesto[0].displayname + ".";
       case EffectTypes.PrestigeCurrencyMultiplicativeGain:
-        return "Multiplies " + this.appliestotext + " gain on " + this.appliesto[0].displayname + " by " + formatDecimal(this.value)+ "(+" + formatDecimal(this.increase) + "per bought).";
+        return "Multiplies " + this.appliestotext + " gain on " + this.appliesto[0].displayname + " by " + formatDecimal(this.basevalue)+ "(+" + formatDecimal(this.increase) + "per bought).";
     }
     return "no effect description for this type";
   }
@@ -142,7 +169,7 @@ class LinkedLinearEffect extends Effect{
   }
 
   recalculatevalue(){
-    this.value = this.defaultval.add(this.increase.times(this.getlinkednum()));
+    this.basevalue = this.defaultval.add(this.increase.times(this.getlinkednum()));
     this.oneffectchanged();
   }
 }
@@ -152,17 +179,17 @@ class ExponentialEffect extends Effect{
   recalculateincrease(){
     this.increase = this.defaultincrease.minus(1);
     this.increasemultipliereffects.forEach((effect, i) => {
-      if(effect.value)
-        this.increase = this.increase.times(effect.value);
+      if(effect.basevalue)
+        this.increase = this.increase.times(effect.basevalue);
     });
     this.increase = this.increase.add(1);
   }
 
   recalculatevalue(amount){
-    this.value = this.defaultval.times(Decimal.pow(this.increase, amount));
-    if(this.queuedamount == undefined || this.queuedamount.notEquals(this.value))
+    this.basevalue = this.defaultval.times(Decimal.pow(this.increase, amount));
+    if(this.queuedamount == undefined || this.queuedamount.notEquals(this.basevalue))
     {
-      this.queuedamount = this.value;
+      this.queuedamount = this.basevalue;
       this.oneffectchanged();
     }
   }
@@ -170,11 +197,11 @@ class ExponentialEffect extends Effect{
   get description(){
     switch(this.effecttype){
       case EffectTypes.ProducerMultiplierProduction:
-        return "Multiplies " + this.appliestotext + " production by x" + formatDecimalOverride(this.value, 2) + "(x" + formatDecimalOverride(this.increase,2) + " per level)"
+        return "Multiplies " + this.appliestotext + " production by x" + formatDecimalOverride(this.basevalue, 2) + "(x" + formatDecimalOverride(this.increase,2) + " per level)"
       case EffectTypes.PrestigeCurrencyBaseGain:
-        return "Adds " + formatDecimal(this.value) + "(x" + formatDecimal(this.increase) + "per bought) to " + this.appliestotext + " gain on " + this.appliesto[0].displayname + ".";
+        return "Adds " + formatDecimal(this.basevalue) + "(x" + formatDecimal(this.increase) + "per bought) to " + this.appliestotext + " gain on " + this.appliesto[0].displayname + ".";
       case EffectTypes.PrestigeCurrencyMultiplicativeGain:
-        return "Multiplies " + this.appliestotext + " gain on " + this.appliesto[0].displayname + " by " + formatDecimal(this.value)+ "(x" + formatDecimal(this.increase) + "per bought).";
+        return "Multiplies " + this.appliestotext + " gain on " + this.appliesto[0].displayname + " by " + formatDecimal(this.basevalue)+ "(x" + formatDecimal(this.increase) + "per bought).";
     }
     return "no effect description for this type";
   }
@@ -198,7 +225,7 @@ class LinkedExponentialEffect extends Effect{
   }
 
   recalculatevalue(){
-    this.value = this.defaultval.times(Decimal.pow(this.increase, this.getlinkednum()));
+    this.basevalue = this.defaultval.times(Decimal.pow(this.increase, this.getlinkednum()));
     this.oneffectchanged();
   }
 }
@@ -212,14 +239,14 @@ class StaticEffect extends Effect{
   get description(){
     switch(this.effecttype){
       case EffectTypes.ProducerMultiplierProduction:
-        return "Multiplies " + this.appliestotext + " production by x" + formatDecimalOverride(this.value, 2);
+        return "Multiplies " + this.appliestotext + " production by x" + formatDecimalOverride(this.basevalue, 2);
       case EffectTypes.PriceScaling:
-        return "Multiplies " + this.appliestotext + " cost scaling by x" + formatDecimalOverride(this.value, 2);
+        return "Multiplies " + this.appliestotext + " cost scaling by x" + formatDecimalOverride(this.basevalue, 2);
       case EffectTypes.PrestigeCurrencyBaseGain:
         console.log(this.appliesto);
-        return "Adds " + formatDecimal(this.value) + " to " + this.appliestotext + " gain on " + this.appliesto[0].displayname + ".";
+        return "Adds " + formatDecimal(this.basevalue) + " to " + this.appliestotext + " gain on " + this.appliesto[0].displayname + ".";
       case EffectTypes.PrestigeCurrencyMultiplicativeGain:
-        return "Multiplies " + this.appliestotext + " gain on " + this.appliesto[0].displayname + " by " + formatDecimal(this.value) + ".";
+        return "Multiplies " + this.appliestotext + " gain on " + this.appliesto[0].displayname + " by " + formatDecimal(this.basevalue) + ".";
     }
     return "no effect description for this type";
   }
@@ -239,10 +266,10 @@ class FunctionEffect extends Effect{
     this.effectvaluefunction = effectvaluefunction;
     this.effectdescription = effectdescriptionfunction;
     this.amount = new Decimal();
-    this.value = new Decimal(1);
+    this.basevalue = new Decimal(1);
     this.delay = 10;
 
-      updaterequiredregistry.push(this);
+    updaterequiredregistry.push(this);
   }
 
   tick(){
@@ -256,42 +283,10 @@ class FunctionEffect extends Effect{
   recalculatevalue(amount){
     this.amount = amount;
     if(this.effectvaluefunction != undefined)
-      this.value = this.effectvaluefunction(amount);
+      this.basevalue = this.effectvaluefunction(amount);
     else
-      this.value = new Decimal(1);
+      this.basevalue = new Decimal(1);
     this.oneffectchanged();
-  }
-
-  get description(){
-    if(this.effectdescription != undefined)
-      return this.effectdescription(this);
-    return "No effect function found";
-  }
-
-  oneffectchanged(){
-    this.appliesto.forEach((item, i) => {
-      item.effectchanged();
-    });
-  }
-
-  apply(){
-    this.applied = true;
-    this.appliesto.forEach((obj, i) => {
-      obj.applyeffect(this);
-    });
-  }
-
-  remove(){
-    this.applied = false;
-    this.appliesto.forEach((obj, i) => {
-      obj.removeeffect(this);
-    });
-  }
-
-  getarg(type){
-    if(this.args == undefined)
-    return undefined;
-    return this.args[type];
   }
 }
 
@@ -322,6 +317,8 @@ const EffectTypes = {
   UpgradeBonusLevelMultiplier: 20,
   UpgradeIncreaseMultiplier: 21,
   UpgradeBonusLevels: 22,
+  ForceLimit: 23,
+  UpgradeValuePower : 24,
 
   RequirementMult: 30
 }
