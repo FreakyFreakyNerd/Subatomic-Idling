@@ -1,17 +1,18 @@
-currencyregistry = []
-producerregistry = []
-upgraderegistry = []
-achievementregistry = []
-prestigeregistry = []
+var currencyregistry = []
+var producerregistry = []
+var upgraderegistry = []
+var achievementregistry = []
+var prestigeregistry = []
 
-updaterequiredregistry = []
+var updaterequiredregistry = []
+var effectneedsrecalculated = []
 
-player = {
+var player = {
   quarkstage : {
   },
   electronstage : {
   },
-  protonstage : {
+  nucleonstage : {
 
   },
   options : {
@@ -39,38 +40,58 @@ function shallowcopy(obj){
 
 setupGame();
 setupachievements();
-tickspersecactual = 0
 
-gameLogicIntervalID = 0;
-ticks = 0;
+var lastticktime = new Date().getTime();
+let gameLogicIntervalID = 0;
+let needseffectrecalculatedtime = (Date.now + 500)
 function gameLogicTick(){
-  starttime = new Date().getTime();
-  player.stats.currentelectrifytime += 1;
-  player.stats.playtime += 1;
   achievementtick();
-  produce();
+  var timenow = new Date().getTime();
+  var timedif = timenow - lastticktime;
+  lastticktime = timenow;
+  produce(timedif/1000);
   //lengthCalculator();
   //calculatePerSecond(player.quarkstage.quarks);
-  updaterequiredregistry.forEach((item, i) => {
+  this.updaterequiredregistry.forEach((item, i) => {
     item.tick();
   });
-  tickspersecactual = Math.min(1000/(((new Date()).getTime()-starttime)+1),20);
+  if(Date.now > needseffectrecalculatedtime)
+    updateeffects();
+  if(Date.now > nextaddtime)
+    updatetimes();
 }
 
-function produce(){
-  producerregistry.forEach(element => {
-    element.produce();
+function updateeffects(){
+  this.effectneedsrecalculated.forEach(item => {
+    item.updateeffects();
+  });
+  needseffectrecalculatedtime = Date.now + 500;
+}
+
+let lasttimeadded = Date.now;
+let nextaddtime = Date.now + 500;
+function updatetimes(){
+  var now = Date.now;
+  for(var i = 0; i < player.stats.times.length; i++){
+    players.stats.times[i] += now - lasttimeadded;
+  }
+  lasttimeadded = now;
+  nextaddtime = now + 500;
+}
+
+function produce(prodratio){
+  this.producerregistry.forEach(element => {
+    element.produce(prodratio);
   });
 }
 
-load()
-recalculateCurrencyPerSec();
+load();
 
 gameLogicIntervalID = setInterval(() => {
   gameLogicTick();
 }, 1000/settings.logictickspersecond);
 
-gameSaveIntervalID = setInterval(() => {
+var gameSaveIntervalID = setInterval(() => {
   save();
 }, 10000);
 

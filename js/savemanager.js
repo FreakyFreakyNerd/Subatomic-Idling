@@ -1,5 +1,5 @@
-savedata = {}
-loadeddata = {}
+var savedata = {}
+var loadeddata = {}
 
 function saveplayer(){
   saveQuarkStage();
@@ -10,7 +10,7 @@ function saveplayer(){
 }
 
 function saveachievements(){
-  achievements = [];
+  var achievements = [];
   achievementregistry.forEach((achieve, i) => {
     if(achieve.unlocked){
       achievements.push(achieve.id);
@@ -20,7 +20,7 @@ function saveachievements(){
 }
 
 function savechallenges(){
-  challenges = {};
+  var challenges = {};
   player.challenges.forEach((chal, i) => {
       challenges[chal.id] = chal.save();
   });
@@ -28,7 +28,7 @@ function savechallenges(){
 }
 
 function loadchallenges(){
-  challenges = loadeddata["chal"]
+  var challenges = loadeddata["chal"]
   if(challenges == undefined)
     return;
   player.challenges.forEach((chal, i) => {
@@ -38,7 +38,7 @@ function loadchallenges(){
 }
 
 function saveQuarkStage(){
-  data = {};
+  var data = {};
   data.currencies = {};
   data.producers = {};
   data.upgrades = {};
@@ -56,9 +56,9 @@ function saveQuarkStage(){
 }
 
 function loadQuarkStage(){
-  data = loadeddata["game"]
+  var data = loadeddata["game"];
   if(data == undefined)
-  return;
+    return;
   if(data.currencies != undefined){
     currencyregistry.forEach(element => {
       element.parse(data.currencies[element.id]);
@@ -85,7 +85,7 @@ function loadplayer(){
 }
 
 function loadachievements(){
-  achievements = loadeddata["achievements"]
+  var achievements = loadeddata["achievements"]
   if(achievements != null && achievements != undefined)
     achievementregistry.forEach((achieve, i) => {
       achieve.parse(achievements);
@@ -101,7 +101,7 @@ function savestats(){
 }
 
 function loadoptions(){
-  options = loadeddata["playeroptions"]
+  var options = loadeddata["playeroptions"]
   player.options = shallowcopy(settings.defaultoptions);
   if(options != null && options != undefined)
     for(let [key,value] of Object.entries(options)){
@@ -120,7 +120,7 @@ function loadoptions(){
 }
 
 function loadstats(){
-  stats = loadeddata["playerstats"]
+  var stats = loadeddata["playerstats"]
   player.stats = shallowcopy(settings.defaultstats);
   if(stats != null && stats != undefined)
     for(let [key,value] of Object.entries(stats)){

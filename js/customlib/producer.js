@@ -2,16 +2,32 @@ class Producer {
     constructor(id, displayname, costs, productions, unlockrequirements, buykey, autobuyrequirements){
         this.id = id;
         this.buykey = buykey;
-        this.displayname = displayname
-        this.costs = costs;
-        this.productions = productions;
+        this.displayname = displayname;
         this.bought = new Decimal(0);
         this.produced = new Decimal(0);
-        this.unlockrequirements = unlockrequirements;
         this.onbuymax = false;
-        this.autobuyrequirements = autobuyrequirements;
         this.buyauto = false;
         this.autobuyunlocked = false;
+
+        if(Array.isArray(productions))
+          this.productions = productions;
+        else
+          this.productions = [productions];
+
+        if(Array.isArray(costs) || costs == undefined)
+          this.costs = costs;
+        else
+          this.costs = [costs];
+          
+        if(Array.isArray(unlockrequirements) || unlockrequirements == undefined)
+          this.unlockrequirements = unlockrequirements;
+        else
+          this.unlockrequirements = [unlockrequirements];
+
+        if(Array.isArray(autobuyrequirements) || autobuyrequirements == undefined)
+          this.autobuyrequirements = autobuyrequirements;
+        else
+          this.autobuyrequirements = [autobuyrequirements];
 
         producerregistry.push(this);
         updaterequiredregistry.push(this);
@@ -170,9 +186,9 @@ class Producer {
       return maxamount;
     }
 
-    produce(){
+    produce(prodratio){
       this.productions.forEach((prod, i) => {
-        prod.produce();
+        prod.produce(prodratio);
       });
     }
 
@@ -207,6 +223,8 @@ class Producer {
     }
 
     recalculatecosts(){
+      if(this.costs == undefined)
+        return;
       this.costs.forEach((cost, i) => {
         cost.recalculatecost(this.bought, this.buyamount);
       });
@@ -307,7 +325,6 @@ class Producer {
     }
 
     removeproductioneffect(effect){
-      console.log("Haha Yeh");
       var objid = effect.getarg("productionobjectid");
       this.productions.forEach((prod, i) => {
         if(objid == undefined || prod.id == objid){
@@ -333,12 +350,19 @@ class Producer {
     }
 
     effectchanged(){
+      if(effectneedsrecalculated.indexOf(this) == -1){
+        effectneedsrecalculated.push(this);
+      }
+    }
+
+    updateeffects(){
       this.productions.forEach((item, i) => {
         item.recalculateeffectvalues();
       });
-      this.costs.forEach((item, i) => {
-        item.recalculateeffectvalues();
-      });
+      if(this.costs != undefined)
+        this.costs.forEach((item, i) => {
+          item.recalculateeffectvalues();
+        });
       this.recalculateproductions();
       this.recalculatecosts();
     }

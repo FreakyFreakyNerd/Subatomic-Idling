@@ -140,7 +140,6 @@ Vue.component('currency-display', {
   methods: {
       buyUpgrade: function(upgrade){
           upgrade.buy();
-          recalculateCurrencyPerSec();
       },
       showElectronUpgrade(upgrade){
         subatomicidlingapp.selectedelectronupgrade = upgrade;
@@ -268,6 +267,52 @@ Vue.component('buy-amount-selector', {
       <span class='buyamounttext'>Buy Amount: {{getbuyamount(type)}}</span>
     </button>
   `
+})
+
+Vue.component('no-effect-upgrade', {
+  props: ['upgrade'],
+  template: `
+    <div><div>{{upgrade.displayname}}</div></div>
+  `
+})
+
+Vue.component('appliable-upgrade', {
+  props: ['upgrade'],
+  template: `
+    <div> 
+      <span class="upgradename">{{upgrade.displayname}} Available: {{formatDecimalNormal(upgrade.available)}}/{{formatDecimalNormal(upgrade.maxappliable)}}</span>
+      <button v-bind:class='{appliableupgradecostbutton:true, appliableupgradecostbuttonbuyable: upgrade.canbuy}' v-on:click="buyUpgrade(upgrade)">Upgrade Max: {{upgrade.specialcostdescription}}</button>
+    </div>
+  `,
+  methods: {
+      buyUpgrade: function(upgrade){
+          upgrade.buy();
+      }
+  }
+})
+
+Vue.component('applied-upgrades-display', {
+  props: ['upgrades','type'],
+  template: `
+    <table>
+      <tr class="upgraderow" v-for="upgrade in upgrades" v-if="upgrade.unlocked">
+        <td v-bind:class='"upgradeimage upgrade"+type+"image"'><img v-bind:src='"images/upgrade/"+upgrade.id+".png"' @error="$event.target.src='images/missing.png'"/></td>
+        <td v-bind:class='"upgradename upgrade"+type+"name"'>{{upgrade.displayname}}: {{upgrade.amountdescription}}</td>
+        <td v-bind:class='"upgradeprogress upgrade"+type+"progress"'>Progress: {{upgrade.progress}}</td>
+        <td v-bind:class='"upgradeeffect upgrade"+type+"effect"'>{{upgrade.specialeffectdescription}}</td>
+        <td><button v-bind:class='"applybutton apply"+type+"button"' v-on:click="applyamount(upgrade,1)">+1</button></td>
+        <td><button v-bind:class='"applybutton apply"+type+"button"' v-on:click="removeamount(upgrade,1)">-1</button></td>
+      </tr>
+    </table>
+  `,
+  methods: {
+    applyamount : function(upg, amount){
+      upg.applyamount(new Decimal(amount));
+    },
+    removeamount : function(upg, amount){
+      upg.removeamount(new Decimal(amount));
+    }
+  }
 })
 
 var subatomicidlingapp = new Vue({

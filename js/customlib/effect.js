@@ -21,6 +21,8 @@ class Effect{
     this.increasemultipliereffects =[];
     this.basevaluepow = new Decimal(1);
     this.poweffects = [];
+    this.finalmultiplier = new Decimal(1);
+    this.finalmulteffects = [];
     this.onconstructfinish();
     this.queuedamount = new Decimal();
     this.applied = false;
@@ -35,6 +37,13 @@ class Effect{
         this.increase = this.increase.times(effect.basevalue);
     });
   }
+  recalculatemultiplier(){
+    this.finalmultiplier = new Decimal(1);
+    this.finalmulteffects.forEach((effect, i) => {
+      if(effect.basevalue)
+        this.finalmultiplier = this.finalmultiplier.times(effect.basevalue);
+    });
+  }
   applyeffect(effect){
     switch(effect.effecttype){
       case EffectTypes.UpgradeIncreaseMultiplier:
@@ -44,6 +53,10 @@ class Effect{
       case EffectTypes.UpgradeValuePower:
         this.poweffects.push(effect);
         this.recalculatepow();
+      break
+      case EffectTypes.UpgradeValueMult:
+        this.finalmulteffects.push(effect);
+        this.recalculatemultiplier();
       break;
     }
   }
@@ -57,10 +70,17 @@ class Effect{
         }
         break;
       case EffectTypes.UpgradeValuePower:
-        var ind = this.poweffects.indexOf(effect);
-        if(ind > -1){
-          this.poweffects.splice(ind, 1);
+        var ind2 = this.poweffects.indexOf(effect);
+        if(ind2 > -1){
+          this.poweffects.splice(ind2, 1);
           this.recalculatepow();
+        }
+        break;
+      case EffectTypes.UpgradeValueMult:
+        var ind = this.finalmulteffects.indexOf(effect);
+        if(ind > -1){
+          this.finalmulteffects.splice(ind2, 1);
+          this.recalculatemultiplier();
         }
         break;
     }
@@ -75,6 +95,8 @@ class Effect{
 
   effectchanged(){
     this.recalculateincrease();
+    this.recalculatemultiplier();
+    this.recalculatepow();
     this.recalculatevalue(this.queuedamount);
   }
 
@@ -84,7 +106,6 @@ class Effect{
     else {
       return this.description;
     }
-    return
   }
 
   get description(){
@@ -93,7 +114,7 @@ class Effect{
 
   getarg(type){
     if(this.args == undefined)
-    return undefined;
+      return undefined;
     return this.args[type];
   }
 
@@ -125,7 +146,7 @@ class Effect{
   }
 
   get value(){
-    return Decimal.pow(this.basevalue, this.basevaluepow);
+    return Decimal.pow((this.basevalue.minus(this.defaultval)).times(this.finalmultiplier).add(this.defaultval), this.basevaluepow);
   }
 }
 
@@ -319,6 +340,7 @@ const EffectTypes = {
   UpgradeBonusLevels: 22,
   ForceLimit: 23,
   UpgradeValuePower : 24,
+  UpgradeValueMult: 25,
 
   RequirementMult: 30
 }

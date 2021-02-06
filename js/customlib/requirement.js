@@ -45,7 +45,7 @@ class NumRequirement{
     removeeffect(effect){
         switch(effect.effecttype){
             case EffectTypes.RequirementMult:
-                ind = this.requirementmulteffects.indexOf(effect);
+                var ind = this.requirementmulteffects.indexOf(effect);
                 if(ind > -1){
                     this.requirementmulteffects = this.requirementmulteffects.splice(ind, 1);
                     this.recalculatemult();
@@ -73,6 +73,24 @@ class AchievementRequirement{
 
     get requirementtext(){
       return "Achievement: " + this.requiredachievement;
+    }
+}
+
+class InChallengeRequirement{
+    constructor(requiredchallenge){
+        this.requiredchallenge = requiredchallenge;
+    }
+
+    hasRequirement(){
+        return this.requiredchallenge.in;
+    }
+
+    get hasrequirement(){
+        return this.hasRequirement();
+    }
+
+    get requirementtext(){
+      return "In Challenge: " + this.requiredchallenge.displayname;
     }
 }
 

@@ -138,6 +138,7 @@ class Challenge{
       if(!player.options.autochallengeretry){
         this.exit();
       }
+      updateeffects();
     }
   }
 
@@ -148,6 +149,11 @@ class Challenge{
           elem.applyeffect(effect);
         });
         break;
+      case EffectTypes.UpgradeValueMult:
+        this.rewards.forEach(elem => {
+          elem.applyeffect(effect);
+        });
+        break;
     }
   }
 
@@ -155,6 +161,11 @@ class Challenge{
     switch(effect.effecttype){
       case EffectTypes.RequirementMult:
         this.completionrequirements.forEach(elem => {
+          elem.removeeffect(effect);
+        });
+        break;
+      case EffectTypes.UpgradeValueMult:
+        this.rewards.forEach(elem => {
           elem.removeeffect(effect);
         });
         break;

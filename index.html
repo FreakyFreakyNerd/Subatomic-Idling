@@ -8,6 +8,7 @@
     <a class="menubutton producersmenubutton" onclick='openscreen("producers")'>Producers</a>
     <a class="menubutton upgradesmenubutton" onclick='openscreen("upgrades")'>Upgrades</a>
     <a class="menubutton challengemenubutton" onclick='openscreen("challenges")' v-if='hasachievement("challengeunlock")'>Challenges</a>
+    <a class="menubutton orbitalmenubutton" onclick='openscreen("orbitals")' v-if='hasachievement("1e24electrons")'>Orbitals</a>
     <a class="menubutton achievementmenubutton" onclick='openscreen("achievements")'>Achievements</a>
     <a class="menubutton statisticsmenubutton" onclick='openscreen("stats")'>Statistics</a>
     <a class="menubutton settingsmenubutton" onclick='openscreen("options")'>Settings</a>
@@ -22,7 +23,7 @@
               <tr class="currenciesrow">
                 <td class="currenciescell"><currency-display v-bind:currency="player.quarkstage.quarks"></currency-display></td>
                 <td class="currenciescell" v-if='hasachievement("electrifyunlock")'><currency-display v-bind:currency="player.electronstage.electrons"></currency-display></td>
-                <td class="currenciescell" v-if='hasachievement("protifyunlock")'><currency-display v-bind:currency="player.protonstage.protons"></currency-display></td>
+                <td class="currenciescell" v-if='hasachievement("protifyunlock")'><currency-display v-bind:currency="player.nucleonstage.nucleons"></currency-display></td>
               </tr>
               <tr class="currenciesrow">
               </tr>
@@ -90,6 +91,7 @@
         <div class="subsidenav" v-if='hasachievement("electrifyunlock")'>
           <a class="menubutton quarksubmenubutton" onclick='openproducersscreen("quark")'>Quark</a>
           <a class="menubutton electronsubmenubutton" onclick='openproducersscreen("electron")'>Electron</a>
+          <a class="menubutton nucleonsubmenubutton" onclick='openproducersscreen("nucleon")' v-if='hasachievement("protifyunlock")'>Nucleon</a>
         </div>
         <div class="subcontent" id="quarkproducersscreen" style="display: none">
           <producers-display v-bind:producers="player.quarkstage.producers" type="quark"></producers-display>
@@ -104,11 +106,19 @@
           <upgrades-display v-bind:upgrades="player.electronstage.quarkspinupgrades" type="quark"></upgrades-display>
           <buy-amount-selector type="qsp"></buy-amount-selector>
         </div>
+        <div class="subcontent" id="nucleonproducersscreen" style="display:none;">
+          <upgrade-bonus v-bind:upgrade="player.nucleonstage.freeelectrons"></upgrade-bonus>
+          <producers-display v-bind:producers="player.nucleonstage.freeelectronproducers" type="quark"></producers-display>
+          <div class="spacer32"></div>
+          <upgrades-display v-bind:upgrades="player.nucleonstage.freeelectronupgrades" type="quark"></upgrades-display>
+          <buy-amount-selector type="fep"></buy-amount-selector>
+        </div>
       </div>
       <div id="upgradesscreen" style="display: none;">
         <div class="subsidenav" v-if='hasachievement("electrifyunlock")'>
           <a class="menubutton quarksubmenubutton" onclick='openupgradesscreen("quark")'>Quark</a>
           <a class="menubutton electronsubmenubutton" onclick='openupgradesscreen("electron")'>Electron</a>
+          <a class="menubutton nucleonsubmenubutton" onclick='openupgradesscreen("nucleon")'>Nucleon</a>
         </div>
         <div id="quarkupgradesscreen" class="subcontent" style="display: none">
           <div class="upgrades">
@@ -118,6 +128,11 @@
         <div id="electronupgradesscreen" class="subcontent" style="display: none;">
           <div class="electronupgrades">
             <upgrade-item v-for="upgrade in player.electronstage.upgrades" v-bind:upgrade="upgrade" ></upgrade-item>
+          </div>
+        </div>
+        <div id="nucleonupgradesscreen" class="subcontent" style="display: none;">
+          <div class="nucleonupgrades">
+            <upgrade-item v-for="upgrade in player.nucleonstage.upgrades" v-bind:upgrade="upgrade" ></upgrade-item>
           </div>
         </div>
         <div id="upgradeinfo">
@@ -162,6 +177,12 @@
               <span class="past10value" v-for="(val, index) in player.stats.past10electrifies" :key="index">The Electrify {{index+1}} Electrify ago took {{formattime(val[0],false,false,true,true,false)}} and gave {{formatDecimal(val[1])}} Electrons <br></span>
             </div>
           </div>
+        </div>
+      </div>
+      <div id="orbitalsscreen" style="display: none;">
+        <div id="electronpower">
+          <appliable-upgrade v-bind:upgrade="player.electronstage.clouds.power"></appliable-upgrade>
+          <applied-upgrades-display v-bind:upgrades="player.electronstage.clouds.orbitals"></applied-upgrades-display>
         </div>
       </div>
       <div id="challengesscreen" style="display: none;">

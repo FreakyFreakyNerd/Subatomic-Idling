@@ -156,6 +156,9 @@ body{
 .upgradename{
   color: #dbac65;
 }
+.upgradeprogress{
+  color: #dbac65;
+}
 .upgradelevel{
   color: white;
 }
@@ -172,6 +175,9 @@ body{
   background-color: #9f32c9;
 }
 .bonusquarkspinupgrade{
+  color: #ebcb2d;
+}
+.bonusfreeelectronsupgrade{
   color: #ebcb2d;
 }
 
@@ -249,8 +255,8 @@ body{
 .currencyelectrondisplay{
   color: #FFFC5B;
 }
-.currencyprotondisplay{
-  color: #de2676;
+.currencynucleondisplay{
+  color: #DDDDDD;
 }
 
 /*Producer Display*/
@@ -301,6 +307,19 @@ body{
   border: 2px solid #999;
 }
 .upgradecostbuttonbuyable{
+  background-color: #555;
+  color: white;
+  border-radius: 8px;
+  border: 2px solid #999;
+}
+
+.appliableupgradecostbutton{
+  background-color: var(--main-color);
+  color: white;
+  border-radius: 8px;
+  border: 2px solid #999;
+}
+.appliableupgradecostbuttonbuyable{
   background-color: #555;
   color: white;
   border-radius: 8px;

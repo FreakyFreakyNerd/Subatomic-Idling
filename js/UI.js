@@ -1,4 +1,4 @@
-notations = {
+var notations = {
   "standard": new ADNotations.StandardNotation(),
   "scientific": new ADNotations.ScientificNotation(),
   "engineering": new ADNotations.EngineeringNotation(),
@@ -68,15 +68,15 @@ const ticksperhour = settings.tickspersecond*3600
 const ticksperminute = settings.tickspersecond*60
 
 function formattime(ticks,showdays,showhours,showminutes,showseconds,showticks){
-  days = Math.floor(ticks/ticksperday);
-  remainingticks = ticks - days*ticksperday;
-  hours = Math.floor(remainingticks/ticksperhour);
+  var days = Math.floor(ticks/ticksperday);
+  var remainingticks = ticks - days*ticksperday;
+  var hours = Math.floor(remainingticks/ticksperhour);
   remainingticks = remainingticks - hours*ticksperhour;
-  minutes = Math.floor(remainingticks/ticksperminute);
+  var minutes = Math.floor(remainingticks/ticksperminute);
   remainingticks = remainingticks - minutes*ticksperminute;
-  seconds = Math.floor(remainingticks/settings.tickspersecond);
+  var seconds = Math.floor(remainingticks/settings.tickspersecond);
   remainingticks = remainingticks - seconds*settings.tickspersecond;
-  val = "";
+  var val = "";
   if(showdays == undefined || showdays == true)
     val += `${days} Days, `;
   if(showhours == undefined || showhours == true)
@@ -91,7 +91,7 @@ function formattime(ticks,showdays,showhours,showminutes,showseconds,showticks){
 }
 
 function calculatePerSecond(currency){
-  amount = new Decimal(0);
+  var amount = new Decimal(0);
   producerregistry.forEach(element =>{
     amount = amount.add(element.getpersec(currency.id));
   });
@@ -109,21 +109,21 @@ function scalediv(event, id){
   event.preventDefault();
 
   element = document.getElementById(id + "content");
-  translatelist = gettranslate(element);
-  scalelist = getscale(element);
+  var translatelist = gettranslate(element);
+  var scalelist = getscale(element);
   scalelist[0] = Math.min(Math.max(.125, scalelist[0] + -scrollingscale * event.deltaY), 4);
   scalelist[1] = Math.min(Math.max(.125, scalelist[1] + -scrollingscale * event.deltaY), 4);
 
-  transform = getnewtransform(scalelist, translatelist);
+  var transform = getnewtransform(scalelist, translatelist);
 
   element.style.transform = transform;
   element.style.webkitTransform = transform;
   element.style.msTransform = transform;
 }
 
-movingobjid = "";
-movingobjx = 0;
-movingobjy = 0;
+var movingobjid = "";
+var movingobjx = 0;
+var movingobjy = 0;
 
 function startmovingobject(event, id){
   movingobjid = id;
@@ -140,14 +140,14 @@ function movingobject(event, id){
   event.preventDefault();
   if(id == movingobjid){
     element = document.getElementById(id + "content");
-    translatelist = gettranslate(element);
+    var translatelist = gettranslate(element);
     translatelist[0] += event.x - movingobjx;
     translatelist[1] += event.y - movingobjy;
     movingobjx = event.x;
     movingobjy = event.y;
-    scalelist = getscale(element);
+    var scalelist = getscale(element);
 
-    transform = getnewtransform(scalelist, translatelist);
+    var transform = getnewtransform(scalelist, translatelist);
 
     element.style.transform = transform;
     element.style.webkitTransform = transform;
@@ -157,10 +157,10 @@ function movingobject(event, id){
 
 function recenter(id){
   element = document.getElementById(id + "content");
-  translatelist = [0,0];
-  scalelist = [1,1];
+  var translatelist = [0,0];
+  var scalelist = [1,1];
 
-  transform = getnewtransform(scalelist, translatelist);
+  var transform = getnewtransform(scalelist, translatelist);
 
   element.style.transform = transform;
   element.style.webkitTransform = transform;

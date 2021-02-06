@@ -43,11 +43,11 @@ class LinearProduction{
   }
 
   recalculateproduction(amount){
-    this.production = Decimal.pow(this.productionper.times(amount), this.exponent);
+    this.production = Decimal.pow(this.startingproduction.add(this.productionper.times(amount)), this.exponent);
   }
 
-  produce(){
-    this.productionobject.add(this.production.divide(settings.tickspersecond));
+  produce(prodratio){
+    this.productionobject.add(this.production.times(prodratio));
   }
 
   get productionper(){
@@ -86,9 +86,9 @@ class LinearProduction{
       }
     }
     if(effect.effecttype == EffectTypes.ProducerExponentialProduction){
-      var ind = this.exponentialeffects.indexOf(effect);
-      if(ind > -1){
-        this.exponentialeffects.splice(ind, 1);
+      var ind2 = this.exponentialeffects.indexOf(effect);
+      if(ind2 > -1){
+        this.exponentialeffects.splice(ind2, 1);
         this.recalculateproductionexponential();
       }
     }

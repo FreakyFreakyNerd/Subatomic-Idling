@@ -24,6 +24,9 @@ class Upgrade{
           this.costs = undefined;
           this.applied = false;
         }
+        if(effects == undefined){
+          this.effects = undefined;
+        }
 
         this.bought = new Decimal(0);
         this.produced = new Decimal(0);
@@ -55,7 +58,6 @@ class Upgrade{
     reset(){
       this.bought = new Decimal(0);
       this.produced = new Decimal(0);
-      console.log("reseting")
       this.recalculatecosts();
       this.recalculateeffects();
       this.onrevoke();
@@ -67,7 +69,7 @@ class Upgrade{
 
     parse(data){
         if(data == undefined)
-            return;
+            return false;
         if(data[0] != undefined)
             this.bought = Decimal.fromString(data[0]);
         if(data[1] != undefined)
@@ -81,6 +83,7 @@ class Upgrade{
         }
         this.recalculatecosts();
         this.recalculateeffects();
+        return true;
     }
 
     get boughtdescription(){
@@ -236,6 +239,8 @@ class Upgrade{
     }
 
     onunlock(){
+      if(this.effect == undefined)
+        return;
       this.effects.forEach((effect, i) => {
         effect.apply();
       });
@@ -298,8 +303,13 @@ class Upgrade{
         return str.substring(2);
       }
     }
-
     effectchanged(){
+      if(effectneedsrecalculated.indexOf(this) == -1){
+        effectneedsrecalculated.push(this);
+      }
+    }
+
+    updateeffects(){
       this.effects.forEach((effect, i) => {
         effect.effectchanged();
       });
@@ -479,5 +489,104 @@ class DiminishingUpgrade extends Upgrade{
         this.diming = true;
       this.recalculatecosts();
       this.recalculateeffects();
+  }
+}
+
+class AppliableUpgrade extends Upgrade{
+  constructor(id, displayname, maxbuyable, requirements, effects, costs, buykey, extra){
+    super(id, displayname, maxbuyable, requirements, effects, costs, buykey, extra);
+    this.applied = new Decimal();
+  }
+
+  get maxappliable(){
+    return this.bought;
+  }
+
+  get available(){
+    return this.maxappliable.minus(this.applied);
+  }
+
+  canapply(amount){
+    if (amount == undefined)
+      return this.applied.lessThan(this.maxappliable);
+    return this.applied.lessThan(this.maxappliable)
+  }
+
+  applyamount(amount){
+    this.applied = this.applied.add(amount);
+  }
+  removeamount(amount){
+    this.applied = this.applied.minus(amount);
+  }
+
+  save(){
+    return [this.bought.toString(),this.produced.toString(), this.applied.toString()];
+  } 
+
+  parse(data){
+    super.parse(data);
+    if(data == undefined)
+      return;
+    if(data[2] != undefined)
+        this.applied = Decimal.fromString(data[2]);
+  }
+}
+
+class AppliedToUpgrade extends Upgrade{
+  constructor(id, displayname, effects, cost, usedappliableupgrade){
+    super(id, displayname, -1, null, effects, cost, "special", null, );
+    this.usedappliableupgrade = usedappliableupgrade;
+    this.upgradecurrency = new Currency(id + "_xp", null, null, new Decimal());
+    this.upgradeproducer = new Producer(id + "_prod", null, null, new LinearProduction(this.upgradecurrency, 1, 0));
+    this.costs[0].costobject = this.upgradecurrency;
+    this.appliedpoints = new Decimal();
+
+    updaterequiredregistry.push(this);
+  }
+
+  save(){
+    return [this.bought.toString(),this.produced.toString(), this.appliedpoints.toString()];
+  } 
+
+  parse(data){
+    super.parse(data);
+    if(data == undefined)
+      return;
+    if(data[2] != undefined)
+        this.appliedpoints = Decimal.fromString(data[2]);
+  }
+
+  tick(){
+    this.buy();
+  }
+
+  applyamount(amount){
+    if(this.usedappliableupgrade.canapply(amount)){
+      this.appliedpoints = this.appliedpoints.add(amount);
+      this.usedappliableupgrade.applyamount(amount);
+      this.updateproducer();
+    }
+  }
+
+  removeamount(amount){
+    if(this.appliedpoints.greaterThanOrEqualTo(amount)){
+      this.appliedpoints = this.appliedpoints.minus(amount);
+      this.usedappliableupgrade.removeamount(amount);
+      this.updateproducer();
+    }
+  }
+
+  setamount(amount){
+    this.appliedpoints = this.appliedpoints.add(amount);
+    this.updateproducer();
+  }
+
+  updateproducer(){
+    this.upgradeproducer.bought = this.appliedpoints;
+    this.upgradeproducer.recalculateproductions();
+  }
+
+  get progress(){
+    return formatDecimalNormal(this.upgradecurrency.amount) + "/" + this.getcost(0);
   }
 }

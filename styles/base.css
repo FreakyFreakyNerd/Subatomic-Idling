@@ -466,6 +466,15 @@ td.righttablecolumn {
   height: 32px;
   width: 96%;
 }
+.appliableupgradecostbutton{
+  height: 32px;
+  width: 240px;
+  margin-left: 100px;
+}
+.upgradeprogress{
+  width: 220px;
+  white-space: pre-line;
+}
 .upgradeauto{
   width: 120px;
 }

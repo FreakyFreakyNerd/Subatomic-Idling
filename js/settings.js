@@ -1,4 +1,4 @@
-settings = {
+var settings = {
     tickspersecond : 10,
     logictickspersecond : 10,
     version: "Alpha v0.01",
@@ -7,7 +7,7 @@ settings = {
         notation : "standard",
         notationdecimals : 3,
         theme : "light",
-        buyamounts : {qp: 1,qsp: 1,upg: 1},
+        buyamounts : {qp: 1,qsp: 1,fep: 1,upg: 1,special: 1},
         autochallengeretry : false,
         toggleamounts: [1,10,25,100,-1],
         currentscreen: "producers",
