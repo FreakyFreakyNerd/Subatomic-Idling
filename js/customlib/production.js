@@ -13,6 +13,7 @@ class LinearProduction{
     this.additionproduction = new Decimal(0);
     this.multiplier = new Decimal(1);
     this.exponent = new Decimal(1);
+    this.queuedamount = new Decimal();
   }
 
   recalculateproductionaddition(){
@@ -40,9 +41,11 @@ class LinearProduction{
     this.recalculateproductionaddition();
     this.recalculateproductionmultiplier();
     this.recalculateproductionexponential();
+    this.recalculateproduction(this.queuedamount);
   }
 
   recalculateproduction(amount){
+    this.queuedamount = amount;
     this.production = Decimal.pow(this.startingproduction.add(this.productionper.times(amount)), this.exponent);
   }
 

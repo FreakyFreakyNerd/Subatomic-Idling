@@ -3,6 +3,7 @@ var producerregistry = []
 var upgraderegistry = []
 var achievementregistry = []
 var prestigeregistry = []
+var runningchallenges = [];
 
 var updaterequiredregistry = []
 var effectneedsrecalculated = []
@@ -43,40 +44,39 @@ setupachievements();
 
 var lastticktime = new Date().getTime();
 let gameLogicIntervalID = 0;
-let needseffectrecalculatedtime = (Date.now + 500)
 function gameLogicTick(){
   achievementtick();
   var timenow = new Date().getTime();
   var timedif = timenow - lastticktime;
   lastticktime = timenow;
+  updateeffects();
   produce(timedif/1000);
-  //lengthCalculator();
-  //calculatePerSecond(player.quarkstage.quarks);
   this.updaterequiredregistry.forEach((item, i) => {
     item.tick();
   });
-  if(Date.now > needseffectrecalculatedtime)
+  if(Date.now() > needseffectrecalculatedtime)
     updateeffects();
-  if(Date.now > nextaddtime)
+  if(Date.now() > nextaddtime)
     updatetimes();
 }
 
+var needseffectrecalculatedtime = (Date.now() + 500)
 function updateeffects(){
   this.effectneedsrecalculated.forEach(item => {
     item.updateeffects();
   });
-  needseffectrecalculatedtime = Date.now + 500;
+  //needseffectrecalculatedtime = Date.now() + 500;
 }
 
-let lasttimeadded = Date.now;
-let nextaddtime = Date.now + 500;
+var lasttimeadded = Date.now();
+var nextaddtime = Date.now() + 1000;
 function updatetimes(){
-  var now = Date.now;
+  var now = Date.now();
   for(var i = 0; i < player.stats.times.length; i++){
-    players.stats.times[i] += now - lasttimeadded;
+    player.stats.times[i] += Date.now() - lasttimeadded;
   }
   lasttimeadded = now;
-  nextaddtime = now + 500;
+  nextaddtime = now + 1000;
 }
 
 function produce(prodratio){

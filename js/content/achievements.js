@@ -116,7 +116,8 @@ function setupachievements(){
     row = player.achievements.length-1;
     player.achievements[row].push(new Achievement("electrifyunlock", "Electrify", [new NumRequirement(player.quarkstage.quarks, "1e16")], null, [new FlavorEffect("Unlocks electrify for all your wonderful electron needs!")]));
     player.achievements[row].push(new Achievement("challengeunlock", "Your getting mightly powerful", [new NumRequirement(player.quarkstage.quarks, "1e24")], null, [new FlavorEffect("Unlocks some challenges to test your power!")]));
-    player.achievements[row].push(new Achievement("multronunlock", "Might as well unlock another upgrade.", [new NumRequirement(player.quarkstage.quarks, "1e60")], null, [new FlavorEffect("Unlocks Multron for purchase!")]));
+    player.achievements[row].push(new Achievement("multronunlock", "Might as well unlock another upgrade.", [new NumRequirement(player.quarkstage.quarks, "1e35")], null, [new FlavorEffect("Unlocks Multron for purchase!")]));
+    player.achievements[row].push(new Achievement("quarkupgradesauto", "Unlocks automation for all upgrades in quark producers tab.", [new NumRequirement(player.quarkstage.quarks, "1e60")], null, [new FlavorEffect("Auto purchase for days!")]));
 
     //Challenge Milestones
     player.achievements.push([]);

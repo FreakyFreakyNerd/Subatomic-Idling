@@ -12,6 +12,10 @@ class Prestige{
     prestigeregistry.push(this);
   }
 
+  get unlocked(){
+    return hasachievement(this.id + "unlock");
+  }
+
   doprestige(){
     if(!this.requirement.hasrequirement)
       return;

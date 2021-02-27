@@ -246,7 +246,7 @@ td.righttablecolumn {
 .challengedescription{
   font-size: 18px;
 }
-.challengecompleted{
+.challengescore{
   font-size: 18px;
 }
 .challengerequirement{
@@ -261,10 +261,48 @@ td.righttablecolumn {
 .challengeeffect{
   font-size: 18px;
 }
-.challenge{
+.challengedifficulty{
+  font-size: 18px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+.challengeactivator{
+  font-size: 18px;
+  width: 76px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+.changechallengedifficulty{
+  font-size: 18px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  width: 24px;
+}
+.challengedisplay{
+  display: inline-block;
+  padding: 10px 10px 10px 10px;
+  text-align: center;
+}
+.challengeimage{
   width: 64px;
   height: 64px;
-  padding: 2px 2px 2px 2px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+.challengedisplay{
+  vertical-align: top;
+  width: 130;
+}
+.challengedifficulty{
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.applybutton{
+  font-size: 18px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  width: 24px;
 }
 
 /*Achievements*/

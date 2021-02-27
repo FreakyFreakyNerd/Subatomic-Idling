@@ -198,7 +198,10 @@ body{
 .challengedescription{
   color: #dbac65;
 }
-.challengecompleted{
+.challengedifficulty{
+  color: #dbac65;
+}
+.challengescore{
   color: white;
 }
 .challengeeffect{
@@ -219,6 +222,22 @@ body{
 .challengerequirement{
   color: white;
 }
+.changechallengedifficulty{
+  color: #dbac65;
+  background-color: var(--main-color);
+  border-color: #dbac65;
+}
+.challengeactivator{
+  background-color: var(--main-color);
+}
+.challengeactive{
+  color: green;
+  border-color: green;
+}
+.challengeinactive{
+  color: red;
+  border-color: red;
+}
 
 .enterchallenge{
   border-color: green;
@@ -229,6 +248,13 @@ body{
   border-color: red;
   color: red;
   background-color: var(--main-color);
+}
+
+
+.applybutton{
+  color: #dbac65;
+  background-color: var(--main-color);
+  border-color: #dbac65;
 }
 
 /*Achievement*/

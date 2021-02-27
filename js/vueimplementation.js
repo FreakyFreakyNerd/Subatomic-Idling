@@ -87,7 +87,7 @@ Vue.component('upgrades-display', {
         <td v-bind:class='"upgradeimage upgrade"+type+"image"'><img v-bind:src='"images/upgrade/"+upgrade.id+".png"' @error="$event.target.src='images/missing.png'"/></td>
         <td v-bind:class='"upgradename upgrade"+type+"name"'>{{upgrade.displayname}}: {{upgrade.amountdescription}}</td>
         <td v-bind:class='"upgradecost upgrade"+type+"cost"'><button v-bind:class='{upgradecostbutton:true, upgradecostbuttonbuyable: upgrade.canbuy}' v-on:click="buyUpgrade(upgrade)">Cost: {{upgrade.specialcostdescription}}</button></td>
-        <td v-bind:class='"upgradeauto upgrade"+type+"auto"'><button v-bind:class='"autobutton"' v-on:click="buyupgrade(upgrade)">AUTO: [LOK]</button></td>
+        <td v-bind:class='"upgradeauto upgrade"+type+"auto"'><button v-bind:class='{autobutton: true, autobuttonon: upgrade.autobuyunlocked && upgrade.buyauto, autobuttonoff: upgrade.autobuyunlocked && !upgrade.buyauto}' v-on:click="toggleupgrade(upgrade)">AUTO: [{{upgrade.autostate}}]</button></td>
         <td v-bind:class='"upgradeeffect upgrade"+type+"effect"'>{{upgrade.specialeffectdescription}}</td>
       </tr>
     </table>
@@ -96,6 +96,9 @@ Vue.component('upgrades-display', {
     buyUpgrade: function(upgrade){
       upgrade.buy();
       recalculateCurrencyPerSec();
+    },
+    toggleupgrade: function(upgrade){
+      upgrade.togglebuystate();
     }
   }
 })
@@ -178,7 +181,11 @@ Vue.component('achievement-item', {
 Vue.component('challenge-item', {
     props: ['challenge'],
     template: `
-      <img v-bind:class="{challenge : true, inchallenge: challenge.in}"" v-bind:src='"images/challenge/"+challenge.id+".png"' @error="$event.target.src='images/missing.png'" @mouseover="showChallenge(challenge)"/>
+    <div class="challengedisplay" @mouseover="showChallenge(challenge)">
+      <img v-bind:class="{challengeimage : true, inchallenge: challenge.in}"" v-bind:src='"images/challenge/"+challenge.id+".png"' @error="$event.target.src='images/missing.png'" />
+      <div class="centered"><button v-bind:class="{challengeactivator: true, challengeactive: challenge.active, challengeinactive: !challenge.active}" v-on:click="challenge.active = !challenge.active">{{challenge.activetext}}</button></div>
+      <div class="centered challengedifficulty" v-if="challenge.maxdifficulty > 1"><button class="changechallengedifficulty" v-on:click="challenge.decreasedifficulty()">-</button><span class="challengedifficulty">{{challenge.difficultyinformation}}</span><button class="changechallengedifficulty" v-on:click="challenge.increasedifficulty()">+</button></div>
+      </div>
     `,
     methods: {
         showChallenge(challenge){
@@ -300,17 +307,17 @@ Vue.component('applied-upgrades-display', {
         <td v-bind:class='"upgradename upgrade"+type+"name"'>{{upgrade.displayname}}: {{upgrade.amountdescription}}</td>
         <td v-bind:class='"upgradeprogress upgrade"+type+"progress"'>Progress: {{upgrade.progress}}</td>
         <td v-bind:class='"upgradeeffect upgrade"+type+"effect"'>{{upgrade.specialeffectdescription}}</td>
-        <td><button v-bind:class='"applybutton apply"+type+"button"' v-on:click="applyamount(upgrade,1)">+1</button></td>
-        <td><button v-bind:class='"applybutton apply"+type+"button"' v-on:click="removeamount(upgrade,1)">-1</button></td>
+        <td><button v-bind:class='"applybutton apply"+type+"button"' v-on:click="applyamount(upgrade,type)">+</button></td>
+        <td><button v-bind:class='"applybutton apply"+type+"button"' v-on:click="removeamount(upgrade,type)">-</button></td>
       </tr>
     </table>
   `,
   methods: {
-    applyamount : function(upg, amount){
-      upg.applyamount(new Decimal(amount));
+    applyamount : function(upg, type){
+      upg.applyamount(type);
     },
-    removeamount : function(upg, amount){
-      upg.removeamount(new Decimal(amount));
+    removeamount : function(upg, type){
+      upg.removeamount(type);
     }
   }
 })

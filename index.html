@@ -23,7 +23,7 @@
               <tr class="currenciesrow">
                 <td class="currenciescell"><currency-display v-bind:currency="player.quarkstage.quarks"></currency-display></td>
                 <td class="currenciescell" v-if='hasachievement("electrifyunlock")'><currency-display v-bind:currency="player.electronstage.electrons"></currency-display></td>
-                <td class="currenciescell" v-if='hasachievement("protifyunlock")'><currency-display v-bind:currency="player.nucleonstage.nucleons"></currency-display></td>
+                <td class="currenciescell" v-if='hasachievement("nucleonizeunlock")'><currency-display v-bind:currency="player.nucleonstage.nucleons"></currency-display></td>
               </tr>
               <tr class="currenciesrow">
               </tr>
@@ -32,9 +32,9 @@
           </td>
           <td class="prestigemarker">
             <div id="prestigedisplay">
-              <prestige-icon v-for="prestige in prestiges" v-bind:prestige="prestige"></prestige-icon>
+              <prestige-icon v-for="prestige in prestiges" v-bind:prestige="prestige" v-if="prestige.unlocked"></prestige-icon>
             </div>
-            <div id="prestigegain">
+            <div id="prestigegain" v-if="selectedprestige.unlocked">
               <prestige-requirement v-bind:requirement="selectedprestige.requirement"></prestige-requirement>
               <prestige-reward v-for="reward in selectedprestige.rewards" v-bind:reward="reward"></prestige-reward>
             </div>
@@ -91,7 +91,7 @@
         <div class="subsidenav" v-if='hasachievement("electrifyunlock")'>
           <a class="menubutton quarksubmenubutton" onclick='openproducersscreen("quark")'>Quark</a>
           <a class="menubutton electronsubmenubutton" onclick='openproducersscreen("electron")'>Electron</a>
-          <a class="menubutton nucleonsubmenubutton" onclick='openproducersscreen("nucleon")' v-if='hasachievement("protifyunlock")'>Nucleon</a>
+          <a class="menubutton nucleonsubmenubutton" onclick='openproducersscreen("nucleon")' v-if='hasachievement("nucleonizeunlock")'>Nucleon</a>
         </div>
         <div class="subcontent" id="quarkproducersscreen" style="display: none">
           <producers-display v-bind:producers="player.quarkstage.producers" type="quark"></producers-display>
@@ -137,7 +137,7 @@
         </div>
         <div id="upgradeinfo">
           <span class="upgradename">{{selectedupgrade.displayname}}</span><br><br>
-          <span class="upgradecost">Cost: {{selectedupgrade.costs[0].description}}</span><br>
+          <span class="upgradecost">Cost: {{selectedupgrade.specialcostdescription}}</span><br>
           <span class="upgradelevel">Level: {{selectedupgrade.bought}}/{{selectedupgrade.maxbuyable}}</span><br>
           <span class="upgradeeffect">Effect: {{selectedupgrade.specialeffectdescription}}</span><br><br>
           <button class="upgradebuyamount" v-on:click='togglebuyamount("upg")'>Buy Amount: {{getbuyamount("upg")}}</button>
@@ -162,10 +162,10 @@
         </div>
         <div class="subcontent">
           <div id="generalstatscreen">
-            <span class="currencyextra">Playtime: {{formattime(player.stats.playtime,false,false,true,true,false)}}</span>
+            <span class="currencyextra">Playtime: {{formattime(player.stats.times[0],true,true,true,true,false)}}</span>
           </div>
           <div id="electrifystatscreen" style="display: none">
-            <span class="currencyextra">Current Electrify Time: {{formattime(player.stats.currentelectrifytime,false,false,true,true,false)}}</span>
+            <span class="currencyextra">Current Electrify Time: {{formattime(player.stats.currentelectrifytime,true,true,true,true,false)}}</span>
             <br>
             <span class="currencyextra" v-if="player.stats.electrified > 0">Times Electrified: {{player.stats.electrified}}</span>
             <br>
@@ -182,8 +182,9 @@
       <div id="orbitalsscreen" style="display: none;">
         <div id="electronpower">
           <appliable-upgrade v-bind:upgrade="player.electronstage.clouds.power"></appliable-upgrade>
-          <applied-upgrades-display v-bind:upgrades="player.electronstage.clouds.orbitals"></applied-upgrades-display>
+          <applied-upgrades-display v-bind:upgrades="player.electronstage.clouds.orbitals" type="electronpower"></applied-upgrades-display>
         </div>
+        <button class="upgradebuyamount" v-on:click='togglebuyamount("applyelectronpower")'>Apply Amount: {{getbuyamount("applyelectronpower")}}</button>
       </div>
       <div id="challengesscreen" style="display: none;">
         <div class="challengelist">
@@ -192,12 +193,12 @@
         <div id="challengeinfo">
           <span class="challengename">{{selectedchallenge.displayname}}</span><br><br>
           <span class="challengedescription">{{selectedchallenge.description}}</span><br>
-          <span class="challengerequirement">Requires: {{selectedchallenge.completionrequirements[0].requirementtext}}</span><br>
+          <!--<span class="challengerequirement">Requires: {{selectedchallenge.completionrequirements[0].requirementtext}}</span><br>-->
           <span class="challengeeffect">Effect: {{selectedchallenge.inchaleffects[0].geteffect()}}</span><br>
-          <span class="challengecompleted">Completed: {{selectedchallenge.completed}}/{{selectedchallenge.maxcompletions}}</span><br>
-          <span class="challengerewardlabel">Per Completion Bonus:<br></span>
-          <span class="challengereward" v-for="reward in selectedchallenge.rewards">{{reward.geteffect()}}<br></span><br>
-          <button v-bind:class='{challengeenterexit: true, enterchallenge: !selectedchallenge.in, exitchallenge: selectedchallenge.in}' v-on:click='togglechallenge(selectedchallenge)'><span v-if="!selectedchallenge.in">Enter</span><span v-if="selectedchallenge.in">Exit</span> Challenge</button>
+          <span class="challengescore">Score: {{formatDecimalNormal(selectedchallenge.score)}} ({{formatDecimalNormal(selectedchallenge.newscore)}})</span><br>
+          <span class="challengerewardlabel">Challenge Bonus Equations || Current Challenge Bonus<br></span>
+          <span class="challengereward">{{selectedchallenge.effectsdescription}}</span><br>
+          <button v-bind:class='{challengeenterexit: true, enterchallenge: runningchallenges.length == 0, exitchallenge: runningchallenges.length > 0}' v-on:click='togglechallenges()'><span v-if="runningchallenges.length == 0">Enter</span><span v-if="runningchallenges.length > 0">Exit</span> Challenges</button>
           <button class="challengescreenauto">Automatic: Locked</button>
         </div>
       </div>
@@ -235,6 +236,10 @@
 <script src="js/settings.js"> </script>
 <script src="js/changelog.js"> </script>
 <script src="js/UI.js"> </script>
+<script src="js/content/challenges.js"> </script>
+<script src="js/content/quark.js"> </script>
+<script src="js/content/electron.js"> </script>
+<script src="js/content/nucleon.js"> </script>
 <script src="js/content/base.js"> </script>
 <script src="js/content/achievements.js"> </script>
 <script src="js/math.js"> </script>

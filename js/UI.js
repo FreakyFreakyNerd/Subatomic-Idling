@@ -63,19 +63,19 @@ function setSelectedValue(selectObj, valueToSet) {
       }
   }
 }
-const ticksperday = settings.tickspersecond*3600*24
-const ticksperhour = settings.tickspersecond*3600
-const ticksperminute = settings.tickspersecond*60
+const millisecondsperday = 1000*3600*24
+const millisecondsperhour = 1000*3600
+const millisecondsperminute = 1000*60
 
-function formattime(ticks,showdays,showhours,showminutes,showseconds,showticks){
-  var days = Math.floor(ticks/ticksperday);
-  var remainingticks = ticks - days*ticksperday;
-  var hours = Math.floor(remainingticks/ticksperhour);
-  remainingticks = remainingticks - hours*ticksperhour;
-  var minutes = Math.floor(remainingticks/ticksperminute);
-  remainingticks = remainingticks - minutes*ticksperminute;
-  var seconds = Math.floor(remainingticks/settings.tickspersecond);
-  remainingticks = remainingticks - seconds*settings.tickspersecond;
+function formattime(milliseconds,showdays,showhours,showminutes,showseconds, showmilli){
+  var days = Math.floor(milliseconds/millisecondsperday);
+  var remainingmilliseconds = milliseconds - days*millisecondsperday;
+  var hours = Math.floor(remainingmilliseconds/millisecondsperhour);
+  remainingmilliseconds = remainingmilliseconds - hours*millisecondsperhour;
+  var minutes = Math.floor(remainingmilliseconds/millisecondsperminute);
+  remainingmilliseconds = remainingmilliseconds - minutes*millisecondsperminute;
+  var seconds = Math.floor(remainingmilliseconds/1000);
+  remainingmilliseconds = remainingmilliseconds - seconds*1000;
   var val = "";
   if(showdays == undefined || showdays == true)
     val += `${days} Days, `;
@@ -84,9 +84,9 @@ function formattime(ticks,showdays,showhours,showminutes,showseconds,showticks){
   if(showminutes == undefined || showminutes == true)
     val += `${minutes} Minutes, `;
   if(showseconds == undefined || showseconds == true)
-    val += `${seconds} Seconds, `;
-  if(showticks == undefined || showticks == true)
-    val += `${remainingticks} Ticks`;
+    val += showmilli ? `${seconds} Seconds, ` : `${seconds} Seconds`;
+  if(showmilli == undefined || showmilli == true)
+    val += `${remainingmilliseconds} Milliseconds`;
   return val;
 }
 
@@ -196,18 +196,35 @@ function getnewtransform(scalelist, translatelist){
 }
 
 function formatDecimal(num){
+  num = new Decimal(num);
+  if(num.lessThan(.001))
+    return formatsmallnumber(num, player.options.notationdecimal);
   return notations[player.options.notation].format(num, player.options.notationdecimals, 2);
 }
 
 function formatDecimalOverride(num,dec){
+  num = new Decimal(num);
+  if(num.lessThan(.001))
+    return formatsmallnumber(num, dec);
   return notations[player.options.notation].format(num, dec, dec);
 }
 
 function formatDecimalNormal(num,dec){
+  num = new Decimal(num);
+  if(num.lessThan(.001))
+    return formatsmallnumber(num, dec);
   if(dec != undefined)
     return notations[player.options.notation].format(num, dec, 0);
   return notations[player.options.notation].format(num, 2, 0);
 }
+
+function formatsmallnumber(num, dec){
+  if(num.mantissa == 0)
+    return "0";
+  var scale = dec != undefined ? Math.pow(10,dec) : Math.pow(10,2);
+  return `${Math.round(num.mantissa * scale)/scale}e${num.exponent}`;
+}
+
 function openproducersscreen(screen){
   document.getElementById(player.options.currentproducersscreen + "producersscreen").style.display = "none";
   document.getElementById(screen + "producersscreen").style.display = "block";

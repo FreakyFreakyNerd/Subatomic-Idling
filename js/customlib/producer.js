@@ -64,11 +64,9 @@ class Producer {
     }
 
     reset(){
-      console.log(this.productions)
       this.bought = new Decimal(0);
       this.produced = new Decimal(0);
       this.effectchanged();
-      console.log(this.productions)
     }
 
     checkForUnlock(){
@@ -376,7 +374,10 @@ class Producer {
     get costdescription(){
       if(this.costs == undefined)
         return "No Costs WOW!";
-      return formatDecimalNormal(this.getcost(0)) + " " + this.costs[0].costobject.displayname;
+      var info = formatDecimalNormal(this.getcost(0)) + " " + this.costs[0].costobject.displayname;
+      if(this.onbuymax && this.getmaxbuyable().greaterThan(0))
+        info = info + ` +${formatDecimalNormal(this.getmaxbuyable())}`;
+      return info;
     }
 
     get productiondescription(){

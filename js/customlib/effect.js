@@ -1,10 +1,4 @@
 class Effect{
-  /*
-  Valid Effect Types
-  Producer : "base-production-increase"
-  Producer : "production-multiplier"
-  */
-
   constructor(objectsappliesto, effectdefualtvalue, effectincrease, effecttype, appliestotext, effectdescription, args){
     if(Array.isArray(objectsappliesto))
       this.appliesto = objectsappliesto;
@@ -21,6 +15,8 @@ class Effect{
     this.increasemultipliereffects =[];
     this.basevaluepow = new Decimal(1);
     this.poweffects = [];
+    this.basemultiplier = new Decimal(1);
+    this.basemulteffects = [];
     this.finalmultiplier = new Decimal(1);
     this.finalmulteffects = [];
     this.onconstructfinish();
@@ -33,11 +29,18 @@ class Effect{
   recalculateincrease(){
     this.increase = this.defaultincrease;
     this.increasemultipliereffects.forEach((effect, i) => {
-      if(effect.basevalue)
-        this.increase = this.increase.times(effect.basevalue);
+      if(effect.value)
+        this.increase = this.increase.times(effect.value);
     });
   }
-  recalculatemultiplier(){
+  recalculatebasemultiplier(){
+    this.basemultiplier = new Decimal(1);
+    this.basemulteffects.forEach((effect, i) => {
+      if(effect.value)
+        this.basemultiplier = this.basemultiplier.times(effect.value);
+    });
+  }
+  recalculatefinalmultiplier(){
     this.finalmultiplier = new Decimal(1);
     this.finalmulteffects.forEach((effect, i) => {
       if(effect.basevalue)
@@ -55,10 +58,16 @@ class Effect{
         this.recalculatepow();
       break
       case EffectTypes.UpgradeValueMult:
+        this.basemulteffects.push(effect);
+        this.recalculatebasemultiplier();
+      break;
+      case EffectTypes.UpgradeFinalMultiplier:
         this.finalmulteffects.push(effect);
-        this.recalculatemultiplier();
+        this.recalculatefinalmultiplier();
       break;
     }
+    this.recalculatevalue(this.queuedamount);
+    this.oneffectchanged();
   }
   removeeffect(effect){
     switch(effect.effecttype){
@@ -77,13 +86,22 @@ class Effect{
         }
         break;
       case EffectTypes.UpgradeValueMult:
+        var ind = this.basemulteffects.indexOf(effect);
+        if(ind > -1){
+          this.basemulteffects.splice(ind2, 1);
+          this.recalculatebasemultiplier();
+        }
+        break;
+      case EffectTypes.UpgradeFinalMultiplier:
         var ind = this.finalmulteffects.indexOf(effect);
         if(ind > -1){
           this.finalmulteffects.splice(ind2, 1);
-          this.recalculatemultiplier();
+          this.recalculatefinalmultiplier();
         }
         break;
     }
+    this.recalculatevalue(this.queuedamount);
+    this.oneffectchanged();
   }
 
   recalculatepow(){
@@ -95,9 +113,11 @@ class Effect{
 
   effectchanged(){
     this.recalculateincrease();
-    this.recalculatemultiplier();
+    this.recalculatebasemultiplier();
+    this.recalculatefinalmultiplier();
     this.recalculatepow();
     this.recalculatevalue(this.queuedamount);
+    this.oneffectchanged();
   }
 
   geteffect(){
@@ -120,33 +140,39 @@ class Effect{
 
   recalculatevalue(){
     this.basevalue = new Decimal();
-    oneffectchanged();
+    this.oneffectchanged();
   }
 
   oneffectchanged(){
     if(!this.applied)
       return;
     this.appliesto.forEach((item, i) => {
-      item.effectchanged();
+      if(item != undefined && item.effectchanged != undefined)
+        item.effectchanged();
     });
   }
 
   apply(){
-    this.applied = true;
-    this.appliesto.forEach((obj, i) => {
-      obj.applyeffect(this);
-    });
+    if(!this.applied){
+      this.appliesto.forEach((obj, i) => {
+        if(obj != undefined)
+          obj.applyeffect(this);
+      });
+      this.applied = true;
+    } 
   }
 
   remove(){
-    this.applied = false;
-    this.appliesto.forEach((obj, i) => {
-      obj.removeeffect(this);
-    });
+    if(this.applied){
+      this.applied = false;
+      this.appliesto.forEach((obj, i) => {
+        obj.removeeffect(this);
+      });
+    }
   }
 
   get value(){
-    return Decimal.pow((this.basevalue.minus(this.defaultval)).times(this.finalmultiplier).add(this.defaultval), this.basevaluepow);
+    return Decimal.pow((this.basevalue.minus(this.defaultval)).times(this.basemultiplier).add(this.defaultval), this.basevaluepow).times(this.finalmultiplier);
   }
 }
 
@@ -200,17 +226,17 @@ class ExponentialEffect extends Effect{
   recalculateincrease(){
     this.increase = this.defaultincrease.minus(1);
     this.increasemultipliereffects.forEach((effect, i) => {
-      if(effect.basevalue)
-        this.increase = this.increase.times(effect.basevalue);
+      if(effect.value)
+        this.increase = this.increase.times(effect.value);
     });
     this.increase = this.increase.add(1);
   }
 
   recalculatevalue(amount){
     this.basevalue = this.defaultval.times(Decimal.pow(this.increase, amount));
-    if(this.queuedamount == undefined || this.queuedamount.notEquals(this.basevalue))
+    if(this.queuedamount == undefined || this.queuedamount.notEquals(amount))
     {
-      this.queuedamount = this.basevalue;
+      this.queuedamount = this.amount;
       this.oneffectchanged();
     }
   }
@@ -341,6 +367,7 @@ const EffectTypes = {
   ForceLimit: 23,
   UpgradeValuePower : 24,
   UpgradeValueMult: 25,
+  UpgradeFinalMultiplier: 26,
 
   RequirementMult: 30
 }

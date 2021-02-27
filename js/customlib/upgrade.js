@@ -1,5 +1,5 @@
 class Upgrade{
-    constructor(id, displayname, maxbuyable, requirements, effects, costs, buykey, extra){
+    constructor(id, displayname, maxbuyable, requirements, effects, costs, buykey, autobuyrequirements, extra){
         this.id = id;
         this.buykey = buykey;
         this.displayname = displayname;
@@ -22,11 +22,19 @@ class Upgrade{
 
         if(costs == undefined){
           this.costs = undefined;
-          this.applied = false;
         }
         if(effects == undefined){
           this.effects = undefined;
         }
+
+        if(Array.isArray(autobuyrequirements) || autobuyrequirements == undefined)
+          this.autobuyrequirements = autobuyrequirements;
+        else
+          this.autobuyrequirements = [autobuyrequirements];
+        
+        this.applied = false;
+        this.autobuyunlocked = false;
+        this.buyauto = false;
 
         this.bought = new Decimal(0);
         this.produced = new Decimal(0);
@@ -49,6 +57,14 @@ class Upgrade{
       {
         this.recalculatecosts();
       }
+      if(this.buyauto && !this.autobuylocked){
+        this.buy();
+      }
+      if(!this.autobuyunlocked){
+        if(this.checkforautounlock()){
+          this.autobuyunlocked = true;
+        }
+      }
     }
 
     get extraamount(){
@@ -59,12 +75,12 @@ class Upgrade{
       this.bought = new Decimal(0);
       this.produced = new Decimal(0);
       this.recalculatecosts();
-      this.recalculateeffects();
+      this.updateeffects();
       this.onrevoke();
     }
 
     save(){
-        return [this.bought.toString(),this.produced.toString()];
+        return [this.bought.toString(),this.produced.toString(), this.buyauto];
     }
 
     parse(data){
@@ -74,16 +90,40 @@ class Upgrade{
             this.bought = Decimal.fromString(data[0]);
         if(data[1] != undefined)
             this.produced = Decimal.fromString(data[1]);
-        if(this.bought.greaterThan(0)){
+        if(data[2] != undefined)
+            this.buyauto = data[2];
+        if(this.bought.greaterThan(0) || this.produced.greaterThan(0)){
           this.onunlock();
-        }
-        if(this.produced.greaterThan(0)){
-          this.onunlock();
-          this.applied = true;
         }
         this.recalculatecosts();
         this.recalculateeffects();
         return true;
+    }
+
+    checkforautounlock(){
+        if (this.autobuyrequirements == undefined)
+            return false;
+        var unlock = true;
+        this.autobuyrequirements.forEach(element => {
+            if(!element.hasrequirement){
+                unlock = false;
+                return false;
+            }
+        });
+        return unlock;
+    }
+
+    get autostate(){
+      if(!this.autobuyunlocked)
+        return "LOK"
+      if(!this.buyauto)
+        return "OFF"
+      return "ON"
+    }
+
+    togglebuystate(){
+      if(this.autobuyunlocked)
+        this.buyauto = !this.buyauto;
     }
 
     get boughtdescription(){
@@ -129,14 +169,14 @@ class Upgrade{
         if(!this.unlocked)
             return;
         if (this.canbuy){
-            if(this.bought.equals(0))
-              this.onunlock();
-            this.bought = this.bought.add(this.buyamount);
-            this.costs.forEach((cost, i) => {
-              cost.subtractcost();
-            });
-            this.recalculatecosts();
-            this.recalculateeffects();
+          if(!this.applied)
+            this.onunlock();
+          this.bought = this.bought.add(this.buyamount);
+          this.costs.forEach((cost, i) => {
+            cost.subtractcost();
+          });
+          this.recalculatecosts();
+          this.recalculateeffects();
         }
     }
 
@@ -165,6 +205,8 @@ class Upgrade{
           maxamount = cmax;
         }
       });
+      if(maxamount.greaterThan(this.maxbuyable) && this.maxbuyable.greaterThan(0))
+        maxamount = this.maxbuyable;
       return maxamount;
     }
 
@@ -180,6 +222,8 @@ class Upgrade{
       if(player.options.buyamounts[this.buykey] == -1){
         amount = this.getmaxbuyable();
         this.onbuymax = true;
+        if(this.buyauto)
+          amount = Decimal.floor(amount.divide(10));
         if(amount.lessThanOrEqualTo(0))
           amount = new Decimal(1);
       }else{
@@ -239,17 +283,24 @@ class Upgrade{
     }
 
     onunlock(){
-      if(this.effect == undefined)
+      if(this.effects == undefined)
+        return;
+      if(this.applied)
         return;
       this.effects.forEach((effect, i) => {
         effect.apply();
       });
+      this.applied = true;
+      this.updateeffects();
     }
 
     onrevoke(){
+      if(this.effects == undefined)
+        return;
       this.effects.forEach((effect, i) => {
         effect.remove();
       });
+      this.applied = false;
     }
 
     hasrequirement(amount){
@@ -264,7 +315,6 @@ class Upgrade{
 
     add(amount){
       if(!this.applied && amount != undefined && amount.greaterThan(0)){
-        this.applied = true;
         this.onunlock();
       }
       this.produced = this.produced.add(amount);
@@ -286,7 +336,12 @@ class Upgrade{
     get specialcostdescription(){
       if(this.costs == undefined)
         return "No Cost";
-      return formatDecimalNormal(this.getcost(0)) + " " + this.costs[0].costobject.displayname;
+      if(this.ismaxbuyable)
+        return "Max Level";
+      var info = formatDecimalNormal(this.getcost(0)) + " " + this.costs[0].costobject.displayname;
+      if(this.buyamount && this.onbuymax && this.getmaxbuyable().greaterThan(0) && (this.maxbuyable.greaterThan(1) || this.maxbuyable.equals(-1)))
+        info = info + ` +${formatDecimalNormal(this.getmaxbuyable())}`
+      return info;
     }
 
     get specialeffectdescription(){
@@ -310,11 +365,15 @@ class Upgrade{
     }
 
     updateeffects(){
-      this.effects.forEach((effect, i) => {
-        effect.effectchanged();
-      });
+      if(this.effects != undefined)
+        this.effects.forEach((effect, i) => {
+          effect.effectchanged();
+        });
       this.recalculatebonusmult();
       this.recalculatebonus();
+      this.recalculateeffects();
+      if((this.bought.greaterThan(0) || this.produced.greaterThan(0) || this.bonus.greaterThan(0)) && !this.applied)
+        this.onunlock();
     }
 
     recalculatebonus(){
@@ -322,7 +381,6 @@ class Upgrade{
       this.bonuseffects.forEach((effect, i) => {
         this.bonus = this.bonus.add(effect.value);
       });
-      this.recalculateeffects();
     }
 
     recalculatebonusmult(){
@@ -330,17 +388,17 @@ class Upgrade{
       this.bonusmulteffects.forEach((effect, i) => {
         this.bonusmult = this.bonusmult.times(effect.value);
       });
-      this.recalculateeffects();
     }
 
     applyeffect(effect){
+      if(effect.effecttype == EffectTypes.UpgradeIncreaseMultiplier || effect.effecttype == EffectTypes.UpgradeValuePower || effect.effecttype == EffectTypes.UpgradeValueMult || effect.effecttype == EffectTypes.UpgradeFinalMultiplier){
+        this.effects.forEach((eff, i) => {
+          eff.applyeffect(effect);
+        });}
       switch (effect.effecttype) {
-        case EffectTypes.UpgradeIncreaseMultiplier:
-            this.effects.forEach((eff, i) => {
-              eff.applyeffect(effect);
-            });
-          break;
         case EffectTypes.UpgradeBonusLevels:
+          if(!this.applied)
+            this.onunlock();
           this.bonuseffects.push(effect);
           this.recalculatebonus();
           break;
@@ -348,23 +406,18 @@ class Upgrade{
           this.bonusmulteffects.push(effect);
           this.recalculatebonusmult();
           break;
-        case EffectTypes.UpgradeValuePower:
-          this.effects.forEach((eff, i) => {
-            eff.applyeffect(effect);
-          });
-          break;
         default:
           return;
       }
+      this.recalculateeffects();
     }
 
     removeeffect(effect){
+      if(effect.effecttype == EffectTypes.UpgradeIncreaseMultiplier || effect.effecttype == EffectTypes.UpgradeValuePower || effect.effecttype == EffectTypes.UpgradeValueMult || effect.effecttype == EffectTypes.UpgradeFinalMultiplier){
+        this.effects.forEach((eff, i) => {
+          eff.removeeffect(effect);
+        });}
       switch (effect.effecttype) {
-        case EffectTypes.UpgradeIncreaseMultiplier:
-            this.effects.forEach((eff, i) => {
-              eff.removeeffect(effect);
-            });
-          break;
         case EffectTypes.UpgradeBonusLevels:
           var ind = this.bonuseffects.indexOf(effect);
           if(ind > -1){
@@ -373,20 +426,16 @@ class Upgrade{
           }
           break;
         case EffectTypes.UpgradeBonusLevelMultiplier:
-          var ind = this.bonusmulteffects.indexOf(effect);
+          ind = this.bonusmulteffects.indexOf(effect);
           if(ind > -1){
             this.bonusmulteffects.splice(this.bonusmulteffects.indexOf(effect), 1);
             this.recalculatebonusmult();
           }
           break;
-        case EffectTypes.UpgradeValuePower:
-          this.effects.forEach((eff, i) => {
-            eff.removeeffect(effect);
-          });
-          break;
         default:
           return;
       }
+      this.recalculateeffects();
     }
 
     has(amount){
@@ -399,21 +448,19 @@ class Upgrade{
 }
 
 class DiminishingUpgrade extends Upgrade{
-  constructor(id, displayname, maxbuyable, requirements, effects, costs, buykey, diminishingstart, diminishingfunction, extra){
-    super(id, displayname, maxbuyable, requirements, effects, costs, buykey, extra);
+  constructor(id, displayname, maxbuyable, requirements, effects, costs, buykey, diminishingstart, diminishingfunction, autobuyrequirements, extra){
+    super(id, displayname, maxbuyable, requirements, effects, costs, buykey, autobuyrequirements, extra);
     this.dimstart = diminishingstart;
     this.dimfunction = diminishingfunction;
   }
 
   add(amount){
     if(!this.applied && amount != undefined && amount.greaterThan(0)){
-      this.applied = true;
       this.onunlock();
     }
     this.produced = this.produced.add(amount);
+    this.checkdiming();
     this.recalculateeffects();
-    if(!this.diming && this.extraamount.add(this.bought).greaterThan(this.dimstart))
-      this.diming = true;
   }
 
   get amount(){
@@ -429,17 +476,22 @@ class DiminishingUpgrade extends Upgrade{
       if(!this.unlocked)
           return;
       if (this.canbuy){
-          if(this.bought.equals(0))
-            this.onunlock();
+          this.onunlock();
           this.bought = this.bought.add(this.buyamount);
           this.costs.forEach((cost, i) => {
             cost.subtractcost();
           });
-          if(!this.diming && this.extraamount.add(this.bought).greaterThan(this.dimstart))
-            this.diming = true;
           this.recalculatecosts();
+          this.checkdiming();
           this.recalculateeffects();
       }
+  }
+
+  checkdiming(){
+    if(!this.diming && this.extraamount.add(this.bought).greaterThan(this.dimstart))
+      this.diming = true;
+    if(this.diming && this.extraamount.add(this.bought).lessThan(this.dimstart))
+      this.diming = false;
   }
 
   get amountdescription(){
@@ -452,10 +504,7 @@ class DiminishingUpgrade extends Upgrade{
   }
 
   recalculatebonus(){
-    this.bonus = new Decimal();
-    this.bonuseffects.forEach((effect, i) => {
-      this.bonus = this.bonus.add(effect.value);
-    });
+    super.recalculatebonus();
     if(!this.diming && this.extraamount.add(this.bought).greaterThan(this.dimstart))
       this.diming = true;
     this.recalculateeffects();
@@ -464,38 +513,25 @@ class DiminishingUpgrade extends Upgrade{
   reset(){
     this.bought = new Decimal(0);
     this.produced = new Decimal(0);
-    console.log("reseting")
     this.recalculatecosts();
     this.recalculateeffects();
     this.onrevoke();
+    this.applied = false;
     this.diming = false;
   }
 
   parse(data){
-      if(data == undefined)
-          return;
-      if(data[0] != undefined)
-          this.bought = Decimal.fromString(data[0]);
-      if(data[1] != undefined)
-          this.produced = Decimal.fromString(data[1]);
-      if(this.bought.greaterThan(0)){
-        this.onunlock();
-      }
-      if(this.produced.greaterThan(0)){
-        this.onunlock();
-        this.applied = true;
-      }
-      if(!this.diming && this.extraamount.add(this.bought).greaterThan(this.dimstart))
-        this.diming = true;
-      this.recalculatecosts();
-      this.recalculateeffects();
+    super.parse(data);
+    this.checkdiming();
+    this.recalculatecosts();
+    this.recalculateeffects();
   }
 }
 
 class AppliableUpgrade extends Upgrade{
   constructor(id, displayname, maxbuyable, requirements, effects, costs, buykey, extra){
     super(id, displayname, maxbuyable, requirements, effects, costs, buykey, extra);
-    this.applied = new Decimal();
+    this.appliedamount = new Decimal();
   }
 
   get maxappliable(){
@@ -503,32 +539,32 @@ class AppliableUpgrade extends Upgrade{
   }
 
   get available(){
-    return this.maxappliable.minus(this.applied);
+    return this.maxappliable.minus(this.appliedamount);
   }
 
   canapply(amount){
     if (amount == undefined)
-      return this.applied.lessThan(this.maxappliable);
-    return this.applied.lessThan(this.maxappliable)
+      return this.appliedamount.lessThan(this.maxappliable);
+    return this.appliedamount.add(amount).lessThan(this.maxappliable)
   }
 
   applyamount(amount){
-    this.applied = this.applied.add(amount);
+    this.appliedamount = this.appliedamount.add(amount);
   }
   removeamount(amount){
-    this.applied = this.applied.minus(amount);
+    this.appliedamount = this.appliedamount.minus(amount);
   }
 
   save(){
-    return [this.bought.toString(),this.produced.toString(), this.applied.toString()];
+    return [this.bought.toString(),this.produced.toString(), this.buyauto, this.appliedamount.toString()];
   } 
 
   parse(data){
     super.parse(data);
     if(data == undefined)
       return;
-    if(data[2] != undefined)
-        this.applied = Decimal.fromString(data[2]);
+    if(data[3] != undefined)
+        this.appliedamount = Decimal.fromString(data[3]);
   }
 }
 
@@ -545,31 +581,39 @@ class AppliedToUpgrade extends Upgrade{
   }
 
   save(){
-    return [this.bought.toString(),this.produced.toString(), this.appliedpoints.toString()];
+    return [this.bought.toString(),this.produced.toString(), this.buyauto, this.appliedpoints.toString()];
   } 
 
   parse(data){
     super.parse(data);
     if(data == undefined)
       return;
-    if(data[2] != undefined)
-        this.appliedpoints = Decimal.fromString(data[2]);
+    if(data[3] != undefined)
+        this.appliedpoints = Decimal.fromString(data[3]);
   }
 
   tick(){
     this.buy();
   }
 
-  applyamount(amount){
-    if(this.usedappliableupgrade.canapply(amount)){
+  applyamount(type){
+    var amount = getbuyamount("apply" + type);
+    if(amount == "Max" || !this.usedappliableupgrade.canapply(amount))
+      amount = this.usedappliableupgrade.available;
+    amount = new Decimal(amount);
+    if(amount.greaterThan(0)){
       this.appliedpoints = this.appliedpoints.add(amount);
       this.usedappliableupgrade.applyamount(amount);
       this.updateproducer();
     }
   }
 
-  removeamount(amount){
-    if(this.appliedpoints.greaterThanOrEqualTo(amount)){
+  removeamount(type){
+    var amount = getbuyamount("apply" + type);
+    if(amount == "Max" ||  !this.appliedpoints.greaterThanOrEqualTo(amount))
+      amount = this.appliedpoints;
+    amount = new Decimal(amount);
+    if(amount.greaterThan(0)){
       this.appliedpoints = this.appliedpoints.minus(amount);
       this.usedappliableupgrade.removeamount(amount);
       this.updateproducer();
@@ -587,6 +631,6 @@ class AppliedToUpgrade extends Upgrade{
   }
 
   get progress(){
-    return formatDecimalNormal(this.upgradecurrency.amount) + "/" + this.getcost(0);
+    return formatDecimalNormal(this.upgradecurrency.amount) + "/" + formatDecimalNormal(this.getcost(0));
   }
 }
