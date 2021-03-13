@@ -1,5 +1,5 @@
 class Challenge{
-  constructor(id, displayname, description, inchallengeeffects, rewards, maxdifficulty, startfunc, endfunc, basescorefunc, chalcoe){
+  constructor(id, displayname, description, inchallengeeffects, rewards, maxdifficulty, startfunc, endfunc, basescorefunc, chalcoe, challengesynergies){
     this.id = id;
     this.displayname = displayname;
     this.description = description;
@@ -9,6 +9,8 @@ class Challenge{
     this.basescorefunc = basescorefunc;
     this.active = false;
     this.chalcoe = chalcoe;
+    this.index = player.challenges.length;
+    this.challengesynergies = challengesynergies;
     if(Array.isArray(inchallengeeffects))
       this.inchaleffects = inchallengeeffects;
     else
@@ -65,6 +67,13 @@ class Challenge{
     if(this.active)
       return "Active"
     return "Inactive"
+  }
+
+  getsynergyvalue(chalind){
+    if(this.challengesynergies != undefined && this.challengesynergies.length > chalind){
+      return this.challengesynergies[chalind];
+    }
+    return 1;
   }
 
   updateinchaleffects() {
@@ -134,7 +143,13 @@ class Challenge{
     if(this.basescorefunc != undefined)
       score = this.basescorefunc();
     score = score.times(Decimal.pow(this.chalcoe, (this.difficultylevel-1)));
-    score = score.times(Decimal.pow(this.chalcoe, (runningchallenges.length*2)));
+    var chalsyn = 1;
+    runningchallenges.forEach((chal) => {
+      if(chal != this){
+        chalsyn *= this.getsynergyvalue(chal.index);
+      }
+    });
+    score = score.times(Decimal.pow(chalsyn, (runningchallenges.length)));
     return score;
   }
 
