@@ -52,149 +52,7 @@ body {
 }
 
 .baseproducername{
-  color: #888;
-}
-
-/*Buy Button*/
-.buybutton{
-  color: #777;
-  background-color: #111;
-  border: 2px solid #333;
-  border-radius: 2px;
-}
-
-.costtext{
-  color: #777;
-}
-
-.buybuttontooltip{
-  color: #777 !important;
-  background-color: #111 !important;
-  border: 2px solid #333 !important;
-}
-
-/*Upgrades*/
-.upgradebuyamount{
-  border-color: #dbac65;
-  color: white;
-  background-color: var(--main-color);
-}
-.upgradescreenauto{
-  border-color: #2b5d6e;
-  color: white;
-  background-color: var(--main-color);
-}
-.upgradename{
-  color: #dbac65;
-}
-.upgradeprogress{
-  color: #dbac65;
-}
-.upgradelevel{
-  color: white;
-}
-.upgradecost{
-  color: yellow;
-}
-.upgradeeffect{
-  color: #ba32af;
-}
-.upgrademax{
-  background-color: #42b844 !important;
-}
-.upgradebought{
-  background-color: #9f32c9;
-}
-.bonusquarkspinupgrade{
-  color: #ebcb2d;
-}
-.bonusfreeelectronsupgrade{
-  color: #ebcb2d;
-}
-
-/*challenges*/
-.challengebuyamount{
-  border-color: #dbac65;
-  color: white;
-  background-color: var(--main-color);
-}
-.challengescreenauto{
-  border-color: #2b5d6e;
-  color: white;
-  background-color: var(--main-color);
-}
-.challengename{
-  color: #dbac65;
-}
-.challengedescription{
-  color: #dbac65;
-}
-.challengedifficulty{
-  color: #dbac65;
-}
-.challengescore{
-  color: white;
-}
-.challengeeffect{
-  color: yellow;
-}
-.challengerewardlabel{
-  color: white;
-}
-.challengereward{
-  color: #ba32af;
-}
-.challengerewardcurrent{
-  color: #9e2b95;
-}
-.challengein{
-  background-color: #42b844 !important;
-}
-.changechallengedifficulty{
-  color: #dbac65;
-  background-color: var(--main-color);
-  border-color: #dbac65;
-}
-.challengeactivator{
-  background-color: var(--main-color);
-}
-.challengeactive{
-  color: green;
-  border-color: green;
-}
-.challengeinactive{
-  color: red;
-  border-color: red;
-}
-.challengeenterinfo{
-  color: #888;
-}
-
-.enterchallenge{
-  border-color: green;
-  color: green;
-  background-color: var(--main-color);
-}
-.exitchallenge{
-  border-color: red;
-  color: red;
-  background-color: var(--main-color);
-}
-.challengescoremultiplier{
-  color: white;
-}
-.challengesynergyinfo{
-  color: #ba32af;
-}
-.challengescorebreakdown{
-  color: #dbac65;
-}
-
-
-.applybutton{
-  color: #dbac65;
-  background-color: var(--main-color);
-  border-color: #dbac65;
+		color:white
 }
 
 label{
@@ -224,36 +82,12 @@ select{
 }
 
 
-/*Special Appliable Upgrades*/
-.appliableupgradecostbutton{
-  background-color: var(--main-color);
-  color: white;
-  border-radius: 8px;
-  border: 2px solid #999;
-}
-.appliableupgradecostbuttonbuyable{
-  background-color: #555;
-  color: white;
-  border-radius: 8px;
-  border: 2px solid #999;
-}
-.appliableupgradebutton{
-  background-color: var(--main-color);
-  color: white;
-  border-radius: 4px;
-  border: 2px solid #999;
+.changelogversion{
+	font-family:monospace;
+	color:white;
 }
 
 .changelogtext{
 	font-family:monospace;
 	color:white;
-}
-.notationdropdown{
-  border-color:  #ebcb2d;
-  color: white;
-  padding: 5px 5px 5px 5px;
-  background-color: var(--main-color);
-}
-.hotkeyinfo{
-  color: #888;
 }
