@@ -182,19 +182,80 @@ td.righttablecolumn {
   border-style: solid;
 }
 
-.electronquickupgradebutton:hover{
-  border-radius: 15px;
-  border-width: 3px;
-  transition-duration: .25s;
+.challengeenterexit{
+  width: 200px;
+  height: 30px;
+  text-align: center;
+  border: solid 3px;
+}
+.challengeentercontainer{
+  position: absolute;
+  width: 90%;
+  bottom: 30%;
+  left: 220px;
+}
+.challengeenterinfo{
+  font-size: 12px;
 }
 
 .electronupgradetooltip{
   width: 400px!important;
 }
 
-.electrontreeline{
-  stroke: black;
-  stroke-width: 2px;
+.challengescreenauto{
+  width: 200px;
+  height: 30px;
+  text-align: center;
+  border: solid 3px;
+  margin-left: 20px;
+}
+.challengeinfo{
+  font-size: 18px;
+}
+.challengedifficulty{
+  font-size: 18px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+.challengeactivator{
+  font-size: 18px;
+  width: 76px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+.changechallengedifficulty{
+  font-size: 18px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  width: 24px;
+}
+.challengedisplay{
+  display: inline-block;
+  padding: 10px 10px 10px 10px;
+  text-align: center;
+}
+.challengeimage{
+  width: 64px;
+  height: 64px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+.challengedisplay{
+  vertical-align: top;
+  width: 130;
+}
+.challengedifficulty{
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+.challengeinfotable{
+  width: 100%;
+  height: 20%;
+  overflow-y: scroll;
+}
+.challengeinfocell{
+  height: 100%;
+  width: 50%;
 }
 
 .electronupgradelabel {
@@ -226,4 +287,254 @@ td.righttablecolumn {
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+/*Statistics*/
+
+.subsidenav {
+  width: 80px;
+  position: absolute;
+  z-index: 1;
+  left: 165px;
+  overflow-x: hidden;
+  align: left;
+}
+
+.subsidenav .menubutton {
+  padding: 1px 1px 1px 5px;
+  text-decoration: none;
+  font-size: 16px;
+  display: block;
+  border: 1px solid;
+}
+
+.subsidenav .menubutton:hover {
+  cursor: pointer;
+}
+
+.subcontent {
+  margin-left: 80px; /* Same as the width of the sidebar */
+  padding: 0px 10px;
+  overflow-y: scroll;
+}
+
+.past10value {
+  font-size: 12px;
+}
+
+.past10label {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+/*TopBar*/
+#topbardisplay{
+  width: 100%;
+}
+.currencymarker{
+  width:70%;
+}
+.prestigemarker{
+  width:30%;
+}
+
+/*Currency Displays*/
+#currenciesdisplay{
+  width:100%;
+  overflow-x: scroll;
+}
+
+.currencydisplay {
+  font-size: 14px;
+  font-weight: bold;
+  vertical-align: center;
+  height: 100%;
+  width: 100%;
+  margin: auto;
+}
+.currenciesrow{
+  height: 34px;
+  vertical-align: center;
+}
+.currenciescell{
+  height: 90%;
+  vertical-align: center;
+  width: 100px;
+}
+.currencyimage{
+  margin: auto;
+  vertical-align: center;
+}
+.currencydisplaydiv{
+  height: 100%;
+  width: 100%;
+  margin: auto;
+}
+
+/* Prestige Display */
+#prestigedisplay{
+  width: 100%;
+  height: 56px;
+  overflow-x: scroll;
+  margin-top: 1px;
+  margin-left: 1px;
+}
+
+#prestigegain{
+  width: 100%;
+  overflow-x: scroll;
+  margin-top: 1px;
+  margin-left: 1px;
+}
+
+.prestigerequirement{
+  font-size: 16px;
+}
+
+.prestigereward{
+  font-size: 16px;
+  vertical-align: center;
+}
+
+.prestigerewardicon{
+  width: 16px;
+  height: 16px;  
+}
+
+/*Producer Display*/
+.producerrow{
+  height: 32px;
+}
+.producerimage{
+  width: 36px;
+}
+.producername{
+  width: 220px;
+}
+.producerproduction{
+  width: 220px;
+}
+.producercost{
+  width: 200px;
+}
+.producercostbutton{
+  height: 32px;
+  width: 96%;
+}
+.producerauto{
+  width: 120px;
+}
+
+/*Auto Button*/
+.autobutton{
+  height: 32px;
+  width: 96%;
+}
+
+/*Upgrade Display*/
+.upgraderow{
+}
+.upgradeimage{
+  width: 36px;
+}
+.upgradename{
+  width: 220px;
+  white-space: pre-line;
+}
+.upgradeproduction{
+  width: 220px;
+}
+.upgradecost{
+  width: 200px;
+}
+.upgradecostbutton{
+  height: 32px;
+  width: 96%;
+}
+/*Special Appliable Upgrade Type*/
+.appliableupgradecostbutton{
+  height: 32px;
+  width: 240px;
+  margin-left: 100px;
+}
+.appliableupgradebutton{
+  height: 32px;
+  width: 120px;
+  margin-left: 4px;
+}
+.upgradeprogress{
+  width: 220px;
+  white-space: pre-line;
+}
+.upgradeauto{
+  width: 120px;
+}
+
+/*Seperation*/
+.spacer32{
+  height: 32;
+}
+
+/*Changelog*/
+.changelogtext{
+  font-size: 16px;
+}
+
+/*Buy Amount Stuff*/
+.buyamountdisplay{
+  position: fixed;
+  bottom: 30px;
+  border: 2px solid;
+  padding: 4px 4px 4px 4px;
+  width: 240px;
+  height : 32px;
+}
+
+.buyamounttext{
+  font-size: 16px;
+}
+
+/*Options menu*/
+.optioncell{
+  width: 25%;
+  height: 100px;
+  align-content: center;
+}
+.optionbutton{
+  padding: 5px 20px 5px 20px;
+  font-size: 16px;
+}
+.notationoptionlabel{
+  font-size: 24px;
+}
+.notationdropdown{
+  font-size: 16px;
+  border: 2px solid;
+}
+
+#file-input {
+  cursor: pointer;
+  outline: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  filter: alpha(opacity=0); /* IE < 9 */
+  opacity: 0;
+}
+.input-label {
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+}
+
+.hotkeyinfo{
+  position: fixed;
+  bottom: 30px;
+  font-size: 12px;
+  text-align: center;
+  align-self: center;
+  width: 90%;
 }
