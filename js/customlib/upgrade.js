@@ -95,6 +95,9 @@ class Upgrade{
         if(this.bought.greaterThan(0) || this.produced.greaterThan(0)){
           this.onunlock();
         }
+        if(this.maxbuyable.notEquals(-1) && this.bought.greaterThan(this.maxbuyable)){
+          this.bought = new Decimal(this.maxbuyable);
+        }
         this.recalculatecosts();
         this.recalculateeffects();
         return true;
@@ -195,6 +198,22 @@ class Upgrade{
         }
       });
       return boolcan;
+    }
+    
+    buymax(){
+      if(!this.unlocked)
+          return;
+      var max = this.getmaxbuyable();
+      if(!max.greaterThan(0))
+        return;
+      if(!this.applied)
+        this.onunlock();
+      this.costs?.forEach((cost, i) => {
+        cost.recalculatecost(this.bought, max);
+        cost.subtractcost();
+      });
+      this.bought = this.bought.add(max);
+      this.recalculateeffects();
     }
 
     getmaxbuyable(){
@@ -541,6 +560,10 @@ class AppliableUpgrade extends Upgrade{
   get available(){
     return this.maxappliable.minus(this.appliedamount);
   }
+  
+  unapplyall(){
+    this.appliedamount = new Decimal();
+  }
 
   canapply(amount){
     if (amount == undefined)
@@ -608,6 +631,10 @@ class AppliedToUpgrade extends Upgrade{
     }
   }
 
+  unapplyall(){
+    this.setamount(0);
+  }
+
   removeamount(type){
     var amount = getbuyamount("apply" + type);
     if(amount == "Max" ||  !this.appliedpoints.greaterThanOrEqualTo(amount))
@@ -621,7 +648,7 @@ class AppliedToUpgrade extends Upgrade{
   }
 
   setamount(amount){
-    this.appliedpoints = this.appliedpoints.add(amount);
+    this.appliedpoints = new Decimal(amount);
     this.updateproducer();
   }
 

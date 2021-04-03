@@ -42,14 +42,16 @@
       </table>
     </div>
     <div id="screens">
+      
+    <div id="screens">
       <div id="optionsscreen" class="centered" style="display: none">
         <table align="center">
           <tbody>
             <tr>
               <td class="optioncell">
                 <div class="centered">
-                  <label class="notationoptionlabel">Choose a notation:</label>
-                  <select id="notations" class="notationdropdown" onchange="changeNotation(this.value)" v-bind:value="player.options.notation">
+                  <label for="notations" class="optionbutton">Choose a notation:</label>
+                  <select id="notations" class="standarddropdown" onchange="changeNotation(this.value)">
                     <option value="standard">Standard</option>
                     <option value="scientific">Scientific</option>
                     <option value="engineering">Engineering</option>
@@ -78,9 +80,34 @@
                   <button class="optionbutton" onclick="reset()"><label>Completely Reset Save</label></button>
                 </div>
               </td>
+              <td class="optioncell">
+                <div class="centered">
+                  <button class="optionbutton" onclick="player.options.hotkeysenabled = !player.options.hotkeysenabled"><label v-if="player.options.hotkeysenabled">Disable Hotkeys</label><label v-if="!player.options.hotkeysenabled">Enable Hotkeys</label></button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="optioncell">
+                <div class="centered">
+                  <button class="optionbutton" onclick="savetofile()"><label>Export Save To File</label></button>
+                </div>
+              </td>
+              <td class="optioncell">
+                <div class="centered">
+                  <button class="optionbutton">
+                  <label for="file-input" class="input-label">
+                    Load Save From File <!-- Replace with whatever text or icon you wish to use -->
+                    <input type="file" id="file-input" onchange='loadsavefromfile(this)'>
+                  </label>
+                  </button>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
+        <div class="hotkeyinfo">
+          <span>1-0 Will Purchase Charmer-Big Bang at current buy amount, m will max all in the quark producers tab, e will electrify if the requirements are met</span>
+        </div>
       </div>
       <div id="producersscreen" style="display: none">
         <div class="subsidenav" v-if='hasachievement("electrifyunlock")'>
@@ -160,7 +187,7 @@
             <span class="currencyextra">Playtime: {{formattime(player.stats.times[0],true,true,true,true,false)}}</span>
           </div>
           <div id="electrifystatscreen" style="display: none">
-            <span class="currencyextra">Current Electrify Time: {{formattime(player.stats.currentelectrifytime,true,true,true,true,false)}}</span>
+            <span class="currencyextra">Current Electrify Time: {{formattime(player.stats.times[1],true,true,true,true,false)}}</span>
             <br>
             <span class="currencyextra" v-if="player.stats.electrified > 0">Times Electrified: {{player.stats.electrified}}</span>
             <br>
@@ -176,7 +203,7 @@
       </div>
       <div id="orbitalsscreen" style="display: none;">
         <div id="electronpower">
-          <appliable-upgrade v-bind:upgrade="player.electronstage.clouds.power"></appliable-upgrade>
+          <appliable-upgrade v-bind:upgrade="player.electronstage.clouds.power"  v-bind:appliesto="player.electronstage.clouds.orbitals"></appliable-upgrade>
           <applied-upgrades-display v-bind:upgrades="player.electronstage.clouds.orbitals" type="electronpower"></applied-upgrades-display>
         </div>
         <button class="upgradebuyamount" v-on:click='togglebuyamount("applyelectronpower")'>Apply Amount: {{getbuyamount("applyelectronpower")}}</button>
@@ -185,16 +212,32 @@
         <div class="challengelist">
           <challenge-item v-for="challenge in player.challenges" v-bind:challenge="challenge"></challenge-item>
         </div>
-        <div id="challengeinfo">
-          <span class="challengename">{{selectedchallenge.displayname}}</span><br><br>
-          <span class="challengedescription">{{selectedchallenge.description}}</span><br>
-          <!--<span class="challengerequirement">Requires: {{selectedchallenge.completionrequirements[0].requirementtext}}</span><br>-->
-          <span class="challengeeffect">Effect: {{selectedchallenge.inchaleffects[0].geteffect()}}</span><br>
-          <span class="challengescore">Score: {{formatDecimalNormal(selectedchallenge.score)}} ({{formatDecimalNormal(selectedchallenge.newscore)}})</span><br>
-          <span class="challengerewardlabel">Challenge Bonus Equations || Current Challenge Bonus<br></span>
-          <span class="challengereward">{{selectedchallenge.effectsdescription}}</span><br>
+        <div class="challengeentercontainer">
           <button v-bind:class='{challengeenterexit: true, enterchallenge: runningchallenges.length == 0, exitchallenge: runningchallenges.length > 0}' v-on:click='togglechallenges()'><span v-if="runningchallenges.length == 0">Enter</span><span v-if="runningchallenges.length > 0">Exit</span> Challenges</button>
-          <button class="challengescreenauto">Automatic: Locked</button>
+          <span class="challengeenterinfo">All Active Challenges Will Be <span v-if="runningchallenges.length == 0">Entered</span><span v-if="runningchallenges.length > 0">Exited And All Pending Scores Will Be Transfered To Score</span></span>
+        </div>
+        <div id="challengeinfo">
+          <table class="challengeinfotable">
+            <tr>
+              <td class="challengeinfocell">
+                <span class="challengename challengeinfo">{{selectedchallenge.displayname}}</span><br><br>
+                <span class="challengedescription challengeinfo">{{selectedchallenge.description}}</span><br>
+                <span class="challengeeffect challengeinfo">Effect: {{selectedchallenge.inchaleffects[0].geteffect()}}</span><br>
+                <span class="challengescore challengeinfo">Score: {{formatDecimalNormal(selectedchallenge.score)}} ({{formatDecimalNormal(selectedchallenge.newscore)}})</span><br>
+                <span class="challengerewardlabel challengeinfo">Challenge Bonus Equations || Current Challenge Bonus (Always Active)<br></span>
+                <span class="challengereward challengeinfo">{{selectedchallenge.effectsdescription}}</span><br>
+              </td>
+              <td class="challengeinfocell">
+                <span class="challengescorebreakdown challengeinfo">Base Score: {{selectedchallenge.basescoredescription}}</span><br>
+                <span class="challengescorebreakdown challengeinfo">Final Score = Base Score * Below Multipliers</span><br>
+                <span class="challengescoremultiplier challengeinfo">Difficulty Score Multiplier: {{formatDecimalOverride(selectedchallenge.difficultyscoremultiplier, 2)}}</span><br>
+                <span class="challengescoremultiplier challengeinfo">Synergy Score Multiplier: {{formatDecimalOverride(selectedchallenge.synergyscoremultiplier, 2)}}</span><br>
+                <span class="challengescoremultiplier challengeinfo">Other Score Multiplier: {{formatDecimalOverride(selectedchallenge.scoremultiplier, 2)}}</span><br>
+                <span class="challengesynergyinfo challengeinfo">Challenge Synergy Values (c1,c2,...,c#): <span class="challengescoremultiplier">{{selectedchallenge.synergyvalues}}</span></span><br>
+                <span class="challengesynergyinfo challengeinfo">Synergy Score Breakdown: Each challenge has a synergy value with every other challenge, the base synergy value is multiplied by each active challenge's synergy value with this challenge, this value is then raised to the amount of active challenges to get the final synergy multiplier.</span><br>
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
       <div id ="changelogscreen" class="centered" style="display: none;">
@@ -239,6 +282,7 @@
 <script src="js/content/achievements.js"> </script>
 <script src="js/math.js"> </script>
 <script src="js/savemanager.js"> </script>
+<script src="js/hotkeys.js"> </script>
 <script src="js/game.js"> </script>
 <script src="js/vueimplementation.js"></script>
 </html>

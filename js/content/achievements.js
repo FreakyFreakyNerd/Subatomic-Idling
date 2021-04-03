@@ -122,13 +122,13 @@ function setupachievements(){
     //Challenge Milestones
     player.achievements.push([]);
     row = player.achievements.length-1;
-    player.achievements[row].push(new Achievement("3challenges", "Reach a large amount of quarks while being in challenges 1-3.", [new NumRequirement(player.quarkstage.quarks, "1e16"), new InChallengeRequirement(player.challenges[0]),new InChallengeRequirement(player.challenges[1]),new InChallengeRequirement(player.challenges[2])], null, [new StaticEffect([player.challenges[0],player.challenges[1],player.challenges[2]], 1.25, EffectTypes.UpgradeValueMult, null, () => "Multiplies Challenge 1-3 Final Rewards by 1.25")]));
+    player.achievements[row].push(new Achievement("4challenges", "[a12x1] Reach a large amount of quarks while being in challenges 1-4", [new NumRequirement(player.quarkstage.quarks, "1e16"), new InChallengeRequirement(player.challenges[0]),new InChallengeRequirement(player.challenges[1]),new InChallengeRequirement(player.challenges[2]),new InChallengeRequirement(player.challenges[3])], null, [new StaticEffect([player.challenges[0],player.challenges[1],player.challenges[2],player.challenges[3]], 1.05, EffectTypes.ChallengeScoreMult, null, () => "Multiplies Challenge 1-4 Score by 1.05")]));
 
     //Electron Milestones
     player.achievements.push([]);
     row = player.achievements.length-1;
     player.achievements[row].push(new Achievement("1e24electrons", "Alvocadros Number", [new NumRequirement(player.electronstage.electrons, "6.022e23")], null, [new FlavorEffect("Unlocks orbitals mechanic.")]));
-    player.achievements[row].push(new Achievement("nucleonunlock", "Nucleonize", [new NumRequirement(player.electronstage.electrons, "1e100")], null, [new FlavorEffect("Unlocks a new prestige layer with added mechanics.")]));
+    player.achievements[row].push(new Achievement("nucleonunlock", "Nucleonize", [new NumRequirement(player.electronstage.electrons, "1e100")], null, [new FlavorEffect("Unlocks a new prestige layer with added mechanics. (Coming Soonish)")]));
 }
 
 function resetachievements(){

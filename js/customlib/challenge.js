@@ -1,5 +1,5 @@
 class Challenge{
-  constructor(id, displayname, description, inchallengeeffects, rewards, maxdifficulty, startfunc, endfunc, basescorefunc, chalcoe, challengesynergies){
+  constructor(id, displayname, description, inchallengeeffects, rewards, maxdifficulty, startfunc, endfunc, basescorefunc, chalcoe, challengesynergies, basescoretext){
     this.id = id;
     this.displayname = displayname;
     this.description = description;
@@ -22,12 +22,33 @@ class Challenge{
     this.in = false;
     this.startfunc = startfunc;
     this.endfunc = endfunc;
+    this.basescoretext = basescoretext;
+
+    this.scoremultipliereffects = [];
+    this.scoremultiplier = new Decimal(1);
+
     this.updateinchaleffects();
     this.updaterewards();
   }
 
+  get basescoredescription(){
+    return this.basescoretext;
+  }
+
+  get synergyvalues(){
+    var text = "";
+    for(var i = 0; i < this.challengesynergies.length; i++){
+      if(i > 0)
+        text += ", " + this.challengesynergies[i];
+      else
+        text += this.challengesynergies[0];
+    }
+    return text;
+  }
+
   reset(){
     this.difficultylevel = 1;
+    this.score = new Decimal();
     this.updateinchaleffects();
     this.updaterewards();
     this.removerewards();
@@ -67,6 +88,13 @@ class Challenge{
     if(this.active)
       return "Active"
     return "Inactive"
+  }
+
+  toggleactive(){
+    if(runningchallenges.length > 0)
+      return;
+    else
+      this.active = !this.active;
   }
 
   getsynergyvalue(chalind){
@@ -142,24 +170,56 @@ class Challenge{
     var score = new Decimal(1);
     if(this.basescorefunc != undefined)
       score = this.basescorefunc();
-    score = score.times(Decimal.pow(this.chalcoe, (this.difficultylevel-1)));
+    score = score.times(this.difficultyscoremultiplier);
+    score = score.times(this.synergyscoremultiplier);
+    score = score.times(this.scoremultiplier);
+    return score;
+  }
+
+  get difficultyscoremultiplier(){
+    return Decimal.pow(this.chalcoe, (this.difficultylevel-1));
+  }
+
+  get synergyscoremultiplier(){
     var chalsyn = 1;
-    runningchallenges.forEach((chal) => {
-      if(chal != this){
+    var amountin = 0;
+    player.challenges.forEach((chal) => {
+      if(chal.active){
         chalsyn *= this.getsynergyvalue(chal.index);
+        amountin += 1;
       }
     });
-    score = score.times(Decimal.pow(chalsyn, (runningchallenges.length)));
-    return score;
+    return Decimal.pow(chalsyn, amountin);
   }
 
   tick(){
     this.newscore = this.calculatescore;
   }
 
+  recalculatescoremult(){
+    this.scoremultiplier = new Decimal(1);
+    this.scoremultipliereffects.forEach(effect => {
+      this.scoremultiplier = this.scoremultiplier.times(effect.value);
+    });
+  }
+
+  effectchanged(){
+    if(effectneedsrecalculated.indexOf(this) == -1){
+      effectneedsrecalculated.push(this);
+    }
+  }
+
+  updateeffects(){
+    this.recalculatescoremult();
+  }
+
   applyeffect(effect){
     switch(effect.effecttype){
       case EffectTypes.ChallengeScoreMult:
+        if(this.scoremultipliereffects.indexOf(effect) == -1){
+          this.scoremultipliereffects.push(effect);
+          this.recalculatescoremult();
+        }
         break;
     }
   }
@@ -167,6 +227,11 @@ class Challenge{
   removeeffect(effect){
     switch(effect.effecttype){
       case EffectTypes.ChallengeScoreMult:
+        var ind = this.scoremultipliereffects.indexOf(effect);
+        if(ind > -1){
+          this.scoremultipliereffects.splice(ind, 1);
+          this.recalculatescoremult();
+        }
         break;
     }
   }

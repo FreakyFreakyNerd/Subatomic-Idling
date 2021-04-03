@@ -284,18 +284,15 @@ Vue.component('no-effect-upgrade', {
 })
 
 Vue.component('appliable-upgrade', {
-  props: ['upgrade'],
+  props: ['upgrade', "appliesto"],
   template: `
     <div> 
       <span class="upgradename">{{upgrade.displayname}} Available: {{formatDecimalNormal(upgrade.available)}}/{{formatDecimalNormal(upgrade.maxappliable)}}</span>
-      <button v-bind:class='{appliableupgradecostbutton:true, appliableupgradecostbuttonbuyable: upgrade.canbuy}' v-on:click="buyUpgrade(upgrade)">Upgrade Max: {{upgrade.specialcostdescription}}</button>
+      <button v-bind:class='{appliableupgradecostbutton:true, appliableupgradecostbuttonbuyable: upgrade.canbuy}' v-on:click="upgrade.buy()">Upgrade Max: {{upgrade.specialcostdescription}}</button>
+      <button class='appliableupgradebutton' v-on:click="upgrade.buymax()">Buy Max</button>
+      <button class='appliableupgradebutton' v-on:click="upgrade.unapplyall(); appliesto.forEach(e => { e.unapplyall(); })">Unapply All</button>
     </div>
-  `,
-  methods: {
-      buyUpgrade: function(upgrade){
-          upgrade.buy();
-      }
-  }
+    `
 })
 
 Vue.component('applied-upgrades-display', {

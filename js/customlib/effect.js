@@ -369,5 +369,5 @@ const EffectTypes = {
   UpgradeValueMult: 25,
   UpgradeFinalMultiplier: 26,
 
-  RequirementMult: 30
+  ChallengeScoreMult: 30
 }

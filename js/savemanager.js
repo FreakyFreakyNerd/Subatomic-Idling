@@ -124,7 +124,18 @@ function loadstats(){
   player.stats = shallowcopy(settings.defaultstats);
   if(stats != null && stats != undefined)
     for(let [key,value] of Object.entries(stats)){
-      player.stats[key] = value;
+      if(player.stats[key] == undefined)
+        continue;
+      if(!Array.isArray(player.stats[key]))
+        player.stats[key] = value;
+      else{
+        for(var i = 0; i < player.stats[key].length; i++){
+          if(value[i] != undefined)
+            player.stats[key][i] = value[i];
+          else
+            player.stats[key][i] = player.stats[key][0];
+        }
+      }
     }
 }
 
@@ -137,9 +148,41 @@ function save(){
   console.log("Saved");
 }
 
+function savetofile(){
+  savedata = {};
+  saveplayer();
+  var text = Base64.encode(JSON.stringify(savedata));
+
+  downloadtofile(text, getsavename(), "text/plain");  
+}
+function loadsavefromfile(file){
+  var data = "";
+  var fr = new FileReader();
+  fr.onload = function() { safeload(fr.result); };
+  fr.readAsText(file.files[0])
+}
+
+function getsavename(){
+  return new Date().toLocaleDateString("en-US") + "_Subatomic Idling.txt"
+}
+const downloadtofile = (content, filename, contentType) => {
+  const a = document.createElement('a');
+  const file = new Blob([content], {type: contentType});
+  
+  a.href= URL.createObjectURL(file);
+  a.download = filename;
+  a.click();
+
+	URL.revokeObjectURL(a.href);
+};
+
 function load(){
+  loadfrom64(localStorage.getItem("subatomicidlingsave"));
+}
+
+function loadfrom64(data){
   try{
-    loadeddata = JSON.parse(Base64.decode(localStorage.getItem('subatomicidlingsave')));
+    loadeddata = JSON.parse(Base64.decode(data));
   }catch{
     console.log("Save Broken");
     loadeddata = undefined;
@@ -149,6 +192,19 @@ function load(){
     }
     loadplayer();
     updateafterplayer();
+}
+
+function safeload(data){
+  var savedata = {};
+  saveplayer();
+  var textbackup = Base64.encode(JSON.stringify(savedata));
+
+  try{
+    loadfrom64(data);
+  }catch{
+    console.log("Can not load save file");
+    loadfrom64(textbackup);
+  }
 }
 
 function fixsave(){
