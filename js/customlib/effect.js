@@ -166,7 +166,8 @@ class Effect{
     if(this.applied){
       this.applied = false;
       this.appliesto.forEach((obj, i) => {
-        obj.removeeffect(this);
+        if(obj != undefined)
+          obj.removeeffect(this);
       });
     }
   }

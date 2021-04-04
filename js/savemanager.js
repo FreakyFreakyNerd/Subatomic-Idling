@@ -212,3 +212,22 @@ function fixsave(){
   localStorage.removeItem('subatomicidlingsave');
   window.location.reload(false);
 }
+
+function resetSettings(){
+  console.log("Settings");
+  openproducersscreen("quark");
+  openupgradesscreen("quark");
+}
+
+function resetsave(){
+  if(confirm("Completely Reset Save?")){
+    console.log("reset");
+    resetQuarkStage();
+    resetElectronStage();
+    resetstats();
+    resetachievements();
+    resetchallenges(0, player.challenges.length);
+    resetSettings();
+  }
+}
+

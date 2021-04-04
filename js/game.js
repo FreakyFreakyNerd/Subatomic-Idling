@@ -94,13 +94,3 @@ gameLogicIntervalID = setInterval(() => {
 var gameSaveIntervalID = setInterval(() => {
   save();
 }, 10000);
-
-function reset(){
-  if(confirm("Completely Reset Save?")){
-    resetQuarkStage();
-    resetElectronStage();
-    resetstats();
-    resetachievements();
-    resetchallenges(0, player.challenges.length);
-  }
-}

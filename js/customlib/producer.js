@@ -66,6 +66,8 @@ class Producer {
     reset(){
       this.bought = new Decimal(0);
       this.produced = new Decimal(0);
+      this.buyauto = false;
+      this.autobuyunlocked = false;
       this.effectchanged();
     }
 

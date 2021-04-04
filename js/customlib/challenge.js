@@ -241,7 +241,7 @@ class Challenge{
   }
 
   increasedifficulty(){
-    if(this.in)
+    if(this.in || runningchallenges.length > 0)
       return;
     var buyamount = getbuyamount("challengedifficulty");
     this.difficultylevel += buyamount;
@@ -251,7 +251,7 @@ class Challenge{
   }
 
   decreasedifficulty(){
-    if(this.in)
+    if(this.in || runningchallenges.length > 0)
       return;
     var buyamount = getbuyamount("challengedifficulty");
     this.difficultylevel -= buyamount;
