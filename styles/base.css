@@ -224,9 +224,9 @@ td.righttablecolumn {
 }
 .challengeentercontainer{
   position: absolute;
-  width: 90%;
-  bottom: 30%;
-  left: 220px;
+  width: 40%;
+  top: 15%;
+  left: 50%;
 }
 .challengeenterinfo{
   font-size: 12px;
@@ -536,7 +536,9 @@ td.righttablecolumn {
 /*Buy Amount Stuff*/
 .buyamountdisplay{
   position: fixed;
-  bottom: 30px;
+  transform: translate(50%, 50%);
+  top: 120px;
+  left: 65%;
   border: 2px solid;
   padding: 4px 4px 4px 4px;
   width: 240px;

@@ -212,10 +212,6 @@
         <div class="challengelist">
           <challenge-item v-for="challenge in player.challenges" v-bind:challenge="challenge"></challenge-item>
         </div>
-        <div class="challengeentercontainer">
-          <button v-bind:class='{challengeenterexit: true, enterchallenge: runningchallenges.length == 0, exitchallenge: runningchallenges.length > 0}' v-on:click='togglechallenges()'><span v-if="runningchallenges.length == 0">Enter</span><span v-if="runningchallenges.length > 0">Exit</span> Challenges</button>
-          <span class="challengeenterinfo">All Active Challenges Will Be <span v-if="runningchallenges.length == 0">Entered</span><span v-if="runningchallenges.length > 0">Exited And All Pending Scores Will Be Transfered To Score</span></span>
-        </div>
         <div id="challengeinfo">
           <table class="challengeinfotable">
             <tr>
@@ -238,6 +234,10 @@
               </td>
             </tr>
           </table>
+        </div>
+        <div class="challengeentercontainer">
+          <button v-bind:class='{challengeenterexit: true, enterchallenge: runningchallenges.length == 0, exitchallenge: runningchallenges.length > 0}' v-on:click='togglechallenges()'><span v-if="runningchallenges.length == 0">Enter</span><span v-if="runningchallenges.length > 0">Exit</span> Challenges</button>
+          <span class="challengeenterinfo">All Active Challenges Will Be <span v-if="runningchallenges.length == 0">Entered</span><span v-if="runningchallenges.length > 0">Exited And All Pending Scores Will Be Transfered To Score</span></span>
         </div>
       </div>
       <div id ="changelogscreen" class="centered" style="display: none;">
