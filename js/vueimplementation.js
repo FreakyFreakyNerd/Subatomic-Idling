@@ -183,7 +183,7 @@ Vue.component('challenge-item', {
     template: `
     <div class="challengedisplay" @mouseover="showChallenge(challenge)">
       <img v-bind:class="{challengeimage : true, inchallenge: challenge.in}"" v-bind:src='"images/challenge/"+challenge.id+".png"' @error="$event.target.src='images/missing.png'" />
-      <div class="centered"><button v-bind:class="{challengeactivator: true, challengeactive: challenge.active, challengeinactive: !challenge.active}" v-on:click="challenge.active = !challenge.active">{{challenge.activetext}}</button></div>
+      <div class="centered"><button v-bind:class="{challengeactivator: true, challengeactive: challenge.active, challengeinactive: !challenge.active}" v-on:click="challenge.toggleactive()">{{challenge.activetext}}</button></div>
       <div class="centered challengedifficulty" v-if="challenge.maxdifficulty > 1"><button class="changechallengedifficulty" v-on:click="challenge.decreasedifficulty()">-</button><span class="challengedifficulty">{{challenge.difficultyinformation}}</span><button class="changechallengedifficulty" v-on:click="challenge.increasedifficulty()">+</button></div>
       </div>
     `,
