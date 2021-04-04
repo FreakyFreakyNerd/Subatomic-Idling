@@ -140,7 +140,7 @@
         <div class="subsidenav" v-if='hasachievement("electrifyunlock")'>
           <a class="menubutton quarksubmenubutton" onclick='openupgradesscreen("quark")'>Quark</a>
           <a class="menubutton electronsubmenubutton" onclick='openupgradesscreen("electron")'>Electron</a>
-          <a class="menubutton nucleonsubmenubutton" onclick='openupgradesscreen("nucleon")'>Nucleon</a>
+          <a class="menubutton nucleonsubmenubutton" onclick='openupgradesscreen("nucleon")' v-if='hasachievement("nucleonizeunlock")'>Nucleon</a>
         </div>
         <div id="quarkupgradesscreen" class="subcontent" style="display: none">
           <div class="upgrades">

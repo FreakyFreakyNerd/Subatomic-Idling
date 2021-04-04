@@ -44,7 +44,6 @@ function setupchallenges(){
 }
 
 function togglechallenges(){
-console.log(runningchallenges.length);
   if(runningchallenges.length > 0){
   player.challenges.forEach(chal => {
     if(chal.in){
@@ -58,7 +57,7 @@ console.log(runningchallenges.length);
     }
   });
   }
-  vm.$forceUpdate();
+  subatomicidlingapp.$forceUpdate();
 }
 
 function resetchallenges(startind, endind){
