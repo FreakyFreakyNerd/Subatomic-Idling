@@ -45,19 +45,20 @@ function setupchallenges(){
 
 function togglechallenges(){
 console.log(runningchallenges.length);
-if(runningchallenges.length > 0){
+  if(runningchallenges.length > 0){
   player.challenges.forEach(chal => {
     if(chal.in){
       chal.exit();
     }
   });
-}else{
+  }else{
   player.challenges.forEach(chal => {
     if(chal.active){
       chal.start();
     }
   });
-}
+  }
+  vm.$forceUpdate();
 }
 
 function resetchallenges(startind, endind){
