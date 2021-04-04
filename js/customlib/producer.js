@@ -63,11 +63,13 @@ class Producer {
         this.buyauto = !this.buyauto;
     }
 
-    reset(){
+    reset(hard){
       this.bought = new Decimal(0);
       this.produced = new Decimal(0);
-      this.buyauto = false;
-      this.autobuyunlocked = false;
+      if(hard){
+        this.buyauto = false;
+        this.autobuyunlocked = false;
+      }
       this.effectchanged();
     }
 

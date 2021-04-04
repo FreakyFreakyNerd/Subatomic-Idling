@@ -222,8 +222,8 @@ function resetSettings(){
 function resetsave(){
   if(confirm("Completely Reset Save?")){
     console.log("reset");
-    resetQuarkStage();
-    resetElectronStage();
+    resetQuarkStage(true);
+    resetElectronStage(true);
     resetstats();
     resetachievements();
     resetchallenges(0, player.challenges.length);

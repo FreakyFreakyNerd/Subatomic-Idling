@@ -75,10 +75,10 @@ function setupstage2quarksingletonupgrades(){
     player.quarkstage.singletonupgrades.push(new Upgrade("qsu18", "[q19] Quark Spin multiplier is slightly better.", "1", null, [new StaticEffect(player.electronstage.quarkspin, 1.2, EffectTypes.UpgradeValuePower, null, () => "Quark Spin Multiplier ^1.2")], [new StaticCost(player.quarkstage.quarks, "1e75")], "upg"));
 }
 
-function resetQuarkStage(){
+function resetQuarkStage(hard){
   player.quarkstage.quarks.reset();
   player.quarkstage.producers.forEach((prod, i) => {
-    prod.reset();
+    prod.reset(hard);
   });
   player.quarkstage.upgrades.forEach((upgrade, i) => {
     upgrade.reset();
