@@ -237,7 +237,7 @@
         </div>
         <div class="challengeentercontainer">
           <button v-bind:class='{challengeenterexit: true, enterchallenge: runningchallenges.length == 0, exitchallenge: runningchallenges.length > 0}' v-on:click='togglechallenges()'><span v-if="runningchallenges.length == 0">Enter</span><span v-if="runningchallenges.length > 0">Exit</span> Challenges</button>
-          <span class="challengeenterinfo">All Active Challenges Will Be <span v-if="runningchallenges.length == 0">Entered</span><span v-if="runningchallenges.length > 0">Exited And All Pending Scores Will Be Transfered To Score</span></span>
+          <br><span class="challengeenterinfo">All Active Challenges Will Be <span v-if="runningchallenges.length == 0">Entered</span><span v-if="runningchallenges.length > 0">Exited And All Pending Scores Will Be Transfered To Score</span></span>
         </div>
       </div>
       <div id ="changelogscreen" class="centered" style="display: none;">
