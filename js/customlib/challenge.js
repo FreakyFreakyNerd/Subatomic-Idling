@@ -120,7 +120,7 @@ class Challenge{
   applyrewards(){
     this.rewards.forEach((reward, i) => {
       if(reward.apply != undefined){
-        if(this.score.greaterThanOrEqualTo(this.rewards[i-1]))
+        if(this.score.greaterThanOrEqualTo(this.rewards[i-1].minus(1)))
           reward.apply();
       }
     });

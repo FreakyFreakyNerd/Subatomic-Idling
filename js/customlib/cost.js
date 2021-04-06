@@ -67,7 +67,6 @@ class ExponentialCost extends Cost{
       var amountavailable = this.costobject.amount;
       var sae = this.startingcost.times(Decimal.pow(this.scaling, amount));
       var buyamount = Decimal.log((sae.plus(amountavailable.times(this.scaling.minus(1)))).divide(sae), this.scaling);
-      var oldbuyamount = Decimal.log(new Decimal(1).minus((new Decimal(1)).minus(this.scaling).times(amountavailable).divide(this.startingcost).divide(Decimal.pow(this.scaling, amount))), this.scaling);
       return Decimal.floor(buyamount);
     }
 }
@@ -75,7 +74,7 @@ class ExponentialCost extends Cost{
 class LinearCost extends Cost{
     recalculatecost(amount, buyamount){
       if(buyamount != undefined && buyamount != 1)
-        this.cost = Decimal.floor(this.startingcost.times(buyamount).add(new Decimal(buyamount).divide(2).times(amount.times(2).plus(buyamount)).times(this.scaling)));
+        this.cost = this.startingcost.times(buyamount).add(buyamount.times(amount).add(Decimal.pow(buyamount, 2).divide(2)).times(this.scaling));
       else
         this.cost = this.startingcost.add(this.scaling.times(amount));
       if(this.cost.lessThan(0))
@@ -84,8 +83,9 @@ class LinearCost extends Cost{
 
     getmaxbuyable(amount){
       var amountavailable = this.costobject.amount;
-      var buyamount = Decimal.floor(Decimal.log(new Decimal(1).minus((new Decimal(1)).minus(this.scaling).times(amountavailable).divide(this.startingcost).divide(Decimal.pow(this.scaling, amount))), this.scaling));
-      return buyamount;
+      var b = this.startingcost.divide(this.scaling).add(amount)
+      var buyamount = b.times(-1).add(Decimal.pow(Decimal.pow(b, 2).add(amountavailable.divide(this.scaling).times(2)), .5))
+      return Decimal.floor(buyamount);
     }
 }
 
