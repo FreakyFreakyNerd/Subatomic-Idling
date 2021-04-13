@@ -483,6 +483,10 @@ td.righttablecolumn {
   height: 32px;
   width: 96%;
 }
+.toggleallauto{
+  height: 32px;
+  width: 96%;
+}
 
 /*Upgrade Display*/
 .upgraderow{

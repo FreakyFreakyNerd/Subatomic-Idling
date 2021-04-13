@@ -116,14 +116,14 @@
           <a class="menubutton nucleonsubmenubutton" onclick='openproducersscreen("nucleon")' v-if='hasachievement("nucleonizeunlock")'>Nucleon</a>
         </div>
         <div class="subcontent" id="quarkproducersscreen" style="display: none">
-          <producers-display v-bind:producers="player.quarkstage.producers" type="quark"></producers-display>
+          <producers-display v-bind:producers="player.quarkstage.producers" fasttoggle="true" type="quark"></producers-display>
           <div class="spacer32"></div>
-          <upgrades-display v-bind:upgrades="player.quarkstage.upgrades" type="quark"></upgrades-display>
+          <upgrades-display v-bind:upgrades="player.quarkstage.upgrades" fasttoggle="true" type="quark"></upgrades-display>
           <buy-amount-selector type="qp"></buy-amount-selector>
         </div>
         <div class="subcontent" id="electronproducersscreen" style="display:none;">
           <upgrade-bonus v-bind:upgrade="player.electronstage.quarkspin"></upgrade-bonus>
-          <producers-display v-bind:producers="player.electronstage.quarkspinproducers" type="quark"></producers-display>
+          <producers-display v-bind:producers="player.electronstage.quarkspinproducers" type="quark" v-bind:fasttoggle="true"></producers-display>
           <div class="spacer32"></div>
           <upgrades-display v-bind:upgrades="player.electronstage.quarkspinupgrades" type="quark"></upgrades-display>
           <buy-amount-selector type="qsp"></buy-amount-selector>

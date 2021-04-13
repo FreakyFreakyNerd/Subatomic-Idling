@@ -330,6 +330,12 @@ body{
 .autobuttonoff{
   border-color: red !important;
 }
+.toggleallauto{
+  background-color: var(--main-color);
+  color: white;
+  border-radius: 2px;
+  border: 2px solid #9f32c9;
+}
 
 /*upgrade Display*/
 .upgradequarkname{

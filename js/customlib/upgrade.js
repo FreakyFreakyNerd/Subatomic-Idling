@@ -124,6 +124,15 @@ class Upgrade{
       return "ON"
     }
 
+    get autobuystate(){
+      return this.buyauto;
+    }
+
+    setautobuystate(state){
+      if(this.autobuyunlocked)
+        this.buyauto = state;
+    }
+
     togglebuystate(){
       if(this.autobuyunlocked)
         this.buyauto = !this.buyauto;

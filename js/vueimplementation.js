@@ -57,7 +57,7 @@ Vue.component('quark-upgrade-item', {
 })
 
 Vue.component('producers-display', {
-  props: ['producers','type'],
+  props: ['producers','type','fasttoggle'],
   template: `
     <table>
       <tr class="producerrow" v-for="producer in producers" v-if="producer.unlocked">
@@ -67,6 +67,7 @@ Vue.component('producers-display', {
         <td v-bind:class='"producerauto producer"+type+"auto"'><button v-bind:class='{autobutton: true, autobuttonon: producer.autobuyunlocked && producer.buyauto, autobuttonoff: producer.autobuyunlocked && !producer.buyauto}' v-on:click="toggleproducer(producer)">AUTO: [{{producer.autostate}}]</button></td>
         <td v-bind:class='"producerproduction producer"+type+"production"'>{{producer.productiondescription}}</td>
       </tr>
+      <fast-toggle v-if='fasttoggle == "true"' v-bind:totoggle="producers"></fast-toggle>
     </table>
   `,
   methods: {
@@ -80,7 +81,7 @@ Vue.component('producers-display', {
 })
 
 Vue.component('upgrades-display', {
-  props: ['upgrades','type'],
+  props: ['upgrades','type', 'fasttoggle'],
   template: `
     <table>
       <tr class="upgraderow" v-for="upgrade in upgrades" v-if="upgrade.unlocked">
@@ -90,6 +91,7 @@ Vue.component('upgrades-display', {
         <td v-bind:class='"upgradeauto upgrade"+type+"auto"'><button v-bind:class='{autobutton: true, autobuttonon: upgrade.autobuyunlocked && upgrade.buyauto, autobuttonoff: upgrade.autobuyunlocked && !upgrade.buyauto}' v-on:click="toggleupgrade(upgrade)">AUTO: [{{upgrade.autostate}}]</button></td>
         <td v-bind:class='"upgradeeffect upgrade"+type+"effect"'>{{upgrade.specialeffectdescription}}</td>
       </tr>
+      <fast-toggle v-if="fasttoggle" v-bind:totoggle="upgrades"></fast-toggle>
     </table>
   `,
   methods: {
@@ -99,6 +101,25 @@ Vue.component('upgrades-display', {
     },
     toggleupgrade: function(upgrade){
       upgrade.togglebuystate();
+    }
+  }
+})
+
+Vue.component('fast-toggle', {
+  props: ['totoggle'],
+  template: `
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td><button class="toggleallauto" v-on:click="toggle(totoggle)">Toggle Above</button></td>
+      <td></td>
+    </tr>
+  `,
+  methods: {
+    toggle: function(totoggle){
+      state = !totoggle[0].autobuystate;
+      totoggle.forEach(elem => {elem.setautobuystate(state)})
     }
   }
 })
