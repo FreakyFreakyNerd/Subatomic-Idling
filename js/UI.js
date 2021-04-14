@@ -67,7 +67,7 @@ const millisecondsperday = 1000*3600*24
 const millisecondsperhour = 1000*3600
 const millisecondsperminute = 1000*60
 
-function formattime(milliseconds,showdays,showhours,showminutes,showseconds, showmilli){
+function formattime(milliseconds){
   var days = Math.floor(milliseconds/millisecondsperday);
   var remainingmilliseconds = milliseconds - days*millisecondsperday;
   var hours = Math.floor(remainingmilliseconds/millisecondsperhour);
@@ -77,16 +77,15 @@ function formattime(milliseconds,showdays,showhours,showminutes,showseconds, sho
   var seconds = Math.floor(remainingmilliseconds/1000);
   remainingmilliseconds = remainingmilliseconds - seconds*1000;
   var val = "";
-  if(showdays == undefined || showdays == true)
+  if(days > 0)
     val += `${days} Days, `;
-  if(showhours == undefined || showhours == true)
+  if(hours > 0)
     val += `${hours} Hours, `;
-  if(showminutes == undefined || showminutes == true)
+  if(minutes > 0)
     val += `${minutes} Minutes, `;
-  if(showseconds == undefined || showseconds == true)
-    val += showmilli ? `${seconds} Seconds, ` : `${seconds} Seconds`;
-  if(showmilli == undefined || showmilli == true)
-    val += `${remainingmilliseconds} Milliseconds`;
+  if(seconds > 0)
+    val += `${seconds} Seconds, `;
+  val += `${remainingmilliseconds} Milliseconds`;
   return val;
 }
 
