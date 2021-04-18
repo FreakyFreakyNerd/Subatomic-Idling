@@ -115,20 +115,20 @@
           <a class="menubutton electronsubmenubutton" onclick='openproducersscreen("electron")'>Electron</a>
           <a class="menubutton nucleonsubmenubutton" onclick='openproducersscreen("nucleon")' v-if='hasachievement("nucleonizeunlock")'>Nucleon</a>
         </div>
-        <div class="subcontent" id="quarkproducersscreen" style="display: none">
+        <div class="subcontent producerscreen" id="quarkproducersscreen" style="display: none">
           <producers-display v-bind:producers="player.quarkstage.producers" fasttoggle="true" type="quark"></producers-display>
           <div class="spacer32"></div>
           <upgrades-display v-bind:upgrades="player.quarkstage.upgrades" fasttoggle="true" type="quark"></upgrades-display>
           <buy-amount-selector type="qp"></buy-amount-selector>
         </div>
-        <div class="subcontent" id="electronproducersscreen" style="display:none;">
+        <div class="subcontent producerscreen" id="electronproducersscreen" style="display:none;">
           <upgrade-bonus v-bind:upgrade="player.electronstage.quarkspin"></upgrade-bonus>
           <producers-display v-bind:producers="player.electronstage.quarkspinproducers" type="quark" v-bind:fasttoggle="true"></producers-display>
           <div class="spacer32"></div>
           <upgrades-display v-bind:upgrades="player.electronstage.quarkspinupgrades" type="quark"></upgrades-display>
           <buy-amount-selector type="qsp"></buy-amount-selector>
         </div>
-        <div class="subcontent" id="nucleonproducersscreen" style="display:none;">
+        <div class="subcontent producerscreen" id="nucleonproducersscreen" style="display:none;">
           <upgrade-bonus v-bind:upgrade="player.nucleonstage.freeelectrons"></upgrade-bonus>
           <producers-display v-bind:producers="player.nucleonstage.freeelectronproducers" type="quark"></producers-display>
           <div class="spacer32"></div>
@@ -202,11 +202,11 @@
         </div>
       </div>
       <div id="orbitalsscreen" style="display: none;">
-        <div id="electronpower">
-          <appliable-upgrade v-bind:upgrade="player.electronstage.clouds.power"  v-bind:appliesto="player.electronstage.clouds.orbitals"></appliable-upgrade>
+        <appliable-upgrade v-bind:upgrade="player.electronstage.clouds.power"  v-bind:appliesto="player.electronstage.clouds.orbitals"></appliable-upgrade>
+        <div class="electronpower">
           <applied-upgrades-display v-bind:upgrades="player.electronstage.clouds.orbitals" type="electronpower"></applied-upgrades-display>
         </div>
-        <button class="upgradebuyamount" v-on:click='togglebuyamount("applyelectronpower")'>Apply Amount: {{getbuyamount("applyelectronpower")}}</button>
+        <button class="upgradebuyamount electronpowerapplyamount" v-on:click='togglebuyamount("applyelectronpower")'>Apply Amount: {{getbuyamount("applyelectronpower")}}</button>
       </div>
       <div id="challengesscreen" style="display: none;">
         <div class="challengelist">

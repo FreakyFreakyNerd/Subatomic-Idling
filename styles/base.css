@@ -167,6 +167,13 @@ td.righttablecolumn {
   margin-top: 20px;
 }
 
+/*Electron Power*/
+.electronpower{
+  border: white;
+  height: 70%;
+  overflow-y: scroll;
+}
+
 /*Upgrade Information*/
 #upgradeinfo{
   position: fixed;
@@ -313,7 +320,7 @@ td.righttablecolumn {
 }
 
 .achievementdisplay{
-  height: 65%;
+  height: 30%;
   overflow-y: scroll;
 }
 
@@ -478,6 +485,11 @@ td.righttablecolumn {
   width: 120px;
 }
 
+.producerscreen{
+  overflow-y: scroll;
+  height: 70%;
+}
+
 /*Auto Button*/
 .autobutton{
   height: 32px;
@@ -541,9 +553,7 @@ td.righttablecolumn {
 /*Buy Amount Stuff*/
 .buyamountdisplay{
   position: fixed;
-  transform: translate(50%, 50%);
-  top: 120px;
-  left: 65%;
+  bottom: 25px;
   border: 2px solid;
   padding: 4px 4px 4px 4px;
   width: 240px;

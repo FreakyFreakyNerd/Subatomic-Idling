@@ -601,8 +601,8 @@ class AppliableUpgrade extends Upgrade{
 }
 
 class AppliedToUpgrade extends Upgrade{
-  constructor(id, displayname, effects, cost, usedappliableupgrade){
-    super(id, displayname, -1, null, effects, cost, "special", null, );
+  constructor(id, displayname, effects, cost, usedappliableupgrade, requirements){
+    super(id, displayname, -1, requirements, effects, cost, "special", null);
     this.usedappliableupgrade = usedappliableupgrade;
     this.upgradecurrency = new Currency(id + "_xp", null, null, new Decimal());
     this.upgradeproducer = new Producer(id + "_prod", null, null, new LinearProduction(this.upgradecurrency, 1, 0));
