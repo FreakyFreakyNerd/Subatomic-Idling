@@ -562,6 +562,11 @@ class AppliableUpgrade extends Upgrade{
     this.appliedamount = new Decimal();
   }
 
+  reset(){
+    super.reset();
+    this.appliedamount = new Decimal();
+  }
+
   get maxappliable(){
     return this.bought;
   }
@@ -610,6 +615,12 @@ class AppliedToUpgrade extends Upgrade{
     this.appliedpoints = new Decimal();
 
     updaterequiredregistry.push(this);
+  }
+
+  reset(){
+    this.setamount(new Decimal(0));
+    this.upgradecurrency.reset();
+    super.reset();
   }
 
   save(){
