@@ -69,7 +69,7 @@ function setupbasicelectroncloud(){
 
     player.electronstage.clouds.orbitals = [];
     player.electronstage.clouds.orbitals.push(new AppliedToUpgrade("1s", "Orbital 1S", new LinearEffect(player.quarkstage.producers, 1, .05, EffectTypes.ProducerMultiplierProductionm, null, (obj) => "Quark Production x" + formatDecimalOverride(obj.value,2) + "(+" + formatDecimalOverride(obj.increase,2) + ")"), new ExponentialCost(null, "100", "1.01"), player.electronstage.clouds.power));
-    player.electronstage.clouds.orbitals.push(new AppliedToUpgrade("2s", "Orbital 2S", new LinearEffect(player.quarkstage.producers, 1, .01, EffectTypes.PrestigeExponentialGain, null, (obj) => "Electron gain ^" + formatDecimalOverride(obj.value,2) + "(+" + formatDecimalOverride(obj.increase,2) + ")"), new ExponentialCost(null, "1000", "1000"), player.electronstage.clouds.power));
+    player.electronstage.clouds.orbitals.push(new AppliedToUpgrade("2s", "Orbital 2S", new LinearEffect(player.quarkstage.electrify, 1, .01, EffectTypes.PrestigeExponentialGain, null, (obj) => "Electron gain ^" + formatDecimalOverride(obj.value,2) + "(+" + formatDecimalOverride(obj.increase,2) + ")"), new ExponentialCost(null, "1000", "1000"), player.electronstage.clouds.power));
 }
 
 function resetElectronStage(){
@@ -83,6 +83,10 @@ function resetElectronStage(){
   });
   player.electronstage.quarkspinupgrades.forEach((prod, i) => {
     prod.reset();
+  });
+  player.electronstage.clouds.power.reset();
+  player.electronstage.clouds.orbitals.forEach((up, i) => {
+    up.reset();
   });
   updateeffects();
 }
