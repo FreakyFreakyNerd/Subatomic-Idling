@@ -113,23 +113,24 @@ class PrestigeReward{
     switch(effect.effecttype){
       case EffectTypes.PrestigeBaseGain:
         if(this.addeffects.includes(effect)){
-          this.addeffects.splice(this.addeffects.indexOf(effect));
+          this.addeffects.splice(this.addeffects.indexOf(effect), 1);
           this.recalculateaddeffect();
         }
         break;
       case EffectTypes.PrestigeMultiplicativeGain:
         if(this.multeffects.includes(effect)){
-          this.multeffects.splice(this.multeffects.indexOf(effect));
+          this.multeffects.splice(this.multeffects.indexOf(effect), 1);
           this.recalculatemulteffect();
         }
         break;
       case EffectTypes.PrestigeExponentialGain:
         if(this.expoeffects.includes(effect)){
-          this.expoeffects.splice(this.expoeffects.indexOf(effect));
+          this.expoeffects.splice(this.expoeffects.indexOf(effect), 1);
           this.recalculateexpoeffect();
         }
         break;
     }
+    console.log(this.multeffects);
   }
 
   effectchanged(){
