@@ -7,14 +7,16 @@ function setupGame(){
   setupbasicquarkupgrades();
   setupbasicquarksingletonupgrades();
 
-  setupbasicelectronupgrades();
   setupquarkspinproducers();
+  setupbasicelectronupgrades();
   setupchallenges();
   setupbasicquarkspinupgrades();
 
+  setupbasicelectroncloud();
+
   setupstage2quarksingletonupgrades();
 
-  setupbasicelectroncloud();
+  setupbasicelectronupgradesstage2();
 
   //Post Nucleonize
   setupnucleonproducers();

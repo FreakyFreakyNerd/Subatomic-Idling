@@ -7,6 +7,7 @@ function saveplayer(){
   savestats();
   saveachievements();
   savechallenges();
+  savedata["lastplaytime"] = Date.now().toFixed();
 }
 
 function saveachievements(){
@@ -82,6 +83,7 @@ function loadplayer(){
   loadQuarkStage();
   loadachievements();
   loadchallenges();
+  handleoffline();
 }
 
 function loadachievements(){
@@ -200,9 +202,11 @@ function safeload(data){
   var textbackup = Base64.encode(JSON.stringify(savedata));
 
   try{
+    resetgame();
     loadfrom64(data);
   }catch{
     console.log("Can not load save file");
+    resetgame();
     loadfrom64(textbackup);
   }
 }
@@ -221,13 +225,25 @@ function resetSettings(){
 
 function resetsave(){
   if(confirm("Completely Reset Save?")){
-    console.log("reset");
-    resetQuarkStage(true);
-    resetElectronStage(true);
-    resetstats();
-    resetachievements();
-    resetchallenges(0, player.challenges.length);
-    resetSettings();
+    resetgame();
   }
 }
 
+function resetgame(){
+  resetQuarkStage(true);
+  resetElectronStage(true);
+  resetstats();
+  resetachievements();
+  resetchallenges(0, player.challenges.length);
+  resetSettings();
+}
+
+function handleoffline(){
+  if(loadeddata["lastplaytime"] != undefined && player.options.doofflineprogress){
+    var now = Date.now();
+    var old = loadeddata["lastplaytime"];
+    var dif = now-old;
+    var time = dif/2;
+    produce(time/1000);
+  }
+}

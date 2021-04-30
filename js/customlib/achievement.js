@@ -49,6 +49,11 @@ class Achievement{
     if(this.unlocked)
       this.onunlock();
   }
+  forceunlock(){
+    this.unlocked = true;
+    this.show = true;
+    this.onunlock();
+  }
 
   checkforshow(){
     if (this.showdescriptionrequirements == null || this.showdescriptionrequirements == undefined){

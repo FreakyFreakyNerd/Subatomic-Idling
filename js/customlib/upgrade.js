@@ -43,6 +43,9 @@ class Upgrade{
         this.bonusmult = new Decimal(1);
         this.bonusmulteffects = [];
 
+        this.amountmultiplier = new Decimal(1);
+        this.amountmulteffects = [];
+
         if(extra != null && extra != undefined)
           for(let [key,value] of Object.entries(extra)){
             this[key] = value;
@@ -268,7 +271,7 @@ class Upgrade{
     }
 
     get amount(){
-      return this.extraamount.add(Decimal.floor(this.bought));
+      return this.extraamount.add(Decimal.floor(this.bought)).times(this.amountmultiplier);
     }
 
     recalculatecosts(){
@@ -393,12 +396,16 @@ class Upgrade{
     }
 
     updateeffects(){
-      if(this.effects != undefined)
-        this.effects.forEach((effect, i) => {
-          effect.effectchanged();
-        });
+      this.effects?.forEach((effect, i) => {
+        effect.effectchanged();
+      })
       this.recalculatebonusmult();
       this.recalculatebonus();
+      this.recalculateamountmult();
+      this.costs?.forEach(cost => {
+        cost.effectchanged();
+      });
+      this.recalculatecosts();
       this.recalculateeffects();
       if((this.bought.greaterThan(0) || this.produced.greaterThan(0) || this.bonus.greaterThan(0)) && !this.applied)
         this.onunlock();
@@ -418,11 +425,24 @@ class Upgrade{
       });
     }
 
+    recalculateamountmult(){
+      this.amountmultiplier = new Decimal(1);
+      this.amountmulteffects.forEach(effect => {
+        this.amountmultiplier = this.amountmultiplier.times(effect.value);
+      })
+    }
+
     applyeffect(effect){
       if(effect.effecttype == EffectTypes.UpgradeIncreaseMultiplier || effect.effecttype == EffectTypes.UpgradeValuePower || effect.effecttype == EffectTypes.UpgradeValueMult || effect.effecttype == EffectTypes.UpgradeFinalMultiplier){
         this.effects.forEach((eff, i) => {
           eff.applyeffect(effect);
         });}
+      if(effect.effecttype == EffectTypes.PriceScaling || effect.effecttype == EffectTypes.PriceMultiplier){
+        this.costs.forEach(cost => {
+          cost.applyeffect(effect);
+        });
+        this.recalculatecosts();
+      }
       switch (effect.effecttype) {
         case EffectTypes.UpgradeBonusLevels:
           if(!this.applied)
@@ -433,6 +453,10 @@ class Upgrade{
         case EffectTypes.UpgradeBonusLevelMultiplier:
           this.bonusmulteffects.push(effect);
           this.recalculatebonusmult();
+          break;
+        case EffectTypes.UpgradeAmountMultiplier:
+          this.amountmulteffects.push(effect);
+          this.recalculateamountmult();
           break;
         default:
           return;
@@ -445,6 +469,12 @@ class Upgrade{
         this.effects.forEach((eff, i) => {
           eff.removeeffect(effect);
         });}
+      if(effect.effecttype == EffectTypes.PriceScaling || effect.effecttype == EffectTypes.PriceMultiplier){
+        this.costs.forEach(cost => {
+          cost.removeeffect(effect);
+        });
+        this.recalculatecosts();
+      }
       switch (effect.effecttype) {
         case EffectTypes.UpgradeBonusLevels:
           var ind = this.bonuseffects.indexOf(effect);
@@ -458,6 +488,13 @@ class Upgrade{
           if(ind > -1){
             this.bonusmulteffects.splice(this.bonusmulteffects.indexOf(effect), 1);
             this.recalculatebonusmult();
+          }
+          break;
+        case EffectTypes.UpgradeAmountMultiplier:
+          ind = this.amountmulteffects.indexOf(effect);
+          if(ind > -1){
+            this.amountmulteffects.splice(this.amountmulteffects.indexOf(effect), 1);
+            this.recalculateamountmult();
           }
           break;
         default:
@@ -494,9 +531,9 @@ class DiminishingUpgrade extends Upgrade{
   get amount(){
     var amt = this.extraamount.add(this.bought)
     if(!this.diming)
-      return amt;
+      return amt.times(this.amountmultiplier);
     else {
-      return this.dimstart.add(this.dimfunction(amt.minus(this.dimstart)));
+      return this.dimstart.add(this.dimfunction(amt.minus(this.dimstart))).times(this.amountmultiplier);
     }
   }
 
@@ -568,7 +605,7 @@ class AppliableUpgrade extends Upgrade{
   }
 
   get maxappliable(){
-    return this.bought;
+    return this.amount;
   }
 
   get available(){
@@ -678,6 +715,9 @@ class AppliedToUpgrade extends Upgrade{
   }
 
   get progress(){
-    return formatDecimalNormal(this.upgradecurrency.amount) + "/" + formatDecimalNormal(this.getcost(0));
+    var data = formatDecimalNormal(this.upgradecurrency.amount) + "/" + formatDecimalNormal(this.getcost(0));
+    if(this.appliedpoints.greaterThan(0))
+      data += " (+" + formatDecimalNormal(this.appliedpoints) + "/s)"
+    return data;
   }
 }

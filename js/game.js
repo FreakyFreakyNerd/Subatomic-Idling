@@ -54,18 +54,28 @@ function gameLogicTick(){
   this.updaterequiredregistry.forEach((item, i) => {
     item.tick();
   });
-  if(Date.now() > needseffectrecalculatedtime)
-    updateeffects();
   if(Date.now() > nextaddtime)
     updatetimes();
 }
 
-var needseffectrecalculatedtime = (Date.now() + 500)
+var last = performance.now();
+function gameLogic(timestamp){
+  var elapsed = timestamp-last;
+  last = timestamp;
+  var prodratio = elapsed/1000;
+  produce(prodratio);
+  this.updaterequiredregistry.forEach((item, i) => {
+    item.tick();
+  });
+
+  requestAnimationFrame(gameLogic);
+}
+//requestAnimationFrame(gameLogic);
+
 function updateeffects(){
   this.effectneedsrecalculated.forEach(item => {
     item.updateeffects();
   });
-  //needseffectrecalculatedtime = Date.now() + 500;
 }
 
 var lasttimeadded = Date.now();

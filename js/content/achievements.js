@@ -111,24 +111,35 @@ function setupachievements(){
   player.achievements[row].push(new Achievement("1e7quarkgenten", "On the edge of time.", [new NumRequirement(player.quarkstage.producers[9], "1e7")], null, [new FlavorEffect("Something Sometime.")]));
   player.achievements[row].push(new Achievement("1e10quarkgenten", "COLLAPSE!", [new NumRequirement(player.quarkstage.producers[9], "1e10")], null, [new FlavorEffect("Something Sometime.")]));
 
-    //Quark Milestones
-    player.achievements.push([]);
-    row = player.achievements.length-1;
-    player.achievements[row].push(new Achievement("electrifyunlock", "Electrify", [new NumRequirement(player.quarkstage.quarks, "1e16")], null, [new FlavorEffect("Unlocks electrify for all your wonderful electron needs!")]));
-    player.achievements[row].push(new Achievement("challengeunlock", "Your getting mightly powerful", [new NumRequirement(player.quarkstage.quarks, "1e24")], null, [new FlavorEffect("Unlocks some challenges to test your power!")]));
-    player.achievements[row].push(new Achievement("multronunlock", "Might as well unlock another upgrade.", [new NumRequirement(player.quarkstage.quarks, "1e35")], null, [new FlavorEffect("Unlocks Multron for purchase!")]));
-    player.achievements[row].push(new Achievement("quarkupgradesauto", "Unlocks automation for all upgrades in quark producers tab.", [new NumRequirement(player.quarkstage.quarks, "1e60")], null, [new FlavorEffect("Auto purchase for days!")]));
+  //Multors/Acceleron Line Milestones
+  player.achievements.push([]);
+  row = player.achievements.length-1;
+  player.achievements[row].push(new Achievement("500acceleron", "Buy 500 Acceleron", [new NumRequirement(player.quarkstage.upgrades[0], "500")], null, [new FlavorEffect("Unlocks some new orbitals")]));
+  player.achievements[row].push(new Achievement("100multor", "Buy 100 Multor", [new NumRequirement(player.quarkstage.upgrades[5], "100")], null, [new FlavorEffect("Unlocks some new orbitals")]));
+  player.achievements[row].push(new Achievement("10multron", "Buy 10 Multron", [new NumRequirement(player.quarkstage.upgrades[6], "10")], null, [new FlavorEffect("Unlocks a new orbital")]));
 
-    //Challenge Milestones
-    player.achievements.push([]);
-    row = player.achievements.length-1;
-    player.achievements[row].push(new Achievement("4challenges", "[a12x1] Reach a large amount of quarks while being in challenges 1-4", [new NumRequirement(player.quarkstage.quarks, "1e16"), new InChallengeRequirement(player.challenges[0]),new InChallengeRequirement(player.challenges[1]),new InChallengeRequirement(player.challenges[2]),new InChallengeRequirement(player.challenges[3])], null, [new StaticEffect([player.challenges[0],player.challenges[1],player.challenges[2],player.challenges[3]], 1.05, EffectTypes.ChallengeScoreMult, null, () => "Multiplies Challenge 1-4 Score by 1.05")]));
 
-    //Electron Milestones
-    player.achievements.push([]);
-    row = player.achievements.length-1;
-    player.achievements[row].push(new Achievement("1e24electrons", "Alvocadros Number", [new NumRequirement(player.electronstage.electrons, "6.022e23")], null, [new FlavorEffect("Unlocks orbitals mechanic.")]));
-    player.achievements[row].push(new Achievement("nucleonunlock", "Nucleonize", [new NumRequirement(player.electronstage.electrons, "1e100")], null, [new FlavorEffect("Unlocks a new prestige layer with added mechanics. (Coming Soonish)")]));
+  //Quark Milestones
+  player.achievements.push([]);
+  row = player.achievements.length-1;
+  player.achievements[row].push(new Achievement("electrifyunlock", "Electrify", [new NumRequirement(player.quarkstage.quarks, "1e16")], null, [new FlavorEffect("Unlocks electrify for all your wonderful electron needs!")]));
+  player.achievements[row].push(new Achievement("challengeunlock", "Your getting mightly powerful", [new NumRequirement(player.quarkstage.quarks, "1e24")], null, [new FlavorEffect("Unlocks some challenges to test your power!")]));
+  player.achievements[row].push(new Achievement("multronunlock", "Might as well unlock another upgrade.", [new NumRequirement(player.quarkstage.quarks, "1e35")], null, [new FlavorEffect("Unlocks Multron for purchase!")]));
+  player.achievements[row].push(new Achievement("quarkupgradesauto", "Unlocks automation for all upgrades in quark producers tab.", [new NumRequirement(player.quarkstage.quarks, "1e60")], null, [new FlavorEffect("Auto purchase for days!")]));
+  player.achievements[row].push(new Achievement("quarkupgradesunlock", "Unlocks two new upgrades quark producers tab.", [new NumRequirement(player.quarkstage.quarks, "1e100")], null, [new FlavorEffect("Two New Upgrades WHAT?")]));
+
+  //Challenge Milestones
+  player.achievements.push([]);
+  row = player.achievements.length-1;
+  player.achievements[row].push(new Achievement("1,4challenges", "[a13x1] Reach a large amount of quarks while being in challenges 1 and 4", [new NumRequirement(player.quarkstage.quarks, "1e8"), new InChallengeRequirement(player.challenges[0]), new InChallengeRequirement(player.challenges[3])], null, [new StaticEffect([player.challenges[0],player.challenges[3]], 2, EffectTypes.ChallengeScoreMult, null, () => "Multiplies Challenge 1 and 4 Score by 2")]));
+  player.achievements[row].push(new Achievement("2,3challenges", "[a13x2] Reach a large amount of quarks while being in challenges 2 and 3", [new NumRequirement(player.quarkstage.quarks, "1e16"), new InChallengeRequirement(player.challenges[1]), new InChallengeRequirement(player.challenges[2])], null, [new StaticEffect([player.challenges[1],player.challenges[2]], 2, EffectTypes.ChallengeScoreMult, null, () => "Multiplies Challenge 2 and 3 Score by 2")]));
+
+  //Electron Milestones
+  player.achievements.push([]);
+  row = player.achievements.length-1;
+  player.achievements[row].push(new Achievement("1e24electrons", "[a14x1] Alvocadros Number", [new NumRequirement(player.electronstage.electrons, "6.022e23")], null, [new FlavorEffect("Unlocks orbitals mechanic.")]));
+  player.achievements[row].push(new Achievement("1e32electrons", "[a14x2] Electron Power?", [new NumRequirement(player.electronstage.electrons, "1e32")], null, [new StaticEffect(player.electronstage.clouds.power, 2, EffectTypes.UpgradeAmountMultiplier, null, () => "Electron Power Amount *2")]));
+  player.achievements[row].push(new Achievement("nucleonunlock", "[a14x?] Nucleonize", [new NumRequirement(player.electronstage.electrons, "1e100")], null, [new FlavorEffect("Unlocks a new prestige layer with added mechanics. (Coming Soonish)")]));
 }
 
 function resetachievements(){
@@ -151,5 +162,11 @@ function hasachievement(achieveid){
 function achievementtick(){
   achievementregistry.forEach((achieve, i) => {
     achieve.check();
+  });
+}
+
+function unlockallachievements(){
+  achievementregistry.forEach((achieve, i) => {
+    achieve.forceunlock();
   });
 }

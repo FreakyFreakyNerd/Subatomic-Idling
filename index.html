@@ -23,7 +23,7 @@
               <tr class="currenciesrow">
                 <td class="currenciescell"><currency-display v-bind:currency="player.quarkstage.quarks"></currency-display></td>
                 <td class="currenciescell" v-if='hasachievement("electrifyunlock")'><currency-display v-bind:currency="player.electronstage.electrons"></currency-display></td>
-                <td class="currenciescell" v-if='hasachievement("nucleonizeunlock")'><currency-display v-bind:currency="player.nucleonstage.nucleons"></currency-display></td>
+                <td class="currenciescell" v-if='hasachievement("nucleonunlock")'><currency-display v-bind:currency="player.nucleonstage.nucleons"></currency-display></td>
               </tr>
               <tr class="currenciesrow">
               </tr>
@@ -83,6 +83,11 @@
               <td class="optioncell">
                 <div class="centered">
                   <button class="optionbutton" onclick="player.options.hotkeysenabled = !player.options.hotkeysenabled"><label v-if="player.options.hotkeysenabled">Disable Hotkeys</label><label v-if="!player.options.hotkeysenabled">Enable Hotkeys</label></button>
+                </div>
+              </td>
+              <td class="optioncell">
+                <div class="centered">
+                  <button class="optionbutton" onclick="player.options.doofflineprogress = !player.options.doofflineprogress"><label v-if="player.options.doofflineprogress">Disable Offline Progress</label><label v-if="!player.options.doofflineprogress">Enable Offline Progress</label></button>
                 </div>
               </td>
             </tr>
@@ -184,13 +189,17 @@
         </div>
         <div class="subcontent">
           <div id="generalstatscreen">
-            <span class="currencyextra">Playtime: {{formattime(player.stats.times[0],true,true,true,true,false)}}</span>
+            <span class="statinfo">Playtime: {{formattime(player.stats.times[0],true,true,true,true,false)}}</span><br>
+            <span class="statinfo">Quarks Gained: {{formatDecimalNormal(player.quarkstage.quarks.gained)}}</span><br><br>
+            <span class="statinfo">Quark Producers Information</span><br><br>
+            <span class="statinfo" v-for="producer in player.quarkstage.producers">{{producer.displayname}} Multiplier: {{formatDecimalNormal(producer.productions[0].multiplier)}}<br></span>
+            <span class="statinfo" v-for="producer in player.quarkstage.producers">{{producer.displayname}} Power: {{formatDecimalNormal(producer.productions[0].exponent)}}<br></span>
           </div>
           <div id="electrifystatscreen" style="display: none">
-            <span class="currencyextra">Current Electrify Time: {{formattime(player.stats.times[1],true,true,true,true,false)}}</span>
-            <br>
-            <span class="currencyextra" v-if="player.stats.electrified > 0">Times Electrified: {{player.stats.electrified}}</span>
-            <br>
+            <span class="statinfo">Current Electrify Time: {{formattime(player.stats.times[1],true,true,true,true,false)}}</span><br>
+            <span class="statinfo" v-if="player.stats.electrified > 0">Times Electrified: {{player.stats.electrified}}</span><br>
+            <span class="statinfo">Electron Gain Multiplier: {{formatDecimalOverride(player.quarkstage.electrify.rewards[0].effectmult,2)}}</span><br>
+            <span class="statinfo">Electron Gain Power: {{formatDecimalOverride(player.quarkstage.electrify.rewards[0].effectexpo,2)}}</span><br>
             <br>
             <div class="past10">
               <span class="past10label">Past 10 Electrifies</span>

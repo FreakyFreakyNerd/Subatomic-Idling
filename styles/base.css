@@ -552,7 +552,7 @@ td.righttablecolumn {
 
 /*Buy Amount Stuff*/
 .buyamountdisplay{
-  position: fixed;
+  position: absolute;
   bottom: 25px;
   border: 2px solid;
   padding: 4px 4px 4px 4px;

@@ -356,6 +356,7 @@ const EffectTypes = {
   ProducerBaseProduction : 1,
   ProducerMultiplierProduction : 2,
   ProducerExponentialProduction: 3,
+  PriceMultiplier : 8,
   PriceScaling : 9,
 
   PrestigeBaseGain: 10,
@@ -369,6 +370,7 @@ const EffectTypes = {
   UpgradeValuePower : 24,
   UpgradeValueMult: 25,
   UpgradeFinalMultiplier: 26,
+  UpgradeAmountMultiplier: 27,
 
   ChallengeScoreMult: 30
 }

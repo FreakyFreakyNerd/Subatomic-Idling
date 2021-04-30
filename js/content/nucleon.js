@@ -3,9 +3,9 @@ function setupbasicnucleonstage(){
     player.nucleonstage.nucleons = new Currency("nucleon", "Nucleons", "Nucleon", 0);
   
     var nucleongain = (amount) => {
-      if(amount.lessThan("1e24"))
+      if(amount.lessThan("1e100"))
         return new Decimal();
-      return Decimal.floor(Decimal.pow(amount.divide("1e24"), 1/4));
+      return Decimal.floor(Decimal.pow(amount.divide("1e100"), 1/10));
     }
     player.electronstage.nucleonize = new Prestige("nucleonize", "Nucleonize", (hadrequire, producedamounts) => {resetQuarkStage(); resetElectronStage();}, new NumRequirement(player.electronstage.electrons, "1e24"), new PrestigeReward(player.nucleonstage.nucleons, player.electronstage.electrons, nucleongain));  
 }

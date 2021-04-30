@@ -1,5 +1,5 @@
 class Challenge{
-  constructor(id, displayname, description, inchallengeeffects, rewards, maxdifficulty, startfunc, endfunc, basescorefunc, chalcoe, challengesynergies, basescoretext){
+  constructor(id, displayname, description, inchallengeeffects, rewards, maxdifficulty, startfunc, endfunc, basescorefunc, chalcoe, challengesynergies, basescoretext, unlockrequirements){
     this.id = id;
     this.displayname = displayname;
     this.description = description;
@@ -11,6 +11,7 @@ class Challenge{
     this.chalcoe = chalcoe;
     this.index = player.challenges.length;
     this.challengesynergies = challengesynergies;
+    this.unlockrequirements = unlockrequirements;
     if(Array.isArray(inchallengeeffects))
       this.inchaleffects = inchallengeeffects;
     else
@@ -29,6 +30,12 @@ class Challenge{
 
     this.updateinchaleffects();
     this.updaterewards();
+  }
+
+  get unlocked(){
+    var out = true;
+    this.unlockrequirements?.forEach(elem => { if(!elem.hasrequirement) out = false;});
+    return out;
   }
 
   get basescoredescription(){
@@ -70,7 +77,7 @@ class Challenge{
     if(data[3] != undefined)
         this.difficultylevel = parseInt(data[3]);
     this.updateinchaleffects();
-    console.log(this.score);
+    log(this.score);
     if(this.in){
       this.inchaleffects.forEach((eff, i) => {
         eff.apply();

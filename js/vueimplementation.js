@@ -67,7 +67,7 @@ Vue.component('producers-display', {
         <td v-bind:class='"producerauto producer"+type+"auto"'><button v-bind:class='{autobutton: true, autobuttonon: producer.autobuyunlocked && producer.buyauto, autobuttonoff: producer.autobuyunlocked && !producer.buyauto}' v-on:click="toggleproducer(producer)">AUTO: [{{producer.autostate}}]</button></td>
         <td v-bind:class='"producerproduction producer"+type+"production"'>{{producer.productiondescription}}</td>
       </tr>
-      <fast-toggle v-if='fasttoggle == "true"' v-bind:totoggle="producers"></fast-toggle>
+      <fast-toggle v-if='fasttoggle == "true" && producers[0].autobuyunlocked' v-bind:totoggle="producers"></fast-toggle>
     </table>
   `,
   methods: {
@@ -91,7 +91,7 @@ Vue.component('upgrades-display', {
         <td v-bind:class='"upgradeauto upgrade"+type+"auto"'><button v-bind:class='{autobutton: true, autobuttonon: upgrade.autobuyunlocked && upgrade.buyauto, autobuttonoff: upgrade.autobuyunlocked && !upgrade.buyauto}' v-on:click="toggleupgrade(upgrade)">AUTO: [{{upgrade.autostate}}]</button></td>
         <td v-bind:class='"upgradeeffect upgrade"+type+"effect"'>{{upgrade.specialeffectdescription}}</td>
       </tr>
-      <fast-toggle v-if="fasttoggle" v-bind:totoggle="upgrades"></fast-toggle>
+      <fast-toggle v-if="fasttoggle && upgrades[0].autobuyunlocked" v-bind:totoggle="upgrades"></fast-toggle>
     </table>
   `,
   methods: {
@@ -118,7 +118,7 @@ Vue.component('fast-toggle', {
   `,
   methods: {
     toggle: function(totoggle){
-      state = !totoggle[0].autobuystate;
+      var state = !totoggle[0].autobuystate;
       totoggle.forEach(elem => {elem.setautobuystate(state)})
     }
   }
@@ -202,7 +202,7 @@ Vue.component('achievement-item', {
 Vue.component('challenge-item', {
     props: ['challenge'],
     template: `
-    <div class="challengedisplay" @mouseover="showChallenge(challenge)">
+    <div class="challengedisplay" @mouseover="showChallenge(challenge)" v-if="challenge.unlocked">
       <img v-bind:class="{challengeimage : true, inchallenge: challenge.in}"" v-bind:src='"images/challenge/"+challenge.id+".png"' @error="$event.target.src='images/missing.png'" />
       <div class="centered"><button v-bind:class="{challengeactivator: true, challengeactive: challenge.active, challengeinactive: !challenge.active}" v-on:click="challenge.toggleactive()">{{challenge.activetext}}</button></div>
       <div class="centered challengedifficulty" v-if="challenge.maxdifficulty > 1"><button class="changechallengedifficulty" v-on:click="challenge.decreasedifficulty()">-</button><span class="challengedifficulty">{{challenge.difficultyinformation}}</span><button class="changechallengedifficulty" v-on:click="challenge.increasedifficulty()">+</button></div>

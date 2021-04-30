@@ -12,7 +12,9 @@ var settings = {
         currentstatscreen: "general",
         currentproducersscreen: "quark",
         currentupgradesscreen: "quark",
-        hotkeysenabled: true
+        hotkeysenabled: true,
+        doofflineprogress: true,
+        doconsoleoutput: false
     },
     defaultstats : {
       times : [0, 0],
@@ -60,5 +62,11 @@ function togglebuyamount(type){
     setbuyamount(type, player.options.toggleamounts[ind+1])
     console.log("Yepp Changed To Next In Line: " + player.options.toggleamounts[ind+1])
     console.log("Buy Amount: " + getbuyamount(type))
+  }
+}
+
+function log(obj){
+  if(player.options.doconsoleoutput){
+    console.log(obj);
   }
 }
