@@ -91,7 +91,7 @@ class ExponentialCost extends Cost{
       else
         this.basecost = this.startingcost.times(Decimal.pow(this.scaling, amount));
       if(this.basecost.lessThan(0))
-        this.basecost = new Decimal(-1);
+        this.basecost = this.startingcost.times(Decimal.pow(this.scaling, amount));
     }
 
     getmaxbuyable(amount){

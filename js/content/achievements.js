@@ -116,7 +116,7 @@ function setupachievements(){
   row = player.achievements.length-1;
   player.achievements[row].push(new Achievement("500acceleron", "Buy 500 Acceleron", [new NumRequirement(player.quarkstage.upgrades[0], "500")], null, [new FlavorEffect("Unlocks some new orbitals")]));
   player.achievements[row].push(new Achievement("100multor", "Buy 100 Multor", [new NumRequirement(player.quarkstage.upgrades[5], "100")], null, [new FlavorEffect("Unlocks some new orbitals")]));
-  player.achievements[row].push(new Achievement("10multron", "Buy 10 Multron", [new NumRequirement(player.quarkstage.upgrades[6], "10")], null, [new FlavorEffect("Unlocks a new orbital")]));
+  player.achievements[row].push(new Achievement("10multiplier", "Buy 10 Multiplier", [new NumRequirement(player.quarkstage.upgrades[7], "10")], null, [new FlavorEffect("Unlocks a new orbital")]));
 
 
   //Quark Milestones
@@ -133,6 +133,7 @@ function setupachievements(){
   row = player.achievements.length-1;
   player.achievements[row].push(new Achievement("1,4challenges", "[a13x1] Reach a large amount of quarks while being in challenges 1 and 4", [new NumRequirement(player.quarkstage.quarks, "1e8"), new InChallengeRequirement(player.challenges[0]), new InChallengeRequirement(player.challenges[3])], null, [new StaticEffect([player.challenges[0],player.challenges[3]], 2, EffectTypes.ChallengeScoreMult, null, () => "Multiplies Challenge 1 and 4 Score by 2")]));
   player.achievements[row].push(new Achievement("2,3challenges", "[a13x2] Reach a large amount of quarks while being in challenges 2 and 3", [new NumRequirement(player.quarkstage.quarks, "1e16"), new InChallengeRequirement(player.challenges[1]), new InChallengeRequirement(player.challenges[2])], null, [new StaticEffect([player.challenges[1],player.challenges[2]], 2, EffectTypes.ChallengeScoreMult, null, () => "Multiplies Challenge 2 and 3 Score by 2")]));
+  player.achievements[row].push(new Achievement("1-4challenges", "[a13x3] Reach a large amount of quarks while being in challenges 1 through 4", [new NumRequirement(player.quarkstage.quarks, "1e32"), new InChallengeRequirement(player.challenges[0]), new InChallengeRequirement(player.challenges[1]), new InChallengeRequirement(player.challenges[2]), new InChallengeRequirement(player.challenges[3])], null, [new StaticEffect([player.challenges[0],player.challenges[1],player.challenges[2],player.challenges[3]], 5, EffectTypes.ChallengeScoreMult, null, () => "Multiplies Challenge 1 through 4 Score by 5")]));
 
   //Electron Milestones
   player.achievements.push([]);

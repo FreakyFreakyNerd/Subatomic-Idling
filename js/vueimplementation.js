@@ -255,8 +255,8 @@ Vue.component('achievement-grid', {
     props: ['achievementslist'],
     template: `
     <table>
-      <tr v-for="achievements in achievementslist">
-        <td v-for="achievement in achievements">
+      <tr class="achievementrow" v-for="achievements in achievementslist">
+        <td class="achievementcell" v-for="achievement in achievements">
           <achievement-item v-bind:achievement="achievement">
         </td>
       </tr>
