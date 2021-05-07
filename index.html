@@ -2,13 +2,27 @@
 <link rel="stylesheet" type="text/css" href="styles/base.css">
 <link id="stylemanager" rel="stylesheet" type="text/css" href="styles/dark.css">
 <title> Subatomic Idling </title>
+
+<div id="confirmationmodal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <p id="confirmationmodaltxt">Some text in the Modal..</p>
+    <button id="confirmconfirmation">Confirm</button>
+    <button id="closeconfirmation">Cancel</button>
+  </div>
+
+</div>
+
 <div id="subatomicidling">
   <div class="sidenav">
     <a class="gamename">Subatomic Idling {{settings.version}}</a>
     <a class="menubutton producersmenubutton" onclick='openscreen("producers")'>Producers</a>
     <a class="menubutton upgradesmenubutton" onclick='openscreen("upgrades")'>Upgrades</a>
-    <a class="menubutton challengemenubutton" onclick='openscreen("challenges")' v-if='hasachievement("challengeunlock")'>Challenges</a>
-    <a class="menubutton orbitalmenubutton" onclick='openscreen("orbitals")' v-if='hasachievement("1e24electrons")'>Orbitals</a>
+    <a class="menubutton challengemenubutton" onclick='openscreen("challenges")'
+      v-if='hasachievement("challengeunlock")'>Challenges</a>
+    <a class="menubutton orbitalmenubutton" onclick='openscreen("orbitals")'
+      v-if='hasachievement("1e24electrons")'>Orbitals</a>
     <a class="menubutton achievementmenubutton" onclick='openscreen("achievements")'>Achievements</a>
     <a class="menubutton statisticsmenubutton" onclick='openscreen("stats")'>Statistics</a>
     <a class="menubutton settingsmenubutton" onclick='openscreen("options")'>Settings</a>
@@ -17,281 +31,345 @@
   <div id="gamecontent">
     <div>
       <table id="topbardisplay">
-          <td class="currencymarker">
-            <div id="currenciesdisplay">
+        <td class="currencymarker">
+          <div id="currenciesdisplay">
             <table id="currenciestable">
               <tr class="currenciesrow">
-                <td class="currenciescell"><currency-display v-bind:currency="player.quarkstage.quarks"></currency-display></td>
-                <td class="currenciescell" v-if='hasachievement("electrifyunlock")'><currency-display v-bind:currency="player.electronstage.electrons"></currency-display></td>
-                <td class="currenciescell" v-if='hasachievement("nucleonunlock")'><currency-display v-bind:currency="player.nucleonstage.nucleons"></currency-display></td>
+                <td class="currenciescell">
+                  <currency-display v-bind:currency="player.quarkstage.quarks"></currency-display>
+                </td>
+                <td class="currenciescell" v-if='hasachievement("electrifyunlock")'>
+                  <currency-display v-bind:currency="player.electronstage.electrons"></currency-display>
+                </td>
+                <td class="currenciescell" v-if='hasachievement("nucleonizeunlock")'>
+                  <currency-display v-bind:currency="player.nucleonstage.nucleons"></currency-display>
+                </td>
               </tr>
               <tr class="currenciesrow">
               </tr>
             </table>
-            </div>
-          </td>
-          <td class="prestigemarker">
-            <div id="prestigedisplay">
-              <prestige-icon v-for="prestige in prestiges" v-bind:prestige="prestige" v-if="prestige.unlocked"></prestige-icon>
-            </div>
-            <div id="prestigegain" v-if="selectedprestige.unlocked">
-              <prestige-requirement v-bind:requirement="selectedprestige.requirement"></prestige-requirement>
-              <prestige-reward v-for="reward in selectedprestige.rewards" v-bind:reward="reward"></prestige-reward>
-            </div>
-          </td>
+          </div>
+        </td>
+        <td class="prestigemarker">
+          <div id="prestigedisplay">
+            <prestige-icon v-for="prestige in prestiges" v-bind:prestige="prestige" v-if="prestige.unlocked">
+            </prestige-icon>
+          </div>
+          <div id="prestigegain" v-if="selectedprestige.unlocked">
+            <prestige-requirement v-bind:requirement="selectedprestige.requirement"></prestige-requirement>
+            <prestige-reward v-for="reward in selectedprestige.rewards" v-bind:reward="reward"></prestige-reward>
+          </div>
+        </td>
       </table>
     </div>
     <div id="screens">
-      
-    <div id="screens">
-      <div id="optionsscreen" class="centered" style="display: none">
-        <table align="center">
-          <tbody>
-            <tr>
-              <td class="optioncell">
-                <div class="centered">
-                  <label for="notations" class="optionbutton">Choose a notation:</label>
-                  <select id="notations" class="standarddropdown" onchange="changeNotation(this.value)">
-                    <option value="standard">Standard</option>
-                    <option value="scientific">Scientific</option>
-                    <option value="engineering">Engineering</option>
-                    <option value="mixedscientific">Mixed Scientific</option>
-                    <option value="mixedengineering">Mixed Engineering</option>
-                    <option value="letters">Letters</option>
-                    <option value="cancer">Cancer</option>
-                    <option value="logarithm">Logarithm</option>
-                    <option value="brackets">Brackets</option>
-                    <option value="infinity">Infinity</option>
-                    <option value="roman">Roman</option>
-                    <option value="dots">Dots</option>
-                    <option value="zalgo">Zalgo</option>
-                    <option value="hex">Hex</option>
-                    <option value="imperial">Imperial</option>
-                    <option value="clock">Clock</option>
-                    <option value="prime">Prime</option>
-                    <option value="bar">Bar</option>
-                    <option value="shi">Shi</option>
-                    <option value="blind">Blind</option>
-                  </select>
-                </div>
-              </td>
-              <td class="optioncell">
-                <div class="centered">
-                  <button class="optionbutton" onclick="resetsave()"><label>Completely Reset Save</label></button>
-                </div>
-              </td>
-              <td class="optioncell">
-                <div class="centered">
-                  <button class="optionbutton" onclick="player.options.hotkeysenabled = !player.options.hotkeysenabled"><label v-if="player.options.hotkeysenabled">Disable Hotkeys</label><label v-if="!player.options.hotkeysenabled">Enable Hotkeys</label></button>
-                </div>
-              </td>
-              <td class="optioncell">
-                <div class="centered">
-                  <button class="optionbutton" onclick="player.options.doofflineprogress = !player.options.doofflineprogress"><label v-if="player.options.doofflineprogress">Disable Offline Progress</label><label v-if="!player.options.doofflineprogress">Enable Offline Progress</label></button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td class="optioncell">
-                <div class="centered">
-                  <button class="optionbutton" onclick="savetofile()"><label>Export Save To File</label></button>
-                </div>
-              </td>
-              <td class="optioncell">
-                <div class="centered">
-                  <button class="optionbutton">
-                  <label for="file-input" class="input-label">
-                    Load Save From File <!-- Replace with whatever text or icon you wish to use -->
-                    <input type="file" id="file-input" onchange='loadsavefromfile(this)'>
-                  </label>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="hotkeyinfo">
-          <span>1-0 Will Purchase Charmer-Big Bang at current buy amount, m will max all in the quark producers tab, e will electrify if the requirements are met</span>
-        </div>
-      </div>
-      <div id="producersscreen" style="display: none">
-        <div class="subsidenav" v-if='hasachievement("electrifyunlock")'>
-          <a class="menubutton quarksubmenubutton" onclick='openproducersscreen("quark")'>Quark</a>
-          <a class="menubutton electronsubmenubutton" onclick='openproducersscreen("electron")'>Electron</a>
-          <a class="menubutton nucleonsubmenubutton" onclick='openproducersscreen("nucleon")' v-if='hasachievement("nucleonizeunlock")'>Nucleon</a>
-        </div>
-        <div class="subcontent producerscreen" id="quarkproducersscreen" style="display: none">
-          <producers-display v-bind:producers="player.quarkstage.producers" fasttoggle="true" type="quark"></producers-display>
-          <div class="spacer32"></div>
-          <upgrades-display v-bind:upgrades="player.quarkstage.upgrades" fasttoggle="true" type="quark"></upgrades-display>
-          <buy-amount-selector type="qp"></buy-amount-selector>
-        </div>
-        <div class="subcontent producerscreen" id="electronproducersscreen" style="display:none;">
-          <upgrade-bonus v-bind:upgrade="player.electronstage.quarkspin"></upgrade-bonus>
-          <producers-display v-bind:producers="player.electronstage.quarkspinproducers" type="quark" v-bind:fasttoggle="true"></producers-display>
-          <div class="spacer32"></div>
-          <upgrades-display v-bind:upgrades="player.electronstage.quarkspinupgrades" type="quark"></upgrades-display>
-          <buy-amount-selector type="qsp"></buy-amount-selector>
-        </div>
-        <div class="subcontent producerscreen" id="nucleonproducersscreen" style="display:none;">
-          <upgrade-bonus v-bind:upgrade="player.nucleonstage.freeelectrons"></upgrade-bonus>
-          <producers-display v-bind:producers="player.nucleonstage.freeelectronproducers" type="quark"></producers-display>
-          <div class="spacer32"></div>
-          <upgrades-display v-bind:upgrades="player.nucleonstage.freeelectronupgrades" type="quark"></upgrades-display>
-          <buy-amount-selector type="fep"></buy-amount-selector>
-        </div>
-      </div>
-      <div id="upgradesscreen" style="display: none;">
-        <div class="subsidenav" v-if='hasachievement("electrifyunlock")'>
-          <a class="menubutton quarksubmenubutton" onclick='openupgradesscreen("quark")'>Quark</a>
-          <a class="menubutton electronsubmenubutton" onclick='openupgradesscreen("electron")'>Electron</a>
-          <a class="menubutton nucleonsubmenubutton" onclick='openupgradesscreen("nucleon")' v-if='hasachievement("nucleonizeunlock")'>Nucleon</a>
-        </div>
-        <div id="quarkupgradesscreen" class="subcontent" style="display: none">
-          <div class="upgrades">
-            <upgrade-item v-for="upgrade in player.quarkstage.singletonupgrades" v-bind:upgrade="upgrade" ></upgrade-item>
+
+      <div id="screens">
+        <div id="optionsscreen" class="centered" style="display: none">
+          <table align="center">
+            <tbody>
+              <tr>
+                <td class="optioncell">
+                  <div class="centered">
+                    <label for="notations" class="optionbutton">Choose a notation:</label>
+                    <select id="notations" class="standarddropdown" onchange="changeNotation(this.value)">
+                      <option value="standard">Standard</option>
+                      <option value="scientific">Scientific</option>
+                      <option value="engineering">Engineering</option>
+                      <option value="mixedscientific">Mixed Scientific</option>
+                      <option value="mixedengineering">Mixed Engineering</option>
+                      <option value="letters">Letters</option>
+                      <option value="cancer">Cancer</option>
+                      <option value="logarithm">Logarithm</option>
+                      <option value="brackets">Brackets</option>
+                      <option value="infinity">Infinity</option>
+                      <option value="roman">Roman</option>
+                      <option value="dots">Dots</option>
+                      <option value="zalgo">Zalgo</option>
+                      <option value="hex">Hex</option>
+                      <option value="imperial">Imperial</option>
+                      <option value="clock">Clock</option>
+                      <option value="prime">Prime</option>
+                      <option value="bar">Bar</option>
+                      <option value="shi">Shi</option>
+                      <option value="blind">Blind</option>
+                    </select>
+                  </div>
+                </td>
+                <td class="optioncell">
+                  <div class="centered">
+                    <button class="optionbutton" onclick="resetsave()"><label>Completely Reset Save</label></button>
+                  </div>
+                </td>
+                <td class="optioncell">
+                  <div class="centered">
+                    <button class="optionbutton"
+                      onclick="player.options.hotkeysenabled = !player.options.hotkeysenabled"><label
+                        v-if="player.options.hotkeysenabled">Disable Hotkeys</label><label
+                        v-if="!player.options.hotkeysenabled">Enable Hotkeys</label></button>
+                  </div>
+                </td>
+                <td class="optioncell">
+                  <div class="centered">
+                    <button class="optionbutton"
+                      onclick="player.options.doofflineprogress = !player.options.doofflineprogress"><label
+                        v-if="player.options.doofflineprogress">Disable Offline Progress</label><label
+                        v-if="!player.options.doofflineprogress">Enable Offline Progress</label></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="optioncell">
+                  <div class="centered">
+                    <button class="optionbutton" onclick="savetofile()"><label>Export Save To File</label></button>
+                  </div>
+                </td>
+                <td class="optioncell">
+                  <div class="centered">
+                    <button class="optionbutton">
+                      <label for="file-input" class="input-label">
+                        Load Save From File
+                        <!-- Replace with whatever text or icon you wish to use -->
+                        <input type="file" id="file-input" onchange='loadsavefromfile(this)'>
+                      </label>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="linkinfo">
+            <a href="https://discord.gg/gV2uF4BRpc" target="_blank">Join Discord</a>
+            <a href="https://github.com/FreakyFreakyNerd/FreakyFreakyNerd.github.io/issues" target="_blank">Report
+              Bug</a>
+          </div>
+          <div class="hotkeyinfo">
+            <span>1-0 Will Purchase Charmer-Big Bang at current buy amount, m will max all in the quark producers tab, e
+              will electrify if the requirements are met</span>
           </div>
         </div>
-        <div id="electronupgradesscreen" class="subcontent" style="display: none;">
-          <div class="electronupgrades">
-            <upgrade-item v-for="upgrade in player.electronstage.upgrades" v-bind:upgrade="upgrade" ></upgrade-item>
+        <div id="producersscreen" style="display: none">
+          <div class="subsidenav" v-if='hasachievement("electrifyunlock")'>
+            <a class="menubutton quarksubmenubutton" onclick='openproducersscreen("quark")'>Quark</a>
+            <a class="menubutton electronsubmenubutton" onclick='openproducersscreen("electron")'>Electron</a>
+            <a class="menubutton nucleonsubmenubutton" onclick='openproducersscreen("nucleon")'
+              v-if='hasachievement("nucleonizeunlock")'>Nucleon</a>
           </div>
-        </div>
-        <div id="nucleonupgradesscreen" class="subcontent" style="display: none;">
-          <div class="nucleonupgrades">
-            <upgrade-item v-for="upgrade in player.nucleonstage.upgrades" v-bind:upgrade="upgrade" ></upgrade-item>
+          <div class="subcontent producerscreen" id="quarkproducersscreen" style="display: none">
+            <producers-display v-bind:producers="player.quarkstage.producers" fasttoggle="true" type="quark">
+            </producers-display>
+            <div class="spacer32"></div>
+            <upgrades-display v-bind:upgrades="player.quarkstage.upgrades" fasttoggle="true" type="quark">
+            </upgrades-display>
+            <buy-amount-selector type="qp"></buy-amount-selector>
           </div>
-        </div>
-        <div id="upgradeinfo">
-          <span class="upgradename">{{selectedupgrade.displayname}}</span><br><br>
-          <span class="upgradecost">Cost: {{selectedupgrade.specialcostdescription}}</span><br>
-          <span class="upgradelevel">Level: {{selectedupgrade.bought}}/{{selectedupgrade.maxbuyable}}</span><br>
-          <span class="upgradeeffect">Effect: {{selectedupgrade.specialeffectdescription}}</span><br><br>
-          <button class="upgradebuyamount" v-on:click='togglebuyamount("upg")'>Buy Amount: {{getbuyamount("upg")}}</button>
-          <button class="upgradescreenauto">Automatic: Locked</button>
-        </div>
-      </div>
-      <div id="achievementsscreen" style="display: none">
-        <div class="achievementdisplay">
-          <achievement-grid v-bind:achievementslist="player.achievements"></achievement-grid>
-        </div>
-        <div id="achievementinfo">
-          <span class="achievementhover achievementinfo">Hover over achievement for more information!</span><br><br>
-          <span class="achievementname achievementinfo">{{selectedachievement.displayname}}</span><br><br>
-          <span class="achievementrequirement achievementinfo">Requires: {{selectedachievement.requirement}}</span><br>
-          <span class="achievementeffect achievementinfo">Effect: {{selectedachievement.effect}}</span><br><br>
-        </div>
-      </div>
-      <div id="statsscreen" class="centered" style="display: none">
-        <div class="subsidenav">
-          <a class="menubutton" onclick='openstatscreen("general")'>General</a>
-          <a class="menubutton" onclick='openstatscreen("electrify")' v-if='hasachievement("electrifyunlock")'>Electrify</a>
-        </div>
-        <div class="subcontent">
-          <div id="generalstatscreen">
-            <span class="statinfo">Playtime: {{formattime(player.stats.times[0],true,true,true,true,false)}}</span><br>
-            <span class="statinfo">Quarks Gained: {{formatDecimalNormal(player.quarkstage.quarks.gained)}}</span><br><br>
-            <span class="statinfo">Quark Producers Information</span><br><br>
-            <span class="statinfo" v-for="producer in player.quarkstage.producers">{{producer.displayname}} Multiplier: {{formatDecimalNormal(producer.productions[0].multiplier)}}<br></span>
-            <span class="statinfo" v-for="producer in player.quarkstage.producers">{{producer.displayname}} Power: {{formatDecimalNormal(producer.productions[0].exponent)}}<br></span>
+          <div class="subcontent producerscreen" id="electronproducersscreen" style="display:none;">
+            <upgrade-bonus v-bind:upgrade="player.electronstage.quarkspin"></upgrade-bonus>
+            <producers-display v-bind:producers="player.electronstage.quarkspinproducers" type="quark"
+              fasttoggle="true"></producers-display>
+            <div class="spacer32"></div>
+            <upgrades-display v-bind:upgrades="player.electronstage.quarkspinupgrades" type="quark" fasttoggle="true">
+            </upgrades-display>
+            <buy-amount-selector type="qsp"></buy-amount-selector>
           </div>
-          <div id="electrifystatscreen" style="display: none">
-            <span class="statinfo">Current Electrify Time: {{formattime(player.stats.times[1],true,true,true,true,false)}}</span><br>
-            <span class="statinfo" v-if="player.stats.electrified > 0">Times Electrified: {{player.stats.electrified}}</span><br>
-            <span class="statinfo">Electron Gain Multiplier: {{formatDecimalOverride(player.quarkstage.electrify.rewards[0].effectmult,2)}}</span><br>
-            <span class="statinfo">Electron Gain Power: {{formatDecimalOverride(player.quarkstage.electrify.rewards[0].effectexpo,2)}}</span><br>
+          <div class="subcontent producerscreen" id="nucleonproducersscreen" style="display:none;">
+            <upgrade-bonus v-bind:upgrade="player.nucleonstage.freeelectrons"></upgrade-bonus>
+            <producers-display v-bind:producers="player.nucleonstage.freeelectronproducers" type="quark">
+            </producers-display>
+            <upgrades-display v-bind:upgrades="player.nucleonstage.freeelectronupgrades" type="quark">
+            </upgrades-display>
             <br>
-            <div class="past10">
-              <span class="past10label">Past 10 Electrifies</span>
+            <upgrade-bonus v-bind:upgrade="player.nucleonstage.electroncharge"></upgrade-bonus>
+            <producers-display v-bind:producers="player.nucleonstage.electronchargeproducers" type="quark">
+            </producers-display>
+            <upgrades-display v-bind:upgrades="player.nucleonstage.electronchargeupgrades" type="quark">
+            </upgrades-display>
+            <buy-amount-selector type="fep"></buy-amount-selector>
+          </div>
+        </div>
+        <div id="upgradesscreen" style="display: none;">
+          <div class="subsidenav" v-if='hasachievement("electrifyunlock")'>
+            <a class="menubutton quarksubmenubutton" onclick='openupgradesscreen("quark")'>Quark</a>
+            <a class="menubutton electronsubmenubutton" onclick='openupgradesscreen("electron")'>Electron</a>
+            <a class="menubutton nucleonsubmenubutton" onclick='openupgradesscreen("nucleon")'
+              v-if='hasachievement("nucleonizeunlock")'>Nucleon</a>
+          </div>
+          <div id="quarkupgradesscreen" class="subcontent" style="display: none">
+            <div class="upgrades">
+              <upgrade-item v-for="upgrade in player.quarkstage.singletonupgrades" v-bind:upgrade="upgrade">
+              </upgrade-item>
+            </div>
+          </div>
+          <div id="electronupgradesscreen" class="subcontent" style="display: none;">
+            <div class="electronupgrades">
+              <upgrade-item v-for="upgrade in player.electronstage.upgrades" v-bind:upgrade="upgrade"></upgrade-item>
+            </div>
+          </div>
+          <div id="nucleonupgradesscreen" class="subcontent" style="display: none;">
+            <div class="nucleonupgrades">
+              <upgrade-item v-for="upgrade in player.nucleonstage.upgrades" v-bind:upgrade="upgrade"></upgrade-item>
+            </div>
+          </div>
+          <div id="upgradeinfo">
+            <span class="upgradename">{{selectedupgrade.displayname}}</span><br><br>
+            <span class="upgradecost">Cost: {{selectedupgrade.specialcostdescription}}</span><br>
+            <span class="upgradelevel">Level: {{selectedupgrade.bought}}/{{selectedupgrade.maxbuyable}}</span><br>
+            <span class="upgradeeffect">Effect: {{selectedupgrade.specialeffectdescription}}</span><br><br>
+            <button class="upgradebuyamount" v-on:click='togglebuyamount("upg")'>Buy Amount:
+              {{getbuyamount("upg")}}</button>
+            <button class="upgradescreenauto">Automatic: Locked</button>
+          </div>
+        </div>
+        <div id="achievementsscreen" style="display: none">
+          <div class="achievementdisplay">
+            <achievement-grid v-bind:achievementslist="player.achievements"></achievement-grid>
+          </div>
+          <div id="achievementinfo">
+            <span class="achievementhover achievementinfo">Hover over achievement for more information!</span><br><br>
+            <span class="achievementname achievementinfo">{{selectedachievement.displayname}}</span><br><br>
+            <span class="achievementrequirement achievementinfo">Requires:
+              {{selectedachievement.requirement}}</span><br>
+            <span class="achievementeffect achievementinfo">Effect: {{selectedachievement.effect}}</span><br><br>
+          </div>
+        </div>
+        <div id="statsscreen" class="centered" style="display: none">
+          <div class="subsidenav">
+            <a class="menubutton" onclick='openstatscreen("general")'>General</a>
+            <a class="menubutton" onclick='openstatscreen("electrify")'
+              v-if='hasachievement("electrifyunlock")'>Electrify</a>
+            <a class="menubutton" onclick='openstatscreen("nucleonize")'
+              v-if='hasachievement("nucleonizeunlock")'>Nucleonize</a>
+          </div>
+          <div class="subcontent">
+            <div id="generalstatscreen" style="display: none">
+              <span class="statinfo">Playtime: {{formattime(player.stats.times.game)}}</span><br>
+              <span class="statinfo">Quarks Gained: {{formatDecimalNormal(player.quarkstage.quarks.gained)}}</span><br><br>
+              <span class="statinfo">Quark Producers Information</span><br><br>
+              <span class="statinfo" v-for="producer in player.quarkstage.producers">{{producer.displayname}} Multiplier: {{formatDecimalNormal(producer.productions[0].multiplier)}}<br></span>
+              <span class="statinfo" v-for="producer in player.quarkstage.producers">{{producer.displayname}} Power: {{formatDecimalNormal(producer.productions[0].exponent)}}<br></span>
+            </div>
+            <div id="electrifystatscreen" style="display: none">
+              <span class="statinfo">Current Electrify Time: {{formattime(player.stats.times.electrify)}}</span><br>
+              <span class="statinfo" v-if="player.stats.prestigeamounts.electrify > 0">Times Electrified: {{player.stats.prestigeamounts.electrify}}</span><br>
+              <span class="statinfo">Electron Gain Multiplier: {{formatDecimalOverride(player.quarkstage.electrify.rewards[0].effectmult,2)}}</span><br>
+              <span class="statinfo">Electron Gain Power: {{formatDecimalOverride(player.quarkstage.electrify.rewards[0].effectexpo,2)}}</span><br>
               <br>
+              <div class="past10">
+                <span class="past10label">Past 10 Electrifies</span>
+                <br>
+                <br>
+                <span class="past10value" v-for="(val, index) in player.stats.past10prestiges.electrify"
+                  :key="index">The Electrify {{index+1}} Electrify ago took {{formattime(val[0], true)}} and gave {{formatDecimal(val[1])}} Electrons <br></span>
+              </div>
+            </div>
+            <div id="nucleonizestatscreen" style="display: none">
+              <span class="statinfo">Current Nucleonize Time: {{formattime(player.stats.times.nucleonize)}}</span><br>
+              <span class="statinfo" v-if="player.stats.prestigeamounts.electrify > 0">Times Nucleonized: {{player.stats.prestigeamounts.nucleonize}}</span><br>
+              <span class="statinfo">Nucleon Gain Multiplier: {{formatDecimalOverride(player.electronstage.nucleonize.rewards[0].effectmult,2)}}</span><br>
+              <span class="statinfo">Nucleon Gain Power: {{formatDecimalOverride(player.electronstage.nucleonize.rewards[0].effectexpo,2)}}</span><br>
               <br>
-              <span class="past10value" v-for="(val, index) in player.stats.past10electrifies" :key="index">The Electrify {{index+1}} Electrify ago took {{formattime(val[0],false,false,true,true,false)}} and gave {{formatDecimal(val[1])}} Electrons <br></span>
+              <div class="past10">
+                <span class="past10label">Past 10 Electrifies</span>
+                <br>
+                <br>
+                <span class="past10value" v-for="(val, index) in player.stats.past10prestiges.electrify"
+                  :key="index">The Electrify {{index+1}} Electrify ago took {{formattime(val[0], true)}} and gave {{formatDecimal(val[1])}} Electrons <br></span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div id="orbitalsscreen" style="display: none;">
-        <appliable-upgrade v-bind:upgrade="player.electronstage.clouds.power"  v-bind:appliesto="player.electronstage.clouds.orbitals"></appliable-upgrade>
-        <div class="electronpower">
-          <applied-upgrades-display v-bind:upgrades="player.electronstage.clouds.orbitals" type="electronpower"></applied-upgrades-display>
+        <div id="orbitalsscreen" style="display: none;">
+          <appliable-upgrade v-bind:upgrade="player.electronstage.clouds.power"
+            v-bind:appliesto="player.electronstage.clouds.orbitals"></appliable-upgrade>
+          <div class="electronpower">
+            <applied-upgrades-display v-bind:upgrades="player.electronstage.clouds.orbitals" type="electronpower">
+            </applied-upgrades-display>
+          </div>
+          <button class="upgradebuyamount electronpowerapplyamount"
+            v-on:click='togglebuyamount("applyelectronpower")'>Apply Amount: {{getbuyamount("applyelectronpower")}}</button>
         </div>
-        <button class="upgradebuyamount electronpowerapplyamount" v-on:click='togglebuyamount("applyelectronpower")'>Apply Amount: {{getbuyamount("applyelectronpower")}}</button>
-      </div>
-      <div id="challengesscreen" style="display: none;">
-        <div class="challengelist">
-          <challenge-item v-for="challenge in player.challenges" v-bind:challenge="challenge"></challenge-item>
+        <div id="challengesscreen" style="display: none;">
+          <div class="challengelist">
+            <challenge-item v-for="challenge in player.challenges" v-bind:challenge="challenge"></challenge-item>
+          </div>
+          <div id="challengeinfo">
+            <table class="challengeinfotable">
+              <tr>
+                <td class="challengeinfocell">
+                  <span class="challengename challengeinfo">{{selectedchallenge.displayname}}</span><br><br>
+                  <span class="challengedescription challengeinfo">{{selectedchallenge.description}}</span><br>
+                  <span class="challengeeffect challengeinfo">Effect: {{selectedchallenge.inchaleffects[0].geteffect()}}</span><br>
+                  <span class="challengescore challengeinfo">Score: {{formatDecimalNormal(selectedchallenge.score)}} ({{formatDecimalNormal(selectedchallenge.newscore)}})</span><br>
+                  <span class="challengerewardlabel challengeinfo">Challenge Bonus Equations || Current Challenge Bonus (Always Active)<br></span>
+                  <span class="challengereward challengeinfo">{{selectedchallenge.effectsdescription}}</span><br>
+                </td>
+                <td class="challengeinfocell">
+                  <span class="challengescorebreakdown challengeinfo">Base Score: {{selectedchallenge.basescoredescription}}</span><br>
+                  <span class="challengescorebreakdown challengeinfo">Final Score = Base Score * Below Multipliers</span><br>
+                  <!--<span class="challengescoremultiplier challengeinfo">Difficulty Score Multiplier: {{formatDecimalOverride(selectedchallenge.difficultyscoremultiplier, 2)}}</span><br>-->
+                  <span class="challengescoremultiplier challengeinfo">Synergy Score Multiplier: {{formatDecimalOverride(selectedchallenge.synergyscoremultiplier, 2)}}</span><br>
+                  <span class="challengescoremultiplier challengeinfo">Other Score Multiplier: {{formatDecimalOverride(selectedchallenge.scoremultiplier, 2)}}</span><br>
+                  <span class="challengesynergyinfo challengeinfo">Challenge Synergy Values (c1,c2,...,c#): <span
+                      class="challengescoremultiplier">{{selectedchallenge.synergyvalues}}</span></span><br>
+                  <span class="challengesynergyinfo challengeinfo">Synergy Score Breakdown: Each challenge has a synergy value with every other challenge, the base synergy value is multiplied by each active challenge's synergy value with this challenge, this value is then raised to the amount of active challenges to get the final synergy multiplier.</span><br>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="challengeentercontainer">
+            <button
+              v-bind:class='{challengeenterexit: true, enterchallenge: runningchallenges.length == 0, exitchallenge: runningchallenges.length > 0}'
+              v-on:click='togglechallenges()'><span v-if="runningchallenges.length == 0">Enter</span><span
+                v-if="runningchallenges.length > 0">Exit</span> Challenges</button>
+            <br><span class="challengeenterinfo">All Active Challenges Will Be <span
+                v-if="runningchallenges.length == 0">Entered</span><span v-if="runningchallenges.length > 0">Exited And All Pending Scores Will Be Transfered To Score</span></span>
+          </div>
         </div>
-        <div id="challengeinfo">
-          <table class="challengeinfotable">
-            <tr>
-              <td class="challengeinfocell">
-                <span class="challengename challengeinfo">{{selectedchallenge.displayname}}</span><br><br>
-                <span class="challengedescription challengeinfo">{{selectedchallenge.description}}</span><br>
-                <span class="challengeeffect challengeinfo">Effect: {{selectedchallenge.inchaleffects[0].geteffect()}}</span><br>
-                <span class="challengescore challengeinfo">Score: {{formatDecimalNormal(selectedchallenge.score)}} ({{formatDecimalNormal(selectedchallenge.newscore)}})</span><br>
-                <span class="challengerewardlabel challengeinfo">Challenge Bonus Equations || Current Challenge Bonus (Always Active)<br></span>
-                <span class="challengereward challengeinfo">{{selectedchallenge.effectsdescription}}</span><br>
-              </td>
-              <td class="challengeinfocell">
-                <span class="challengescorebreakdown challengeinfo">Base Score: {{selectedchallenge.basescoredescription}}</span><br>
-                <span class="challengescorebreakdown challengeinfo">Final Score = Base Score * Below Multipliers</span><br>
-                <span class="challengescoremultiplier challengeinfo">Difficulty Score Multiplier: {{formatDecimalOverride(selectedchallenge.difficultyscoremultiplier, 2)}}</span><br>
-                <span class="challengescoremultiplier challengeinfo">Synergy Score Multiplier: {{formatDecimalOverride(selectedchallenge.synergyscoremultiplier, 2)}}</span><br>
-                <span class="challengescoremultiplier challengeinfo">Other Score Multiplier: {{formatDecimalOverride(selectedchallenge.scoremultiplier, 2)}}</span><br>
-                <span class="challengesynergyinfo challengeinfo">Challenge Synergy Values (c1,c2,...,c#): <span class="challengescoremultiplier">{{selectedchallenge.synergyvalues}}</span></span><br>
-                <span class="challengesynergyinfo challengeinfo">Synergy Score Breakdown: Each challenge has a synergy value with every other challenge, the base synergy value is multiplied by each active challenge's synergy value with this challenge, this value is then raised to the amount of active challenges to get the final synergy multiplier.</span><br>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="challengeentercontainer">
-          <button v-bind:class='{challengeenterexit: true, enterchallenge: runningchallenges.length == 0, exitchallenge: runningchallenges.length > 0}' v-on:click='togglechallenges()'><span v-if="runningchallenges.length == 0">Enter</span><span v-if="runningchallenges.length > 0">Exit</span> Challenges</button>
-          <br><span class="challengeenterinfo">All Active Challenges Will Be <span v-if="runningchallenges.length == 0">Entered</span><span v-if="runningchallenges.length > 0">Exited And All Pending Scores Will Be Transfered To Score</span></span>
-        </div>
-      </div>
-      <div id ="changelogscreen" class="centered" style="display: none;">
-        <div class="subsidenav">
-          <a v-for="version in versions" class="menubutton" v-on:click='openchangelogscreen(version)'>{{version}}</a>
-        </div>
-        <div class="subcontent">
-          <div id="changelog"></div>
-          <div class="centered">
-            <span id="changelogdisplay" class="changelogtext"></span><br>
-            <span class="changelogtext">
-              Will be balanced... soon™
-            </span>
+        <div id="changelogscreen" class="" style="display: none;">
+          <div class="subsidenav">
+            <a v-for="version in versions" class="menubutton" v-on:click='openchangelogscreen(version)'>{{version}}</a>
+          </div>
+          <div class="subcontent">
+            <div id="changelog"></div>
+            <div class="">
+              <span id="changelogdisplay" class="changelogtext"></span><br>
+              <span class="changelogtext">
+                Will be balanced... soon™
+              </span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/break_infinity.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@antimatter-dimensions/notations"></script>
-<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
-<script src="js/customlib/producer.js"> </script>
-<script src="js/customlib/currency.js"> </script>
-<script src="js/customlib/requirement.js"> </script>
-<script src="js/customlib/cost.js"> </script>
-<script src="js/customlib/production.js"> </script>
-<script src="js/customlib/upgrade.js"> </script>
-<script src="js/customlib/effect.js"> </script>
-<script src="js/customlib/prestige.js"> </script>
-<script src="js/customlib/achievement.js"> </script>
-<script src="js/customlib/challenge.js"> </script>
-<script src="js/settings.js"> </script>
-<script src="js/changelog.js"> </script>
-<script src="js/UI.js"> </script>
-<script src="js/content/challenges.js"> </script>
-<script src="js/content/quark.js"> </script>
-<script src="js/content/electron.js"> </script>
-<script src="js/content/nucleon.js"> </script>
-<script src="js/content/base.js"> </script>
-<script src="js/content/achievements.js"> </script>
-<script src="js/math.js"> </script>
-<script src="js/savemanager.js"> </script>
-<script src="js/hotkeys.js"> </script>
-<script src="js/game.js"> </script>
-<script src="js/vueimplementation.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/break_infinity.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@antimatter-dimensions/notations"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+  <script src="js/modalhandler.js"></script>
+  <script src="js/customlib/producer.js"> </script>
+  <script src="js/customlib/currency.js"> </script>
+  <script src="js/customlib/requirement.js"> </script>
+  <script src="js/customlib/cost.js"> </script>
+  <script src="js/customlib/production.js"> </script>
+  <script src="js/customlib/upgrade.js"> </script>
+  <script src="js/customlib/effect.js"> </script>
+  <script src="js/customlib/prestige.js"> </script>
+  <script src="js/customlib/achievement.js"> </script>
+  <script src="js/customlib/challenge.js"> </script>
+  <script src="js/settings.js"> </script>
+  <script src="js/changelog.js"> </script>
+  <script src="js/UI.js"> </script>
+  <script src="js/content/challenges.js"> </script>
+  <script src="js/content/quark.js"> </script>
+  <script src="js/content/electron.js"> </script>
+  <script src="js/content/nucleon.js"> </script>
+  <script src="js/content/base.js"> </script>
+  <script src="js/content/achievements.js"> </script>
+  <script src="js/math.js"> </script>
+  <script src="js/savemanager.js"> </script>
+  <script src="js/hotkeys.js"> </script>
+  <script src="js/game.js"> </script>
+  <script src="js/vueimplementation.js"></script>
+
 </html>

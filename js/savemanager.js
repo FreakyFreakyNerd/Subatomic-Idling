@@ -1,7 +1,7 @@
 var savedata = {}
 var loadeddata = {}
 
-function saveplayer(){
+function saveplayer() {
   saveQuarkStage();
   saveoptions();
   savestats();
@@ -10,35 +10,35 @@ function saveplayer(){
   savedata["lastplaytime"] = Date.now().toFixed();
 }
 
-function saveachievements(){
+function saveachievements() {
   var achievements = [];
   achievementregistry.forEach((achieve, i) => {
-    if(achieve.unlocked){
+    if (achieve.unlocked) {
       achievements.push(achieve.id);
     }
   });
   savedata["achievements"] = achievements;
 }
 
-function savechallenges(){
+function savechallenges() {
   var challenges = {};
   player.challenges.forEach((chal, i) => {
-      challenges[chal.id] = chal.save();
+    challenges[chal.id] = chal.save();
   });
   savedata["chal"] = challenges;
 }
 
-function loadchallenges(){
+function loadchallenges() {
   var challenges = loadeddata["chal"]
-  if(challenges == undefined)
+  if (challenges == undefined)
     return;
   player.challenges.forEach((chal, i) => {
-    if(challenges[chal.id] != undefined)
+    if (challenges[chal.id] != undefined)
       chal.parse(challenges[chal.id]);
   });
 }
 
-function saveQuarkStage(){
+function saveQuarkStage() {
   var data = {};
   data.currencies = {};
   data.producers = {};
@@ -56,28 +56,28 @@ function saveQuarkStage(){
   savedata["game"] = data;
 }
 
-function loadQuarkStage(){
+function loadQuarkStage() {
   var data = loadeddata["game"];
-  if(data == undefined)
+  if (data == undefined)
     return;
-  if(data.currencies != undefined){
+  if (data.currencies != undefined) {
     currencyregistry.forEach(element => {
       element.parse(data.currencies[element.id]);
     });
   }
-  if(data.producers != undefined){
+  if (data.producers != undefined) {
     producerregistry.forEach(element => {
       element.parse(data.producers[element.id]);
     });
   }
-  if(data.upgrades != undefined){
+  if (data.upgrades != undefined) {
     upgraderegistry.forEach(element => {
       element.parse(data.upgrades[element.id]);
     });
   }
 }
 
-function loadplayer(){
+function loadplayer() {
   loadoptions();
   loadstats();
   loadQuarkStage();
@@ -86,164 +86,163 @@ function loadplayer(){
   handleoffline();
 }
 
-function loadachievements(){
+function loadachievements() {
   var achievements = loadeddata["achievements"]
-  if(achievements != null && achievements != undefined)
+  if (achievements != null && achievements != undefined)
     achievementregistry.forEach((achieve, i) => {
       achieve.parse(achievements);
     });
 }
 
-function saveoptions(){
+function saveoptions() {
   savedata["playeroptions"] = player.options;
 }
 
-function savestats(){
+function savestats() {
   savedata["playerstats"] = player.stats;
 }
 
-function loadoptions(){
+function loadoptions() {
   var options = loadeddata["playeroptions"]
   player.options = shallowcopy(settings.defaultoptions);
-  if(options != null && options != undefined)
-    for(let [key,value] of Object.entries(options)){
-      if(key in player.options)
+  if (options != null && options != undefined)
+    for (let [key, value] of Object.entries(options)) {
+      if (key in player.options)
         player.options[key] = value;
     }
   player.options.buyamounts = settings.defaultoptions.buyamounts;
-  if(options != undefined){
-    if(options.buyamounts != undefined){
-      for(let [key,value] of Object.entries(options.buyamounts)){
-        if(key in player.options.buyamounts)
+  if (options != undefined) {
+    if (options.buyamounts != undefined) {
+      for (let [key, value] of Object.entries(options.buyamounts)) {
+        if (key in player.options.buyamounts)
           player.options.buyamounts[key] = parseInt(value);
       }
     }
   }
 }
 
-function loadstats(){
+function loadstats() {
   var stats = loadeddata["playerstats"]
   player.stats = shallowcopy(settings.defaultstats);
-  if(stats != null && stats != undefined)
-    for(let [key,value] of Object.entries(stats)){
-      if(player.stats[key] == undefined)
+  if (stats != null && stats != undefined)
+    for (let [key, value] of Object.entries(stats)) {
+      if (player.stats[key] == undefined)
         continue;
-      if(!Array.isArray(player.stats[key]))
-        player.stats[key] = value;
-      else{
-        for(var i = 0; i < player.stats[key].length; i++){
-          if(value[i] != undefined)
-            player.stats[key][i] = value[i];
-          else
-            player.stats[key][i] = player.stats[key][0];
-        }
+      for(let [key2, value2] of Object.entries(value)){
+        if(player.stats[key][key2] != undefined)
+          player.stats[key][key2] = value2
       }
     }
+  for (let [key, value] of Object.entries(player.stats.times)) {
+    if(value == 0)
+      player.stats.times[key] = player.stats.times.game;
+  }
 }
 
 //Important
-function save(){
+function save() {
   savedata = {}
   saveplayer()
-  localStorage.setItem('subatomicidlingsave',Base64.encode(JSON.stringify(savedata)))
+  localStorage.setItem('subatomicidlingsave', Base64.encode(JSON.stringify(savedata)))
 
   console.log("Saved");
 }
 
-function savetofile(){
+function savetofile() {
   savedata = {};
   saveplayer();
   var text = Base64.encode(JSON.stringify(savedata));
 
-  downloadtofile(text, getsavename(), "text/plain");  
+  downloadtofile(text, getsavename(), "text/plain");
 }
-function loadsavefromfile(file){
+function loadsavefromfile(file) {
   var data = "";
   var fr = new FileReader();
-  fr.onload = function() { safeload(fr.result); };
+  fr.onload = function () { safeload(fr.result); };
   fr.readAsText(file.files[0])
 }
 
-function getsavename(){
+function getsavename() {
   return new Date().toLocaleDateString("en-US") + "_Subatomic Idling.txt"
 }
 const downloadtofile = (content, filename, contentType) => {
   const a = document.createElement('a');
-  const file = new Blob([content], {type: contentType});
-  
-  a.href= URL.createObjectURL(file);
+  const file = new Blob([content], { type: contentType });
+
+  a.href = URL.createObjectURL(file);
   a.download = filename;
   a.click();
 
-	URL.revokeObjectURL(a.href);
+  URL.revokeObjectURL(a.href);
 };
 
-function load(){
+function load() {
   loadfrom64(localStorage.getItem("subatomicidlingsave"));
 }
 
-function loadfrom64(data){
-  try{
+function loadfrom64(data) {
+  try {
     loadeddata = JSON.parse(Base64.decode(data));
-  }catch{
+  } catch {
     console.log("Save Broken");
     loadeddata = undefined;
   }
-    if(loadeddata == undefined){
-      loadeddata = {};
-    }
-    loadplayer();
-    updateafterplayer();
+  if (loadeddata == undefined) {
+    loadeddata = {};
+  }
+  loadplayer();
+  updateafterplayer();
 }
 
-function safeload(data){
+function safeload(data) {
   var savedata = {};
   saveplayer();
   var textbackup = Base64.encode(JSON.stringify(savedata));
 
-  try{
+  try {
     resetgame();
     loadfrom64(data);
-  }catch{
+  } catch {
     console.log("Can not load save file");
     resetgame();
     loadfrom64(textbackup);
   }
 }
 
-function fixsave(){
+function fixsave() {
   clearInterval(gameLogicIntervalID);
   localStorage.removeItem('subatomicidlingsave');
   window.location.reload(false);
 }
 
-function resetSettings(){
+function resetSettings() {
   console.log("Settings");
   openproducersscreen("quark");
   openupgradesscreen("quark");
 }
 
-function resetsave(){
-  if(confirm("Completely Reset Save?")){
+async function resetsave() {
+  if (await confirmtest("Completely Reset Save?")) {
     resetgame();
   }
 }
 
-function resetgame(){
+function resetgame() {
   resetQuarkStage(true);
   resetElectronStage(true);
+  resetnucleonstage(true);
   resetstats();
   resetachievements();
   resetchallenges(0, player.challenges.length);
   resetSettings();
 }
 
-function handleoffline(){
-  if(loadeddata["lastplaytime"] != undefined && player.options.doofflineprogress){
+function handleoffline() {
+  if (loadeddata["lastplaytime"] != undefined && player.options.doofflineprogress) {
     var now = Date.now();
     var old = loadeddata["lastplaytime"];
-    var dif = now-old;
-    var time = dif/2;
-    produce(time/1000);
+    var dif = now - old;
+    var time = dif / 2;
+    produce(time / 1000);
   }
 }

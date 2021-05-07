@@ -38,6 +38,12 @@ body{
 .sidenav .menubutton {
   color: #777;
 }
+.sidenav .menubutton:hover {
+  background-color: #444;
+}
+.subsidenav .menubutton:hover {
+  background-color: #444;
+}
 .producersmenubutton{
   border-color: red !important;
   color: white !important;
@@ -50,34 +56,42 @@ body{
   border-color: #bd1381 !important;
   color: white !important;
 }
+.orbitalmenubutton{
+  border-color: #7dcf13 !important;
+  color: white !important;
+}
 .achievementmenubutton{
-  border-color: white !important;
+  border-color: #999 !important;
   color: white !important;
 }
 .settingsmenubutton{
-  border-color: white !important;
+  border-color: #999 !important;
   color: white !important;
 }
 .statisticsmenubutton{
-  border-color: white !important;
+  border-color: #999 !important;
   color: white !important;
 }
 .changelogmenubutton{
-  border-color: white !important;
+  border-color: #999 !important;
   color: white !important;
 }
 .htpmenubutton{
-  border-color: white !important;
+  border-color: #999 !important;
   color: white !important;
 }
 
 /*Submenu side stuff*/
 .quarksubmenubutton{
-  border-color: #0066ff !important;
+  border-color: #5BF9FF !important;
   color: white !important;
 }
 .electronsubmenubutton{
-  border-color: #7dcf13 !important;
+  border-color: #ebcb2d !important;
+  color: white !important;
+}
+.nucleonsubmenubutton{
+  border-color: #999 !important;
   color: white !important;
 }
 
@@ -117,6 +131,9 @@ body{
 }
 .prestigereward{
   color: white;
+}
+.prestigeicon:hover{
+  background-color: #666;
 }
 
 /*Quark Menu*/
@@ -182,6 +199,9 @@ body{
   color: #ebcb2d;
 }
 .bonusfreeelectronsupgrade{
+  color: #ebcb2d;
+}
+.bonuselectronchargeupgrade{
   color: #ebcb2d;
 }
 
@@ -425,4 +445,32 @@ body{
 
 .hotkeyinfo{
   color: #888;
+}
+
+a {
+  color: #888;
+}
+
+/*Modal*/
+.modal{
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.modal-content{
+  background-color: var(--main-color);
+  border-color: white;
+}
+.modal-content p {
+  color: #DDDDDD;
+}
+#confirmconfirmation{
+  background-color: var(--main-color);
+  border-color: #ebcb2d;
+  color: white;
+}
+
+#closeconfirmation{
+  background-color: var(--main-color);
+  border-color: #ebcb2d;
+  color: white;
 }

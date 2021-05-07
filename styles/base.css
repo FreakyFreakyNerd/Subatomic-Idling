@@ -354,6 +354,9 @@ td.righttablecolumn {
 }
 
 /*Statistics*/
+.statinfo{
+  width: 100%;
+}
 
 .subsidenav {
   width: 80px;
@@ -464,6 +467,9 @@ td.righttablecolumn {
   width: 16px;
   height: 16px;  
 }
+.prestigeicon:hover{
+  cursor: pointer;
+}
 
 /*Producer Display*/
 .producerrow{
@@ -485,6 +491,9 @@ td.righttablecolumn {
   height: 32px;
   width: 96%;
 }
+.producercostbutton:hover{
+  cursor: pointer;
+}
 .producerauto{
   width: 120px;
 }
@@ -499,9 +508,15 @@ td.righttablecolumn {
   height: 32px;
   width: 96%;
 }
+.autobutton{
+  cursor: pointer;
+}
 .toggleallauto{
   height: 32px;
   width: 96%;
+}
+.toggleallauto:hover{
+  cursor: pointer;
 }
 
 /*Upgrade Display*/
@@ -523,6 +538,9 @@ td.righttablecolumn {
 .upgradecostbutton{
   height: 32px;
   width: 96%;
+}
+.upgradecostbutton:hover{
+  cursor: pointer;
 }
 
 /*Appliable Upgrades*/
@@ -562,6 +580,9 @@ td.righttablecolumn {
   padding: 4px 4px 4px 4px;
   width: 240px;
   height : 32px;
+}
+.buyamountdisplay:hover{
+  cursor: pointer;
 }
 
 .buyamounttext{
@@ -606,9 +627,58 @@ td.righttablecolumn {
 
 .hotkeyinfo{
   position: fixed;
-  bottom: 30px;
+  bottom: 50px;
   font-size: 12px;
   text-align: center;
   align-self: center;
   width: 90%;
+}
+
+.linkinfo {
+  position: fixed;
+  bottom: 30px;
+  font-size: 18px;
+  text-align: center;
+  align-self: center;
+  width: 90%;
+}
+a {
+  text-decoration: none;
+  text-decoration: underline;
+}
+
+/*Modal Stuff*/
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 2; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 3px solid;
+  width: 50%; /* Could be more or less, depending on screen size */
+  text-align: center;
+  border-radius: 5px;
+}
+
+#confirmconfirmation{
+  font-size: 18px;
+  padding: 4px;
+  margin-right: 10px;
+  width: 100px;
+}
+
+#closeconfirmation{
+  font-size: 18px;
+  padding: 4px;
+  margin-left: 10px;
+  width: 100px;
 }

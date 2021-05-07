@@ -50,9 +50,9 @@ function changeNotation(notation){
 
 function updateafterplayer(){
   openscreen(player.options.currentscreen);
-  openstatscreen(player.options.currentstatscreen);
   openproducersscreen(player.options.currentproducersscreen);
   openupgradesscreen(player.options.currentupgradesscreen);
+  openstatscreen(player.options.currentstatscreen);
   updateTheme();
 }
 function setSelectedValue(selectObj, valueToSet) {
@@ -67,7 +67,8 @@ const millisecondsperday = 1000*3600*24
 const millisecondsperhour = 1000*3600
 const millisecondsperminute = 1000*60
 
-function formattime(milliseconds){
+function formattime(time, inmilli){
+  var milliseconds = inmilli ? time : Date.now() - time;
   var days = Math.floor(milliseconds/millisecondsperday);
   var remainingmilliseconds = milliseconds - days*millisecondsperday;
   var hours = Math.floor(remainingmilliseconds/millisecondsperhour);
@@ -225,6 +226,8 @@ function formatsmallnumber(num, dec){
 }
 
 function openproducersscreen(screen){
+  log(player.options.currentproducersscreen);
+  log(screen);
   document.getElementById(player.options.currentproducersscreen + "producersscreen").style.display = "none";
   document.getElementById(screen + "producersscreen").style.display = "block";
   player.options.currentproducersscreen = screen;

@@ -1,4 +1,4 @@
-function setupGame(){
+function setupGame() {
   setupbasicquarkstage();
   setupbasicelectronstage();
   setupbasicnucleonstage();
@@ -25,7 +25,7 @@ function setupGame(){
   setupbasicnucleonsingletonupgrades();
 }
 
-function totalproducerbought(producers){
+function totalproducerbought(producers) {
   var amt = new Decimal();
   producers.forEach(prod => {
     amt = amt.add(prod.bought);

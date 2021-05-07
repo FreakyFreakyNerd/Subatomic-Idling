@@ -77,8 +77,8 @@ function setupstage2quarksingletonupgrades(){
     function timebonus(amount){
       return new Decimal(amount);
     }
-    player.quarkstage.singletonupgrades.push(new Upgrade("qsu19", "[q20] Quark Production Multiplier based on time this electrify.", "1", null, [new FunctionEffect(player.quarkstage.producers, EffectTypes.ProducerMultiplierProduction, () => timebonus(player.stats?.times ? player.stats?.times[1] : 1), (obj) => "Quark Gain *" + formatDecimalOverride(obj.value,2))], [new StaticCost(player.quarkstage.quarks, "1e100")], "upg"));
-    player.quarkstage.singletonupgrades.push(new Upgrade("qsu20", "[q21] Increase Effective Multor Amount", "100", null, [new LinearEffect(player.quarkstage.upgrades[5], 1.05, .0005, EffectTypes.UpgradeAmountMultiplier, null, (obj) => "Multor Amount *" + formatDecimalOverride(obj.value, 3) + "(+" + formatDecimalOverride(obj.increase, 3) + ")")], [new HyperExponentialCost(player.quarkstage.quarks, "1e150", "5")], "upg"));
+    player.quarkstage.singletonupgrades.push(new Upgrade("qsu19", "[q20] Quark Production Multiplier based on time this electrify.", "1", null, [new FunctionEffect(player.quarkstage.producers, EffectTypes.ProducerMultiplierProduction, () => timebonus(player.stats?.times ? player.stats?.times["electrify"] : 1), (obj) => "Quark Gain *" + formatDecimalOverride(obj.value,2))], [new StaticCost(player.quarkstage.quarks, "1e100")], "upg"));
+    player.quarkstage.singletonupgrades.push(new Upgrade("qsu20", "[q21] Increase Effective Multor Amount", "100", null, [new LinearEffect(player.quarkstage.upgrades[5], 1.05, .0005, EffectTypes.UpgradeAmountMultiplier, null, (obj) => "Multor Amount *" + formatDecimalOverride(obj.value, 3) + "(+" + formatDecimalOverride(obj.increase, 3) + ")")], [new ExponentialCost(player.quarkstage.quarks, "1e150", "5")], "upg"));
 }
 
 function resetQuarkStage(hard){

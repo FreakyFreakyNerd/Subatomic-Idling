@@ -61,6 +61,10 @@ class Challenge{
     this.removerewards();
   }
 
+  raisescore(value){
+    this.score = Decimal.pow(this.score, value);
+  }
+
   save(){
       return [this.score, this.in, this.active, this.difficultylevel];
   }

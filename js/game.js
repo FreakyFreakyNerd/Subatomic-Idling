@@ -50,7 +50,7 @@ function gameLogicTick(){
   var timedif = timenow - lastticktime;
   lastticktime = timenow;
   updateeffects();
-  produce(timedif/1000);
+  produce(timedif/1000 * settings.gamespeedmodifier);
   this.updaterequiredregistry.forEach((item, i) => {
     item.tick();
   });

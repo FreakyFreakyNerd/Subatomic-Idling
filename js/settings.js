@@ -1,6 +1,7 @@
 var settings = {
     tickspersecond : 10,
     logictickspersecond : 10,
+    gamespeedmodifier : 1,
     version: "Alpha v0.02",
     defaultoptions : {
         notation : "standard",
@@ -14,12 +15,16 @@ var settings = {
         currentupgradesscreen: "quark",
         hotkeysenabled: true,
         doofflineprogress: true,
-        doconsoleoutput: false
+        doconsoleoutput: false,
+        confirmations: {
+          electrify: true,
+          nucleonize: true
+        }
     },
     defaultstats : {
-      times : [0, 0],
-      electrified : 0,
-      past10electrifies : [[],[],[],[],[],[],[],[],[],[]]
+      times : {game : Date.now()},
+      prestigeamounts : {},
+      past10prestiges : {}
     }
 }
 
