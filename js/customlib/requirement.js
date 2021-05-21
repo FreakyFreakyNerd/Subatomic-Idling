@@ -105,3 +105,22 @@ class ExponentialNumRequirement extends NumRequirement{
         this.amount = this.baseamount.times(Decimal.pow(this.scaling, num))
     }
 }
+
+class FunctionRequirement{
+    constructor(requiredfunc, reqtext){
+        this.requiredfunc = requiredfunc;
+        this.reqtext = reqtext;
+    }
+
+    hasRequirement(){
+        return this.requiredfunc();
+    }
+
+    get hasrequirement(){
+        return this.hasRequirement();
+    }
+
+    get requirementtext(){
+      return this.reqtext;
+    }
+}

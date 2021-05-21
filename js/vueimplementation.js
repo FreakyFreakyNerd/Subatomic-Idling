@@ -353,5 +353,18 @@ var subatomicidlingapp = new Vue({
         prestiges : prestigeregistry
     },
     methods: {
+      getupgradeautostate : function(){
+        var screen = player.options.currentupgradesscreen;
+        if(autobuyers[screen] != null){
+          return autobuyers[screen].state
+        }
+        return "Locked";
+      },
+      toggleupgradeautostate : function(){
+        var screen = player.options.currentupgradesscreen;
+        if(autobuyers[screen] != null){
+          autobuyers[screen].toggle();
+        }
+      }
     }
 })

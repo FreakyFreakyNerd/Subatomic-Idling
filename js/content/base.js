@@ -9,10 +9,11 @@ function setupGame() {
 
   setupquarkspinproducers();
   setupbasicelectronupgrades();
-  setupchallenges();
   setupbasicquarkspinupgrades();
 
   setupbasicelectroncloud();
+  
+  setupchallenges();
 
   setupstage2quarksingletonupgrades();
 
@@ -23,6 +24,11 @@ function setupGame() {
   setupbasicnucleonupgrades();
 
   setupbasicnucleonsingletonupgrades();
+
+  setupbasicnucelonplit();
+  setupbasicantiverse();
+
+  setupautobuyers();
 }
 
 function totalproducerbought(producers) {

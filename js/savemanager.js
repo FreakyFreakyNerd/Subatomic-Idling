@@ -43,14 +43,18 @@ function saveQuarkStage() {
   data.currencies = {};
   data.producers = {};
   data.upgrades = {};
+  data.autobuyers = {};
   currencyregistry.forEach(element => {
-    data.currencies[element.id.toString()] = element.saveData;
+    data.currencies[element.id] = element.saveData;
   });
   producerregistry.forEach(element => {
-    data.producers[element.id.toString()] = element.saveData;
+    data.producers[element.id] = element.saveData;
   });
   upgraderegistry.forEach((upgrade, i) => {
-    data.upgrades[upgrade.id.toString()] = upgrade.saveData;
+    data.upgrades[upgrade.id] = upgrade.saveData;
+  });
+  autobuyerregistry.forEach((element, i) => {
+    data.autobuyers[element.id] = element.saveData;
   });
 
   savedata["game"] = data;
@@ -73,6 +77,11 @@ function loadQuarkStage() {
   if (data.upgrades != undefined) {
     upgraderegistry.forEach(element => {
       element.parse(data.upgrades[element.id]);
+    });
+  }
+  if (data.autobuyers != undefined) {
+    autobuyerregistry.forEach(element => {
+      element.parse(data.autobuyers[element.id]);
     });
   }
 }
@@ -221,6 +230,12 @@ function resetSettings() {
   openupgradesscreen("quark");
 }
 
+function resetAutoBuyers(){
+  autobuyerregistry.forEach((elem) =>{
+    elem.reset();
+  });
+}
+
 async function resetsave() {
   if (await confirmtest("Completely Reset Save?")) {
     resetgame();
@@ -235,6 +250,10 @@ function resetgame() {
   resetachievements();
   resetchallenges(0, player.challenges.length);
   resetSettings();
+  resetAutoBuyers();
+  closeproducersscreen();
+  closeupgradesscreen();
+  closestatscreen();
 }
 
 function handleoffline() {
@@ -244,5 +263,6 @@ function handleoffline() {
     var dif = now - old;
     var time = dif / 2;
     produce(time / 1000);
+    showinfomodal("You were offline for " + formattime(dif, true) + ". And during this time you producers produced at half efficiency. Giving you " + formatDecimal(player.quarkstage.quarks.gained.divide(Decimal.fromString(loadeddata["game"]["currencies"]["quark"][1]))) + "x your quarks");
   }
 }

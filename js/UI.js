@@ -35,6 +35,10 @@ function openstatscreen(screen){
   player.options.currentstatscreen = screen;
 }
 
+function closestatscreen(){
+  document.getElementById(player.options.currentstatscreen + "statscreen").style.display = "none";
+}
+
 function changeTheme(theme){
     player.options.theme = theme;
     updateTheme();
@@ -226,17 +230,21 @@ function formatsmallnumber(num, dec){
 }
 
 function openproducersscreen(screen){
-  log(player.options.currentproducersscreen);
-  log(screen);
   document.getElementById(player.options.currentproducersscreen + "producersscreen").style.display = "none";
   document.getElementById(screen + "producersscreen").style.display = "block";
   player.options.currentproducersscreen = screen;
+}
+function closeproducersscreen(){
+  document.getElementById(player.options.currentproducersscreen + "producersscreen").style.display = "none";
 }
 
 function openupgradesscreen(screen){
   document.getElementById(player.options.currentupgradesscreen + "upgradesscreen").style.display = "none";
   document.getElementById(screen + "upgradesscreen").style.display = "block";
   player.options.currentupgradesscreen = screen;
+}
+function closeupgradesscreen(){
+  document.getElementById(player.options.currentupgradesscreen + "upgradesscreen").style.display = "none";
 }
 
 const capitalize = (s) => {

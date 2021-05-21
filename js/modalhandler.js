@@ -4,6 +4,10 @@ var confirmationmodaltxt = document.getElementById("confirmationmodaltxt");
 var closebutton = document.getElementById("closeconfirmation");
 var confirmbutton = document.getElementById("confirmconfirmation");
 
+var infomodal = document.getElementById("infomodal");
+var infomodaltxt = document.getElementById("infomodaltxt");
+var infoconfirmbutton = document.getElementById("infoconfirmation");
+
 function showmodal(obj) {
   obj.style.display = "block";
 }
@@ -22,9 +26,16 @@ confirmbutton.onclick = function() {
     confirmcomplete = true;
 }
 
+infoconfirmbutton.onclick = function() {
+  hidemodal(infomodal);
+}
+
 window.onclick = function(event) {
   if (event.target.id == confirmationmodal.id) {
       hidemodal(confirmationmodal);
+  }
+  if (event.target.id == infomodal.id) {
+      hidemodal(infomodal);
   }
 }
 
@@ -44,4 +55,9 @@ async function confirmtest(text){
     }
     hidemodal(confirmationmodal);
     return confirmed;
+}
+
+function showinfomodal(text){
+  showmodal(infomodal);
+  infomodaltxt.innerHTML = text;
 }

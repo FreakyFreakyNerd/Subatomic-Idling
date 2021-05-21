@@ -54,7 +54,11 @@ window.addEventListener('keydown', function(e){
             });
             break;
         case "KeyE":
-            player.quarkstage.electrify.doprestige();
+            if(!player.options.confirmations.electrify)
+                player.quarkstage.electrify.doprestige();
+            break;
+        case "KeyC":
+            togglechallenges();
             break;
     }
 })

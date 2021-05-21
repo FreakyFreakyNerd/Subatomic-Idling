@@ -1,8 +1,7 @@
 class Currency{
-    constructor(id, displayname, singulardisplayname, startingamount){
+    constructor(id, displayname, startingamount){
         this.id = id;
         this.displayname = displayname;
-        this.singulardisplayname = singulardisplayname;
         this.startingamount = new Decimal(startingamount)
         this.amount = new Decimal(startingamount);
         this.gained = new Decimal();

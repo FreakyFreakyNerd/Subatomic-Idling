@@ -1,5 +1,6 @@
 :root{
   --main-color: #111;
+  --hover-color: #444;
 }
 
 body{
@@ -74,6 +75,18 @@ body{
 }
 .changelogmenubutton{
   border-color: #999 !important;
+  color: white !important;
+}
+.nucleonsplitmenubutton{
+  border-color: #ccb678 !important;
+  color: white !important;
+}
+.hydrogenmenubutton{
+  border-color: #5BF9FF !important;
+  color: white !important;
+}
+.antiversemenubutton{
+  border-color: #9f32c9 !important;
   color: white !important;
 }
 .htpmenubutton{
@@ -204,6 +217,9 @@ body{
 .bonuselectronchargeupgrade{
   color: #ebcb2d;
 }
+.bonusgluonsupgrade{
+  color: #ebcb2d;
+}
 
 /*challenges*/
 .challengebuyamount{
@@ -263,6 +279,10 @@ body{
 .challengeactivator{
   background-color: var(--main-color);
 }
+.challengeactivator:hover{
+  background-color: var(--hover-color);
+  cursor: pointer;
+}
 .challengeactive{
   color: green;
   border-color: green;
@@ -270,6 +290,10 @@ body{
 .challengeinactive{
   color: red;
   border-color: red;
+}
+
+.challengeimage:hover {
+  background-color: var(--hover-color);
 }
 
 .enterchallenge{
@@ -463,13 +487,7 @@ a {
 .modal-content p {
   color: #DDDDDD;
 }
-#confirmconfirmation{
-  background-color: var(--main-color);
-  border-color: #ebcb2d;
-  color: white;
-}
-
-#closeconfirmation{
+.modalbutton{
   background-color: var(--main-color);
   border-color: #ebcb2d;
   color: white;

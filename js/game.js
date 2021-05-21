@@ -4,6 +4,7 @@ var upgraderegistry = []
 var achievementregistry = []
 var prestigeregistry = []
 var runningchallenges = [];
+var autobuyerregistry = [];
 
 var updaterequiredregistry = []
 var effectneedsrecalculated = []
@@ -50,12 +51,18 @@ function gameLogicTick(){
   var timedif = timenow - lastticktime;
   lastticktime = timenow;
   updateeffects();
-  produce(timedif/1000 * settings.gamespeedmodifier);
   this.updaterequiredregistry.forEach((item, i) => {
     item.tick();
   });
+  produce(timedif/1000 * settings.gamespeedmodifier);
   if(Date.now() > nextaddtime)
     updatetimes();
+}
+
+function updatelogictickspersec(amount){
+  settings.logictickspersecond = amount;
+  clearInterval(gameLogicIntervalID);
+  startgamelogictick();
 }
 
 var last = performance.now();
@@ -74,6 +81,15 @@ function gameLogic(timestamp){
 
 function updateeffects(){
   this.effectneedsrecalculated.forEach(item => {
+    item.updateeffects();
+  });
+}
+
+function forceeffectsupdate(){
+  upgraderegistry.forEach(item => {
+    item.updateeffects();
+  });
+  producerregistry.forEach(item => {
     item.updateeffects();
   });
 }
@@ -97,10 +113,14 @@ function produce(prodratio){
 
 load();
 
-gameLogicIntervalID = setInterval(() => {
-  gameLogicTick();
-}, 1000/settings.logictickspersecond);
+function startgamelogictick(){
+  gameLogicIntervalID = setInterval(() => {
+    gameLogicTick();
+  }, 1000/settings.logictickspersecond);
+}
 
 var gameSaveIntervalID = setInterval(() => {
   save();
 }, 10000);
+
+startgamelogictick();

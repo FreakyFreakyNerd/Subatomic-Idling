@@ -38,6 +38,7 @@ class Prestige {
       });
       this.onprestigecomplete();
     }
+    forceeffectsupdate();
   }
 
   async forceprestige() {
@@ -144,7 +145,6 @@ class PrestigeReward {
         }
         break;
     }
-    console.log(this.multeffects);
   }
 
   effectchanged() {

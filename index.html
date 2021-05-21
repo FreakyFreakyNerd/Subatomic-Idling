@@ -4,14 +4,17 @@
 <title> Subatomic Idling </title>
 
 <div id="confirmationmodal" class="modal">
-
-  <!-- Modal content -->
   <div class="modal-content">
     <p id="confirmationmodaltxt">Some text in the Modal..</p>
-    <button id="confirmconfirmation">Confirm</button>
-    <button id="closeconfirmation">Cancel</button>
+    <button id="confirmconfirmation" class="modalbutton">Confirm</button>
+    <button id="closeconfirmation" class="modalbutton">Cancel</button>
   </div>
-
+</div>
+<div id="infomodal" class="modal">
+  <div class="modal-content">
+    <p id="infomodaltxt">Some text in the Modal..</p>
+    <button id="infoconfirmation" class="modalbutton">Close</button>
+  </div>
 </div>
 
 <div id="subatomicidling">
@@ -23,6 +26,12 @@
       v-if='hasachievement("challengeunlock")'>Challenges</a>
     <a class="menubutton orbitalmenubutton" onclick='openscreen("orbitals")'
       v-if='hasachievement("1e24electrons")'>Orbitals</a>
+      <a class="menubutton nucleonsplitmenubutton" onclick='openscreen("nucelonsplit")'
+        v-if='hasachievement("1nucleonize")'>Nucleon Split</a>
+      <a class="menubutton hydrogenmenubutton" onclick='openscreen("hydrogen")'
+        v-if='hasachievement("1nucleonize")'>Hydrogen Hill</a>
+      <a class="menubutton antiversemenubutton" onclick='openscreen("antiverse")'
+        v-if='hasachievement("1nucleonize")'>Antiverse</a>
     <a class="menubutton achievementmenubutton" onclick='openscreen("achievements")'>Achievements</a>
     <a class="menubutton statisticsmenubutton" onclick='openscreen("stats")'>Statistics</a>
     <a class="menubutton settingsmenubutton" onclick='openscreen("options")'>Settings</a>
@@ -135,6 +144,22 @@
                     </button>
                   </div>
                 </td>
+                <td class="optioncell">
+                  <div class="centered">
+                    <button class="optionbutton"
+                      onclick="player.options.confirmations.electrify = !player.options.confirmations.electrify"><label
+                        v-if="player.options.confirmations.electrify">Disable Electrify Confirmation</label><label
+                        v-if="!player.options.confirmations.electrify">Enable Electrify Confirmation</label></button>
+                  </div>
+                </td>
+                <td class="optioncell">
+                  <div class="centered">
+                    <button class="optionbutton"
+                      onclick="player.options.confirmations.nucleonize = !player.options.confirmations.nucleonize"><label
+                        v-if="player.options.confirmations.nucleonize">Disable Nucleonize Confirmation</label><label
+                        v-if="!player.options.confirmations.nucleonize">Enable Nucleonize Confirmation</label></button>
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -173,16 +198,22 @@
             <buy-amount-selector type="qsp"></buy-amount-selector>
           </div>
           <div class="subcontent producerscreen" id="nucleonproducersscreen" style="display:none;">
-            <upgrade-bonus v-bind:upgrade="player.nucleonstage.freeelectrons"></upgrade-bonus>
-            <producers-display v-bind:producers="player.nucleonstage.freeelectronproducers" type="quark">
+            <upgrade-bonus v-bind:upgrade="player.nucleonstage.gluons"></upgrade-bonus>
+            <producers-display v-bind:producers="player.nucleonstage.gluonproducers" type="quark">
             </producers-display>
-            <upgrades-display v-bind:upgrades="player.nucleonstage.freeelectronupgrades" type="quark">
+            <upgrades-display v-bind:upgrades="player.nucleonstage.gluonupgrades" type="quark">
             </upgrades-display>
             <br>
             <upgrade-bonus v-bind:upgrade="player.nucleonstage.electroncharge"></upgrade-bonus>
             <producers-display v-bind:producers="player.nucleonstage.electronchargeproducers" type="quark">
             </producers-display>
             <upgrades-display v-bind:upgrades="player.nucleonstage.electronchargeupgrades" type="quark">
+            </upgrades-display>
+            <br>
+            <upgrade-bonus v-bind:upgrade="player.nucleonstage.freeelectrons"></upgrade-bonus>
+            <producers-display v-bind:producers="player.nucleonstage.freeelectronproducers" type="quark">
+            </producers-display>
+            <upgrades-display v-bind:upgrades="player.nucleonstage.freeelectronupgrades" type="quark">
             </upgrades-display>
             <buy-amount-selector type="fep"></buy-amount-selector>
           </div>
@@ -194,30 +225,32 @@
             <a class="menubutton nucleonsubmenubutton" onclick='openupgradesscreen("nucleon")'
               v-if='hasachievement("nucleonizeunlock")'>Nucleon</a>
           </div>
-          <div id="quarkupgradesscreen" class="subcontent" style="display: none">
-            <div class="upgrades">
-              <upgrade-item v-for="upgrade in player.quarkstage.singletonupgrades" v-bind:upgrade="upgrade">
-              </upgrade-item>
+          <div id="upgradelist">
+            <div id="quarkupgradesscreen" class="subcontent" style="display: none">
+              <div class="upgrades">
+                <upgrade-item v-for="upgrade in player.quarkstage.singletonupgrades" v-bind:upgrade="upgrade">
+                </upgrade-item>
+              </div>
             </div>
-          </div>
-          <div id="electronupgradesscreen" class="subcontent" style="display: none;">
-            <div class="electronupgrades">
-              <upgrade-item v-for="upgrade in player.electronstage.upgrades" v-bind:upgrade="upgrade"></upgrade-item>
+            <div id="electronupgradesscreen" class="subcontent" style="display: none;">
+              <div class="electronupgrades">
+                <upgrade-item v-for="upgrade in player.electronstage.upgrades" v-bind:upgrade="upgrade"></upgrade-item>
+              </div>
             </div>
-          </div>
-          <div id="nucleonupgradesscreen" class="subcontent" style="display: none;">
-            <div class="nucleonupgrades">
-              <upgrade-item v-for="upgrade in player.nucleonstage.upgrades" v-bind:upgrade="upgrade"></upgrade-item>
+            <div id="nucleonupgradesscreen" class="subcontent" style="display: none;">
+              <div class="nucleonupgrades">
+                <upgrade-item v-for="upgrade in player.nucleonstage.upgrades" v-bind:upgrade="upgrade"></upgrade-item>
+              </div>
             </div>
           </div>
           <div id="upgradeinfo">
             <span class="upgradename">{{selectedupgrade.displayname}}</span><br><br>
             <span class="upgradecost">Cost: {{selectedupgrade.specialcostdescription}}</span><br>
-            <span class="upgradelevel">Level: {{selectedupgrade.bought}}/{{selectedupgrade.maxbuyable}}</span><br>
+            <span class="upgradelevel">Level: {{formatDecimalNormal(selectedupgrade.bought)}}/{{formatDecimalNormal(selectedupgrade.maxbuyable)}}</span><br>
             <span class="upgradeeffect">Effect: {{selectedupgrade.specialeffectdescription}}</span><br><br>
             <button class="upgradebuyamount" v-on:click='togglebuyamount("upg")'>Buy Amount:
               {{getbuyamount("upg")}}</button>
-            <button class="upgradescreenauto">Automatic: Locked</button>
+            <button class="upgradescreenauto" v-on:click="toggleupgradeautostate()">Automatic: {{getupgradeautostate()}}</button>
           </div>
         </div>
         <div id="achievementsscreen" style="display: none">
@@ -245,8 +278,7 @@
               <span class="statinfo">Playtime: {{formattime(player.stats.times.game)}}</span><br>
               <span class="statinfo">Quarks Gained: {{formatDecimalNormal(player.quarkstage.quarks.gained)}}</span><br><br>
               <span class="statinfo">Quark Producers Information</span><br><br>
-              <span class="statinfo" v-for="producer in player.quarkstage.producers">{{producer.displayname}} Multiplier: {{formatDecimalNormal(producer.productions[0].multiplier)}}<br></span>
-              <span class="statinfo" v-for="producer in player.quarkstage.producers">{{producer.displayname}} Power: {{formatDecimalNormal(producer.productions[0].exponent)}}<br></span>
+              <span class="statinfo" v-for="producer in player.quarkstage.producers">{{producer.displayname}} Stats Per 1 || Base: {{formatDecimalNormal(producer.productions[0].productionincrease)}} || Multiplier: {{formatDecimalNormal(producer.productions[0].multiplier)}} || Power: {{formatDecimalOverride(producer.productions[0].exponent, 2)}} || Total: {{formatDecimalNormal(producer.productions[0].productionper)}}<br></span>
             </div>
             <div id="electrifystatscreen" style="display: none">
               <span class="statinfo">Current Electrify Time: {{formattime(player.stats.times.electrify)}}</span><br>
@@ -269,11 +301,11 @@
               <span class="statinfo">Nucleon Gain Power: {{formatDecimalOverride(player.electronstage.nucleonize.rewards[0].effectexpo,2)}}</span><br>
               <br>
               <div class="past10">
-                <span class="past10label">Past 10 Electrifies</span>
+                <span class="past10label">Past 10 Nucleonize</span>
                 <br>
                 <br>
-                <span class="past10value" v-for="(val, index) in player.stats.past10prestiges.electrify"
-                  :key="index">The Electrify {{index+1}} Electrify ago took {{formattime(val[0], true)}} and gave {{formatDecimal(val[1])}} Electrons <br></span>
+                <span class="past10value" v-for="(val, index) in player.stats.past10prestiges.nucleonize"
+                  :key="index">The Nucleonize {{index+1}} Nucleonize ago took {{formattime(val[0], true)}} and gave {{formatDecimal(val[1])}} nucelons <br></span>
               </div>
             </div>
           </div>
@@ -287,6 +319,25 @@
           </div>
           <button class="upgradebuyamount electronpowerapplyamount"
             v-on:click='togglebuyamount("applyelectronpower")'>Apply Amount: {{getbuyamount("applyelectronpower")}}</button>
+        </div>
+        <div id="nucelonsplitscreen" style="display: none">
+          <div id="currenciesdisplay">
+            <table id="currenciestable">
+              <tr class="currenciesrow">
+                <td class="currenciescell">
+                  <currency-display v-bind:currency="player.nucleonstage.split.protons"></currency-display>
+                </td>
+                <td class="currenciescell">
+                  <currency-display v-bind:currency="player.nucleonstage.split.neutrons"></currency-display>
+                </td>
+              </tr>
+              <tr class="currenciesrow">
+              </tr>
+            </table>
+            </div>
+        </div>
+        <div id="antiversescreen" style="display: none">
+
         </div>
         <div id="challengesscreen" style="display: none;">
           <div class="challengelist">
@@ -306,12 +357,13 @@
                 <td class="challengeinfocell">
                   <span class="challengescorebreakdown challengeinfo">Base Score: {{selectedchallenge.basescoredescription}}</span><br>
                   <span class="challengescorebreakdown challengeinfo">Final Score = Base Score * Below Multipliers</span><br>
-                  <!--<span class="challengescoremultiplier challengeinfo">Difficulty Score Multiplier: {{formatDecimalOverride(selectedchallenge.difficultyscoremultiplier, 2)}}</span><br>-->
+                  <span class="challengescoremultiplier challengeinfo">Base Score: {{formatDecimalOverride(selectedchallenge.basescore, 2)}}</span><br>
+                  <span class="challengescoremultiplier challengeinfo">Score Multiplier: {{formatDecimalOverride(selectedchallenge.scoremultiplier, 2)}}</span><br>
+                  <!--<span class="challengescoremultiplier challengeinfo">Difficulty Score Multiplier: {{formatDecimalOverride(selectedchallenge.difficultyscoremultiplier, 2)}}</span><br>
                   <span class="challengescoremultiplier challengeinfo">Synergy Score Multiplier: {{formatDecimalOverride(selectedchallenge.synergyscoremultiplier, 2)}}</span><br>
-                  <span class="challengescoremultiplier challengeinfo">Other Score Multiplier: {{formatDecimalOverride(selectedchallenge.scoremultiplier, 2)}}</span><br>
                   <span class="challengesynergyinfo challengeinfo">Challenge Synergy Values (c1,c2,...,c#): <span
                       class="challengescoremultiplier">{{selectedchallenge.synergyvalues}}</span></span><br>
-                  <span class="challengesynergyinfo challengeinfo">Synergy Score Breakdown: Each challenge has a synergy value with every other challenge, the base synergy value is multiplied by each active challenge's synergy value with this challenge, this value is then raised to the amount of active challenges to get the final synergy multiplier.</span><br>
+                  <span class="challengesynergyinfo challengeinfo">Synergy Score Breakdown: Each challenge has a synergy value with every other challenge, the base synergy value is multiplied by each active challenge's synergy value with this challenge, this value is then raised to the amount of active challenges to get the final synergy multiplier.</span><br>-->
                 </td>
               </tr>
             </table>
@@ -357,18 +409,22 @@
   <script src="js/customlib/prestige.js"> </script>
   <script src="js/customlib/achievement.js"> </script>
   <script src="js/customlib/challenge.js"> </script>
+  <script src="js/customlib/upgradeautobuyer.js"> </script>
   <script src="js/settings.js"> </script>
   <script src="js/changelog.js"> </script>
   <script src="js/UI.js"> </script>
-  <script src="js/content/challenges.js"> </script>
   <script src="js/content/quark.js"> </script>
   <script src="js/content/electron.js"> </script>
   <script src="js/content/nucleon.js"> </script>
   <script src="js/content/base.js"> </script>
+  <script src="js/content/challenges.js"> </script>
   <script src="js/content/achievements.js"> </script>
+  <script src="js/content/nucleonsplit.js"> </script>
+  <script src="js/content/antiverse.js"> </script>
   <script src="js/math.js"> </script>
   <script src="js/savemanager.js"> </script>
   <script src="js/hotkeys.js"> </script>
+  <script src="js/content/autobuyers.js"> </script>
   <script src="js/game.js"> </script>
   <script src="js/vueimplementation.js"></script>
 

@@ -38,20 +38,24 @@ function setupchallenges() {
   var c4effects = [new StaticEffect(player.quarkstage.producers[0], 1, EffectTypes.ForceLimit, null, (obj) => "Max Chargers Buyable : 1"), new StaticEffect(player.quarkstage.producers.slice(1), 0, EffectTypes.ForceLimit, null, (obj) => "Max Quark Producers(Excluding Charger) Buyable : 0")];
   var c4bonus1 = new FunctionEffect(player.quarkstage.producers, EffectTypes.ProducerMultiplierProduction, (amount) => new Decimal(Decimal.log(amount, 10)), (obj) => "Quark Production * log10(score) || Quark Production *" + formatDecimalOverride(obj.value, 2));
   var c4bonus2 = new FunctionEffect(player.quarkstage.electrify, EffectTypes.PrestigeMultiplicativeGain, (amount) => new Decimal(Decimal.log(amount, 10)), (obj) => { return 'Electron Gain * log10(score) || Electron Gain *' + formatDecimalOverride(obj.value, 2) });
-  var c4bonus3 = new FunctionEffect(player.quarkstage.producers[0], EffectTypes.ProducerMultiplierProduction, (amount) => new Decimal(Decimal.log(amount, 10)).divide(1000).add(1), (obj) => { return "Charger Production * Log10(score)/1000 + 1 || Charger Production ^" + formatDecimalOverride(obj.value, 2) });
+  var c4bonus3 = new FunctionEffect(player.quarkstage.producers, EffectTypes.ProducerExponentialProduction, (amount) => Decimal.pow(new Decimal(Decimal.log(amount, 10)).divide(1000).add(1), .2), (obj) => { return "Quark Production ^ Log10(score)/1000 + 1)^.2 || Quark Production ^" + formatDecimalOverride(obj.value, 2) });
   player.challenges.push(new Challenge("c1x4", "[c4] Only 1", "Electrify and gain points, but you only can buy 1 Charger.", c4effects, [new Decimal("10"), c4bonus1, new Decimal("1e25"), c4bonus2, new Decimal("1e40"), c4bonus3], 1, () => { player.quarkstage.electrify.forceprestige(); }, null, () => new Decimal(Decimal.pow(player.quarkstage.quarks.gained, 1 / 2)), 1, [.1, 5, 5, 1], "(Quarks Gained)^.5"));
 
   //Challenge 2x1-5
   var c5effects = [new StaticEffect(player.electronstage.quarkspinproducers, 0, EffectTypes.ProducerMultiplierProduction, null, () => "Quark Spin Producers No Longer Produce")];
-  player.challenges.push(new Challenge("c2x1", "[c5] Quarky", "Nucleonize and gain score, but quark spin producers do not work", c5effects, [], 1, () => { player.electronstage.nucleonize.forceprestige(); }, null, () => player.electronstage.electrons.gained, 1, [100, 2, 2, 2, 0], "Electrons Gained", [new AchievementRequirement("nucleonizeunlock")]));
+  player.challenges.push(new Challenge("c2x1", "[c5] Quarky", "Nucleonize and gain score, but quark spin producers do not work", c5effects, [], 1, () => { player.electronstage.nucleonize.forceprestige(); }, null, () => player.electronstage.electrons.gained, 1, [100, 2, 2, 2, 1, 1, 1, 1], "Electrons Gained", [new AchievementRequirement("nucleonizeunlock")]));
 
   //Challenge 2x2-6
   var c6effects = [new StaticEffect(player.quarkstage.singletonupgrades, 0, EffectTypes.ForceLimit, null, () => "No quark upgrades buyable")];
-  player.challenges.push(new Challenge("c2x2", "[c6] Blasphamy", "Nucleonize and gain score, but you cannot buy any quark upgrades", c6effects, [], 1, () => { player.electronstage.nucleonize.forceprestige(); }, null, () => player.electronstage.electrons.gained, 1, [100, 2, 2, 2, 0], "Electrons Gained", [new AchievementRequirement("nucleonizeunlock")]));
+  player.challenges.push(new Challenge("c2x2", "[c6] Blasphamy", "Nucleonize and gain score, but you cannot buy any quark upgrades", c6effects, [], 1, () => { player.electronstage.nucleonize.forceprestige(); }, null, () => player.electronstage.electrons.gained, 1, [100, 2, 2, 2, 1, 1, 1, 1], "Electrons Gained", [new AchievementRequirement("nucleonizeunlock")]));
 
-  //Challenge 2x2-6
+  //Challenge 2x3-7
   var c7effects = [new StaticEffect(player.electronstage.upgrades, 0, EffectTypes.ForceLimit, null, () => "No electron upgrades buyable")];
-  player.challenges.push(new Challenge("c2x3", "[c7] Blasphamy v2.0", "Nucleonize and gain score, but you cannot buy electron upgrades", c6effects, [], 1, () => { player.electronstage.nucleonize.forceprestige(); }, null, () => player.electronstage.electrons.gained, 1, [100, 2, 2, 2, 0], "Electrons Gained", [new AchievementRequirement("nucleonizeunlock")]));
+  player.challenges.push(new Challenge("c2x3", "[c7] Blasphamy v2.0", "Nucleonize and gain score, but you cannot buy electron upgrades", c7effects, [], 1, () => { player.electronstage.nucleonize.forceprestige(); }, null, () => Decimal.Log(player.electronstage.electrons.gained, 10).divide(125), 1, [100, 2, 2, 2, 1, 1, 1, 1], "Log10(Electrons Gained)/125", [new AchievementRequirement("nucleonizeunlock")]));
+  
+  //Challenge 2x4-8
+  var c8effects = [new StaticEffect(player.electronstage.clouds.power, 0, EffectTypes.ForceLimit, null, () => "No electron power buyable")];
+  player.challenges.push(new Challenge("c2x4", "[c8] Blasphamy 3000", "Nucleonize and gain score, but you cannot buy electron power", c8effects, [], 1, () => { player.electronstage.nucleonize.forceprestige(); }, null, () => player.electronstage.nucleonize.rewards[0].producedamount, 1, [100, 2, 2, 2, 1, 1, 1], "Nucleons Gained On Nucleonize", [new AchievementRequirement("nucleonizeunlock")]));
 }
 
 function togglechallenges() {
@@ -83,4 +87,12 @@ function raisechallengescore(startind, endind, value) {
     player.challenges[i].raisescore(value);
   }
   updateeffects();
+}
+
+function getchallenges(startind, endind){
+  var chals = [];
+  for (var i = startind; i < endind; i++) {
+    chals.push(player.challenges[i]);
+  }
+  return chals;
 }

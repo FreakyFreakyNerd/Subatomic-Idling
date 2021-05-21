@@ -2,7 +2,7 @@ var settings = {
     tickspersecond : 10,
     logictickspersecond : 10,
     gamespeedmodifier : 1,
-    version: "Alpha v0.02",
+    version: "v0.1",
     defaultoptions : {
         notation : "standard",
         notationdecimals : 3,
@@ -54,6 +54,7 @@ function setbuyamount(type, num){
 }
 
 function resetstats(){
+  player.stats = {};
   player.stats = shallowcopy(settings.defaultstats);
 }
 

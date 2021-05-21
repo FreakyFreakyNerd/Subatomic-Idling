@@ -167,6 +167,10 @@ td.righttablecolumn {
   margin-top: 20px;
 }
 
+#upgradelist{
+  width: 70%;
+}
+
 /*Electron Power*/
 .electronpower{
   border: white;
@@ -293,6 +297,13 @@ td.righttablecolumn {
 .challengedifficulty{
   margin-top: 2px;
   margin-bottom: 2px;
+}
+
+.challengelist{
+  margin: 2px;
+  width: 60%;
+  height: 50%;
+  overflow-y: scroll;
 }
 
 .applybutton{
@@ -520,8 +531,6 @@ td.righttablecolumn {
 }
 
 /*Upgrade Display*/
-.upgraderow{
-}
 .upgradeimage{
   width: 36px;
 }
@@ -669,16 +678,9 @@ a {
   border-radius: 5px;
 }
 
-#confirmconfirmation{
+.modalbutton{
   font-size: 18px;
-  padding: 4px;
+  padding: 4px 10px;
   margin-right: 10px;
-  width: 100px;
-}
-
-#closeconfirmation{
-  font-size: 18px;
-  padding: 4px;
-  margin-left: 10px;
-  width: 100px;
+  min-width: 100px;
 }

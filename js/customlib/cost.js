@@ -72,11 +72,13 @@ class Cost{
     }
 
     get hascost(){
-        return this.costobject.has(this.cost);
+      if(this.cost.equals(0))
+        return true;
+      return this.costobject.has(this.cost);
     }
 
     subtractcost(){
-      this.costobject.subtract(this.cost);
+      this.costobject.subtract(this.cost); 
     }
 
     get description(){
@@ -121,7 +123,7 @@ class HyperExponentialCost extends Cost{
       var amountavailable = this.costobject.amount;
       var sae = new Decimal(Decimal.log(amountavailable.divide(this.startingcost), 10)).divide(Decimal.log(this.scaling, 10));
       var max = Decimal.pow(sae, new Decimal(1).divide(this.hyperscaling))
-      var buyamount = max.minus(this.bought);
+      var buyamount = max.minus(amount);
       return Decimal.floor(buyamount);//Decimal.floor(Decimal.pow(buyamount, (new Decimal(1)).divide(this.hyperscaling)));
     }
 
@@ -131,9 +133,10 @@ class HyperExponentialCost extends Cost{
 }
 
 class LinearCost extends Cost{
-    recalculatecost(amount, buyamount){
-      if(buyamount != undefined && buyamount != 1)
-        this.basecost = this.startingcost.times(buyamount).add(buyamount.times(amount).add(Decimal.pow(buyamount, 2).divide(2)).times(this.scaling));
+    recalculatebasecost(amount, buyamount){
+      if(buyamount != undefined && buyamount > 1 && buyamount.greaterThan(1)){
+        this.basecost = this.startingcost.times(buyamount).add(new Decimal(buyamount).times(amount).add(Decimal.pow(buyamount, 2).divide(2)).times(this.scaling));
+      }
       else
         this.basecost = this.startingcost.add(this.scaling.times(amount));
       if(this.basecost.lessThan(0))
@@ -161,4 +164,107 @@ class StaticCost extends Cost{
       var amt = this.costobject.amount;
       return Decimal.floor(amt.divide(this.startingcost));
     }
+}
+
+class CombinedCost {
+  constructor(costs, startingamounts){
+    if(Array.isArray(costs))
+      this.costs = costs;
+    else
+      this.costs = [costs];
+    if(Array.isArray(startingamounts))
+      this.startingamounts = startingamounts;
+    else
+      this.startingamounts = [startingamounts];
+    this.costobject = this.costs[0].costobject;
+    for(var i = 0; i < this.startingamounts.length; i++){
+      this.startingamounts[i] = new Decimal(this.startingamounts[i]);
+    }
+  }
+
+  recalcluateeffectvalues(){
+    this.costs.forEach(cost => {
+      cost.recalcluateeffectvalues();
+    });
+  }
+
+  getmaxbuyable(amount){
+    var costind = 0;
+    for(var i = 0; i < this.startingamounts.length; i++){
+      if(amount > this.startingamounts[i])
+        costind = i+1;
+    }
+    if(costind>1)
+      return this.costs[costind].getmaxbuyable(amount.minus(this.startingamounts[costind-1])).add(this.startingamounts[costind-1].minus(amount));
+    else
+      return this.costs[costind].getmaxbuyable(amount);
+  }
+  
+  effectchanged(){
+    this.costs.forEach(cost => {
+      cost.effectchanged();
+    });
+  }
+
+  applyeffect(effect){
+    this.costs.forEach(cost => {
+      cost.applyeffect(effect);
+    });
+  }
+
+  removeeffect(effect){
+    this.costs.forEach(cost => {
+      cost.removeeffect(effect);
+    });
+  }
+
+  recalculatecost(amount, buyamount){
+    if(amount.greaterThanOrEqualTo(this.startingamounts[this.startingamounts.length - 1])){
+      this.costs.forEach(cost => {
+        cost.cost = new Decimal();
+      });
+      this.costs[this.costs.length - 1].recalculatecost(amount.minus(this.startingamounts[this.startingamounts.length - 1]), buyamount);
+      this.cost = this.costs[this.costs.length - 1].cost;
+    }
+    else{
+      this.cost = new Decimal();
+      this.costs[this.costs.length - 1].cost = new Decimal();
+      for(var i = 0; i < this.startingamounts.length + 1; i++){
+        if(amount.lessThan(this.startingamounts[i]) ){
+          var ba = this.startingamounts[i].minus(amount.minus(this.startingamounts[i])).greaterThanOrEqualTo(buyamount) ? buyamount : this.startingamounts[i];
+          if(ba.greaterThan(0))
+            this.costs[i].recalculatecost(amount, ba);
+          else
+            this.costs[i].cost = new Decimal();
+          this.cost = this.cost.add(this.costs[i].cost);
+        }
+      }
+      var ba = amount.add(buyamount).minus(this.startingamounts[this.startingamounts.length - 1]).greaterThan(0) ? buyamount : amount.minus(this.startingamounts[this.startingamounts.length - 1]);
+      if(ba.greaterThan(0))
+        this.costs[this.startingamounts.length].recalculatecost(amount, ba);
+      else
+        this.costs[this.startingamounts.length].cost = new Decimal();
+    }
+  }
+
+  subtractcost(){
+    this.costs.forEach(cost => {
+      cost.subtractcost();
+    });
+  }
+
+  get hascost(){
+    var has = true;
+    this.costs.forEach(cost => {
+      if(!cost.hascost){
+        has = false;
+        return false;
+      }
+    });
+    return has;
+  }
+
+  get description(){
+    return formatDecimal(this.cost) + " " + this.costobject.displayname;
+  }
 }

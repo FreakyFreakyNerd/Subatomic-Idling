@@ -46,7 +46,7 @@ class LinearProduction{
 
   recalculateproduction(amount){
     this.queuedamount = amount;
-    this.production = Decimal.pow(this.startingproduction.add(this.productionper.times(amount)), this.exponent);
+    this.production = this.startingproduction.add(this.productionper.times(amount));
   }
 
   produce(prodratio){
@@ -54,7 +54,7 @@ class LinearProduction{
   }
 
   get productionper(){
-    return (this.productionincrease.add(this.additionproduction)).times(this.multiplier);
+    return Decimal.pow((this.productionincrease.add(this.additionproduction)).times(this.multiplier), this.exponent);
   }
 
   applyeffect(effect){
