@@ -358,6 +358,62 @@ class FunctionEffect extends Effect {
   }
 }
 
+class PieceFunctionEffect extends Effect {
+  constructor(objectsappliesto, effecttype, effectvaluefunction, effectdescriptionfunction, blocks, weights, ind) {
+    super(objectsappliesto, new Decimal(), new Decimal(), effecttype, null, null, null);
+    this.effectvaluefunction = effectvaluefunction;
+    this.effectdescription = effectdescriptionfunction;
+    this.amount = new Decimal();
+    this.basevalue = new Decimal(1);
+    this.delay = 10;
+    this.blocks = blocks;
+    this.weights = weights;
+    this.ind = ind;
+  }
+
+  tick() {
+    if(!this.applied)
+      return;
+    this.delay--;
+    if (this.delay <= 0) {
+      this.recalculatevalue(this.amount);
+      this.delay = 10;
+    }
+  }
+
+  recalculatevalue(amount) {
+    this.amount = amount;
+    if (this.effectvaluefunction != undefined)
+      this.basevalue = this.effectvaluefunction(this.blocks, this.weights, this.amount, this.ind);
+    else
+      this.basevalue = new Decimal(1);
+    console.log(this.effectvaluefunction(this.blocks, this.weights, this.amount, this.ind));
+    this.oneffectchanged();
+  }
+
+  apply() {
+    console.log(this.objectsappliesto);
+    if (!this.applied) {
+      this.appliesto.forEach((obj, i) => {
+        if (obj != undefined)
+          obj.applyeffect(this);
+      });
+      this.applied = true;
+    }
+  }
+}
+
+class FunctionalEffect{
+  constructor(applyfunc, unapplyfunc){
+    this.applyfunc = applyfunc;
+    this.unapplyfunc = unapplyfunc;
+  }
+
+  apply(){
+    this.applyfunc();
+  }
+}
+
 class FlavorEffect extends Effect {
   constructor(flavortext) {
     super();

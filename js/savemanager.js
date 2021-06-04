@@ -148,13 +148,17 @@ function loadstats() {
   }
 }
 
+mainurl = "freakyfreakynerd.github.io"
+
+function checkurl(){
+  return window.location.href.includes(mainurl);  
+}
+
 //Important
 function save() {
   savedata = {}
   saveplayer()
   localStorage.setItem('subatomicidlingsave', Base64.encode(JSON.stringify(savedata)))
-
-  console.log("Saved");
 }
 
 function savetofile() {

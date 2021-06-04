@@ -340,6 +340,81 @@ Vue.component('applied-upgrades-display', {
   }
 })
 
+Vue.component('board-grid-display', {
+  props : ["board"],
+  template: `
+  <div>
+    <table class="boardtable">
+      <tr class="boardrow" v-for="row in board.rows" v-bind:row="row">
+        <td class="boardcell" v-for="cell in row" v-bind:cell="cell">
+          <img class="boardimage" v-bind:src='cell.texturepath' @error="$event.target.src='images/missing.png'" @mouseover="hoverenter(board, cell)" @click='click(board, cell)'>
+        </td>
+      </tr>
+    </table>
+    <button @click="rotate(board)">Rotate</button>
+    <button @click="deselectpiece(board)">Deselect</button>
+  </div>
+  `,
+  methods: {
+    hoverenter: function(board, tile){
+      board.displaypiecetotile(tile, board.selectedpiece);
+      selectedboard = board;
+      piece = board.getpieceat(tile.x, tile.y);
+      if(piece != undefined)
+        subatomicidlingapp.selectedboardpiece = piece;
+    },
+    click: function(board, tile){
+      if(board.selectedpiece != undefined)
+        board.placepiecetotile(tile, board.selectedpiece);
+      else
+        board.displacepieceattile(tile);
+    },
+    rotate: function(board){
+      board.rotateselected();
+    },
+    deselectpiece: function(board){
+      board.deselectpiece();
+    }
+  }
+})
+
+Vue.component('piece-display', {
+  props: ["piece", "board"],
+  template: `
+  <div class="piecediv">
+    <table class="piecetable">
+      <tr class="piecerow" v-for="(row,y) in piece.rotatedpiece" v-bind:row="row">
+        <td v-bind:class="{piececell: true, piececellleft: cell == 1 && (x == 0)}" v-for="(cell,x) in row" v-bind:cell="cell">
+          <img class='pieceimage' v-bind:src='cell == 1 ? piece.texturepath : "images/none.png"' @error="$event.target.src='images/missing.png'" @mouseover="showinformation(board, piece)" @click='selectpiece(board, piece)'>
+        </td>
+      </tr>
+    </table>
+  </div>
+  `,
+  methods: {
+    showinformation: function(board, piece){
+      subatomicidlingapp.selectedboardpiece = piece;
+    },
+    selectpiece: function(board, piece){
+      board.selectpiece(piece);
+    }
+  }
+})
+
+Vue.component('piece-information-display', {
+  props: ["piece"],
+  template: `
+    <div>
+      <span class="pieceinfo">Block Count: {{piece.blocks}}</span><br>
+      <span class="pieceinfo">Effect Count: {{piece.effects != undefined ? piece.effects.length : 0}}</span><br>
+      <span class="pieceinfotitle">Piece Effects</span><br>
+      <span class="pieceinfo" v-for="(effect, x) in piece.effectinformation">{{effect}}<br></span>
+    </div>
+  `
+})
+
+var boringpiece = new BoardPiece([[1]], "green")
+
 var subatomicidlingapp = new Vue({
     el: '#subatomicidling',
     data: {
@@ -349,6 +424,7 @@ var subatomicidlingapp = new Vue({
         selectedachievement : player.achievements[0][0],
         selectedchallenge : player.challenges[0],
         selectedprestige : prestigeregistry[0],
+        selectedboardpiece : boringpiece,
         versions : versions,
         prestiges : prestigeregistry
     },

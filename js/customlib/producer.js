@@ -8,6 +8,7 @@ class Producer {
     this.onbuymax = false;
     this.buyauto = false;
     this.autobuyunlocked = false;
+    this.doproduce = true;
 
     if (Array.isArray(productions))
       this.productions = productions;
@@ -197,6 +198,8 @@ class Producer {
   }
 
   produce(prodratio) {
+    if(!this.doproduce)
+      return;
     this.productions.forEach((prod, i) => {
       prod.produce(prodratio);
     });

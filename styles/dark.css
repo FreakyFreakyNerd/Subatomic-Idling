@@ -492,3 +492,15 @@ a {
   border-color: #ebcb2d;
   color: white;
 }
+
+/*Board*/
+.piecetable{
+  border-color: white;
+}
+.pieceinfotitle{
+  color: white;
+  text-decoration: underline;
+}
+.pieceinfo{
+  color: white;
+}

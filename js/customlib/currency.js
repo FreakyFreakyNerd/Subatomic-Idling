@@ -37,6 +37,8 @@ class Currency{
         if(data[1] != undefined)
           this.gained = Decimal.fromString(data[1]);
       }
+      if(this.amount.lessThan(0))
+        this.amount = new Decimal();
     }
 
     subtract(amount){

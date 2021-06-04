@@ -1,7 +1,7 @@
 <html>
 <link rel="stylesheet" type="text/css" href="styles/base.css">
 <link id="stylemanager" rel="stylesheet" type="text/css" href="styles/dark.css">
-<title> Subatomic Idling </title>
+<title> Subatomic Idling 0.1</title>
 
 <div id="confirmationmodal" class="modal">
   <div class="modal-content">
@@ -28,7 +28,7 @@
       v-if='hasachievement("1e24electrons")'>Orbitals</a>
       <a class="menubutton nucleonsplitmenubutton" onclick='openscreen("nucelonsplit")'
         v-if='hasachievement("1nucleonize")'>Nucleon Split</a>
-      <a class="menubutton hydrogenmenubutton" onclick='openscreen("hydrogen")'
+      <a class="menubutton hydrogenmenubutton" onclick='openscreen("hydrogenhill")'
         v-if='hasachievement("1nucleonize")'>Hydrogen Hill</a>
       <a class="menubutton antiversemenubutton" onclick='openscreen("antiverse")'
         v-if='hasachievement("1nucleonize")'>Antiverse</a>
@@ -59,20 +59,21 @@
             </table>
           </div>
         </td>
-        <td class="prestigemarker">
-          <div id="prestigedisplay">
-            <prestige-icon v-for="prestige in prestiges" v-bind:prestige="prestige" v-if="prestige.unlocked">
-            </prestige-icon>
-          </div>
-          <div id="prestigegain" v-if="selectedprestige.unlocked">
-            <prestige-requirement v-bind:requirement="selectedprestige.requirement"></prestige-requirement>
-            <prestige-reward v-for="reward in selectedprestige.rewards" v-bind:reward="reward"></prestige-reward>
+        <td >
+          <div class="prestigemarker">
+            <div id="prestigedisplay">
+              <prestige-icon v-for="prestige in prestiges" v-bind:prestige="prestige" v-if="prestige.unlocked">
+              </prestige-icon>
+            </div>
+            <div id="prestigegain" v-if="selectedprestige.unlocked">
+              <prestige-requirement v-bind:requirement="selectedprestige.requirement"></prestige-requirement>
+              <prestige-reward v-for="reward in selectedprestige.rewards" v-bind:reward="reward"></prestige-reward>
+            </div>
           </div>
         </td>
       </table>
     </div>
     <div id="screens">
-
       <div id="screens">
         <div id="optionsscreen" class="centered" style="display: none">
           <table align="center">
@@ -335,9 +336,28 @@
               </tr>
             </table>
             </div>
+            <table>
+              <tr class="gridpiecedisplay">
+                <td><board-grid-display v-bind:board="player.nucleonstage.split.gridinfo.grid"></board-grid-display></td>
+                <td><div class="pendingpiecelist"><piece-display v-for="piece in player.nucleonstage.split.gridinfo.grid.pendingpieces" v-bind:piece="piece" v-bind:board="player.nucleonstage.split.gridinfo.grid"></piece-display></div></td>
+              </tr>
+              <tr>
+                <td><span class="pieceinfotitle">Piece Information</span><piece-information-display v-bind:piece="selectedboardpiece"></td>
+              </tr>
+            </table>
         </div>
         <div id="antiversescreen" style="display: none">
-
+          <div class="centered">
+            <currency-display v-bind:currency="player.nucleonstage.antiverse.positrons"></currency-display>
+            <br>
+            <currency-display v-bind:currency="player.nucleonstage.antiverse.antiprotons"></currency-display>
+            <currency-display v-bind:currency="player.nucleonstage.antiverse.antineutrons"></currency-display>
+          </div>
+        </div>
+        <div id="hydrogenhillscreen" style="display: none">
+            <div class="centered">
+              <currency-display v-bind:currency="player.electronstage.electrons"></currency-display>
+            </div>
         </div>
         <div id="challengesscreen" style="display: none;">
           <div class="challengelist">
@@ -410,6 +430,10 @@
   <script src="js/customlib/achievement.js"> </script>
   <script src="js/customlib/challenge.js"> </script>
   <script src="js/customlib/upgradeautobuyer.js"> </script>
+  <script src="js/customlib/random.js"> </script>
+  <script src="js/customlib//boardlib/piece.js"> </script>
+  <script src="js/customlib//boardlib/board.js"> </script>
+  <script src="js/customlib//boardlib/piecegenerator.js"> </script>
   <script src="js/settings.js"> </script>
   <script src="js/changelog.js"> </script>
   <script src="js/UI.js"> </script>

@@ -62,6 +62,16 @@ class Prestige {
       reward.effectchanged();
     });
   }
+
+  addreward(reward){
+    this.rewards.push(reward);
+  }
+  removereward(reward){
+    var ind = this.rewards.indexOf(reward);
+    if(ind > -1){
+      this.rewards = this.rewards.splice(ind);
+    }
+  }
 }
 
 class PrestigeReward {
@@ -99,6 +109,10 @@ class PrestigeReward {
 
   get baseamount() {
     return this.amountfunction(this.basedon.gained);
+  }
+
+  get gained(){
+    return this.producedamount;
   }
 
   applyeffect(effect) {

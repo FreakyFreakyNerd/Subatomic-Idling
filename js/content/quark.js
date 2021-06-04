@@ -40,7 +40,7 @@ function setupbasicquarksingletonupgrades(){
     player.quarkstage.singletonupgrades = [];
     function boughtmult() 
     {
-      var val = Decimal.pow(totalproducerbought(player.quarkstage.producers), .9);
+      var val = Decimal.pow(totalproducerbought(player.quarkstage.producers).add(1), .9);
       return val;
     }
     player.quarkstage.singletonupgrades.push(new Upgrade("qsu0", "[q1] Increase Charger production based on Quark Producers bought",        1, null, [new FunctionEffect(player.quarkstage.producers[0], EffectTypes.ProducerMultiplierProduction, () => boughtmult(), (obj) => "Charger Production x"       + formatDecimalNormal(obj.value))], [new StaticCost(player.quarkstage.quarks, "1e6")] , "upg"));
@@ -53,7 +53,7 @@ function setupbasicquarksingletonupgrades(){
     player.quarkstage.singletonupgrades.push(new Upgrade("qsu7", "[q8] Increase Epoch production based on Quark Producers bought",          1, null, [new FunctionEffect(player.quarkstage.producers[7], EffectTypes.ProducerMultiplierProduction, () => boughtmult(), (obj) => "Epoch Production x"         + formatDecimalNormal(obj.value))], [new StaticCost(player.quarkstage.quarks, "1e20")], "upg"));
     player.quarkstage.singletonupgrades.push(new Upgrade("qsu8", "[q9] Increase Scattering production based on Quark Producers bought",     1, null, [new FunctionEffect(player.quarkstage.producers[8], EffectTypes.ProducerMultiplierProduction, () => boughtmult(), (obj) => "Scattering Production x"    + formatDecimalNormal(obj.value))], [new StaticCost(player.quarkstage.quarks, "1e22")], "upg"));
     player.quarkstage.singletonupgrades.push(new Upgrade("qsu9", "[q10] Increase Big Bang production based on Quark Producers bought",      1, null, [new FunctionEffect(player.quarkstage.producers[9], EffectTypes.ProducerMultiplierProduction, () => boughtmult(), (obj) => "Big Bang Production x"      + formatDecimalNormal(obj.value))], [new StaticCost(player.quarkstage.quarks, "1e24")], "upg"));
-    player.quarkstage.singletonupgrades.push(new Upgrade("qsu10", "[q11] Acceleron is 1.25(+.03/level) times as powerful", 25, null, [new LinearEffect(player.quarkstage.singletonupgrades[9], 1.25, .03, EffectTypes.UpgradeIncreaseMultiplier, null, (obj) => "Acceleron Power x" + formatDecimalOverride(obj.value, 2))], [new ExponentialCost(player.quarkstage.quarks, "1e25", "10")], "upg"));
+    player.quarkstage.singletonupgrades.push(new Upgrade("qsu10", "[q11] Acceleron is 1.25(+.03/level) times as powerful", 25, null, [new LinearEffect(player.quarkstage.upgrades[0], 1.25, .03, EffectTypes.UpgradeIncreaseMultiplier, null, (obj) => "Acceleron Power x" + formatDecimalOverride(obj.value, 2))], [new ExponentialCost(player.quarkstage.quarks, "1e25", "10")], "upg"));
     function valuemult(amount){
       if(amount.equals(0))
         return new Decimal(1);

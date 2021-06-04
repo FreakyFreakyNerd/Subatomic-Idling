@@ -29,6 +29,7 @@ function setupGame() {
   setupbasicantiverse();
 
   setupautobuyers();
+  setpieceupgradeeffects();
 }
 
 function totalproducerbought(producers) {

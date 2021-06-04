@@ -156,8 +156,9 @@ function setupachievements() {
   player.achievements.push([]);
   row = player.achievements.length - 1;
   player.achievements[row].push(new Achievement("1nucleonize", "[a15x1] You made it, Congrats!!", [new FunctionRequirement(() => player.stats.prestigeamounts.nucleonize >= 1, "Nucleonize 1 Time")], null, [new FlavorEffect("Lots of new Electron and Quark Upgrades")]));
-  player.achievements[row].push(new Achievement("10nucleonize", "[a15x2] Buying electron upgrades is getting repetative no?", [new FunctionRequirement(() => player.stats.prestigeamounts.nucleonize >= 10, "Nucleonize 10 Times")], null, [new FlavorEffect("Electron upgrade autobuyer, yay!")]));
-  player.achievements[row].push(new Achievement("100nucleonize", "[a15x3] Getting Up There", [new FunctionRequirement(() => player.stats.prestigeamounts.nucleonize >= 100, "Nucleonize 100 Times")], null, [new FlavorEffect("Challenge scores are no longer effectect by nucleonize!")]));
+  var antielectronreward = new PrestigeReward(player.nucleonstage.antiverse.positrons, player.electronstage.nucleonize.rewards[0], (num) => Decimal.pow(num, .5));
+  player.achievements[row].push(new Achievement("10nucleonize", "[a15x2] Buying electron upgrades is getting repetative no?", [new FunctionRequirement(() => player.stats.prestigeamounts.nucleonize >= 10, "Nucleonize 10 Times")], null, [new FlavorEffect("Electron upgrade autobuyer, yay!"), new FunctionalEffect(() => player.electronstage.nucleonize.addreward(antielectronreward),() => player.electronstage.nucleonize.removereward(antielectronreward))]));
+  player.achievements[row].push(new Achievement("100nucleonize", "[a15x3] Getting Up There", [new FunctionRequirement(() => player.stats.prestigeamounts.nucleonize >= 100, "Nucleonize 100 Times")], null, [new FlavorEffect("Challenge scores are no longer effected by nucleonize!")]));
 }
 
 function resetachievements() {

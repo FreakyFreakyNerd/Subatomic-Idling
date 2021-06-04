@@ -1,12 +1,16 @@
 * {
   text-decoration:none;
-  -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+      -webkit-user-drag: none;
+       -khtml-user-drag: none;
+         -moz-user-drag: none;
+           -o-user-drag: none;
+
 }
 
 .centered {
@@ -407,6 +411,7 @@ td.righttablecolumn {
 
 /*TopBar*/
 #topbardisplay{
+  height: 100px;
   width: 100%;
 }
 .currencymarker{
@@ -683,4 +688,52 @@ a {
   padding: 4px 10px;
   margin-right: 10px;
   min-width: 100px;
+}
+
+/*Board*/
+.boardimage{
+  width: 32px;
+  height: 32px;
+}
+.boardtable{
+  border-collapse: collapse;
+}
+.boardcell{
+  padding: 0px;
+}
+.boardrow{
+  padding: 0px;
+}
+
+.pieceimage{
+  width: 16px;
+  height: 16px;
+}
+.piecetable{
+  margin: 4px;
+  border-collapse: collapse;
+  border: 1px solid;
+}
+.piecediv{
+  display: inline-block;
+}
+.piececell{
+  padding: 0px;
+}
+.piecerow{
+  padding: 0px;
+}
+.pendingpiecelist{
+  height: 320px;
+  width: 400px;
+  overflow-y: scroll;
+  display: inline-block;
+}
+
+.pieceinfotitle{
+  font-size: 18px;
+}
+
+.pieceinfo{
+  font-size: 12px;
 }

@@ -3,7 +3,10 @@ class Upgrade {
     this.id = id;
     this.buykey = buykey;
     this.displayname = displayname;
-    this.maxbuyable = new Decimal(maxbuyable);
+    if (maxbuyable != undefined)
+      this.maxbuyable = new Decimal(maxbuyable);
+    else
+      this.maxbuyable = new Decimal(-1);
     this.onbuymax = false;
     this.lastbuyamount = undefined;
     if (requirements != null && requirements != undefined)
@@ -33,7 +36,7 @@ class Upgrade {
       this.autobuyrequirements = [autobuyrequirements];
 
     this.applied = false;
-    if(this.autobuyrequirements != undefined){
+    if (this.autobuyrequirements != undefined) {
       this.autobuyunlocked = false;
       this.buyauto = false;
     }
@@ -91,9 +94,9 @@ class Upgrade {
 
   save() {
     var save = [this.bought.toString()];
-    if(this.getsproduced != undefined)
+    if (this.getsproduced != undefined)
       save.push(this.produced.toString());
-    if(this.autobuyrequirements != undefined)
+    if (this.autobuyrequirements != undefined)
       save.push(this.buyauto);
     return save;
   }
@@ -104,12 +107,12 @@ class Upgrade {
     if (data[0] != undefined)
       this.bought = Decimal.fromString(data[0]);
     var ind = 1;
-    if(this.getsproduced != undefined){
+    if (this.getsproduced != undefined) {
       if (data[ind] != undefined)
         this.produced = Decimal.fromString(data[ind]);
-        ind++;
+      ind++;
     }
-    if(this.autobuyrequirements != undefined){
+    if (this.autobuyrequirements != undefined) {
       if (data[ind] != undefined)
         this.buyauto = data[ind];
       ind++;
@@ -241,7 +244,7 @@ class Upgrade {
     var max = this.getmaxbuyable();
     if (!max.greaterThan(0))
       return;
-    if(!this.maxbuyable.equals(-1) && max.greaterThan(this.maxbuyable.minus(this.bought)))
+    if (!this.maxbuyable.equals(-1) && max.greaterThan(this.maxbuyable.minus(this.bought)))
       max = this.maxbuyable.minus(this.bought);
     if (!this.applied)
       this.onunlock();
@@ -269,7 +272,7 @@ class Upgrade {
       else
         maxamount = this.limit.minus(this.bought);
     }
-    if (maxamount.greaterThan(this.maxbuyable) && this.maxbuyable.greaterThan(0))
+    if ((maxamount.greaterThan(this.maxbuyable) && this.maxbuyable.greaterThan(0)))
       maxamount = this.maxbuyable;
     return maxamount;
   }
@@ -595,7 +598,7 @@ class DiminishingUpgrade extends Upgrade {
     }
   }
 
-  reset(){
+  reset() {
     super.reset();
     this.diming = false;
   }

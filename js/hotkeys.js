@@ -1,3 +1,4 @@
+var selectedboard = undefined;
 var controldown = false;
 var shiftdown = false;
 window.addEventListener('keydown', function(event){
@@ -59,6 +60,14 @@ window.addEventListener('keydown', function(e){
             break;
         case "KeyC":
             togglechallenges();
+            break;
+        case "KeyR":
+            if(selectedboard != undefined)
+                selectedboard.rotateselected();
+            break;
+        case "KeyT":
+            if(selectedboard != undefined)
+                selectedboard.deselectpiece();
             break;
     }
 })
