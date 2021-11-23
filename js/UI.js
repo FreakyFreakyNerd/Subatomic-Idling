@@ -5,7 +5,7 @@ var notations = {
   "mixedscientific": new ADNotations.MixedScientificNotation(),
   "mixedengineering": new ADNotations.MixedEngineeringNotation(),
   "letters": new ADNotations.LettersNotation(),
-  "cancer": new ADNotations.CancerNotation(),
+  "cancer": new ADNotations.EmojiNotation(),
   "logarithm": new ADNotations.LogarithmNotation(),
   "brackets": new ADNotations.BracketsNotation(),
   "infinity": new ADNotations.InfinityNotation(),
